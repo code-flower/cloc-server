@@ -1,0 +1,1564 @@
+{
+  "name": "build",
+  "children": [
+    {
+      "name": "search",
+      "children": [
+        {
+          "name": "partials",
+          "children": [
+            {
+              "name": "search-main-filter.html",
+              "size": 293,
+              "language": "HTML"
+            },
+            {
+              "name": "search-results-container.html",
+              "size": 108,
+              "language": "HTML"
+            },
+            {
+              "name": "search-additional-filters.html",
+              "size": 80,
+              "language": "HTML"
+            },
+            {
+              "name": "search-additional-topic-tuning.html",
+              "size": 70,
+              "language": "HTML"
+            },
+            {
+              "name": "search-left-container.html",
+              "size": 17,
+              "language": "HTML"
+            },
+            {
+              "name": "search-container.html",
+              "size": 15,
+              "language": "HTML"
+            },
+            {
+              "name": "search-export-results.html",
+              "size": 4,
+              "language": "HTML"
+            },
+            {
+              "name": "search-tree.html",
+              "size": 3,
+              "language": "HTML"
+            }
+          ]
+        },
+        {
+          "name": "directives",
+          "children": [
+            {
+              "name": "searchTree_ASYNC.js",
+              "size": 171,
+              "language": "Javascript"
+            },
+            {
+              "name": "searchResultsContainer.js",
+              "size": 153,
+              "language": "Javascript"
+            },
+            {
+              "name": "searchAdditionalFilters.js",
+              "size": 123,
+              "language": "Javascript"
+            },
+            {
+              "name": "searchContainer.js",
+              "size": 46,
+              "language": "Javascript"
+            },
+            {
+              "name": "searchMainFilter.js",
+              "size": 42,
+              "language": "Javascript"
+            },
+            {
+              "name": "searchExportResults.js",
+              "size": 35,
+              "language": "Javascript"
+            },
+            {
+              "name": "searchAdditionalTopicTuning.js",
+              "size": 12,
+              "language": "Javascript"
+            },
+            {
+              "name": "searchLeftContainer.js",
+              "size": 10,
+              "language": "Javascript"
+            },
+            {
+              "name": "searchTree.js",
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "factories",
+          "children": [
+            {
+              "name": "searchTreeService.js",
+              "size": 62,
+              "language": "Javascript"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "discussions",
+      "children": [
+        {
+          "name": "factories",
+          "children": [
+            {
+              "name": "discussions.js",
+              "size": 267,
+              "language": "Javascript"
+            },
+            {
+              "name": "discussionListService.js",
+              "size": 227,
+              "language": "Javascript"
+            },
+            {
+              "name": "discussionTransformer.js",
+              "size": 142,
+              "language": "Javascript"
+            },
+            {
+              "name": "discussionFilters.js",
+              "size": 122,
+              "language": "Javascript"
+            },
+            {
+              "name": "discussionUtils.js",
+              "size": 64,
+              "language": "Javascript"
+            },
+            {
+              "name": "discussionHighlight.js",
+              "size": 58,
+              "language": "Javascript"
+            },
+            {
+              "name": "discussionStats.js",
+              "size": 50,
+              "language": "Javascript"
+            },
+            {
+              "name": "discussionListFilters.js",
+              "size": 45,
+              "language": "Javascript"
+            },
+            {
+              "name": "discussionOpportunities.js",
+              "size": 36,
+              "language": "Javascript"
+            },
+            {
+              "name": "discussionSuggest.js",
+              "size": 27,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "directives",
+          "children": [
+            {
+              "name": "discussionList.js",
+              "size": 104,
+              "language": "Javascript"
+            },
+            {
+              "name": "discussionListControls.js",
+              "size": 89,
+              "language": "Javascript"
+            },
+            {
+              "name": "discussionThread.js",
+              "size": 86,
+              "language": "Javascript"
+            },
+            {
+              "name": "discussionRelatedGroups.js",
+              "size": 83,
+              "language": "Javascript"
+            },
+            {
+              "name": "listAdd.js",
+              "size": 57,
+              "language": "Javascript"
+            },
+            {
+              "name": "highlightWords.js",
+              "size": 52,
+              "language": "Javascript"
+            },
+            {
+              "name": "cutoffText.js",
+              "size": 26,
+              "language": "Javascript"
+            },
+            {
+              "name": "questionThread.js",
+              "size": 22,
+              "language": "Javascript"
+            },
+            {
+              "name": "noteAdd.js",
+              "size": 17,
+              "language": "Javascript"
+            },
+            {
+              "name": "highlightFilter.js",
+              "size": 16,
+              "language": "Javascript"
+            },
+            {
+              "name": "highlightButton.js",
+              "size": 14,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "partials",
+          "children": [
+            {
+              "name": "discussion-list-controls.html",
+              "size": 101,
+              "language": "HTML"
+            },
+            {
+              "name": "discussion-thread.html",
+              "size": 97,
+              "language": "HTML"
+            },
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "note-add-modal.html",
+                  "size": 55,
+                  "language": "HTML"
+                },
+                {
+                  "name": "questions-modal.html",
+                  "size": 36,
+                  "language": "HTML"
+                }
+              ]
+            },
+            {
+              "name": "discussion-related-groups.html",
+              "size": 30,
+              "language": "HTML"
+            },
+            {
+              "name": "question-thread.html",
+              "size": 26,
+              "language": "HTML"
+            },
+            {
+              "name": "list-add.html",
+              "size": 14,
+              "language": "HTML"
+            },
+            {
+              "name": "discussion-list.html",
+              "size": 8,
+              "language": "HTML"
+            },
+            {
+              "name": "note-add.html",
+              "size": 1,
+              "language": "HTML"
+            }
+          ]
+        },
+        {
+          "name": "controllers",
+          "children": [
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "ModalQuestions.js",
+                  "size": 90,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "ModalAddNote.js",
+                  "size": 11,
+                  "language": "Javascript"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sa.discussions.js",
+          "size": 10,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "trends",
+      "children": [
+        {
+          "name": "directives",
+          "children": [
+            {
+              "name": "dashboardTrends.js",
+              "size": 250,
+              "language": "Javascript"
+            },
+            {
+              "name": "trendsModalAllTab.js",
+              "size": 95,
+              "language": "Javascript"
+            },
+            {
+              "name": "trendsModalPhrasesTab.js",
+              "size": 59,
+              "language": "Javascript"
+            },
+            {
+              "name": "sentimentIndicator.js",
+              "size": 57,
+              "language": "Javascript"
+            },
+            {
+              "name": "allTabFullPage.js",
+              "size": 19,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "partials",
+          "children": [
+            {
+              "name": "dashboard-trends.html",
+              "size": 134,
+              "language": "HTML"
+            },
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "trends-modal-all-tab.html",
+                  "size": 53,
+                  "language": "HTML"
+                },
+                {
+                  "name": "trends-modal-phrases-tab.html",
+                  "size": 44,
+                  "language": "HTML"
+                },
+                {
+                  "name": "trends-modal.html",
+                  "size": 31,
+                  "language": "HTML"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "factories",
+          "children": [
+            {
+              "name": "trendsDataService.js",
+              "size": 132,
+              "language": "Javascript"
+            },
+            {
+              "name": "chartUtils.js",
+              "size": 132,
+              "language": "Javascript"
+            },
+            {
+              "name": "phrasesTabDataService.js",
+              "size": 47,
+              "language": "Javascript"
+            },
+            {
+              "name": "allTabDataService.js",
+              "size": 29,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "controllers",
+          "children": [
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "ModalTrends.js",
+                  "size": 12,
+                  "language": "Javascript"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "profile",
+      "children": [
+        {
+          "name": "directives",
+          "children": [
+            {
+              "name": "profileLists.js",
+              "size": 248,
+              "language": "Javascript"
+            },
+            {
+              "name": "profileOpportunitiesControls.js",
+              "size": 103,
+              "language": "Javascript"
+            },
+            {
+              "name": "profileDictionaries.js",
+              "size": 102,
+              "language": "Javascript"
+            },
+            {
+              "name": "profileEdit.js",
+              "size": 90,
+              "language": "Javascript"
+            },
+            {
+              "name": "profileEmailTemplate.js",
+              "size": 83,
+              "language": "Javascript"
+            },
+            {
+              "name": "genericTypeahead.js",
+              "size": 65,
+              "language": "Javascript"
+            },
+            {
+              "name": "keywordTypeahead.js",
+              "size": 59,
+              "language": "Javascript"
+            },
+            {
+              "name": "profileOpportunities.js",
+              "size": 42,
+              "language": "Javascript"
+            },
+            {
+              "name": "profileOpportunitiesFilter.js",
+              "size": 42,
+              "language": "Javascript"
+            },
+            {
+              "name": "datasourceSelector.js",
+              "size": 36,
+              "language": "Javascript"
+            },
+            {
+              "name": "profileNotifications.js",
+              "size": 36,
+              "language": "Javascript"
+            },
+            {
+              "name": "saveChangesModal.js",
+              "size": 34,
+              "language": "Javascript"
+            },
+            {
+              "name": "profileForm.js",
+              "size": 28,
+              "language": "Javascript"
+            },
+            {
+              "name": "profileTemplate.js",
+              "size": 14,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "partials",
+          "children": [
+            {
+              "name": "profile-opportunities-filter.html",
+              "size": 178,
+              "language": "HTML"
+            },
+            {
+              "name": "profile-dictionaries.html",
+              "size": 162,
+              "language": "HTML"
+            },
+            {
+              "name": "profile-lists.html",
+              "size": 115,
+              "language": "HTML"
+            },
+            {
+              "name": "profile-email-template.html",
+              "size": 68,
+              "language": "HTML"
+            },
+            {
+              "name": "profile-edit.html",
+              "size": 54,
+              "language": "HTML"
+            },
+            {
+              "name": "profile-opportunities-controls.html",
+              "size": 51,
+              "language": "HTML"
+            },
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "shared-list-modal.html",
+                  "size": 43,
+                  "language": "HTML"
+                },
+                {
+                  "name": "delete-list.html",
+                  "size": 12,
+                  "language": "HTML"
+                },
+                {
+                  "name": "delete-email-template.html",
+                  "size": 12,
+                  "language": "HTML"
+                },
+                {
+                  "name": "delete-dictionary.html",
+                  "size": 12,
+                  "language": "HTML"
+                }
+              ]
+            },
+            {
+              "name": "keyword-typeahead.html",
+              "size": 40,
+              "language": "HTML"
+            },
+            {
+              "name": "generic-typeahead.html",
+              "size": 37,
+              "language": "HTML"
+            },
+            {
+              "name": "profile-template.html",
+              "size": 31,
+              "language": "HTML"
+            },
+            {
+              "name": "profile-opportunities.html",
+              "size": 28,
+              "language": "HTML"
+            },
+            {
+              "name": "profile-form.html",
+              "size": 20,
+              "language": "HTML"
+            },
+            {
+              "name": "profile-notifications.html",
+              "size": 17,
+              "language": "HTML"
+            },
+            {
+              "name": "save-changes-modal.html",
+              "size": 10,
+              "language": "HTML"
+            },
+            {
+              "name": "datasource-selector.html",
+              "size": 8,
+              "language": "HTML"
+            }
+          ]
+        },
+        {
+          "name": "controllers",
+          "children": [
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "ModalSharedList.js",
+                  "size": 46,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "ModalSaveChanges.js",
+                  "size": 19,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "ModalDeleteEmailTemplate.js",
+                  "size": 14,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "ModalDeleteList.js",
+                  "size": 14,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "ModalDeleteDictionary.js",
+                  "size": 14,
+                  "language": "Javascript"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dashboard",
+      "children": [
+        {
+          "name": "partials",
+          "children": [
+            {
+              "name": "widgets",
+              "children": [
+                {
+                  "name": "filters-widget.html",
+                  "size": 195,
+                  "language": "HTML"
+                },
+                {
+                  "name": "top-communities-widget.html",
+                  "size": 117,
+                  "language": "HTML"
+                },
+                {
+                  "name": "top-products-widget.html",
+                  "size": 114,
+                  "language": "HTML"
+                },
+                {
+                  "name": "top-organizations-widget.html",
+                  "size": 112,
+                  "language": "HTML"
+                },
+                {
+                  "name": "top-users-posting-widget.html",
+                  "size": 112,
+                  "language": "HTML"
+                },
+                {
+                  "name": "top-users-replying-widget.html",
+                  "size": 111,
+                  "language": "HTML"
+                },
+                {
+                  "name": "discussion-stats-widget.html",
+                  "size": 66,
+                  "language": "HTML"
+                },
+                {
+                  "name": "sa-widget-container.html",
+                  "size": 64,
+                  "language": "HTML"
+                },
+                {
+                  "name": "activity-location-widget.html",
+                  "size": 59,
+                  "language": "HTML"
+                },
+                {
+                  "name": "overall-sentiment-widget.html",
+                  "size": 36,
+                  "language": "HTML"
+                }
+              ]
+            },
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "user-profile.html",
+                  "size": 72,
+                  "language": "HTML"
+                },
+                {
+                  "name": "widget-selector.html",
+                  "size": 39,
+                  "language": "HTML"
+                },
+                {
+                  "name": "account-select.html",
+                  "size": 29,
+                  "language": "HTML"
+                },
+                {
+                  "name": "reset-layout.html",
+                  "size": 9,
+                  "language": "HTML"
+                }
+              ]
+            },
+            {
+              "name": "dashboard-container.html",
+              "size": 31,
+              "language": "HTML"
+            },
+            {
+              "name": "dashboard-current.html",
+              "size": 12,
+              "language": "HTML"
+            },
+            {
+              "name": "filter-date-range.html",
+              "size": 12,
+              "language": "HTML"
+            },
+            {
+              "name": "rank-popover.html",
+              "size": 10,
+              "language": "HTML"
+            },
+            {
+              "name": "dashboard-compare.html",
+              "size": 8,
+              "language": "HTML"
+            }
+          ]
+        },
+        {
+          "name": "factories",
+          "children": [
+            {
+              "name": "widgetsService.js",
+              "size": 183,
+              "language": "Javascript"
+            },
+            {
+              "name": "widgetPool.js",
+              "size": 145,
+              "language": "Javascript"
+            },
+            {
+              "name": "widgetsCompareService.js",
+              "size": 120,
+              "language": "Javascript"
+            },
+            {
+              "name": "widgetData.js",
+              "size": 64,
+              "language": "Javascript"
+            },
+            {
+              "name": "widgetLink.js",
+              "size": 33,
+              "language": "Javascript"
+            },
+            {
+              "name": "widgetAPI.js",
+              "size": 12,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "directives",
+          "children": [
+            {
+              "name": "dashboardContainer.js",
+              "size": 74,
+              "language": "Javascript"
+            },
+            {
+              "name": "widgets",
+              "children": [
+                {
+                  "name": "saWidgetContainer.js",
+                  "size": 60,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "filtersWidget.js",
+                  "size": 57,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "activityLocationWidget.js",
+                  "size": 40,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "overallSentimentWidget.js",
+                  "size": 30,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "topUsersPostingWidget.js",
+                  "size": 24,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "topUsersReplyingWidget.js",
+                  "size": 24,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "topProductsWidget.js",
+                  "size": 24,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "topOrganizationsWidget.js",
+                  "size": 24,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "topCommunitiesWidget.js",
+                  "size": 24,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "discussionStatsWidget.js",
+                  "size": 17,
+                  "language": "Javascript"
+                }
+              ]
+            },
+            {
+              "name": "directiveCompiler.js",
+              "size": 21,
+              "language": "Javascript"
+            },
+            {
+              "name": "rankPopover.js",
+              "size": 19,
+              "language": "Javascript"
+            },
+            {
+              "name": "filterDateRange.js",
+              "size": 14,
+              "language": "Javascript"
+            },
+            {
+              "name": "dashboardCompare.js",
+              "size": 8,
+              "language": "Javascript"
+            },
+            {
+              "name": "dashboardCurrent.js",
+              "size": 8,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "controllers",
+          "children": [
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "ModalAccountSelect.js",
+                  "size": 70,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "ModalWidgetSelector.js",
+                  "size": 34,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "ModalUserProfile.js",
+                  "size": 31,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "ModalResetLayout.js",
+                  "size": 9,
+                  "language": "Javascript"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "admin",
+      "children": [
+        {
+          "name": "dummydata",
+          "children": [
+            {
+              "name": "dummy.json",
+              "size": 150,
+              "language": "JSON"
+            },
+            {
+              "name": "load_dummy_data.html",
+              "size": 92,
+              "language": "HTML"
+            }
+          ]
+        },
+        {
+          "name": "partials",
+          "children": [
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "add-edit-user-modal.html",
+                  "size": 149,
+                  "language": "HTML"
+                },
+                {
+                  "name": "delete-user-modal.html",
+                  "size": 16,
+                  "language": "HTML"
+                }
+              ]
+            },
+            {
+              "name": "admin-users.html",
+              "size": 101,
+              "language": "HTML"
+            },
+            {
+              "name": "admin-container.html",
+              "size": 10,
+              "language": "HTML"
+            }
+          ]
+        },
+        {
+          "name": "factories",
+          "children": [
+            {
+              "name": "manageUsersService.js",
+              "size": 133,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "directives",
+          "children": [
+            {
+              "name": "adminUsers.js",
+              "size": 113,
+              "language": "Javascript"
+            },
+            {
+              "name": "sortableColumn.js",
+              "size": 24,
+              "language": "Javascript"
+            },
+            {
+              "name": "adminContainer.js",
+              "size": 13,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "controllers",
+          "children": [
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "ModalAddEditUser.js",
+                  "size": 79,
+                  "language": "Javascript"
+                },
+                {
+                  "name": "ModalDeleteUser.js",
+                  "size": 11,
+                  "language": "Javascript"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "email",
+      "children": [
+        {
+          "name": "factories",
+          "children": [
+            {
+              "name": "email.js",
+              "size": 119,
+              "language": "Javascript"
+            },
+            {
+              "name": "leadService.js",
+              "size": 33,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "directives",
+          "children": [
+            {
+              "name": "leadAdd.js",
+              "size": 73,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "controllers",
+          "children": [
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "ModalEmailList.js",
+                  "size": 48,
+                  "language": "Javascript"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "partials",
+          "children": [
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "email-list.html",
+                  "size": 42,
+                  "language": "HTML"
+                }
+              ]
+            },
+            {
+              "name": "lead-add.html",
+              "size": 1,
+              "language": "HTML"
+            }
+          ]
+        },
+        {
+          "name": "sa.email.js",
+          "size": 1,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "user",
+      "children": [
+        {
+          "name": "factories",
+          "children": [
+            {
+              "name": "userService.js",
+              "size": 111,
+              "language": "Javascript"
+            },
+            {
+              "name": "profiles.js",
+              "size": 59,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "sa.user.js",
+          "size": 1,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "dictionaries",
+      "children": [
+        {
+          "name": "services",
+          "children": [
+            {
+              "name": "dictionaries.js",
+              "size": 100,
+              "language": "Javascript"
+            },
+            {
+              "name": "dictionaryXMLFormatService.js",
+              "size": 6,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "directives",
+          "children": [
+            {
+              "name": "dictionaryXml.js",
+              "size": 38,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "partials",
+          "children": [
+            {
+              "name": "dictionary-xml.html",
+              "size": 3,
+              "language": "HTML"
+            }
+          ]
+        },
+        {
+          "name": "sa.dictionaries.js",
+          "size": 1,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "params",
+      "children": [
+        {
+          "name": "factories",
+          "children": [
+            {
+              "name": "defaultParams.js",
+              "size": 96,
+              "language": "Javascript"
+            },
+            {
+              "name": "paramsUtils.js",
+              "size": 53,
+              "language": "Javascript"
+            },
+            {
+              "name": "opportunitiesParams.js",
+              "size": 40,
+              "language": "Javascript"
+            },
+            {
+              "name": "accountParams.js",
+              "size": 19,
+              "language": "Javascript"
+            },
+            {
+              "name": "sharedParams.js",
+              "size": 5,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "sa.params.js",
+          "size": 1,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "states.js",
+      "size": 91,
+      "language": "Javascript"
+    },
+    {
+      "name": "sa_",
+      "children": [
+        {
+          "name": "sa._.js",
+          "size": 90,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "run.js",
+      "size": 88,
+      "language": "Javascript"
+    },
+    {
+      "name": "common",
+      "children": [
+        {
+          "name": "partials",
+          "children": [
+            {
+              "name": "app-header.html",
+              "size": 82,
+              "language": "HTML"
+            },
+            {
+              "name": "app-footer.html",
+              "size": 9,
+              "language": "HTML"
+            }
+          ]
+        },
+        {
+          "name": "directives",
+          "children": [
+            {
+              "name": "foamtree.js",
+              "size": 68,
+              "language": "Javascript"
+            },
+            {
+              "name": "appHeader.js",
+              "size": 22,
+              "language": "Javascript"
+            },
+            {
+              "name": "modals.js",
+              "size": 18,
+              "language": "Javascript"
+            },
+            {
+              "name": "favicon.js",
+              "size": 13,
+              "language": "Javascript"
+            },
+            {
+              "name": "appFooter.js",
+              "size": 9,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "filters",
+          "children": [
+            {
+              "name": "timeago.js",
+              "size": 38,
+              "language": "Javascript"
+            },
+            {
+              "name": "ellipsis.js",
+              "size": 18,
+              "language": "Javascript"
+            },
+            {
+              "name": "unsafe.js",
+              "size": 18,
+              "language": "Javascript"
+            },
+            {
+              "name": "stripToDash.js",
+              "size": 9,
+              "language": "Javascript"
+            },
+            {
+              "name": "toDate.js",
+              "size": 9,
+              "language": "Javascript"
+            },
+            {
+              "name": "dashToProper.js",
+              "size": 6,
+              "language": "Javascript"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "datasource",
+      "children": [
+        {
+          "name": "factories",
+          "children": [
+            {
+              "name": "datasources.js",
+              "size": 77,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "controllers",
+          "children": [
+            {
+              "name": "ModalDataSource.js",
+              "size": 48,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "partials",
+          "children": [
+            {
+              "name": "modal-datasource.html",
+              "size": 41,
+              "language": "HTML"
+            },
+            {
+              "name": "datasource-tooltip.html",
+              "size": 20,
+              "language": "HTML"
+            }
+          ]
+        },
+        {
+          "name": "directives",
+          "children": [
+            {
+              "name": "datasourceTooltip.js",
+              "size": 17,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "sa.datasource.js",
+          "size": 1,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "bootstrap.js",
+      "size": 68,
+      "language": "Javascript"
+    },
+    {
+      "name": "paginated-table",
+      "children": [
+        {
+          "name": "directives",
+          "children": [
+            {
+              "name": "paginatedTable.js",
+              "size": 67,
+              "language": "Javascript"
+            },
+            {
+              "name": "paginatedTableServer.js",
+              "size": 54,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "partials",
+          "children": [
+            {
+              "name": "paginated-table.html",
+              "size": 18,
+              "language": "HTML"
+            },
+            {
+              "name": "paginated-table-server.html",
+              "size": 18,
+              "language": "HTML"
+            }
+          ]
+        },
+        {
+          "name": "sa.paginated-table.js",
+          "size": 1,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "notifications",
+      "children": [
+        {
+          "name": "services",
+          "children": [
+            {
+              "name": "notifications.js",
+              "size": 63,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "sa.notifications.js",
+          "size": 1,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "modules",
+      "children": [
+        {
+          "name": "sa.parseUtils.js",
+          "size": 53,
+          "language": "Javascript"
+        },
+        {
+          "name": "sa.absolute-scroller.js",
+          "size": 39,
+          "language": "Javascript"
+        },
+        {
+          "name": "sa.appPerformance.js",
+          "size": 26,
+          "language": "Javascript"
+        },
+        {
+          "name": "sa.ng-restrict.js",
+          "size": 26,
+          "language": "Javascript"
+        },
+        {
+          "name": "sa.max-character-input.js",
+          "size": 19,
+          "language": "Javascript"
+        },
+        {
+          "name": "sa.collapsible.js",
+          "size": 19,
+          "language": "Javascript"
+        },
+        {
+          "name": "sa.isolated-scroller.js",
+          "size": 17,
+          "language": "Javascript"
+        },
+        {
+          "name": "sa.loading.js",
+          "size": 11,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "modals",
+      "children": [
+        {
+          "name": "factories",
+          "children": [
+            {
+              "name": "siteModals.js",
+              "size": 45,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "sa.modals.js",
+          "size": 1,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "intercept",
+      "children": [
+        {
+          "name": "sa.intercept.js",
+          "size": 42,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "app.js",
+      "size": 36,
+      "language": "Javascript"
+    },
+    {
+      "name": "alerts",
+      "children": [
+        {
+          "name": "directives",
+          "children": [
+            {
+              "name": "alertBanner.js",
+              "size": 24,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "factories",
+          "children": [
+            {
+              "name": "alerts.js",
+              "size": 21,
+              "language": "Javascript"
+            }
+          ]
+        },
+        {
+          "name": "controllers",
+          "children": [
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "ModalAlert.js",
+                  "size": 10,
+                  "language": "Javascript"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "partials",
+          "children": [
+            {
+              "name": "modals",
+              "children": [
+                {
+                  "name": "modal-alert.html",
+                  "size": 4,
+                  "language": "HTML"
+                }
+              ]
+            },
+            {
+              "name": "alert-banner.html",
+              "size": 3,
+              "language": "HTML"
+            }
+          ]
+        },
+        {
+          "name": "sa.alerts.js",
+          "size": 1,
+          "language": "Javascript"
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "children": [
+        {
+          "name": "sa.config.js",
+          "size": 8,
+          "language": "Javascript"
+        }
+      ]
+    }
+  ]
+}
