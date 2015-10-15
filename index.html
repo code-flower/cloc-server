@@ -163,6 +163,15 @@
         createCodeFlower(deepCopy(code));
       }
 
+      function generateFlower(file) {
+        d3.json(file, function(data) {
+          allCode = data;    
+          parseCode();
+          createDropdown();
+          createCodeFlower(deepCopy(allCode));
+        });
+      }
+
       //// EVENT LISTENERS ////
 
       // respond to dropdown changes
@@ -172,14 +181,7 @@
 
       //// COMMANDS ////
 
-      // read the json file
-      d3.json('data/insights-frontend-src.json', function(data) {
-        allCode = data;    
-        parseCode();
-        createDropdown();
-
-        createCodeFlower(deepCopy(allCode));
-      });
+      generateFlower('data/insights-frontend-src.json');
 
       var injector = angular.injector(['ng']);
       var $http = injector.get('$http');

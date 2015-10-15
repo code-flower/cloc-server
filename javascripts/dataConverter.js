@@ -111,3 +111,8 @@ var countElements = function(node) {
   }
   return nbElements;
 };
+
+
+module.exports = convertFromClocToJSON;
+
+

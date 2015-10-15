@@ -4,9 +4,38 @@
 // standard file serving modules
 var http = require('http');
 var url = require('url');
-var fileSystem = require('fs');
+var fs = require('fs');
 var path = require('path');
+var exec = require('child_process').exec;
+var convertCloc = require('./javascripts/dataConverter.js');
 
+//// GET CLOC DATA ////
+
+function convertClocFile() {
+  fs.readFile('cloc-data/insights2.cloc', 'utf8', function(err, data) {
+    if (err) 
+      console.log(err);
+    else {
+      var json = convertCloc(data);
+      fs.writeFile('data/test.json', JSON.stringify(json), 'utf8', function(err) {
+        if (err) 
+          console.log(err);
+        else
+          console.log('cloc file converted to json');
+      })
+    }
+  });
+}
+
+function createClocFile() {
+  var command = 'cloc ../CODE-Insights --csv --by-file --report-file=cloc-data/insights2.cloc';
+  var process = exec(command);
+  process.stdout.on('data', function(data) {
+    console.log(data);
+  });
+}
+
+createClocFile();
 
 //// SERVE STATIC FILES ////
 
@@ -28,7 +57,7 @@ function serveStaticFile(response, pathname) {
 
   // return 404 if the file doesn't exist
   try {
-    var stat = fileSystem.statSync(filePath);
+    var stat = fs.statSync(filePath);
   } catch(e) {
     console.log("File not found: " + pathname);
     response.writeHead(404, {'Content-Type': 'text/plain'});
@@ -42,22 +71,22 @@ function serveStaticFile(response, pathname) {
     'Content-Type': getContentType(pathname),
     'Content-Length': stat.size
   });
-  fileSystem.createReadStream(filePath).pipe(response);
+  fs.createReadStream(filePath).pipe(response);
 }
 
 
 //// START THE SERVER ////
 
-http.createServer(function (request, response) {
+// http.createServer(function (request, response) {
 
-  var urlInfo = url.parse(request.url, true);
+//   var urlInfo = url.parse(request.url, true);
 
-  if (urlInfo.pathname == '/search') {
-    response.writeHead(200, {'Content-Type': 'application/json'});
-    response.end(JSON.stringify({message: 'hello'}));
-  } else
-    serveStaticFile(response, urlInfo.pathname);
+//   if (urlInfo.pathname == '/search') {
+//     response.writeHead(200, {'Content-Type': 'application/json'});
+//     response.end(JSON.stringify({message: 'hello'}));
+//   } else
+//     serveStaticFile(response, urlInfo.pathname);
 
-}).listen(8000);
+// }).listen(8000);
 
-console.log("Server running at http://localhost:8000/");
+//console.log("Server running at http://localhost:8000/");
