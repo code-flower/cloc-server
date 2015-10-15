@@ -83,6 +83,7 @@
         <div id="visualization"></div>
       </div>
     </div>
+    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="javascripts/d3/d3.js"></script>
     <script type="text/javascript" src="javascripts/d3/d3.geom.js"></script>
     <script type="text/javascript" src="javascripts/d3/d3.layout.js"></script>
@@ -178,6 +179,17 @@
         createDropdown();
 
         createCodeFlower(deepCopy(allCode));
+      });
+
+      var injector = angular.injector(['ng']);
+      var $http = injector.get('$http');
+
+      $http({
+        method: 'GET',
+        url: '/search'
+      })
+      .then(function(res) {
+        console.log(res);
       });
 
     </script>
