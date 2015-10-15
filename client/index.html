@@ -11,76 +11,23 @@
     - maybe another to track which apis are hit the most, at what frequency
   - maybe bring in angular or jquery
   - add mock terminal in lower right corner that scrolls the output of SSEs
+  - need a 2nd dropdown to list all the repos for which json exists on the server
+    - server can scan at the beginning and send back a list
 
 -->
 
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CodeFlower Source code visualization</title>
+    <title>CodeFlower</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <link type="text/css" rel="stylesheet" href="stylesheets/bootstrap.min.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link type="text/css" rel="stylesheet" href="stylesheets/bootstrap.min.css"/>
     <link href="stylesheets/bootstrap-responsive.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="stylesheets/style.css"/>
-
-    <style type="text/css">
-
-      circle.node {
-        cursor: pointer;
-        stroke: #000;
-        stroke-width: .5px;
-      }
-
-      circle.node.directory {
-        stroke: #9ecae1;
-        stroke-width: 2px;
-      }
-
-      circle.node.collapsed {
-        stroke: #555;
-      }
-
-      .nodetext {
-        fill: #252929;
-        font-weight: bold;
-        text-shadow: 0 0 0.2em white;
-      }
-
-      line.link {
-        fill: none;
-        stroke: #9ecae1;
-        stroke-width: 1.5px;
-      }
-
-      body {
-        text-align: center;
-      }
-
-      #project {
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        width: 400px;
-        font-size: 11px;
-      }
-
-      #get-more {
-        position: fixed;
-        top: 50px;
-        left: 15px;
-        width: 200px;
-        font-size: 11px;      
-      }
-
-      #visualization > svg > rect {
-        stroke: none !important;
-      }
-
-
-    </style>
   </head>
+
   <body>
     <div class="content">
       <div class="container">
@@ -109,9 +56,8 @@
       //// FUNCTIONS ////
 
       // Recursively count all elements in a tree
-      // COPIED HERE FROM dataConverter.js because that's a node module
-      // and doesn't run in the browser without some fussing
-      var countElements = function(node) {
+      // copied here from dataConverter.js
+      function countElements(node) {
         var nbElements = 1;
         if (node.children) {
           nbElements += node.children.reduce(function(p, v) { return p + countElements(v); }, 0);
