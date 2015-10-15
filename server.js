@@ -1,7 +1,6 @@
 
-//// MODULES ////
+///////////////////////// MODULES /////////////////////////
 
-// standard file serving modules
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
@@ -9,9 +8,9 @@ var path = require('path');
 var exec = require('child_process').exec;
 var convertCloc = require('./javascripts/dataConverter.js');
 
-//// GET CLOC DATA ////
+////////////////////// GET CLOC DATA //////////////////////
 
-function convertClocFile() {
+function convertClocFile(response) {
   fs.readFile('cloc-data/insights2.cloc', 'utf8', function(err, data) {
     if (err) 
       console.log(err);
@@ -20,24 +19,52 @@ function convertClocFile() {
       fs.writeFile('data/test.json', JSON.stringify(json), 'utf8', function(err) {
         if (err) 
           console.log(err);
-        else
+        else {
           console.log('cloc file converted to json');
+          writeSSE(response, 'cloc file converted to json');
+          writeSSE(response, 'no more');
+          response.end('done');
+        }
       })
     }
   });
 }
 
-function createClocFile() {
-  var command = 'cloc ../CODE-Insights --csv --by-file --report-file=cloc-data/insights2.cloc';
-  var process = exec(command);
+function createClocFile(response) {
+ // var command = 'cloc ../CODE-Insights --csv --by-file --report-file=cloc-data/insights2.cloc';
+  var command = 'cloc ../CodeFlower --csv --by-file --report-file=cloc-data/insights2.cloc';
+
+  var process = exec(command, function() {
+    convertClocFile(response);
+  });
+
   process.stdout.on('data', function(data) {
-    console.log(data);
+    writeSSE(response, data);
   });
 }
 
-createClocFile();
+//createClocFile();
 
-//// SERVE STATIC FILES ////
+//////////////////// EVENT SOURCE SERVER /////////////////////
+ 
+function openSSEConnection(response) {
+  response.writeHead(200, {
+    'Content-Type':  'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection':    'keep-alive'
+  });
+    
+  // writeServerSendEvent(res, sseId, "First communication");
+}
+ 
+function writeSSE(res, data) {
+  console.log("writing SSE: ", data);
+  
+  res.write('id: ' + 'node server' + '\n');
+  res.write('data: ' + data + '\n\n');
+}
+
+///////////////////// SERVE STATIC FILES /////////////////////
 
 function getContentType(pathname) {
   var extension = pathname.match(/\.[^.]*$/)[0];
@@ -75,18 +102,32 @@ function serveStaticFile(response, pathname) {
 }
 
 
-//// START THE SERVER ////
+//////////////////////// START THE SERVER /////////////////////
 
-// http.createServer(function (request, response) {
+http.createServer(function (request, response) {
 
-//   var urlInfo = url.parse(request.url, true);
+  var urlInfo = url.parse(request.url, true);
 
-//   if (urlInfo.pathname == '/search') {
-//     response.writeHead(200, {'Content-Type': 'application/json'});
-//     response.end(JSON.stringify({message: 'hello'}));
-//   } else
-//     serveStaticFile(response, urlInfo.pathname);
+  // ajax request
+  if (urlInfo.pathname == '/search') {
 
-// }).listen(8000);
+    console.log("received request");
+    // response.writeHead(200, {'Content-Type': 'application/json'});
+    // response.end(JSON.stringify({message: 'hello'}));
 
-//console.log("Server running at http://localhost:8000/");
+  // SSE request
+  } else if (urlInfo.pathname == '/talk') {
+
+    openSSEConnection(response);
+    createClocFile(response);
+
+  // regular http request
+  } else
+    serveStaticFile(response, urlInfo.pathname);
+
+}).listen(8000);
+
+console.log("Server running at http://localhost:8000/");
+
+
+

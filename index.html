@@ -22,8 +22,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="stylesheets/bootstrap-responsive.min.css" rel="stylesheet">
-<!--     <link href='http://fonts.googleapis.com/css?family=Rosario:400,700' rel='stylesheet' type='text/css'>
- -->    <link type="text/css" rel="stylesheet" href="stylesheets/style.css"/>
+    <link type="text/css" rel="stylesheet" href="stylesheets/style.css"/>
 
     <style type="text/css">
 
@@ -66,9 +65,18 @@
         font-size: 11px;
       }
 
+      #get-more {
+        position: fixed;
+        top: 50px;
+        left: 15px;
+        width: 200px;
+        font-size: 11px;      
+      }
+
       #visualization > svg > rect {
         stroke: none !important;
       }
+
 
     </style>
   </head>
@@ -80,15 +88,15 @@
           <select id="project"></select>
           </fieldset>
         </form>
+        <button id="get-more">Get Flower</button>
         <div id="visualization"></div>
       </div>
     </div>
-    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+    <!--<script type="text/javascript" src="bower_components/angular/angular.js"></script>-->
     <script type="text/javascript" src="javascripts/d3/d3.js"></script>
     <script type="text/javascript" src="javascripts/d3/d3.geom.js"></script>
     <script type="text/javascript" src="javascripts/d3/d3.layout.js"></script>
     <script type="text/javascript" src="javascripts/CodeFlower.js"></script>
-    <script type="text/javascript" src="javascripts/dataConverter.js"></script>
     <script type="text/javascript">
 
       //// GLOBAL VARIABLES ////
@@ -98,6 +106,17 @@
       var codeStrings = [];     // a list of strings for the dropdown, constructed from allCode
 
       //// FUNCTIONS ////
+
+      // Recursively count all elements in a tree
+      // COPIED HERE FROM dataConverter.js because that's a node module
+      // and doesn't run in the browser without some fussing
+      var countElements = function(node) {
+        var nbElements = 1;
+        if (node.children) {
+          nbElements += node.children.reduce(function(p, v) { return p + countElements(v); }, 0);
+        }
+        return nbElements;
+      };
 
       function deepCopy(data) {
         return JSON.parse(JSON.stringify(data));
@@ -172,6 +191,27 @@
         });
       }
 
+      function openSSE() {
+        var source = new EventSource('/talk');
+
+        source.addEventListener('open', function(e) {
+          console.log("listener added", e);
+        });
+
+        source.onmessage = function(e) {
+          console.log(e.data);
+          if (e.data === 'no more') {
+            source.close();
+            generateFlower('data/test.json');
+          }
+        };
+
+        source.onerror = function(e) {
+          console.log("closing source in client", e);
+          source.close();
+        };
+      }
+
       //// EVENT LISTENERS ////
 
       // respond to dropdown changes
@@ -179,20 +219,28 @@
         redrawFlower(this.value);
       });
 
+      // button clicks
+      document.getElementById('get-more').onclick = function() {
+        console.log('getting flower');
+        openSSE();
+      }
+
       //// COMMANDS ////
 
+      // draw the flower
       generateFlower('data/insights-frontend-src.json');
 
-      var injector = angular.injector(['ng']);
-      var $http = injector.get('$http');
+      // sent http request
+      // var injector = angular.injector(['ng']);
+      // var $http = injector.get('$http');
 
-      $http({
-        method: 'GET',
-        url: '/search'
-      })
-      .then(function(res) {
-        console.log(res);
-      });
+      // $http({
+      //   method: 'GET',
+      //   url: '/search'
+      // })
+      // .then(function(res) {
+      //   console.log(res);
+      // });
 
     </script>
   </body>

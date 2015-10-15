@@ -1,0 +1,26 @@
+language,filename,blank,comment,code,"http://cloc.sourceforge.net v 1.64  T=1.05 s (23.9 files/s, 148745.2 lines/s)"
+JSON,../CodeFlower/data/insights.json,0,0,64622
+JSON,../CodeFlower/data/insights-frontend.json,0,0,48038
+Javascript,../CodeFlower/bower_components/angular/angular.js,2509,15114,11281
+Javascript,../CodeFlower/javascripts/d3/d3.js,572,236,3837
+JSON,../CodeFlower/data/insights-frontend-src.json,0,0,3064
+JSON,../CodeFlower/data/insights-frontend-src-js-build.json,0,0,1564
+Javascript,../CodeFlower/javascripts/d3/d3.layout.js,221,120,1555
+Javascript,../CodeFlower/javascripts/d3/d3.geom.js,82,85,668
+JSON,../CodeFlower/data/insights-frontend-src-scss.json,0,0,505
+Javascript,../CodeFlower/javascripts/d3/detector.js,30,25,383
+Javascript,../CodeFlower/bower_components/angular/angular.min.js,0,6,288
+HTML,../CodeFlower/index.html,42,13,192
+Javascript,../CodeFlower/javascripts/CodeFlower.js,27,9,113
+Javascript,../CodeFlower/server.js,30,16,84
+Javascript,../CodeFlower/javascripts/dataConverter.js,14,28,76
+JSON,../CodeFlower/bower_components/angular/package.json,0,0,25
+JSON,../CodeFlower/bower.json,0,0,19
+JSON,../CodeFlower/bower_components/angular/.bower.json,0,0,18
+CSS,../CodeFlower/stylesheets/style.css,3,0,17
+CSS,../CodeFlower/bower_components/angular/angular-csp.css,5,1,15
+JSON,../CodeFlower/bower_components/angular/bower.json,0,0,8
+Javascript,../CodeFlower/bower_components/angular/index.js,0,0,2
+CSS,../CodeFlower/stylesheets/bootstrap-responsive.min.css,0,8,1
+JSON,../CodeFlower/data/test.json,0,0,1
+CSS,../CodeFlower/stylesheets/bootstrap.min.css,0,8,1
