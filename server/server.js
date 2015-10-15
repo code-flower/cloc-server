@@ -16,7 +16,7 @@ function convertClocFile(response) {
       console.log(err);
     else {
       var json = convertCloc(data);
-      fs.writeFile('data/test.json', JSON.stringify(json), 'utf8', function(err) {
+      fs.writeFile('../client/data/test.json', JSON.stringify(json), 'utf8', function(err) {
         if (err) 
           console.log(err);
         else {
@@ -81,7 +81,7 @@ function serveStaticFile(response, pathname) {
   if (pathname == '/')
     pathname = '/index.html';
 
-  if (!pathname.match(/\.json/))
+  //if (!pathname.match(/\.json/))
     pathname = '../client' + pathname;
 
   var filePath = path.join(__dirname, pathname);
