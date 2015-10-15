@@ -6,7 +6,7 @@ var url = require('url');
 var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
-var convertCloc = require('./javascripts/dataConverter.js');
+var convertCloc = require('./dataConverter.js');
 
 ////////////////////// GET CLOC DATA //////////////////////
 
@@ -20,10 +20,9 @@ function convertClocFile(response) {
         if (err) 
           console.log(err);
         else {
-          console.log('cloc file converted to json');
           writeSSE(response, 'cloc file converted to json');
-          writeSSE(response, 'no more');
-          response.end('done');
+          writeSSE(response, 'END');
+          response.end();
         }
       })
     }
@@ -31,8 +30,8 @@ function convertClocFile(response) {
 }
 
 function createClocFile(response) {
- // var command = 'cloc ../CODE-Insights --csv --by-file --report-file=cloc-data/insights2.cloc';
-  var command = 'cloc ../CodeFlower --csv --by-file --report-file=cloc-data/insights2.cloc';
+ // var command = 'cloc ../../CODE-Insights --csv --by-file --report-file=cloc-data/insights2.cloc';
+  var command = 'cloc ../../CodeFlower --csv --by-file --report-file=cloc-data/insights2.cloc';
 
   var process = exec(command, function() {
     convertClocFile(response);
@@ -54,12 +53,13 @@ function openSSEConnection(response) {
     'Connection':    'keep-alive'
   });
     
+  console.log("Connection established.");
   // writeServerSendEvent(res, sseId, "First communication");
 }
  
 function writeSSE(res, data) {
-  console.log("writing SSE: ", data);
-  
+  console.log(data);
+
   res.write('id: ' + 'node server' + '\n');
   res.write('data: ' + data + '\n\n');
 }
@@ -80,13 +80,17 @@ function serveStaticFile(response, pathname) {
   // get the full file path
   if (pathname == '/')
     pathname = '/index.html';
+
+  if (!pathname.match(/\.json/))
+    pathname = '../client' + pathname;
+
   var filePath = path.join(__dirname, pathname);
 
   // return 404 if the file doesn't exist
   try {
     var stat = fs.statSync(filePath);
   } catch(e) {
-    console.log("File not found: " + pathname);
+    console.log("File not found: " + filePath);
     response.writeHead(404, {'Content-Type': 'text/plain'});
     response.end();
     return;

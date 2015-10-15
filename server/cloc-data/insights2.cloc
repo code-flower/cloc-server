@@ -1,0 +1,27 @@
+language,filename,blank,comment,code,"http://cloc.sourceforge.net v 1.64  T=1.08 s (24.0 files/s, 143821.0 lines/s)"
+JSON,../../CodeFlower/server/data/insights.json,0,0,64622
+JSON,../../CodeFlower/server/data/insights-frontend.json,0,0,48038
+Javascript,../../CodeFlower/client/bower_components/angular/angular.js,2509,15114,11281
+Javascript,../../CodeFlower/client/javascripts/d3/d3.js,572,236,3837
+JSON,../../CodeFlower/server/data/insights-frontend-src.json,0,0,3064
+JSON,../../CodeFlower/server/data/insights-frontend-src-js-build.json,0,0,1564
+Javascript,../../CodeFlower/client/javascripts/d3/d3.layout.js,221,120,1555
+Javascript,../../CodeFlower/client/javascripts/d3/d3.geom.js,82,85,668
+JSON,../../CodeFlower/server/data/insights-frontend-src-scss.json,0,0,505
+Javascript,../../CodeFlower/client/javascripts/d3/detector.js,30,25,383
+Javascript,../../CodeFlower/client/bower_components/angular/angular.min.js,0,6,288
+HTML,../../CodeFlower/client/index.html,41,14,185
+Javascript,../../CodeFlower/client/javascripts/CodeFlower.js,27,9,113
+Javascript,../../CodeFlower/server/server.js,35,16,87
+Javascript,../../CodeFlower/server/dataConverter.js,14,28,76
+JSON,../../CodeFlower/client/bower_components/angular/package.json,0,0,25
+JSON,../../CodeFlower/package.json,0,0,20
+JSON,../../CodeFlower/bower.json,0,0,19
+JSON,../../CodeFlower/client/bower_components/angular/.bower.json,0,0,18
+CSS,../../CodeFlower/client/stylesheets/style.css,3,0,17
+CSS,../../CodeFlower/client/bower_components/angular/angular-csp.css,5,1,15
+JSON,../../CodeFlower/client/bower_components/angular/bower.json,0,0,8
+Javascript,../../CodeFlower/client/bower_components/angular/index.js,0,0,2
+CSS,../../CodeFlower/client/stylesheets/bootstrap-responsive.min.css,0,8,1
+JSON,../../CodeFlower/server/data/test.json,0,0,1
+CSS,../../CodeFlower/client/stylesheets/bootstrap.min.css,0,8,1

@@ -10,6 +10,7 @@
     - add another tab for search page performance tracking
     - maybe another to track which apis are hit the most, at what frequency
   - maybe bring in angular or jquery
+  - add mock terminal in lower right corner that scrolls the output of SSEs
 
 -->
 
@@ -195,20 +196,15 @@
         var source = new EventSource('/talk');
 
         source.addEventListener('open', function(e) {
-          console.log("listener added", e);
+          console.log("SSE connection opened");
         });
 
         source.onmessage = function(e) {
           console.log(e.data);
-          if (e.data === 'no more') {
+          if (e.data === 'END') {
             source.close();
             generateFlower('data/test.json');
           }
-        };
-
-        source.onerror = function(e) {
-          console.log("closing source in client", e);
-          source.close();
         };
       }
 
@@ -220,10 +216,7 @@
       });
 
       // button clicks
-      document.getElementById('get-more').onclick = function() {
-        console.log('getting flower');
-        openSSE();
-      }
+      document.getElementById('get-more').onclick = openSSE;
 
       //// COMMANDS ////
 
