@@ -31,9 +31,10 @@ var SSE = {
   close: function(response) {
     response.end();
   }
+
 }
 
-////////////////////// GET CLOC DATA //////////////////////
+//////////////// RESPONSE TO SSE REQUESTS //////////////////
 
 function cloneRepo(giturl, response) {
   var deferred = Q.defer();
@@ -54,7 +55,9 @@ function cloneRepo(giturl, response) {
 
 function createClocFile(gitRepo, response) {
   var deferred = Q.defer();
-  var command = 'cd repos; cloc ' + gitRepo + ' --csv --by-file --report-file=../cloc-data/' + gitRepo + '.cloc';
+  var command = 'cd repos; cloc ' + gitRepo + 
+                ' --csv --by-file --report-file=../cloc-data/' + 
+                gitRepo + '.cloc';
 
   SSE.write(response, '');
   SSE.write(response, '>> ' + command.replace('cd repos; ', ''));
@@ -95,14 +98,10 @@ function convertClocFile(gitRepo, response) {
 
 function sendFlower(url, response) {
 
-  console.log("URL = ", url);
-
+  // NEED TO MAKE THIS MORE ROBUST
   var match = url.match(/.com\/(.*?)\.git$/)[1].split('/');
   var gitUser = match[0];
   var gitRepo = match[1];
-
-  console.log("USER = ", gitUser);
-  console.log("REPO = ", gitRepo);
 
   SSE.open(response);
 
@@ -132,8 +131,8 @@ function serveStaticFile(response, pathname) {
   if (pathname == '/')
     pathname = '/index.html';
 
-  //if (!pathname.match(/\.json/))
-    pathname = '../client' + pathname;
+  // direct to client folder
+  pathname = '../client' + pathname;
 
   var filePath = path.join(__dirname, pathname);
 
@@ -164,15 +163,12 @@ http.createServer(function (request, response) {
 
   // ajax request
   if (urlInfo.pathname == '/search') {
-
     console.log("received request");
-    // response.writeHead(200, {'Content-Type': 'application/json'});
-    // response.end(JSON.stringify({message: 'hello'}));
+    response.writeHead(200, {'Content-Type': 'application/json'});
+    response.end(JSON.stringify({message: 'hello'}));
 
   // SSE request
   } else if (urlInfo.pathname == '/parse') {
-    console.log(urlInfo);
-
     sendFlower(urlInfo.query.url, response);
 
   // regular http request

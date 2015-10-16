@@ -23,9 +23,8 @@ angular.module('CodeFlower')
     // copied here from dataConverter.js
     function countElements(node) {
       var nbElements = 1;
-      if (node.children) {
+      if (node.children) 
         nbElements += node.children.reduce(function(p, v) { return p + countElements(v); }, 0);
-      }
       return nbElements;
     };
 

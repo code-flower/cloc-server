@@ -87,7 +87,6 @@ angular.module('CodeFlower')
 
     // button clicks
     document.getElementById('get-more').onclick = function() {
-
       scope.$emit('openTerminal');
       setTimeout(function() {
         Gardener.harvest(scope.giturl);

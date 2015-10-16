@@ -16,10 +16,19 @@ body {
 
 .git-clone label {
   font-weight: bold;
+  color: #3e3e3e;
 }
 
 .dropdown {
   margin: 20px;
+}
+
+.btn-primary {
+  letter-spacing: 1.0px;
+}
+
+.url-input {
+  width: 300px;
 }
 
 #visualization > svg > rect {
@@ -58,14 +67,14 @@ line.link {
   position: fixed;
   bottom: 0px;
   right: 0px;
-  height: 30px;
+  height: 29px;
   width: 350px;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
   font-family: Arial;
   font-size: 12px;
   text-align: left;
-  border-top-left-radius: 15px;
+  border-top-left-radius: 10px;
   transition: all 0.5s ease-in-out;
 }
 
@@ -76,7 +85,7 @@ line.link {
 .terminal-head {
   cursor: pointer;
   height: 21px;
-  padding: 4px 10px 4px 15px;
+  padding: 4px 10px 4px 12px;
   border-bottom: 1px white solid;
 }
 

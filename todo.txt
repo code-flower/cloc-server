@@ -1,0 +1,14 @@
+- test cloc on a git repo, like in the curl example at http://codefellows.github.io/CodeFlower/
+- create node server that can a accept url of a git repo and automatically generate a flower from it
+  - might need a configuration interface to set up the flower
+    - e.g. to constrain really large codeflowers
+    - to set which nodes should be opened/closed at the outset
+- add a popover somewhere with an explanation of what a codeflower is
+- this could be one tab in an app that analyzes the cisco app
+  - add another tab for search page performance tracking
+  - maybe another to track which apis are hit the most, at what frequency
+- maybe bring in angular or jquery
+- add mock terminal in lower right corner that scrolls the output of SSEs
+- need a 2nd dropdown to list all the repos for which json exists on the server
+  - server can scan at the beginning and send back a list
+- figure out why cloc is ignoring certain files
