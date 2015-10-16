@@ -76,8 +76,7 @@ angular.module('CodeFlower')
 
     //// SCOPE FUNCTIONS ////
 
-    scope.gituser = 'jake';
-    scope.gitrepo = 'code';
+    scope.giturl = 'https://github.com/reworkcss/css.git';
 
     //// EVENT LISTENERS ////
 
@@ -88,11 +87,21 @@ angular.module('CodeFlower')
 
     // button clicks
     document.getElementById('get-more').onclick = function() {
-      Gardener.harvest(scope.gituser, scope.gitrepo);
+      var term = document.getElementsByClassName('flower-terminal')[0];
+      term.style.visibility = 'visible';
+      term.style.height = '500px';
+      setTimeout(function() {
+        Gardener.harvest(scope.giturl);
+      }, 1000);
     };
 
     scope.$on('flowerReady', function(e, data) {
-      generateFlower(data.file);
+      var term = document.getElementsByClassName('flower-terminal')[0];
+      term.style.height = '0px';
+      setTimeout(function() {
+        term.style.visibility = 'hidden';
+        generateFlower(data.file);
+      }, 1000);
     });
 
     //// COMMANDS ////

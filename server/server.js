@@ -8,6 +8,31 @@ var path = require('path');
 var exec = require('child_process').exec;
 var convertCloc = require('./dataConverter.js');
 
+////////////////////// SSE FUNCTIONS //////////////////////
+
+var SSE = {
+
+  open: function(response) {
+    response.writeHead(200, {
+      'Content-Type':  'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection':    'keep-alive'
+    });
+    console.log("Connection established.");
+  },
+
+  write: function(response, data) {
+    console.log(data);
+
+    response.write('id: ' + 'node server' + '\n');
+    response.write('data: ' + data + '\n\n');
+  },
+
+  close: function(response) {
+    response.end();
+  }
+}
+
 ////////////////////// GET CLOC DATA //////////////////////
 
 function convertClocFile(response) {
@@ -20,51 +45,42 @@ function convertClocFile(response) {
         if (err) 
           console.log(err);
         else {
-          writeSSE(response, 'cloc file converted to json');
-          writeSSE(response, 'END');
-          response.end();
+          SSE.write(response, 'cloc file converted to json');
+          SSE.write(response, 'END');
+          SSE.close();
         }
       })
     }
   });
 }
 
-function createClocFile(gitinfo, response) {
-  console.log("getting cloc for ", gitinfo.gituser, ", ", gitinfo.gitrepo);
+function createClocFile(giturl, response) {
 
-  var command = 'cloc ../../CODE-Insights --csv --by-file --report-file=cloc-data/insights2.cloc';
-  //var command = 'cloc ../../CodeFlower --csv --by-file --report-file=cloc-data/insights2.cloc';
-  writeSSE(response, '>> ' + command);
+  //var command = 'cloc ../../CODE-Insights --csv --by-file --report-file=cloc-data/insights2.cloc';
+  var command = 'cloc ../../CodeFlower --csv --by-file --report-file=cloc-data/insights2.cloc';
+  SSE.write(response, '>> ' + command);
 
   var process = exec(command, function() {
     convertClocFile(response);
   });
 
   process.stdout.on('data', function(data) {
-    writeSSE(response, data);
+    SSE.write(response, data);
   });
 }
 
-//createClocFile();
+function cloneRepo(giturl, response) {
 
-//////////////////// EVENT SOURCE SERVER /////////////////////
- 
-function openSSEConnection(response) {
-  response.writeHead(200, {
-    'Content-Type':  'text/event-stream',
-    'Cache-Control': 'no-cache',
-    'Connection':    'keep-alive'
+  var command = 'cd repos; git clone ' + giturl + ' --progress';
+
+  var process = exec(command, function() {
+    console.log("DONE CLONING");
+  }); 
+
+  process.stderr.on('data', function(data) {
+    console.log(data); 
+    SSE.write(response, data);
   });
-    
-  console.log("Connection established.");
-  // writeServerSendEvent(res, sseId, "First communication");
-}
- 
-function writeSSE(res, data) {
-  console.log(data);
-
-  res.write('id: ' + 'node server' + '\n');
-  res.write('data: ' + data + '\n\n');
 }
 
 ///////////////////// SERVE STATIC FILES /////////////////////
@@ -127,8 +143,8 @@ http.createServer(function (request, response) {
 
     console.log(urlInfo);
 
-    openSSEConnection(response);
-    createClocFile(urlInfo.query, response);
+    SSE.open(response);
+    cloneRepo(urlInfo.query.url, response);
 
   // regular http request
   } else

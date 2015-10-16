@@ -72,15 +72,18 @@ body {
 
 .flower-terminal {
   position: fixed;
-  bottom: 0;
+  bottom: 0px;
   left: 0;
-  height: 300px;
+  height: 0px;
   width: 300px;
-  background-color: black;
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.8);
   color: white;
   font-family: Arial;
   font-size: 12px;
   text-align: left;
   padding: 5px 12px;
   overflow-y: scroll;
+  border-top-right-radius: 15px;
+  transition: all 0.5s ease-in-out;
 }

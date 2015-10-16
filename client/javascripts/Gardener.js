@@ -15,12 +15,9 @@ angular.module('CodeFlower')
 
   var factory = {
 
-    harvest: function(gituser, gitrepo) {
-      var url = '/parse' + 
-                '?gituser=' + gituser + 
-                '&gitrepo=' + gitrepo;
-
-      var source = new EventSource(url);
+    harvest: function(url) {
+      console.log(encodeURIComponent(url));
+      var source = new EventSource('/parse?url=' + encodeURIComponent(url));
 
       source.onmessage = function(e) {
         if (e.data === 'END') {

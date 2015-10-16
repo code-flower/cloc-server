@@ -14,18 +14,21 @@ angular.module('CodeFlower')
   function link(scope, el, attrs) {
 
     var scrollDown = true;
+    var timer;
 
     Gardener.subscribe(function(data) {
-      el.append('<div>' + data + '</div>');
+      el.append(data + '<br>');
       if (scrollDown)       
         el[0].scrollTop = el[0].scrollHeight;
     });
 
     el[0].onmousewheel = function() {
       scrollDown = false;
-      setTimeout(function() {
+
+      clearTimeout(timer);
+      timer = setTimeout(function() {
         scrollDown = true;
-      }, 3000);
+      }, 5000);
     }
 
   }
