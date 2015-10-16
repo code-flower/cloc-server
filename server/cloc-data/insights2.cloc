@@ -1,4 +1,4 @@
-language,filename,blank,comment,code,"http://cloc.sourceforge.net v 1.64  T=1.03 s (25.2 files/s, 151066.0 lines/s)"
+language,filename,blank,comment,code,"http://cloc.sourceforge.net v 1.64  T=1.05 s (30.5 files/s, 148603.6 lines/s)"
 JSON,../../CodeFlower/client/data/insights.json,0,0,64622
 JSON,../../CodeFlower/client/data/insights-frontend.json,0,0,48038
 Javascript,../../CodeFlower/client/bower_components/angular/angular.js,2509,15114,11281
@@ -10,18 +10,24 @@ Javascript,../../CodeFlower/client/javascripts/d3/d3.geom.js,82,85,668
 JSON,../../CodeFlower/client/data/insights-frontend-src-scss.json,0,0,505
 Javascript,../../CodeFlower/client/javascripts/d3/detector.js,30,25,383
 Javascript,../../CodeFlower/client/bower_components/angular/angular.min.js,0,6,288
-HTML,../../CodeFlower/client/index.html,30,16,140
 Javascript,../../CodeFlower/client/javascripts/CodeFlower.js,27,9,113
 Javascript,../../CodeFlower/server/server.js,35,17,85
 Javascript,../../CodeFlower/server/dataConverter.js,14,28,76
+Javascript,../../CodeFlower/client/javascripts/flowerContainer.js,22,18,68
 CSS,../../CodeFlower/client/stylesheets/style.css,12,0,59
+Javascript,../../CodeFlower/client/javascripts/flowerViz.js,15,9,36
 JSON,../../CodeFlower/client/bower_components/angular/package.json,0,0,25
-JSON,../../CodeFlower/package.json,0,0,20
+HTML,../../CodeFlower/client/index.html,7,15,23
+Javascript,../../CodeFlower/client/javascripts/flowerService.js,9,1,21
+Javascript,../../CodeFlower/client/javascripts/flowerTerminal.js,7,1,20
 JSON,../../CodeFlower/bower.json,0,0,19
+JSON,../../CodeFlower/package.json,0,0,19
 JSON,../../CodeFlower/client/bower_components/angular/.bower.json,0,0,18
 CSS,../../CodeFlower/client/bower_components/angular/angular-csp.css,5,1,15
+HTML,../../CodeFlower/client/javascripts/flower-container.html,0,0,12
 JSON,../../CodeFlower/client/bower_components/angular/bower.json,0,0,8
+Javascript,../../CodeFlower/client/javascripts/app.js,1,1,2
 Javascript,../../CodeFlower/client/bower_components/angular/index.js,0,0,2
-CSS,../../CodeFlower/client/stylesheets/bootstrap-responsive.min.css,0,8,1
 JSON,../../CodeFlower/client/data/test.json,0,0,1
+CSS,../../CodeFlower/client/stylesheets/bootstrap-responsive.min.css,0,8,1
 CSS,../../CodeFlower/client/stylesheets/bootstrap.min.css,0,8,1

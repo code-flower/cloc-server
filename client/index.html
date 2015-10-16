@@ -29,69 +29,17 @@
   </head>
 
   <body>
-    <div class="content">
-      <div class="container">
-        <form class="form-inline">
-          <fieldset>
-          <select id="project"></select>
-          </fieldset>
-        </form>
-        <button id="get-more">Get Flower</button>
-        <flower-viz></flower-viz>
-      </div>
-    </div>
+    <flower-container></flower-container>
+
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="javascripts/d3/d3.js"></script>
     <script type="text/javascript" src="javascripts/d3/d3.geom.js"></script>
     <script type="text/javascript" src="javascripts/d3/d3.layout.js"></script>
     <script type="text/javascript" src="javascripts/CodeFlower.js"></script>
     <script type="text/javascript" src="javascripts/app.js"></script>
+    <script type="text/javascript" src="javascripts/flowerContainer.js"></script>
     <script type="text/javascript" src="javascripts/flowerViz.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" src="javascripts/flowerService.js"></script>
 
-
-      function openSSE() {
-        var source = new EventSource('/talk');
-
-        source.addEventListener('open', function(e) {
-          console.log("SSE connection opened");
-        });
-
-        source.onmessage = function(e) {
-          console.log(e.data);
-          if (e.data === 'END') {
-            source.close();
-            generateFlower('data/test.json');
-          }
-        };
-      }
-
-      //// EVENT LISTENERS ////
-
-      // respond to dropdown changes
-      document.getElementById('project').addEventListener('change', function() {
-        redrawFlower(this.value);
-      });
-
-      // button clicks
-      document.getElementById('get-more').onclick = openSSE;
-
-      //// COMMANDS ////
-
-
-
-      // sent http request
-      // var injector = angular.injector(['ng']);
-      // var $http = injector.get('$http');
-
-      // $http({
-      //   method: 'GET',
-      //   url: '/search'
-      // })
-      // .then(function(res) {
-      //   console.log(res);
-      // });
-
-    </script>
   </body>
 </html>
