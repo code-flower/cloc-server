@@ -1,12 +1,18 @@
-<div class="content">
-  <div class="container">
-    <form class="form-inline">
-      <fieldset>
-      <select id="project"></select>
-      </fieldset>
+
+<div>
+  <div class="header">
+    <form class="git-clone pull-right form-inline">
+      <div class="form-group ">
+        <label>git clone</label>
+        <input type="text" class="url-input form-control" ng-model="giturl"></input>  
+        <button class="btn btn-default" id="get-more">Get Flower</button>
+      </div>
     </form>
-    <button id="get-more">Get Flower</button>
+
+    <select class="dropdown pull-left" id="project"></select>
+  </div>
+    
+    
     <flower-viz></flower-viz>
     <flower-terminal></flower-terminal>
-  </div>
 </div>

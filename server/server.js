@@ -6,6 +6,7 @@ var url = require('url');
 var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
+var Q = require('q');
 var convertCloc = require('./dataConverter.js');
 
 ////////////////////// SSE FUNCTIONS //////////////////////
@@ -23,7 +24,6 @@ var SSE = {
 
   write: function(response, data) {
     console.log(data);
-
     response.write('id: ' + 'node server' + '\n');
     response.write('data: ' + data + '\n\n');
   },
@@ -35,8 +35,46 @@ var SSE = {
 
 ////////////////////// GET CLOC DATA //////////////////////
 
-function convertClocFile(response) {
-  fs.readFile('cloc-data/insights2.cloc', 'utf8', function(err, data) {
+function cloneRepo(giturl, response) {
+  var deferred = Q.defer();
+  var command = 'cd repos; git clone ' + giturl + ' --progress';
+
+  SSE.write(response, '>> ' + command.replace('cd repos; ', '').replace(' --progress', ''));
+
+  var process = exec(command, function() {
+    deferred.resolve();
+  }); 
+
+  process.stderr.on('data', function(data) {
+    SSE.write(response, data);
+  });
+
+  return deferred.promise;
+}
+
+function createClocFile(gitRepo, response) {
+  var deferred = Q.defer();
+  var command = 'cd repos; cloc ' + gitRepo + ' --csv --by-file --report-file=../cloc-data/' + gitRepo + '.cloc';
+
+  SSE.write(response, '');
+  SSE.write(response, '>> ' + command.replace('cd repos; ', ''));
+
+  var process = exec(command, function() {
+    deferred.resolve();
+  });
+
+  process.stdout.on('data', function(data) {
+    SSE.write(response, data);
+  });
+
+  return deferred.promise;
+}
+
+function convertClocFile(gitRepo, response) {
+  SSE.write(response, '');
+  SSE.write(response, 'Converting cloc file to json...');
+
+  fs.readFile('cloc-data/' + gitRepo + '.cloc', 'utf8', function(err, data) {
     if (err) 
       console.log(err);
     else {
@@ -45,41 +83,35 @@ function convertClocFile(response) {
         if (err) 
           console.log(err);
         else {
-          SSE.write(response, 'cloc file converted to json');
+          SSE.write(response, 'File converted.');
+          SSE.write(response, '');
           SSE.write(response, 'END');
-          SSE.close();
+          SSE.close(response);
         }
       })
     }
   });
 }
 
-function createClocFile(giturl, response) {
+function sendFlower(url, response) {
 
-  //var command = 'cloc ../../CODE-Insights --csv --by-file --report-file=cloc-data/insights2.cloc';
-  var command = 'cloc ../../CodeFlower --csv --by-file --report-file=cloc-data/insights2.cloc';
-  SSE.write(response, '>> ' + command);
+  console.log("URL = ", url);
 
-  var process = exec(command, function() {
-    convertClocFile(response);
-  });
+  var match = url.match(/.com\/(.*?)\.git$/)[1].split('/');
+  var gitUser = match[0];
+  var gitRepo = match[1];
 
-  process.stdout.on('data', function(data) {
-    SSE.write(response, data);
-  });
-}
+  console.log("USER = ", gitUser);
+  console.log("REPO = ", gitRepo);
 
-function cloneRepo(giturl, response) {
+  SSE.open(response);
 
-  var command = 'cd repos; git clone ' + giturl + ' --progress';
-
-  var process = exec(command, function() {
-    console.log("DONE CLONING");
-  }); 
-
-  process.stderr.on('data', function(data) {
-    console.log(data); 
-    SSE.write(response, data);
+  cloneRepo(url, response)
+  .then(function() {
+    return createClocFile(gitRepo, response);
+  })
+  .then(function() {
+    convertClocFile(gitRepo, response);
   });
 }
 
@@ -124,7 +156,6 @@ function serveStaticFile(response, pathname) {
   fs.createReadStream(filePath).pipe(response);
 }
 
-
 //////////////////////// START THE SERVER /////////////////////
 
 http.createServer(function (request, response) {
@@ -140,11 +171,9 @@ http.createServer(function (request, response) {
 
   // SSE request
   } else if (urlInfo.pathname == '/parse') {
-
     console.log(urlInfo);
 
-    SSE.open(response);
-    cloneRepo(urlInfo.query.url, response);
+    sendFlower(urlInfo.query.url, response);
 
   // regular http request
   } else
@@ -153,6 +182,5 @@ http.createServer(function (request, response) {
 }).listen(8000);
 
 console.log("Server running at http://localhost:8000/");
-
 
 

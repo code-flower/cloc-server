@@ -7,20 +7,23 @@ angular.module('CodeFlower')
   return {
     restrict: 'E',
     replace: true,
-    template: '<div class="flower-terminal"></div>',
+    templateUrl: 'javascripts/flower-terminal.html',
     link: link
   };
 
   function link(scope, el, attrs) {
 
+    //// PRIVATE VARIABLES ////
+
     var scrollDown = true;
     var timer;
+    var termBody = angular.element(el[0].querySelector('.terminal-body'));
 
-    Gardener.subscribe(function(data) {
-      el.append(data + '<br>');
-      if (scrollDown)       
-        el[0].scrollTop = el[0].scrollHeight;
-    });
+    //// SCOPE VARIABLES ////
+
+    scope.terminalOpen = false;
+
+    //// EVENT LISTENERS ////
 
     el[0].onmousewheel = function() {
       scrollDown = false;
@@ -31,5 +34,23 @@ angular.module('CodeFlower')
       }, 5000);
     }
 
+    scope.$on('openTerminal', function() {
+      scope.terminalOpen = true;
+    });
+
+    scope.$on('closeTerminal', function() {
+      scope.terminalOpen = false;
+      scope.$apply();
+    });
+
+    //// COMMANDS ////
+
+    Gardener.subscribe(function(data) {
+      termBody.append(data + '<br>');
+      if (scrollDown)       
+        termBody[0].scrollTop = termBody[0].scrollHeight;
+    });
+
   }
 });
+

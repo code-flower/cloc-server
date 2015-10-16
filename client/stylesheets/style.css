@@ -1,22 +1,30 @@
 body {
+  text-align: center;
   font-family: 'Rosario', sans-serif;
 }
 
-#visualization {
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.git-clone {
+  display: inline;
+  margin: 20px;
+}
+
+.git-clone label {
+  font-weight: bold;
+}
+
+.dropdown {
+  margin: 20px;
+}
+
+#visualization > svg > rect {
+  stroke: none !important;
   overflow: auto;
-}
-
-h1 {
-  font-size: 62px;
-  font-weight: 300;
-  letter-spacing: -2px;
-  line-height: 1em;
-  margin: 1em 0;
-}
-
-textarea {
-  width: 98%;
-  height: 200px;
 }
 
 circle.node {
@@ -46,44 +54,46 @@ line.link {
   stroke-width: 1.5px;
 }
 
-body {
-  text-align: center;
-}
-
-#project {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  width: 400px;
-  font-size: 11px;
-}
-
-#get-more {
-  position: fixed;
-  top: 50px;
-  left: 15px;
-  width: 200px;
-  font-size: 11px;      
-}
-
-#visualization > svg > rect {
-  stroke: none !important;
-}
-
 .flower-terminal {
   position: fixed;
   bottom: 0px;
-  left: 0;
-  height: 0px;
-  width: 300px;
-  visibility: hidden;
+  right: 0px;
+  height: 30px;
+  width: 350px;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
   font-family: Arial;
   font-size: 12px;
   text-align: left;
-  padding: 5px 12px;
-  overflow-y: scroll;
-  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
   transition: all 0.5s ease-in-out;
+}
+
+.flower-terminal.open {
+  height: 500px;
+}
+
+.terminal-head {
+  cursor: pointer;
+  height: 21px;
+  padding: 4px 10px 4px 15px;
+  border-bottom: 1px white solid;
+}
+
+.arrow {
+  line-height: 27px;
+}
+
+.flower-terminal.open .terminal-head .arrow {
+  line-height: 18px;
+  transform: rotate(180deg);
+}
+
+.terminal-body {
+  position: absolute;
+  top: 38px;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  overflow-y: scroll;
 }
