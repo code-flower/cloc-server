@@ -69,3 +69,18 @@ body {
 #visualization > svg > rect {
   stroke: none !important;
 }
+
+.flower-terminal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 300px;
+  width: 300px;
+  background-color: black;
+  color: white;
+  font-family: Arial;
+  font-size: 12px;
+  text-align: left;
+  padding: 5px 12px;
+  overflow-y: scroll;
+}

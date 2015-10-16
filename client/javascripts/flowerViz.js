@@ -13,11 +13,9 @@ angular.module('CodeFlower')
 
   function link(scope, el, attrs) {
 
-    console.log("running flower viz link function");
-
     //// PRIVATE VARIABLES ////
 
-    var currentCodeFlower;    // a CodeFlower object
+    var currentCodeFlower; 
 
     //// PRIVATE FUNCTIONS ////
 
@@ -50,8 +48,9 @@ angular.module('CodeFlower')
       currentCodeFlower = new CodeFlower("#visualization", w, h).update(json);
     };
 
+    //// EVENT LISTENERS ////
+
     scope.$on('drawFlower', function(e, data) {
-      console.log("data = ", data);
       createCodeFlower(data);
     });
 

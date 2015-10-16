@@ -29,9 +29,12 @@ function convertClocFile(response) {
   });
 }
 
-function createClocFile(response) {
- // var command = 'cloc ../../CODE-Insights --csv --by-file --report-file=cloc-data/insights2.cloc';
-  var command = 'cloc ../../CodeFlower --csv --by-file --report-file=cloc-data/insights2.cloc';
+function createClocFile(gitinfo, response) {
+  console.log("getting cloc for ", gitinfo.gituser, ", ", gitinfo.gitrepo);
+
+  var command = 'cloc ../../CODE-Insights --csv --by-file --report-file=cloc-data/insights2.cloc';
+  //var command = 'cloc ../../CodeFlower --csv --by-file --report-file=cloc-data/insights2.cloc';
+  writeSSE(response, '>> ' + command);
 
   var process = exec(command, function() {
     convertClocFile(response);
@@ -120,10 +123,12 @@ http.createServer(function (request, response) {
     // response.end(JSON.stringify({message: 'hello'}));
 
   // SSE request
-  } else if (urlInfo.pathname == '/talk') {
+  } else if (urlInfo.pathname == '/parse') {
+
+    console.log(urlInfo);
 
     openSSEConnection(response);
-    createClocFile(response);
+    createClocFile(urlInfo.query, response);
 
   // regular http request
   } else

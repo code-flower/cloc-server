@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerContainer', function(flowerService) {
+.directive('flowerContainer', function(Gardener) {
 
   return {
     restrict: 'E',
@@ -14,42 +14,45 @@ angular.module('CodeFlower')
   function link(scope, el, attrs) {
 
     var allCode;              // an object to represent the structure of the entire codebase
-    var codeStrings = [];     // a list of strings for the dropdown, constructed from allCode
 
-
-    function deepCopy(data) {
-      return JSON.parse(JSON.stringify(data));
+    function sendCode(code) {
+      var codeCopy = JSON.parse(JSON.stringify(code));
+      scope.$emit('drawFlower', codeCopy);
     }
 
     // generates an array of codeStrings from allCode
     function parseCode() {
-      (function recurse(code, codeStr) {
+      var pathStrings = [];
+
+      (function recurse(code, pathStr) {
         if (code.children) {
-          codeStr += code.name + '-';
-          codeStrings.push(codeStr);
+          pathStr += code.name + '/';
+          pathStrings.push(pathStr);
           for (var i = 0; i < code.children.length; i++)
-            recurse(code.children[i], codeStr);
+            recurse(code.children[i], pathStr);
         }
       })(allCode, '');
 
-      for (var i = 0; i < codeStrings.length; i++) {
-        codeStrings[i] = codeStrings[i].slice(0, -1);
+      for (var i = 0; i < pathStrings.length; i++) {
+        pathStrings[i] = pathStrings[i].slice(0, -1);
       }
+
+      return pathStrings;
     }
 
     // populates the dropdown with options
-    function createDropdown() {
+    function createDropdown(pathStrings) {
       var dropdown = document.getElementById('project');
-      for (var i = 0; i < codeStrings.length; i++) {
+      for (var i = 0; i < pathStrings.length; i++) {
         var opt = document.createElement('option');
-        opt.text = codeStrings[i];
-        opt.value = codeStrings[i];
+        opt.text = pathStrings[i];
+        opt.value = pathStrings[i];
         dropdown.add(opt);
       }
     }
 
-    function redrawFlower(value) {
-      var props = value.split('-');
+    function redrawFlower(pathString) {
+      var props = pathString.split('/');
       var code = allCode;
       for (var i = 1; i < props.length; i++)  {
         for (var j = 0; j < code.children.length; j++) {
@@ -59,24 +62,22 @@ angular.module('CodeFlower')
           }
         }
       }
-      scope.$emit('drawFlower', deepCopy(code));
+      sendCode(code);
     }
 
     function generateFlower(file) {
-      d3.json(file, function(data) {
-        allCode = data;    
-        parseCode();
-        createDropdown();
-
-        scope.$emit('drawFlower', deepCopy(allCode));
+      d3.json(file, function(json) {
+        allCode = json; 
+        var pathStrings = parseCode(allCode);  
+        createDropdown(pathStrings);
+        sendCode(allCode);
       });
     }
 
+    //// SCOPE FUNCTIONS ////
 
-    //// SCOPE VARIABLES ////
-
-    scope.stream = function
-
+    scope.gituser = 'jake';
+    scope.gitrepo = 'code';
 
     //// EVENT LISTENERS ////
 
@@ -87,10 +88,10 @@ angular.module('CodeFlower')
 
     // button clicks
     document.getElementById('get-more').onclick = function() {
-      scope.stream = flowerService.openSSE();
-    });
+      Gardener.harvest(scope.gituser, scope.gitrepo);
+    };
 
-    scope.$on('repoParsed', function(e, data) {
+    scope.$on('flowerReady', function(e, data) {
       generateFlower(data.file);
     });
 
@@ -98,19 +99,6 @@ angular.module('CodeFlower')
 
     // draw the flower
     generateFlower('data/insights-frontend-src.json');
-
-    // sent http request
-    // var injector = angular.injector(['ng']);
-    // var $http = injector.get('$http');
-
-    // $http({
-    //   method: 'GET',
-    //   url: '/search'
-    // })
-    // .then(function(res) {
-    //   console.log(res);
-    // });
-
   }
 
 });
