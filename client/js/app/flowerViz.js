@@ -29,22 +29,22 @@ angular.module('CodeFlower')
     }
 
     function createCodeFlower(json) {
-      // remove previous flower to save memory
-      if (currentCodeFlower) currentCodeFlower.cleanup();
+      // remove previous flower
+      if (currentCodeFlower) 
+        currentCodeFlower.cleanup();
 
       // adapt layout size to the total number of elements
+      var minSize = 500;
       var total = countElements(json);
-      var w = parseInt(Math.sqrt(total) * 30, 10) + 100;
-      var h = parseInt(Math.sqrt(total) * 30, 10) + 100;
+      var w = Math.max(parseInt(Math.sqrt(total) * 30, 10) + 100, minSize);
+      var h = Math.max(parseInt(Math.sqrt(total) * 30, 10) + 100, minSize);
 
       // vertically center the flower
-      if (h < window.innerHeight) {
-        var topMargin = (window.innerHeight - h) / 2.0;
-        document.getElementById('visualization').style.marginTop = topMargin + 'px';
-      }
+      var topMargin = Math.max(window.innerHeight - h, 0) / 2.0;
+      document.getElementById('visualization').style.marginTop = topMargin + 'px';
 
-      // create a new CodeFlower
-      currentCodeFlower = new CodeFlower("#visualization", w, h).update(json);
+      // create the flower
+      currentCodeFlower = new CodeFlower('#visualization', w, h).update(json);
     }
 
     //// EVENT LISTENERS ////

@@ -26,8 +26,6 @@ angular.module('CodeFlower')
     function buildUI(json) {
       repo = json; 
 
-      console.log("repo = ", json);
-
       scope.folderPaths.length = 0;
       scope.folderPaths.push.apply(scope.folderPaths, flowerUtils.getFolderPaths(repo));
       scope.selectedFolder = scope.folderPaths[0];
@@ -65,31 +63,34 @@ angular.module('CodeFlower')
     //// EVENT LISTENERS ////
 
     scope.$on('flowerReady', function(e, data) {
-      Gardener.harvest(data.repo)
+
+      Gardener.harvest(data.repoName)
       .then(function(repo) {
-        console.log("data.repo = ", data.repo);
-        console.log("repo = ", repo);
+
         scope.$emit('closeTerminal');
         $timeout(function() {
-
-          scope.repoNames.push(data.repo);
-          scope.selectedRepo = data.repo;
-          console.log("scope.repoNames = ", scope.repoNames);
+          scope.giturl = '';
+          scope.repoNames.push(data.repoName);
+          scope.selectedRepo = data.repoName;
           buildUI(repo);
         }, 500);
+
       });
     });
 
     //// COMMANDS ////
 
-    Gardener.getRepos()
+    Gardener.enumerate()
     .then(function(repos) {
+
       Gardener.harvest(repos[0])
       .then(function(repo) {
+
         scope.repoNames.length = 0;
         scope.repoNames.push.apply(scope.repoNames, repos);
         scope.selectedRepo = scope.repoNames[0];
         buildUI(repo);
+        
       });
     });
     

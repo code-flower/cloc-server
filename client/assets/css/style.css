@@ -1,41 +1,47 @@
 body {
   text-align: center;
-  font-family: 'Rosario', sans-serif;
 }
 
-.header {
+.repo-form {
   position: fixed;
-  top: 0;
-  width: 100%;
+  top: 20px;
+  right: 20px;
 }
 
-.nav-form {
-  display: inline;
-}
-
-.nav-form .dropdown {
-  margin: 20px;
-  font-size: 12px;
-}
-
-.clone-form {
-  display: inline;
-  margin: 20px;
-}
-
-.clone-form label {
+.repo-form label {
   font-weight: bold;
   color: #3e3e3e;
 }
 
-.clone-form .url-input {
-  width: 300px;
+.repo-form td {
+  padding: 5px 6px
 }
 
-.btn-primary {
+.repo-form td:nth-child(1) {
+  text-align: right;
+}
+
+.repo-form td:nth-child(2) {
+  text-align: left;
+}
+
+.repo-form td:nth-child(3) {
+  text-align: left;
+}
+
+.repo-form input,
+.repo-form select {
+  margin: 0;
+}
+
+.repo-form .btn-primary {
+  width: 100px;
   letter-spacing: 1.0px;
 }
 
+.repo-form .two-col {
+  width: 332px;
+}
 
 /*///////// VISUALIZATION /////////*/
 
@@ -78,7 +84,7 @@ line.link {
   bottom: 0px;
   right: 0px;
   height: 29px;
-  width: 350px;
+  width: 400px;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
   font-family: Arial;

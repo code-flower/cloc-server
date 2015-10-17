@@ -1,55 +1,57 @@
 /* global angular */
 'use strict';
 
-// the Gardener sends the username and repo name to
-// the backend, and gets the name of a json file 
-// in response.  As the json file is being generated 
-// Gardener notifies its subscribers of the backend's
-// progress. When the backend is done, Gardener emits
-// 'flowerReady' plus the name of the json file.  
-
 angular.module('CodeFlower')
 .factory('Gardener', function($rootScope, $http) {
 
-  var callbacks = [];
+  var subscribers = [];
 
-  var factory = {
+  return {
 
+    // grow a flower from a git clone url
     cultivate: function(url) {
-      var source = new EventSource('/parse?url=' + encodeURIComponent(url));
-      source.onmessage = function(e) {
-        if (e.data === 'ERROR') {
+      var source = new EventSource('/cultivate?url=' + encodeURIComponent(url));
+
+      source.onmessage = function(event) {
+        if (event.data === 'ERROR') {
           source.close();
-        } else if (e.data.match(/END:/)) {
+
+        } else if (event.data.match(/END:/)) {
           source.close();
-          console.log(e.data.replace('END:', ''));
-          $rootScope.$broadcast('flowerReady', {repo: e.data.replace('END:', '')});
+          $rootScope.$broadcast('flowerReady', { 
+            repoName: event.data.replace('END:', '') 
+          });
+
         } else {
-          callbacks.forEach(function(callback) {
-            callback(e.data);
+          // notify subscribers of the flower's growth
+          subscribers.forEach(function(subscriber) {
+            subscriber(event.data);
           });
         }
       };
     },
 
-    harvest: function(repo) {
-      return $http.get('data/' + repo + '.json').then(function(res) {
-        return res.data;
-      });
-    },
-
-    subscribe: function(func) {
-      callbacks.push(func);
-    },
-
-    getRepos: function() {
-      return $http.get('/repos')
+    // pluck a flower from the garden
+    harvest: function(repoName) {
+      var url = 'data/' + repoName + '.json';
+      return $http.get(url)
       .then(function(res) {
         return res.data;
       });
-    }
-  }
+    },
 
-  return factory;
+    // list the flowers in the garden
+    enumerate: function() {
+      return $http.get('/flowers')
+      .then(function(res) {
+        return res.data;
+      });
+    },
+
+    // add a subscriber
+    subscribe: function(callback) {
+      subscribers.push(callback);
+    }
+  };
 
 });
