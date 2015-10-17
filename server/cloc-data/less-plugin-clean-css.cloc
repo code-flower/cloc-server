@@ -1,6 +1,0 @@
-language,filename,blank,comment,code,"http://cloc.sourceforge.net v 1.64  T=0.06 s (89.6 files/s, 3674.7 lines/s)"
-Javascript,less-plugin-clean-css/lib/parse-options.js,0,1,60
-Javascript,less-plugin-clean-css/lib/clean-css-processor.js,11,0,52
-JSON,less-plugin-clean-css/package.json,0,0,39
-Javascript,less-plugin-clean-css/lib/index.js,3,0,20
-Javascript,less-plugin-clean-css/lib/usage.js,0,0,19

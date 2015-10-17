@@ -56,11 +56,11 @@ angular.module('CodeFlower')
     //// EVENT LISTENERS ////
 
     scope.$on('flowerReady', function(e, data) {
-      Gardener.harvest(data.file)
-      .then(function(flower) {
+      Gardener.harvest(data.repo)
+      .then(function(repo) {
         scope.$emit('closeTerminal');
         setTimeout(function() {
-          buildUI(flower);
+          buildUI(repo);
         }, 500);
       });
     });

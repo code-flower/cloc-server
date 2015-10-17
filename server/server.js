@@ -8,88 +8,102 @@ var path = require('path');
 var exec = require('child_process').exec;
 var Q = require('q');
 var convertCloc = require('./scripts/dataConverter.js');
+var mkpath = require('mkpath');
 
 ////////////////////// SSE FUNCTIONS //////////////////////
 
 var SSE = {
 
+  res: null,
+
   open: function(response) {
-    response.writeHead(200, {
+    this.res = response;
+    this.res.writeHead(200, {
       'Content-Type':  'text/event-stream',
       'Cache-Control': 'no-cache',
       'Connection':    'keep-alive'
     });
-    console.log("Connection established.");
+    console.log("SSE CONNECTION OPEN");
   },
 
-  write: function(response, data) {
+  write: function(data) {
     console.log(data);
-    response.write('id: ' + 'node server' + '\n');
-    response.write('data: ' + data + '\n\n');
+    this.res.write('id: ' + 'node server' + '\n');
+    this.res.write('data: ' + data + '\n\n');
   },
 
-  close: function(response) {
-    response.end();
+  close: function() {
+    this.res.end();
+    console.log("SSE CONNECTION CLOSED");
   }
 
-}
+};
 
 //////////////// RESPONSE TO SSE REQUESTS //////////////////
 
-function cloneRepo(giturl, response) {
+function cloneRepo(giturl, user) {
   var deferred = Q.defer();
-  var command = 'cd repos; git clone ' + giturl + ' --progress';
 
-  SSE.write(response, '>> ' + command.replace('cd repos; ', '').replace(' --progress', ''));
+  var cd = 'cd repos; mkdir ' + user + '; cd ' + user + ';';
+  var clone = 'git clone ' + giturl + ' --progress';
 
-  var process = exec(command, function() {
+  SSE.write('>> ' + clone.replace(' --progress', ''));
+
+  var process = exec(cd + clone, function() {
     deferred.resolve();
   }); 
 
   process.stderr.on('data', function(data) {
-    SSE.write(response, data);
+    SSE.write(data);
   });
 
   return deferred.promise;
 }
 
-function createClocFile(gitRepo, response) {
+function createClocFile(user, repo) {
   var deferred = Q.defer();
-  var command = 'cd repos; cloc ' + gitRepo + 
-                ' --csv --by-file --report-file=../cloc-data/' + 
-                gitRepo + '.cloc';
 
-  SSE.write(response, '');
-  SSE.write(response, '>> ' + command.replace('cd repos; ', ''));
+  var cloc = 'cloc repos/' + user + '/' + repo +
+             ' --csv --by-file --report-file=cloc-data/' + 
+             user + '/' + repo + '.cloc';
 
-  var process = exec(command, function() {
+  SSE.write('');
+  SSE.write('>> ' + cloc.replace('cd repos; ', ''));
+
+  var process = exec(cloc, function() {
     deferred.resolve();
   });
 
   process.stdout.on('data', function(data) {
-    SSE.write(response, data);
+    SSE.write(data);
   });
 
   return deferred.promise;
 }
 
-function convertClocFile(gitRepo, response) {
-  SSE.write(response, '');
-  SSE.write(response, 'Converting cloc file to json...');
+function convertClocFile(user, repo) {
+  SSE.write('');
+  SSE.write('Converting cloc file to json...');
 
-  fs.readFile('cloc-data/' + gitRepo + '.cloc', 'utf8', function(err, data) {
+  fs.readFile('cloc-data/' + user + '/' + repo + '.cloc', 'utf8', function(err, data) {
     if (err) 
       console.log(err);
     else {
       var json = convertCloc(data);
-      fs.writeFile('../client/data/test.json', JSON.stringify(json), 'utf8', function(err) {
+      
+      var filePath = '../client/data/' + user + '/';
+      mkpath.sync(filePath);
+
+      var fileName =  filePath + repo + '.json';
+
+      fs.writeFile(fileName, JSON.stringify(json), 'utf8', function(err) {
         if (err) 
           console.log(err);
         else {
-          SSE.write(response, 'File converted.');
-          SSE.write(response, '');
-          SSE.write(response, 'END');
-          SSE.close(response);
+          SSE.write('File converted.');
+          SSE.write('');
+          SSE.write('END:' + user + '/' + repo);
+          SSE.close();
         }
       })
     }
@@ -98,19 +112,28 @@ function convertClocFile(gitRepo, response) {
 
 function sendFlower(url, response) {
 
-  // NEED TO MAKE THIS MORE ROBUST
-  var match = url.match(/.com\/(.*?)\.git$/)[1].split('/');
-  var gitUser = match[0];
-  var gitRepo = match[1];
-
   SSE.open(response);
 
-  cloneRepo(url, response)
+  // NEED TO MAKE THIS MORE ROBUST
+  var match = url.match(/.com\/(.*?)\.git$/);
+  if (match && match[1]) {
+    var matchParts = match[1].split('/');
+    var user = matchParts[0];
+    var repo = matchParts[1];
+  } else {
+    SSE.write('Not a valid repository.');
+    SSE.write('');
+    SSE.write('ERROR');
+    SSE.close();
+    return;
+  }
+
+  cloneRepo(url, user)
   .then(function() {
-    return createClocFile(gitRepo, response);
+    return createClocFile(user, repo);
   })
   .then(function() {
-    convertClocFile(gitRepo, response);
+    convertClocFile(user, repo);
   });
 }
 

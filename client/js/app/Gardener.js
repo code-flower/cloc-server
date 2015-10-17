@@ -15,14 +15,17 @@ angular.module('CodeFlower')
 
   var factory = {
 
-    flowers: ['data/insights-frontend-src.json'],
+    flowers: ['insights-frontend-src'],
 
     cultivate: function(url) {
       var source = new EventSource('/parse?url=' + encodeURIComponent(url));
       source.onmessage = function(e) {
-        if (e.data === 'END') {
+        if (e.data === 'ERROR') {
           source.close();
-          $rootScope.$broadcast('flowerReady', {file: 'data/test.json'})
+        } else if (e.data.match(/END:/)) {
+          source.close();
+          console.log(e.data.replace('END:', ''));
+          $rootScope.$broadcast('flowerReady', {repo: e.data.replace('END:', '')});
         } else {
           callbacks.forEach(function(callback) {
             callback(e.data);
@@ -31,8 +34,8 @@ angular.module('CodeFlower')
       };
     },
 
-    harvest: function(flower) {
-      return $http.get(flower).then(function(res) {
+    harvest: function(repo) {
+      return $http.get('data/' + repo + '.json').then(function(res) {
         return res.data;
       });
     },
