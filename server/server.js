@@ -7,7 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
 var Q = require('q');
-var convertCloc = require('./dataConverter.js');
+var convertCloc = require('./scripts/dataConverter.js');
 
 ////////////////////// SSE FUNCTIONS //////////////////////
 
