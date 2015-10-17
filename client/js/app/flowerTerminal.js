@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerTerminal', function(BASE_PATH, Gardener) {
+.directive('flowerTerminal', function($timeout, BASE_PATH, Gardener) {
 
   return {
     restrict: 'E',
@@ -41,8 +41,9 @@ angular.module('CodeFlower')
     });
 
     scope.$on('closeTerminal', function() {
-      scope.terminalOpen = false;
-      scope.$apply();
+      $timeout(function() {
+        scope.terminalOpen = false;
+      }, 0);
     });
 
     //// COMMANDS ////

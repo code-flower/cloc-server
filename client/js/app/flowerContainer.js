@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerContainer', function(BASE_PATH, Gardener, flowerUtils) {
+.directive('flowerContainer', function($timeout, BASE_PATH, Gardener, flowerUtils) {
 
   return {
     restrict: 'E',
@@ -26,6 +26,8 @@ angular.module('CodeFlower')
     function buildUI(json) {
       repo = json; 
 
+      console.log("repo = ", json);
+
       scope.folderPaths.length = 0;
       scope.folderPaths.push.apply(scope.folderPaths, flowerUtils.getFolderPaths(repo));
       scope.selectedFolder = scope.folderPaths[0];
@@ -35,9 +37,11 @@ angular.module('CodeFlower')
 
     //// SCOPE VARIABLES ////
 
-    scope.giturl = '';
+    scope.repoNames = [];
+    scope.selectedRepo = null;
     scope.folderPaths = [];
     scope.selectedFolder = null;
+    scope.giturl = '';
 
     //// SCOPE FUNCTIONS ////
 
@@ -53,13 +57,24 @@ angular.module('CodeFlower')
       }, 500);
     };
 
+    scope.switchRepos = function(repoName) {
+      Gardener.harvest(repoName)
+      .then(buildUI);
+    };
+
     //// EVENT LISTENERS ////
 
     scope.$on('flowerReady', function(e, data) {
       Gardener.harvest(data.repo)
       .then(function(repo) {
+        console.log("data.repo = ", data.repo);
+        console.log("repo = ", repo);
         scope.$emit('closeTerminal');
-        setTimeout(function() {
+        $timeout(function() {
+
+          scope.repoNames.push(data.repo);
+          scope.selectedRepo = data.repo;
+          console.log("scope.repoNames = ", scope.repoNames);
           buildUI(repo);
         }, 500);
       });
@@ -67,7 +82,17 @@ angular.module('CodeFlower')
 
     //// COMMANDS ////
 
-    Gardener.harvest(Gardener.flowers[0]).then(buildUI);
+    Gardener.getRepos()
+    .then(function(repos) {
+      Gardener.harvest(repos[0])
+      .then(function(repo) {
+        scope.repoNames.length = 0;
+        scope.repoNames.push.apply(scope.repoNames, repos);
+        scope.selectedRepo = scope.repoNames[0];
+        buildUI(repo);
+      });
+    });
+    
   }
 
 });

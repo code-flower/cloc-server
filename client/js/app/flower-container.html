@@ -1,6 +1,13 @@
 <div class="flower-container">
   <div class="header">
     <form class="nav-form">
+      <select ng-model="selectedRepo"
+              ng-change="switchRepos(selectedRepo)"
+              class="dropdown pull-left">
+        <option ng-repeat="name in repoNames" 
+                value="{{name}}"
+                ng-bind="name"></option>
+      </select>
       <select ng-model="selectedFolder" 
               ng-change="redrawFlower(selectedFolder)" 
               class="dropdown pull-left">

@@ -15,8 +15,6 @@ angular.module('CodeFlower')
 
   var factory = {
 
-    flowers: ['insights-frontend-src'],
-
     cultivate: function(url) {
       var source = new EventSource('/parse?url=' + encodeURIComponent(url));
       source.onmessage = function(e) {
@@ -42,6 +40,13 @@ angular.module('CodeFlower')
 
     subscribe: function(func) {
       callbacks.push(func);
+    },
+
+    getRepos: function() {
+      return $http.get('/repos')
+      .then(function(res) {
+        return res.data;
+      });
     }
   }
 

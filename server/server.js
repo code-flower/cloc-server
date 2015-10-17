@@ -6,6 +6,7 @@ var url = require('url');
 var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
+var execSync = require('child_process').execSync;
 var Q = require('q');
 var convertCloc = require('./scripts/dataConverter.js');
 var mkpath = require('mkpath');
@@ -44,7 +45,9 @@ var SSE = {
 function cloneRepo(giturl, user) {
   var deferred = Q.defer();
 
-  var cd = 'cd repos; mkdir ' + user + '; cd ' + user + ';';
+  mkpath.sync('repos/' + user + '/');
+
+  var cd = 'cd repos/' + user + '/'; 
   var clone = 'git clone ' + giturl + ' --progress';
 
   SSE.write('>> ' + clone.replace(' --progress', ''));
@@ -63,14 +66,15 @@ function cloneRepo(giturl, user) {
 function createClocFile(user, repo) {
   var deferred = Q.defer();
 
-  var cloc = 'cloc repos/' + user + '/' + repo +
-             ' --csv --by-file --report-file=cloc-data/' + 
+  var cd = 'cd repos/' + user + '/; ';
+  var cloc = 'cloc ' + repo +
+             ' --csv --by-file --report-file=../../cloc-data/' + 
              user + '/' + repo + '.cloc';
 
   SSE.write('');
   SSE.write('>> ' + cloc.replace('cd repos; ', ''));
 
-  var process = exec(cloc, function() {
+  var process = exec(cd + cloc, function() {
     deferred.resolve();
   });
 
@@ -90,12 +94,11 @@ function convertClocFile(user, repo) {
       console.log(err);
     else {
       var json = convertCloc(data);
-      
+
       var filePath = '../client/data/' + user + '/';
       mkpath.sync(filePath);
 
       var fileName =  filePath + repo + '.json';
-
       fs.writeFile(fileName, JSON.stringify(json), 'utf8', function(err) {
         if (err) 
           console.log(err);
@@ -135,6 +138,28 @@ function sendFlower(url, response) {
   .then(function() {
     convertClocFile(user, repo);
   });
+}
+
+////////////////////// AJAX REQUESTS /////////////////////////
+
+function getRepos() {
+
+  var readNoDS = function(path) {
+    return fs.readdirSync(path).filter(function(file) {
+      return file !== '.DS_Store';
+    });
+  }
+
+  var repos = [];
+  var users = readNoDS('repos/');
+  users.forEach(function(user) {
+    var userRepos = readNoDS('repos/' + user + '/');
+    userRepos.forEach(function(userRepo) {
+      repos.push(user + '/' + userRepo);
+    });
+  });
+
+  return repos;
 }
 
 ///////////////////// SERVE STATIC FILES /////////////////////
@@ -185,13 +210,12 @@ http.createServer(function (request, response) {
   var urlInfo = url.parse(request.url, true);
 
   // ajax request
-  if (urlInfo.pathname == '/search') {
-    console.log("received request");
+  if (urlInfo.pathname === '/repos') {
     response.writeHead(200, {'Content-Type': 'application/json'});
-    response.end(JSON.stringify({message: 'hello'}));
+    response.end(JSON.stringify(getRepos()));
 
   // SSE request
-  } else if (urlInfo.pathname == '/parse') {
+  } else if (urlInfo.pathname === '/parse') {
     sendFlower(urlInfo.query.url, response);
 
   // regular http request
