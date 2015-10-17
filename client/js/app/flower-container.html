@@ -1,14 +1,23 @@
 <div class="flower-container">
   <div class="header">
-    <form class="git-clone pull-right form-inline">
+    <form class="nav-form">
+      <select ng-model="selectedFolder" 
+              ng-change="redrawFlower(selectedFolder)" 
+              class="dropdown pull-left">
+        <option ng-repeat="path in folderPaths" 
+                value="{{path}}" 
+                ng-bind="path"></option>
+      </select>
+    </form>
+    <form class="clone-form pull-right form-inline">
       <div class="form-group ">
         <label>git clone</label>
         <input type="text" class="url-input form-control" ng-model="giturl"></input>  
-        <button class="btn btn-primary" id="get-more">Flower!</button>
+        <button class="btn btn-primary" ng-click="cultivateFlower()">Flower!</button>
       </div>
     </form>
-    <select class="dropdown pull-left" id="project"></select>
   </div>
+
   <flower-viz></flower-viz>
   <flower-terminal></flower-terminal>
 </div>

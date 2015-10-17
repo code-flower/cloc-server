@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerContainer', function(BASE_PATH, Gardener) {
+.directive('flowerContainer', function(BASE_PATH, Gardener, flowerUtils) {
 
   return {
     restrict: 'E',
@@ -13,97 +13,61 @@ angular.module('CodeFlower')
 
   function link(scope, el, attrs) {
 
-    var allCode;              // an object to represent the structure of the entire codebase
+    //// PRIVATE ////
 
-    function sendCode(code) {
-      var codeCopy = JSON.parse(JSON.stringify(code));
-      scope.$emit('drawFlower', codeCopy);
+    var repo; 
+
+    function drawFlower(folder) {
+      // copy because the viz modifies the object
+      var folderCopy = JSON.parse(JSON.stringify(folder));
+      scope.$emit('drawFlower', folderCopy);
     }
 
-    // generates an array of codeStrings from allCode
-    function parseCode() {
-      var pathStrings = [];
+    function buildUI(json) {
+      repo = json; 
 
-      (function recurse(code, pathStr) {
-        if (code.children) {
-          pathStr += code.name + '/';
-          pathStrings.push(pathStr);
-          for (var i = 0; i < code.children.length; i++)
-            recurse(code.children[i], pathStr);
-        }
-      })(allCode, '');
+      scope.folderPaths.length = 0;
+      scope.folderPaths.push.apply(scope.folderPaths, flowerUtils.getFolderPaths(repo));
+      scope.selectedFolder = scope.folderPaths[0];
 
-      for (var i = 0; i < pathStrings.length; i++) {
-        pathStrings[i] = pathStrings[i].slice(0, -1);
-      }
-
-      return pathStrings;
+      drawFlower(repo);
     }
 
-    // populates the dropdown with options
-    function createDropdown(pathStrings) {
-      var dropdown = document.getElementById('project');
-      for (var i = 0; i < pathStrings.length; i++) {
-        var opt = document.createElement('option');
-        opt.text = pathStrings[i];
-        opt.value = pathStrings[i];
-        dropdown.add(opt);
-      }
-    }
+    //// SCOPE VARIABLES ////
 
-    function redrawFlower(pathString) {
-      var props = pathString.split('/');
-      var code = allCode;
-      for (var i = 1; i < props.length; i++)  {
-        for (var j = 0; j < code.children.length; j++) {
-          if (code.children[j].name === props[i]) {
-            code = code.children[j];
-            break;
-          }
-        }
-      }
-      sendCode(code);
-    }
-
-    function generateFlower(file) {
-      d3.json(file, function(json) {
-        allCode = json; 
-        var pathStrings = parseCode(allCode);  
-        createDropdown(pathStrings);
-        sendCode(allCode);
-      });
-    }
+    scope.giturl = '';
+    scope.folderPaths = [];
+    scope.selectedFolder = null;
 
     //// SCOPE FUNCTIONS ////
 
-    scope.giturl = '';
+    scope.redrawFlower = function(folderPath) {
+      var folder = flowerUtils.getFolder(repo, folderPath);
+      drawFlower(folder);
+    };
 
-    //// EVENT LISTENERS ////
-
-    // respond to dropdown changes
-    document.getElementById('project').addEventListener('change', function() {
-      redrawFlower(this.value);
-    });
-
-    // button clicks
-    document.getElementById('get-more').onclick = function() {
+    scope.cultivateFlower = function() {
       scope.$emit('openTerminal');
       setTimeout(function() {
-        Gardener.harvest(scope.giturl);
+        Gardener.cultivate(scope.giturl);
       }, 500);
     };
 
+    //// EVENT LISTENERS ////
+
     scope.$on('flowerReady', function(e, data) {
-      scope.$emit('closeTerminal');
-      setTimeout(function() {
-        generateFlower(data.file);
-      }, 500);
+      Gardener.harvest(data.file)
+      .then(function(flower) {
+        scope.$emit('closeTerminal');
+        setTimeout(function() {
+          buildUI(flower);
+        }, 500);
+      });
     });
 
     //// COMMANDS ////
 
-    // draw the flower
-    generateFlower('data/insights-frontend-src.json');
+    Gardener.harvest(Gardener.flowers[0]).then(buildUI);
   }
 
 });

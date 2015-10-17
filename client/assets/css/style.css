@@ -9,27 +9,35 @@ body {
   width: 100%;
 }
 
-.git-clone {
+.nav-form {
+  display: inline;
+}
+
+.nav-form .dropdown {
+  margin: 20px;
+  font-size: 12px;
+}
+
+.clone-form {
   display: inline;
   margin: 20px;
 }
 
-.git-clone label {
+.clone-form label {
   font-weight: bold;
   color: #3e3e3e;
 }
 
-.dropdown {
-  margin: 20px;
+.clone-form .url-input {
+  width: 300px;
 }
 
 .btn-primary {
   letter-spacing: 1.0px;
 }
 
-.url-input {
-  width: 300px;
-}
+
+/*///////// VISUALIZATION /////////*/
 
 #visualization > svg > rect {
   stroke: none !important;
@@ -62,6 +70,8 @@ line.link {
   stroke: #9ecae1;
   stroke-width: 1.5px;
 }
+
+/*//////// TERMINAL /////////*/
 
 .flower-terminal {
   position: fixed;

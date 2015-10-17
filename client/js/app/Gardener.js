@@ -9,16 +9,16 @@
 // 'flowerReady' plus the name of the json file.  
 
 angular.module('CodeFlower')
-.factory('Gardener', function($rootScope) {
+.factory('Gardener', function($rootScope, $http) {
 
   var callbacks = [];
 
   var factory = {
 
-    harvest: function(url) {
-      console.log(encodeURIComponent(url));
-      var source = new EventSource('/parse?url=' + encodeURIComponent(url));
+    flowers: ['data/insights-frontend-src.json'],
 
+    cultivate: function(url) {
+      var source = new EventSource('/parse?url=' + encodeURIComponent(url));
       source.onmessage = function(e) {
         if (e.data === 'END') {
           source.close();
@@ -29,10 +29,12 @@ angular.module('CodeFlower')
           });
         }
       };
+    },
 
-      // source.addEventListener('open', function(e) {
-      //   console.log("SSE connection opened");
-      // });
+    harvest: function(flower) {
+      return $http.get(flower).then(function(res) {
+        return res.data;
+      });
     },
 
     subscribe: function(func) {
