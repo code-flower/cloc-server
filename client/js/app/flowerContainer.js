@@ -23,12 +23,40 @@ angular.module('CodeFlower')
       scope.$emit('drawFlower', folderCopy);
     }
 
+    function analyzeFolder(rootFolder) {
+      var languages = {};
+
+      (function recurse(folder) {
+        if (folder.language) {
+          var lang = folder.language;
+
+          if (!languages[lang]) 
+            languages[lang] = {
+              files: 0,
+              lines: 0
+            };
+
+          languages[lang].files++;
+          languages[lang].lines += folder.size;
+        }
+
+        if (folder.children) 
+          folder.children.forEach(function(child) {
+            recurse(child);
+          });
+
+      })(rootFolder);
+
+      return languages;
+    }
+
     function buildUI(json) {
-      repo = json; 
+      repo = json;
 
       scope.folderPaths.length = 0;
       scope.folderPaths.push.apply(scope.folderPaths, flowerUtils.getFolderPaths(repo));
       scope.selectedFolder = scope.folderPaths[0];
+      scope.languages = analyzeFolder(repo);
 
       drawFlower(repo);
     }
@@ -36,9 +64,12 @@ angular.module('CodeFlower')
     //// SCOPE VARIABLES ////
 
     scope.repoNames = [];
-    scope.selectedRepo = null;
     scope.folderPaths = [];
+    
+    scope.selectedRepo = null;
     scope.selectedFolder = null;
+    scope.languages = {};
+
     scope.giturl = '';
 
     //// SCOPE FUNCTIONS ////
@@ -46,6 +77,7 @@ angular.module('CodeFlower')
     scope.redrawFlower = function(folderPath) {
       var folder = flowerUtils.getFolder(repo, folderPath);
       drawFlower(folder);
+      scope.languages = analyzeFolder(folder);
     };
 
     scope.cultivateFlower = function() {

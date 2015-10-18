@@ -2,15 +2,30 @@ body {
   text-align: center;
 }
 
+/*/////// FLOWER DATA /////////*/
+
+.flower-data {
+  position: fixed;
+  top: 10px;
+  left: 20px;
+}
+
+.flower-data table {
+  background-color: rgba(255,255,255,0.7);
+}
+
+/*////// UPPER-RIGHT FORM ///////*/
+
 .repo-form {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 15px;
+  right: 15px;
 }
 
 .repo-form label {
   font-weight: bold;
   color: #3e3e3e;
+  margin: 0;
 }
 
 .repo-form td {
@@ -121,4 +136,9 @@ line.link {
   left: 8px;
   right: 8px;
   overflow-y: scroll;
+  word-break: break-word;
 }
+
+
+
+

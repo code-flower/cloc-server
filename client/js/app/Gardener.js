@@ -42,7 +42,7 @@ angular.module('CodeFlower')
 
     // list the flowers in the garden
     enumerate: function() {
-      return $http.get('/flowers')
+      return $http.get('/repos')
       .then(function(res) {
         return res.data;
       });

@@ -26,6 +26,7 @@ angular.module('CodeFlower')
     },
 
     getFolder: function(repo, folderPath) {
+      console.log("repo = ", repo);
       var folder = repo;
       var props = folderPath.split('/');
       for (var i = 1; i < props.length; i++)  {

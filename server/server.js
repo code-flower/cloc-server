@@ -12,6 +12,7 @@ var convertCloc = require('./scripts/dataConverter.js');
 
 /////////////////////// SSE MODULE //////////////////////
 
+// implements the server side of the EventSource protocol
 var SSE = (function() {
 
   // the sse connection
@@ -49,6 +50,7 @@ var SSE = (function() {
 
 //////////////// RESPONSE TO SSE REQUESTS //////////////////
 
+// runs git clone
 function cloneRepo(giturl, user) {
   var deferred = Q.defer();
 
@@ -72,6 +74,7 @@ function cloneRepo(giturl, user) {
   return deferred.promise;
 }
 
+// runs cloc
 function createClocFile(user, repo) {
   var deferred = Q.defer();
 
@@ -96,6 +99,7 @@ function createClocFile(user, repo) {
   return deferred.promise;
 }
 
+// converts a cloc file to json
 function convertClocFile(user, repo) {
   SSE.write('');
   SSE.write('Converting cloc file to json...');
@@ -120,11 +124,13 @@ function convertClocFile(user, repo) {
           SSE.write('END:' + user + '/' + repo);
           SSE.close();
         }
-      })
+      });
     }
   });
 }
 
+// parses git clone url and converts
+// the repo to flowerable json
 function serveFlower(url, response) {
 
   // open eventsource connection
@@ -157,6 +163,7 @@ function serveFlower(url, response) {
 
 ////////////////////// AJAX REQUESTS /////////////////////////
 
+// serves a list of the repos currently stored in repos/
 function serveRepos(response) {
 
   // get array of files in a directory,
@@ -199,9 +206,6 @@ function serveStaticFile(response, pathname) {
   if (pathname == '/')
     pathname = '/index.html';
 
-  // direct to client folder
-  //pathname = '../client' + pathname;
-
   var filePath = path.join(__dirname, '../client' + pathname);
 
   // return 404 if the file doesn't exist
@@ -230,7 +234,7 @@ http.createServer(function (request, response) {
   var urlInfo = url.parse(request.url, true);
 
   // ajax request
-  if (urlInfo.pathname === '/flowers') {
+  if (urlInfo.pathname === '/repos') {
     serveRepos(response);
 
   // SSE request
