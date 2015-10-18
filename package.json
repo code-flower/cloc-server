@@ -16,7 +16,8 @@
     "url": "https://github.com/jmensch1/CodeFlower/issues"
   },
   "homepage": "https://github.com/jmensch1/CodeFlower#readme",
-  "devDependencies": {
-    "mkpath": "^0.1.0"
+  "dependencies": {
+    "mkpath": "^0.1.0",
+    "q": "^1.4.1"
   }
 }
