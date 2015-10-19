@@ -80,10 +80,17 @@ angular.module('CodeFlower')
       scope.languages = analyzeFolder(folder);
     };
 
-    scope.cultivateFlower = function() {
+    scope.cloneFlower = function() {
       scope.$emit('openTerminal');
       setTimeout(function() {
-        Gardener.cultivate(scope.giturl);
+        Gardener.clone(scope.giturl);
+      }, 500);
+    };
+
+    scope.pullFlower = function() {
+      scope.$emit('openTerminal');
+      setTimeout(function() {
+        Gardener.pull(scope.selectedRepo);
       }, 500);
     };
 
@@ -113,17 +120,14 @@ angular.module('CodeFlower')
     //// COMMANDS ////
 
     Gardener.enumerate()
-    .then(function(repos) {
+    .then(function(repoNames) {
 
-      Gardener.harvest(repos[0])
-      .then(function(repo) {
+      scope.repoNames.length = 0;
+      scope.repoNames.push.apply(scope.repoNames, repoNames);
+      scope.selectedRepo = scope.repoNames[0];
 
-        scope.repoNames.length = 0;
-        scope.repoNames.push.apply(scope.repoNames, repos);
-        scope.selectedRepo = scope.repoNames[0];
-        buildUI(repo);
-        
-      });
+      Gardener.harvest(repoNames[0])
+      .then(buildUI);
     });
     
   }

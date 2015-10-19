@@ -4,31 +4,48 @@
 angular.module('CodeFlower')
 .factory('Gardener', function($rootScope, $http) {
 
+  //// PRIVATE ////
+
+  // an array of callbacks to call when the
+  // eventsource receives a message
   var subscribers = [];
+
+  // gets a flower from the backend,
+  // either though git clone or git pull
+  function getFlower(url) {
+    var source = new EventSource(url);
+
+    source.onmessage = function(event) {
+      if (event.data === 'ERROR') {
+        source.close();
+
+      } else if (event.data.match(/END:/)) {
+        source.close();
+        $rootScope.$broadcast('flowerReady', { 
+          repoName: event.data.replace('END:', '') 
+        });
+
+      } else {
+        // notify subscribers of the flower's growth
+        subscribers.forEach(function(subscriber) {
+          subscriber(event.data);
+        });
+      }
+    };
+  }
+
+  //// THE SERVICE ////
 
   return {
 
     // grow a flower from a git clone url
-    cultivate: function(url) {
-      var source = new EventSource('/cultivate?url=' + encodeURIComponent(url));
+    clone: function(url) {
+      getFlower('/clone?url=' + encodeURIComponent(url));
+    },
 
-      source.onmessage = function(event) {
-        if (event.data === 'ERROR') {
-          source.close();
-
-        } else if (event.data.match(/END:/)) {
-          source.close();
-          $rootScope.$broadcast('flowerReady', { 
-            repoName: event.data.replace('END:', '') 
-          });
-
-        } else {
-          // notify subscribers of the flower's growth
-          subscribers.forEach(function(subscriber) {
-            subscriber(event.data);
-          });
-        }
-      };
+    // update a flower
+    pull: function(repoName) {
+      getFlower('/pull?repo=' + encodeURIComponent(repoName));
     },
 
     // pluck a flower from the garden

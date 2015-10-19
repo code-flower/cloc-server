@@ -48,12 +48,25 @@ var SSE = (function() {
 
 })();
 
-//////////////// RESPONSE TO SSE REQUESTS //////////////////
+////////////////// TURN REPOS INTO JSON /////////////////
+
+// execute a shell command and stream the output over SSE
+// returns promise that resolve when command is done executing
+function execShellCommand(cmd) {
+  var deferred = Q.defer();
+
+  // run the command
+  var process = exec(cmd, function() { deferred.resolve(); }); 
+
+  // listen for command output
+  process.stdout.on('data', function(data) { SSE.write(data); });
+  process.stderr.on('data', function(data) { SSE.write(data); });
+
+  return deferred.promise;
+}
 
 // runs git clone
 function cloneRepo(giturl, user) {
-  var deferred = Q.defer();
-
   mkpath.sync('repos/' + user + '/');
 
   var cd = 'cd repos/' + user + '/; '; 
@@ -61,17 +74,17 @@ function cloneRepo(giturl, user) {
 
   SSE.write('>> ' + clone.replace(' --progress', ''));
 
-  // run the command
-  var process = exec(cd + clone, function() {
-    deferred.resolve();
-  }); 
+  return execShellCommand(cd + clone);
+}
 
-  // listen for command output
-  process.stderr.on('data', function(data) {
-    SSE.write(data);
-  });
+// runs git pull
+function pullRepo(repoName) {
+  var cd = 'cd repos/' + repoName + '/; '; 
+  var pull = 'git pull --progress';
 
-  return deferred.promise;
+  SSE.write('>> git pull');
+
+  return execShellCommand(cd + pull);
 }
 
 // runs cloc
@@ -80,23 +93,15 @@ function createClocFile(user, repo) {
 
   var cd = 'cd repos/' + user + '/; ';
   var cloc = 'cloc ' + repo +
-             ' --csv --by-file --report-file=../../cloc-data/' + 
+             ' --csv --by-file ' + 
+             '--ignored=../../reasons.txt ' +  
+             '--report-file=../../cloc-data/' +
              user + '/' + repo + '.cloc';
 
   SSE.write('');
   SSE.write('>> ' + cloc.replace('cd repos; ', ''));
 
-  // run the command
-  var process = exec(cd + cloc, function() {
-    deferred.resolve();
-  });
-
-  // listen for command output
-  process.stdout.on('data', function(data) {
-    SSE.write(data);
-  });
-
-  return deferred.promise;
+  return execShellCommand(cd + cloc);
 }
 
 // converts a cloc file to json
@@ -119,7 +124,7 @@ function convertClocFile(user, repo) {
         if (err) 
           console.log(err);
         else {
-          SSE.write('File converted.');
+          SSE.write('Wrote ' + outFile);
           SSE.write('');
           SSE.write('END:' + user + '/' + repo);
           SSE.close();
@@ -129,9 +134,11 @@ function convertClocFile(user, repo) {
   });
 }
 
+/////////////////// RESPOND TO SSE REQUESTS //////////////////
+
 // parses git clone url and converts
 // the repo to flowerable json
-function serveFlower(url, response) {
+function cloneFlower(url, response) {
 
   // open eventsource connection
   SSE.open(response);
@@ -161,7 +168,27 @@ function serveFlower(url, response) {
   })
 }
 
-////////////////////// AJAX REQUESTS /////////////////////////
+function pullFlower(repoName, response) {
+
+  // open eventsource connection
+  SSE.open(response);
+
+  // parse the repoName
+  var arr = repoName.split('/');
+  var user = arr[0];
+  var repo = arr[1];
+
+  // pull repo, create and convert cloc file
+  pullRepo(repoName)
+  .then(function() {
+    createClocFile(user, repo)
+    .then(function() {
+      convertClocFile(user, repo);
+    });
+  })
+}
+
+////////////////// RESPOND TO AJAX REQUESTS ////////////////////
 
 // serves a list of the repos currently stored in repos/
 function serveRepos(response) {
@@ -189,7 +216,7 @@ function serveRepos(response) {
   response.end(JSON.stringify(repos));
 }
 
-///////////////////// SERVE STATIC FILES /////////////////////
+/////////////// RESPOND TO STATIC FILE REQUESTS //////////////////
 
 function getContentType(pathname) {
   var extension = pathname.match(/\.[^.]*$/)[0];
@@ -233,13 +260,16 @@ http.createServer(function (request, response) {
 
   var urlInfo = url.parse(request.url, true);
 
-  // ajax request
-  if (urlInfo.pathname === '/repos') {
-    serveRepos(response);
+  // SSE requests
+  if (urlInfo.pathname === '/clone') {
+    cloneFlower(urlInfo.query.url, response);
 
-  // SSE request
-  } else if (urlInfo.pathname === '/cultivate') {
-    serveFlower(urlInfo.query.url, response);
+  } else if (urlInfo.pathname === '/pull') {
+    pullFlower(urlInfo.query.repo, response);
+
+  // ajax request
+  } else if (urlInfo.pathname === '/repos') {
+    serveRepos(response);
 
   // regular http request
   } else

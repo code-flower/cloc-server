@@ -6,11 +6,8 @@
 
 - implement git pull
   - should pull instead of clone if repo is already there
-
-- add section for repo stats in upper-left of UI
-  - repo name
-  - current folder
-  - directory/file count
-  - breakdown of files by type/loc
-
+c
 - add way to track private repos
+
+- need a way to cancel a clone in the UI
+
