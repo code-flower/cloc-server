@@ -1,13 +1,13 @@
 
-- add a popover somewhere with an explanation of what a codeflower is
-
 - figure out why cloc is ignoring certain files
+
 - can probably delete cloc data after analysis (also change path)
 
-- implement git pull
-  - should pull instead of clone if repo is already there
-c
+- should pull instead of clone if repo is already there
+
 - add way to track private repos
 
 - need a way to cancel a clone in the UI
+
+- change 'root' to '/'
 

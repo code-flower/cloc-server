@@ -34,14 +34,23 @@ angular.module('CodeFlower')
         currentCodeFlower.cleanup();
 
       // adapt layout size to the total number of elements
-      var minSize = 500;
-      var total = countElements(json);
-      var w = Math.max(parseInt(Math.sqrt(total) * 30, 10) + 100, minSize);
-      var h = Math.max(parseInt(Math.sqrt(total) * 30, 10) + 100, minSize);
+      // var padding = 200;
+      // var total = countElements(json);
+      // var h = parseInt(Math.sqrt(total) * 30, 10) + padding;
+      // var w = parseInt(Math.sqrt(total) * 30, 10) + padding;
 
+      // set width and height of the flower
+      var padding = 200;
+      var total = countElements(json);
+      var h = Math.max(parseInt(Math.sqrt(total) * 30, 10) + padding, window.innerHeight);
+      var w = h;
+      
       // vertically center the flower
+      var viz = document.getElementById('visualization');
       var topMargin = Math.max(window.innerHeight - h, 0) / 2.0;
-      document.getElementById('visualization').style.marginTop = topMargin + 'px';
+      var leftMargin = Math.max(window.innerWidth - w, 0) / 2.0;
+      viz.style.marginTop = topMargin + 'px';
+      viz.style.marginleft = leftMargin + 'px';
 
       // create the flower
       currentCodeFlower = new CodeFlower('#visualization', w, h).update(json);

@@ -19,6 +19,10 @@ var CodeFlower = function(selector, w, h) {
     .charge(function(d) { return d._children ? -d.size / 100 : -40; })
     .linkDistance(function(d) { return d.target._children ? 80 : 25; })
     .size([h, w]);
+
+  // center the scrollbars
+  document.body.scrollTop = (h - window.innerHeight) / 2.0;
+  document.body.scrollLeft = (w - window.innerWidth) / 2.0;
 };
 
 CodeFlower.prototype.update = function(json) {
