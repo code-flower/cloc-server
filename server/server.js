@@ -50,8 +50,8 @@ var SSE = (function() {
 
 ////////////////// TURN REPOS INTO JSON /////////////////
 
-// execute a shell command and stream the output over SSE
-// returns promise that resolve when command is done executing
+// execute a shell command and stream the output over SSE.
+// returns a promise that resolves when the command is done executing
 function execShellCommand(cmd) {
   var deferred = Q.defer();
 
@@ -89,8 +89,6 @@ function pullRepo(repoName) {
 
 // runs cloc
 function createClocFile(user, repo) {
-  var deferred = Q.defer();
-
   var cd = 'cd repos/' + user + '/; ';
   var cloc = 'cloc ' + repo +
              ' --csv --by-file ' + 
@@ -109,16 +107,20 @@ function convertClocFile(user, repo) {
   SSE.write('');
   SSE.write('Converting cloc file to json...');
 
+  // read the cloc file
   var inFile = 'cloc-data/' + user + '/' + repo + '.cloc';
   fs.readFile(inFile, 'utf8', function(err, data) {
     if (err) 
       console.log(err);
-    else {
+    else {  
+      // convert the cloc file to json
       var json = convertCloc(data);
 
+      // make a new folder for the user
       var outFilePath = '../client/data/' + user + '/';
       mkpath.sync(outFilePath);
 
+      // write out the json
       var outFile =  outFilePath + repo + '.json';
       fs.writeFile(outFile, JSON.stringify(json), 'utf8', function(err) {
         if (err) 
@@ -227,31 +229,31 @@ function getContentType(pathname) {
   }
 }
 
-function serveStaticFile(response, pathname) {
+function serveStaticFile(response, relPath) {
 
   // get the full file path
-  if (pathname == '/')
-    pathname = '/index.html';
+  if (relPath == '/')
+    relPath = '/index.html';
 
-  var filePath = path.join(__dirname, '../client' + pathname);
+  var absPath = path.join(__dirname, '../client' + relPath);
 
   // return 404 if the file doesn't exist
   try {
-    var stat = fs.statSync(filePath);
+    var stat = fs.statSync(absPath);
   } catch(e) {
-    console.log("File not found: " + filePath);
+    console.log("File not found: " + absPath);
     response.writeHead(404, {'Content-Type': 'text/plain'});
     response.end();
     return;
   }
 
   // otherwise serve the file
-  console.log("Serving: " + pathname);
+  console.log("Serving: " + relPath);
   response.writeHead(200, {
-    'Content-Type': getContentType(pathname),
+    'Content-Type': getContentType(relPath),
     'Content-Length': stat.size
   });
-  fs.createReadStream(filePath).pipe(response);
+  fs.createReadStream(absPath).pipe(response);
 }
 
 //////////////////////// START THE SERVER /////////////////////
