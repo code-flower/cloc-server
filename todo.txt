@@ -11,3 +11,6 @@
 
 - change 'root' to '/'
 
+- checkout http://graus.nu/d3/ for zoom function
+
+- added repo doesn't always show up in current repo dropdown
