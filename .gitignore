@@ -4,4 +4,4 @@ server/repos/
 client/data/
 client/bower_components/
 reasons.txt
-
+sftp-config.json
