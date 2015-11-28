@@ -67,9 +67,9 @@ function execShellCommand(cmd) {
 
 // runs git clone
 function cloneRepo(giturl, user) {
-  mkpath.sync('repos/' + user + '/');
+  mkpath.sync(__dirname + '/repos/' + user + '/');
 
-  var cd = 'cd repos/' + user + '/; '; 
+  var cd = 'cd ' + __dirname + '/repos/' + user + '/; '; 
   var clone = 'git clone ' + giturl + ' --progress';
 
   SSE.write('>> ' + clone.replace(' --progress', ''));
@@ -79,7 +79,7 @@ function cloneRepo(giturl, user) {
 
 // runs git pull
 function pullRepo(repoName) {
-  var cd = 'cd repos/' + repoName + '/; '; 
+  var cd = 'cd ' + __dirname + '/repos/' + repoName + '/; '; 
   var pull = 'git pull --progress';
 
   SSE.write('>> git pull');
@@ -89,7 +89,7 @@ function pullRepo(repoName) {
 
 // runs cloc
 function createClocFile(user, repo) {
-  var cd = 'cd repos/' + user + '/; ';
+  var cd = 'cd ' + __dirname + '/repos/' + user + '/; ';
   var cloc = 'cloc ' + repo +
              ' --csv --by-file ' + 
              '--ignored=../../reasons.txt ' +  
@@ -97,7 +97,7 @@ function createClocFile(user, repo) {
              user + '/' + repo + '.cloc';
 
   SSE.write('');
-  SSE.write('>> ' + cloc.replace('cd repos; ', ''));
+  SSE.write('>> ' + cloc);
 
   return execShellCommand(cd + cloc);
 }
@@ -108,7 +108,7 @@ function convertClocFile(user, repo) {
   SSE.write('Converting cloc file to json...');
 
   // read the cloc file
-  var inFile = 'cloc-data/' + user + '/' + repo + '.cloc';
+  var inFile = __dirname + '/cloc-data/' + user + '/' + repo + '.cloc';
   fs.readFile(inFile, 'utf8', function(err, data) {
     if (err) 
       console.log(err);
@@ -117,7 +117,7 @@ function convertClocFile(user, repo) {
       var json = convertCloc(data);
 
       // make a new folder for the user
-      var outFilePath = '../client/data/' + user + '/';
+      var outFilePath = __dirname + '/../client/data/' + user + '/';
       mkpath.sync(outFilePath);
 
       // write out the json
@@ -201,13 +201,13 @@ function serveRepos(response) {
     return fs.readdirSync(path).filter(function(file) {
       return file !== '.DS_Store';
     });
-  }
+  };
 
   // construct array of repos
   var repos = [];
-  var users = readNoDS('repos/');
+  var users = readNoDS(__dirname + '/repos/');
   users.forEach(function(user) {
-    var userRepos = readNoDS('repos/' + user + '/');
+    var userRepos = readNoDS(__dirname + '/repos/' + user + '/');
     userRepos.forEach(function(userRepo) {
       repos.push(user + '/' + userRepo);
     });
@@ -222,7 +222,7 @@ function serveRepos(response) {
 
 function getContentType(pathname) {
   var extension = pathname.match(/\.[^.]*$/)[0];
-  switch (extension) {
+  switch(extension) {
     case '.css': return 'text/css';
     case '.js':  return 'text/javascript';
     default:     return 'text/html';
