@@ -78,10 +78,13 @@ angular.module('CodeFlower')
 
     // list the flowers in the garden
     enumerate: function() {
-      return $http.get('/repos')
-      .then(function(res) {
-        return res.data;
+      return dbAccess.init().then(function() {
+        return dbAccess.getKeys()
       });
+      // return $http.get('/repos')
+      // .then(function(res) {
+      //   return res.data;
+      // });
     },
 
     // add a subscriber
