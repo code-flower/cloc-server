@@ -52,10 +52,7 @@ angular.module('CodeFlower')
     harvest: function(repoName) {
       var deferred = $q.defer();
 
-      dbAccess.init()
-      .then(function() {
-        return dbAccess.get(repoName);
-      })
+      dbAccess.get(repoName)
       .then(function(data) {
         if (data)
           deferred.resolve(data);
@@ -79,21 +76,21 @@ angular.module('CodeFlower')
     // list the flowers in the garden
     enumerate: function() {
       // get list of keys in the database
-      // return dbAccess.init().then(function() {
-      //   return dbAccess.getKeys()
-      // });
+      return dbAccess.getKeys();
 
-     // get list of repos on the server
-      return $http.get('/repos')
-      .then(function(res) {
-        return res.data;
-      });
+      // get list of repos on the server
+      // return $http.get('/repos')
+      // .then(function(res) {
+      //   return res.data;
+      // });
     },
 
     delete: function(repoName) {
-      return dbAccess.init().then(function() {
-        return dbAccess.delete(repoName);
-      });
+      // dbAccess.getKeys().then(function(keys) {
+      //   var nextKey = keys;
+      // });
+
+      return dbAccess.delete(repoName);
     },
 
     // add a subscriber

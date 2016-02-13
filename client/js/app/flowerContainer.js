@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerContainer', function($timeout, BASE_PATH, Gardener, flowerUtils) {
+.directive('flowerContainer', function($timeout, BASE_PATH, Gardener, flowerUtils, dbAccess) {
 
   return {
     restrict: 'E',
@@ -119,7 +119,8 @@ angular.module('CodeFlower')
 
     //// COMMANDS ////
 
-    Gardener.enumerate()
+    dbAccess.init()
+    .then(Gardener.enumerate)
     .then(function(repoNames) {
 
       scope.repoNames.length = 0;
