@@ -86,10 +86,6 @@ angular.module('CodeFlower')
     },
 
     delete: function(repoName) {
-      // dbAccess.getKeys().then(function(keys) {
-      //   var nextKey = keys;
-      // });
-
       return dbAccess.delete(repoName);
     },
 

@@ -5,8 +5,6 @@
 
 - should pull instead of clone if repo is already there
 
-- add way to track private repos
-
 - need a way to cancel a clone in the UI
 
 - change 'root' to '/'
@@ -14,3 +12,13 @@
 - checkout http://graus.nu/d3/ for zoom function
 
 - added repo doesn't always show up in current repo dropdown
+
+- deal with case where all repos are deleted
+
+- use websockets instead of event source
+
+- modularize the server code
+
+- add way to track private repos
+
+- make codeflower colors track the file types

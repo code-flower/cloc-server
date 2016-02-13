@@ -50,14 +50,11 @@ angular.module('CodeFlower')
       return languages;
     }
 
-    function buildUI(json) {
-      repo = json;
-
+    function buildUI(repo) {
       scope.folderPaths.length = 0;
       scope.folderPaths.push.apply(scope.folderPaths, flowerUtils.getFolderPaths(repo));
       scope.selectedFolder = scope.folderPaths[0];
       scope.languages = analyzeFolder(repo);
-
       drawFlower(repo);
     }
 
@@ -94,9 +91,22 @@ angular.module('CodeFlower')
       }, 500);
     };
 
+    scope.deleteFlower = function() {
+      var index = scope.repoNames.indexOf(scope.selectedRepo);
+      scope.repoNames.splice(index, 1);
+
+      Gardener.delete(scope.selectedRepo)
+      .then(function() {
+        if (!scope.repoNames.length)
+          return;
+
+        scope.selectedRepo = scope.repoNames[index] || scope.repoNames[0];
+        scope.switchRepos(scope.selectedRepo);
+      });
+    };
+
     scope.switchRepos = function(repoName) {
-      Gardener.harvest(repoName)
-      .then(buildUI);
+      Gardener.harvest(repoName).then(buildUI);
     };
 
     //// EVENT LISTENERS ////
@@ -127,8 +137,7 @@ angular.module('CodeFlower')
       scope.repoNames.push.apply(scope.repoNames, repoNames);
       scope.selectedRepo = scope.repoNames[0];
 
-      Gardener.harvest(repoNames[0])
-      .then(buildUI);
+      Gardener.harvest(repoNames[0]).then(buildUI);
     });
     
   }

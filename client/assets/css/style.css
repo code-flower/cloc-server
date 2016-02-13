@@ -22,6 +22,19 @@ body {
   right: 15px;
 }
 
+.repo-form .btn-primary {
+  letter-spacing: 1.0px;
+}
+
+.clone-button {
+  width: 145px;
+}
+
+.update-button,
+.delete-button {
+  width: 70px;
+}
+
 .repo-form label {
   font-weight: bold;
   color: #3e3e3e;
@@ -49,13 +62,8 @@ body {
   margin: 0;
 }
 
-.repo-form .btn-primary {
-  width: 100px;
-  letter-spacing: 1.0px;
-}
-
 .repo-form .two-col {
-  width: 332px;
+  width: 375px;
 }
 
 /*///////// VISUALIZATION /////////*/

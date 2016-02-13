@@ -29,7 +29,7 @@
                  placeholder="git clone url"></input>
         </td>
         <td>
-          <button class="btn btn-primary" 
+          <button class="btn btn-primary clone-button" 
                   ng-click="cloneFlower()">
             git clone
           </button>
@@ -47,9 +47,13 @@
           </select>
         </td>
         <td>
-          <button class="btn btn-primary" 
+          <button class="btn btn-primary update-button" 
                   ng-click="pullFlower()">
-            git pull
+            update
+          </button>
+          <button class="btn btn-primary delete-button"
+                  ng-click="deleteFlower()">
+            delete
           </button>
         </td>
       </tr>
