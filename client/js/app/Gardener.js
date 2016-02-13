@@ -4,25 +4,6 @@
 angular.module('CodeFlower')
 .factory('Gardener', function($rootScope, $http, $q, dbAccess) {
 
-  //// FOR TESTING THE dbAccess API ////
-
-  console.log("dbAccess = ", dbAccess);
-
-  var key = 'joe';
-  var value = [1, 2, 3, 4, 5, 6];
-
-  setTimeout(function() {
-    dbAccess.getKeys().then(function(keys) {console.log("keys = ", keys)});
-    //console.log("updating DB");
-    // dbAccess.set('joe', [1, 2, 3, 4])
-    // .then(function(res) {console.log("res = ", res);})
-    // .catch(function(err) {console.log("err = ", err);});
-     // dbAccess.get('jake')
-     // .then(function(data) {
-     //  console.log('data = ', data);
-     // });
-  }, 1000);
-
   //// PRIVATE ////
 
   // an array of callbacks to call when the
@@ -69,10 +50,12 @@ angular.module('CodeFlower')
 
     // pluck a flower from the garden
     harvest: function(repoName) {
-      console.log("repoName = ", repoName);
       var deferred = $q.defer();
 
-      dbAccess.get(repoName)
+      dbAccess.init()
+      .then(function() {
+        return dbAccess.get(repoName);
+      })
       .then(function(data) {
         if (data)
           deferred.resolve(data);
@@ -86,9 +69,8 @@ angular.module('CodeFlower')
         }
       })
       .catch(function(err) {
-        console.log("error accessing key:", repoName);
-        console.log("error = ", error);
-        deferred.reject(error);
+        console.log("db access error = ", err);
+        deferred.reject(err);
       });
 
       return deferred.promise;

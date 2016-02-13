@@ -4,68 +4,81 @@
 angular.module('CodeFlower')
 .factory('dbAccess', function($q) {
 
- // console.log("running dbAccess");
+  //// CONSTANTS ////
+
+  var repoDB = 'repos';
+  var repoTable = 'repoTable';
+
+  //// THE DATABASE OBJECT ////
 
   var DB;
 
-  var DBname = 'jones2';
- 
-  if(!"indexedDB" in window) {
-    console.log("can't used indexedDb");
-    return;
-  } 
-
-  var openRequest = indexedDB.open("test4", 1);
-
-  openRequest.onupgradeneeded = function(e) {
-    console.log("running onupgradeneeded");
-    var thisDB = e.target.result;
-    if (!thisDB.objectStoreNames.contains(DBname))
-      thisDB.createObjectStore(DBname);
-  };
-
-  openRequest.onsuccess = function(e) {
-    console.log("successfully opened db:", e);
-    DB = e.target.result;
-  };
-
+  //// THE SERVICE ////
+  
   return {
-    set: function(key, value) {
-      console.log("setting key =", key);
-      console.log("value = ", value);
+
+    init: function() {
+      if (DB) 
+        return $q.when();
 
       var deferred = $q.defer();
 
-      var transaction = DB.transaction([DBname], "readwrite");
-      var store = transaction.objectStore(DBname);
-      var request = store.add(value, key);
+      if(!"indexedDB" in window) {
+        console.log("can't used indexedDb");
+        return;
+      } 
 
-      request.onsuccess = function(event) {
-        deferred.resolve(event);
+      var openRequest = indexedDB.open(repoDB, 1);
+
+      openRequest.onupgradeneeded = function(e) {
+        var thisDB = e.target.result;
+        if (!thisDB.objectStoreNames.contains(repoTable))
+          thisDB.createObjectStore(repoTable);
       };
 
-      request.onerror = function(event) {
-        deferred.reject(event);
+      openRequest.onsuccess = function(e) {
+        DB = e.target.result;
+        deferred.resolve(e);
+      };
+
+      openRequest.onerror = function(e) {
+        deferred.reject(e);
+      };
+
+      return deferred.promise;
+    },
+
+    set: function(key, value) {
+      var deferred = $q.defer();
+
+      var transaction = DB.transaction([repoTable], "readwrite");
+      var store = transaction.objectStore(repoTable);
+      var request = store.add(value, key);
+
+      request.onsuccess = function(e) {
+        deferred.resolve(e);
+      };
+
+      request.onerror = function(e) {
+        deferred.reject(e);
       };
 
       return deferred.promise;
     },
 
     get: function(key) {
-      console.log("getting key = ", key);
-
       var deferred = $q.defer();
 
-      var transaction = DB.transaction([DBname]);
-      var store = transaction.objectStore(DBname);
+      var transaction = DB.transaction([repoTable]);
+      var store = transaction.objectStore(repoTable);
       var request = store.get(key);
 
-      request.onsuccess = function(event) {
-        deferred.resolve(event.target.result);
+      request.onsuccess = function(e) {
+        deferred.resolve(e.target.result);
       };
 
-      request.onerror = function(event) {
-        deferred.reject(event);
+      request.onerror = function(e) {
+        deferred.reject(e);
       };
 
       return deferred.promise;
@@ -74,13 +87,13 @@ angular.module('CodeFlower')
     getKeys: function() {
       var deferred = $q.defer();
 
-      var transaction = DB.transaction([DBname]);
-      var store = transaction.objectStore(DBname);
+      var transaction = DB.transaction([repoTable]);
+      var store = transaction.objectStore(repoTable);
       var request = store.openCursor();
 
       var keys = [];
-      request.onsuccess = function(event) {
-        var cursor = event.target.result;
+      request.onsuccess = function(e) {
+        var cursor = e.target.result;
         if (cursor) {
           keys.push(cursor.key);
           cursor.continue();
@@ -90,11 +103,24 @@ angular.module('CodeFlower')
         }
       };
 
-      request.onerror = function(event) {
-        deferred.reject(event);
+      request.onerror = function(e) {
+        deferred.reject(e);
       };
 
       return deferred.promise;
+    },
+
+    deleteDB: function(DBname) {
+      var req = indexedDB.deleteDatabase(DBname);
+      req.onsuccess = function () {
+        console.log("Deleted database successfully");
+      };
+      req.onerror = function () {
+        console.log("Couldn't delete database");
+      };
+      req.onblocked = function () {
+        console.log("Couldn't delete database due to the operation being blocked");
+      };
     }
   };
 });
