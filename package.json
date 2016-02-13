@@ -22,5 +22,8 @@
     "gulp-open": "^1.0.0",
     "mkpath": "^0.1.0",
     "q": "^1.4.1"
+  },
+  "devDependencies": {
+    "gulp-livereload": "^3.8.1"
   }
 }

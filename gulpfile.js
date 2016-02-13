@@ -11,6 +11,7 @@ gulp.task('dir', function() {
 });
 
 gulp.task('watch:client', function() {
+  livereload.listen();
   gulp.watch('client/**', ['welcome']);
 });
 
