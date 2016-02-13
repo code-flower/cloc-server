@@ -14,7 +14,7 @@ angular.module('CodeFlower')
   var DB;
 
   //// THE SERVICE ////
-  
+
   return {
 
     init: function() {
@@ -72,6 +72,25 @@ angular.module('CodeFlower')
       var transaction = DB.transaction([repoTable]);
       var store = transaction.objectStore(repoTable);
       var request = store.get(key);
+
+      request.onsuccess = function(e) {
+        deferred.resolve(e.target.result);
+      };
+
+      request.onerror = function(e) {
+        deferred.reject(e);
+      };
+
+      return deferred.promise;
+    },
+
+    delete: function(key) {
+      console.log("deleting:", key);
+      var deferred = $q.defer();
+
+      var transaction = DB.transaction([repoTable], "readwrite");
+      var store = transaction.objectStore(repoTable);
+      var request = store.delete(key);
 
       request.onsuccess = function(e) {
         deferred.resolve(e.target.result);

@@ -78,13 +78,22 @@ angular.module('CodeFlower')
 
     // list the flowers in the garden
     enumerate: function() {
-      return dbAccess.init().then(function() {
-        return dbAccess.getKeys()
-      });
-      // return $http.get('/repos')
-      // .then(function(res) {
-      //   return res.data;
+      // get list of keys in the database
+      // return dbAccess.init().then(function() {
+      //   return dbAccess.getKeys()
       // });
+
+     // get list of repos on the server
+      return $http.get('/repos')
+      .then(function(res) {
+        return res.data;
+      });
+    },
+
+    delete: function(repoName) {
+      return dbAccess.init().then(function() {
+        return dbAccess.delete(repoName);
+      });
     },
 
     // add a subscriber
