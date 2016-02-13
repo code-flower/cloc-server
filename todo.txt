@@ -22,3 +22,6 @@
 - add way to track private repos
 
 - make codeflower colors track the file types
+
+- implement update button
+  - just delete the repo in the DB followed by a new clone

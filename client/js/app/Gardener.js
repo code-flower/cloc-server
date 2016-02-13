@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('Gardener', function($rootScope, $http, $q, dbAccess) {
+.factory('Gardener', function($rootScope, $http, $q, dbAccess, SERVER) {
 
   //// PRIVATE ////
 
@@ -40,7 +40,7 @@ angular.module('CodeFlower')
 
     // grow a flower from a git clone url
     clone: function(url) {
-      getFlower('/clone?url=' + encodeURIComponent(url));
+      getFlower(SERVER + '/clone?url=' + encodeURIComponent(url));
     },
 
     // update a flower
@@ -76,13 +76,14 @@ angular.module('CodeFlower')
     // list the flowers in the garden
     enumerate: function() {
       // get list of keys in the database
-      return dbAccess.getKeys();
+      //return dbAccess.getKeys();
 
+      console.log("getting list of repos");
       // get list of repos on the server
-      // return $http.get('/repos')
-      // .then(function(res) {
-      //   return res.data;
-      // });
+      return $http.get(SERVER + '/repos')
+      .then(function(res) {
+        return res.data;
+      });
     },
 
     delete: function(repoName) {

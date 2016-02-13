@@ -26,7 +26,8 @@ var SSE = (function() {
       conn.writeHead(200, {
         'Content-Type':  'text/event-stream',
         'Cache-Control': 'no-cache',
-        'Connection':    'keep-alive'
+        'Connection':    'keep-alive',
+        'Access-Control-Allow-Origin': '*'
       });
       console.log("SSE CONNECTION OPEN");
     },
@@ -214,7 +215,10 @@ function serveRepos(response) {
   });
 
   // serve up the array
-  response.writeHead(200, {'Content-Type': 'application/json'});
+  response.writeHead(200, {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  });
   response.end(JSON.stringify(repos));
 }
 

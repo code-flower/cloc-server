@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Git-viz",
+  "version": "0.1",
+  "description": "Visualize repos",
+  "icons": { 
+    "48": "assets/images/favicon.ico",
+    "128": "assets/images/favicon.ico" 
+  },
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  },
+  "permissions": ["storage"],
+  "browser_action": {
+    "default_title": "Git Viz",
+    "default_icon": "assets/images/icon48.png"
+  }
+}
