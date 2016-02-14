@@ -59,9 +59,6 @@ function convertClocFile(user, repo, SSE) {
         }
         else {
           SSE.write('Wrote ' + outFile);
-          // SSE.write('');
-          // SSE.write('END:' + user + '/' + repo);
-          // SSE.close();
           deferred.resolve();
         }
       });

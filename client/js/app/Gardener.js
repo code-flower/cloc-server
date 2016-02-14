@@ -43,11 +43,6 @@ angular.module('CodeFlower')
       getFlower(SERVER + '/clone?url=' + encodeURIComponent(url));
     },
 
-    // update a flower
-    pull: function(repoName) {
-      getFlower('/pull?repo=' + encodeURIComponent(repoName));
-    },
-
     // pluck a flower from the garden
     harvest: function(repoName) {
       var deferred = $q.defer();
@@ -75,15 +70,7 @@ angular.module('CodeFlower')
 
     // list the flowers in the garden
     enumerate: function() {
-      // get list of keys in the database
       return dbAccess.getKeys();
-
-      // get list of repos on the server
-      // console.log("getting list of repos");
-      // return $http.get(SERVER + '/repos')
-      // .then(function(res) {
-      //   return res.data;
-      // });
     },
 
     delete: function(repoName) {

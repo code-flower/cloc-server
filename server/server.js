@@ -47,7 +47,7 @@ function cloneFlower(url, response) {
   // clone repo, create and convert cloc file
   git.cloneRepo(url, user, SSE)
   .then(function() {
-    return cloc.createClocFile(user, repo, SSE)
+    return cloc.createClocFile(user, repo, SSE);
   })
   .then(function() {
     return cloc.convertClocFile(user, repo, SSE);
@@ -60,37 +60,6 @@ function cloneFlower(url, response) {
   });
 }
 
-////////////////// RESPOND TO AJAX REQUESTS ////////////////////
-
-// serves a list of the repos currently stored in repos/
-function serveRepos(response) {
-
-  // get array of files in a directory,
-  // not including .DS_Store
-  var readNoDS = function(path) {
-    return fs.readdirSync(path).filter(function(file) {
-      return file !== '.DS_Store';
-    });
-  };
-
-  // construct array of repos
-  var repos = [];
-  var users = readNoDS(__dirname + '/repos/');
-  users.forEach(function(user) {
-    var userRepos = readNoDS(__dirname + '/repos/' + user + '/');
-    userRepos.forEach(function(userRepo) {
-      repos.push(user + '/' + userRepo);
-    });
-  });
-
-  // serve up the array
-  response.writeHead(200, {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
-  });
-  response.end(JSON.stringify(repos));
-}
-
 //////////////////////// START THE SERVER /////////////////////
 
 http.createServer(function (request, response) {
@@ -100,10 +69,6 @@ http.createServer(function (request, response) {
   // SSE requests
   if (urlInfo.pathname === '/clone') {
     cloneFlower(urlInfo.query.url, response);
-
-  // ajax request
-  } else if (urlInfo.pathname === '/repos') {
-    serveRepos(response);
 
   // regular http request
   } else

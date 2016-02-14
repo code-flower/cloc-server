@@ -6,8 +6,6 @@ var Q = require('q');
 module.exports = function execShellCommand(cmd, SSE) {
   var deferred = Q.defer();
 
-  console.log("current dir = ", __dirname);
-  console.log("executing:", cmd);
   // run the command
   var process = exec(cmd, function() { deferred.resolve(); }); 
 
