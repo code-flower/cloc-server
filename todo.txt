@@ -1,5 +1,8 @@
 PRIORITIES
   1. clean up server code
+  2. eliminate server-side storage and delete serveRepos
+  3. delete repos and cloc files after converting to JSON
+  4. delete JSON after serving it
   2. private repo access
   3. convert to websockets
   4. need better build process
@@ -37,6 +40,8 @@ FAUX TERMINAL
 
 GIT FUNCTIONALITY
   - add way to track private repos
+    - see http://stackoverflow.com/questions/22755268/clone-a-private-repo-of-github-with-username-and-password
+      - git clone https://username:passwordgit@github.com/*****/******.git
   - look at visualizing git history
 
 CLOC

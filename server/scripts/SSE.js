@@ -54,7 +54,7 @@ SSE.prototype.write = function(data) {
 SSE.prototype.close = function() {
   this.conn.end();
   this.conn = null;
-  console.log("SSE CONNECTION CLOSED JAKE");
+  console.log("SSE CONNECTION CLOSED");
 };
 
 module.exports = SSE;

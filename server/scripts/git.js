@@ -16,16 +16,6 @@ function cloneRepo(giturl, user, SSE) {
   return execShellCommand(cd + clone, SSE);
 }
 
-// runs git pull
-function pullRepo(repoName, SSE) {
-  var cd = 'cd ' + __dirname + REPO_DIR + repoName + '/; '; 
-  var pull = 'git pull --progress';
-
-  SSE.write('>> git pull');
-
-  return execShellCommand(cd + pull, SSE);
-}
-
 module.exports = {
   cloneRepo: cloneRepo
 };
