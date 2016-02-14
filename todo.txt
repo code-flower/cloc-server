@@ -1,7 +1,13 @@
+PRIORITIES
+  1. clean up server code
+  2. private repo access
+  3. convert to websockets
+  4. need better build process
 
 ENVIRONMENT
   - need browsersync
   - browserify to bundle everything
+  - need sass
   - build process that bundles and minifies everything
     - alternate builds:
       1. regular build
@@ -21,6 +27,7 @@ UI
     - just delete the repo in the DB followed by a new clone
   - need a way to cancel a clone/update in the UI
     - maybe toggle on an 'Abort' button when clone/update is happening
+  - need an about section
   - need a credits section
   - deal with case where all repos are deleted
   - upgrade to Angular2?
@@ -31,6 +38,9 @@ FAUX TERMINAL
 GIT FUNCTIONALITY
   - add way to track private repos
   - look at visualizing git history
+
+CLOC
+  - make reasons.txt available in the client
 
 SERVER
   - modularize the server code

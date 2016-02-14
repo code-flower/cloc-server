@@ -1,3 +1,10 @@
+// instead of this script, it might be better to use just this:
+// chrome.browserAction.onClicked.addListener(function() {
+//   window.open('index.html', '_blank');
+// });
+
+/////// UNIQUE TAB SCRIPT ////////
+
 // if true, browser will prevent multiple instances of the extension
 // from opening in different tabs.  The only time this doesn't work is
 // when the url of a tab containing the extension is changed.  The onUpdated
