@@ -76,14 +76,14 @@ angular.module('CodeFlower')
     // list the flowers in the garden
     enumerate: function() {
       // get list of keys in the database
-      //return dbAccess.getKeys();
+      return dbAccess.getKeys();
 
-      console.log("getting list of repos");
       // get list of repos on the server
-      return $http.get(SERVER + '/repos')
-      .then(function(res) {
-        return res.data;
-      });
+      // console.log("getting list of repos");
+      // return $http.get(SERVER + '/repos')
+      // .then(function(res) {
+      //   return res.data;
+      // });
     },
 
     delete: function(repoName) {
