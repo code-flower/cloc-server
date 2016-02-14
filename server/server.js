@@ -14,23 +14,9 @@ var mkpath = require('mkpath');
 var convertCloc = require('./scripts/dataConverter.js');
 var ServerSentEvents = require('./scripts/SSE.js');
 var serveStaticFile = require('./scripts/staticFileServer.js');
+var execShellCommand = require('./scripts/shell.js');
 
 ////////////////// TURN REPOS INTO JSON /////////////////
-
-// execute a shell command and stream the output over SSE.
-// returns a promise that resolves when the command is done executing
-function execShellCommand(cmd, SSE) {
-  var deferred = Q.defer();
-
-  // run the command
-  var process = exec(cmd, function() { deferred.resolve(); }); 
-
-  // listen for command output
-  process.stdout.on('data', function(data) { SSE.write(data); });
-  process.stderr.on('data', function(data) { SSE.write(data); });
-
-  return deferred.promise;
-}
 
 // runs git clone
 function cloneRepo(giturl, user, SSE) {

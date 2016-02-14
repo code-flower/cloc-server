@@ -22,7 +22,9 @@ gulp.task('dev:server', function() {
     ignore: [
       'gulpfile.js',
       'client/**',
-      'server/repos/**'
+      'server/repos/**',
+      'server/cloc-data/**',
+      'server/reasons.txt'
     ]
   });
 });
