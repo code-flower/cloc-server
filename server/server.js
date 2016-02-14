@@ -15,30 +15,31 @@ var convertCloc = require('./scripts/dataConverter.js');
 var ServerSentEvents = require('./scripts/SSE.js');
 var serveStaticFile = require('./scripts/staticFileServer.js');
 var execShellCommand = require('./scripts/shell.js');
+var git = require('./scripts/git.js');
 
 ////////////////// TURN REPOS INTO JSON /////////////////
 
 // runs git clone
-function cloneRepo(giturl, user, SSE) {
-  mkpath.sync(__dirname + '/repos/' + user + '/');
+// function cloneRepo(giturl, user, SSE) {
+//   mkpath.sync(__dirname + '/repos/' + user + '/');
 
-  var cd = 'cd ' + __dirname + '/repos/' + user + '/; '; 
-  var clone = 'git clone ' + giturl + ' --progress';
+//   var cd = 'cd ' + __dirname + '/repos/' + user + '/; '; 
+//   var clone = 'git clone ' + giturl + ' --progress';
 
-  SSE.write('>> ' + clone.replace(' --progress', ''));
+//   SSE.write('>> ' + clone.replace(' --progress', ''));
 
-  return execShellCommand(cd + clone, SSE);
-}
+//   return execShellCommand(cd + clone, SSE);
+// }
 
-// runs git pull
-function pullRepo(repoName, SSE) {
-  var cd = 'cd ' + __dirname + '/repos/' + repoName + '/; '; 
-  var pull = 'git pull --progress';
+// // runs git pull
+// function pullRepo(repoName, SSE) {
+//   var cd = 'cd ' + __dirname + '/repos/' + repoName + '/; '; 
+//   var pull = 'git pull --progress';
 
-  SSE.write('>> git pull');
+//   SSE.write('>> git pull');
 
-  return execShellCommand(cd + pull, SSE);
-}
+//   return execShellCommand(cd + pull, SSE);
+// }
 
 // runs cloc
 function createClocFile(user, repo, SSE) {
@@ -114,7 +115,7 @@ function cloneFlower(url, response) {
   }
 
   // clone repo, create and convert cloc file
-  cloneRepo(url, user, SSE)
+  git.cloneRepo(url, user, SSE)
   .then(function() {
     createClocFile(user, repo, SSE)
     .then(function() {
@@ -123,25 +124,25 @@ function cloneFlower(url, response) {
   })
 }
 
-function pullFlower(repoName, response) {
+// function pullFlower(repoName, response) {
 
-  // open eventsource connection
-  var SSE = new ServerSentEvents(response);
+//   // open eventsource connection
+//   var SSE = new ServerSentEvents(response);
 
-  // parse the repoName
-  var arr = repoName.split('/');
-  var user = arr[0];
-  var repo = arr[1];
+//   // parse the repoName
+//   var arr = repoName.split('/');
+//   var user = arr[0];
+//   var repo = arr[1];
 
-  // pull repo, create and convert cloc file
-  pullRepo(repoName, SSE)
-  .then(function() {
-    createClocFile(user, repo, SSE)
-    .then(function() {
-      convertClocFile(user, repo, SSE);
-    });
-  })
-}
+//   // pull repo, create and convert cloc file
+//   pullRepo(repoName, SSE)
+//   .then(function() {
+//     createClocFile(user, repo, SSE)
+//     .then(function() {
+//       convertClocFile(user, repo, SSE);
+//     });
+//   })
+// }
 
 ////////////////// RESPOND TO AJAX REQUESTS ////////////////////
 
@@ -184,8 +185,8 @@ http.createServer(function (request, response) {
   if (urlInfo.pathname === '/clone') {
     cloneFlower(urlInfo.query.url, response);
 
-  } else if (urlInfo.pathname === '/pull') {
-    pullFlower(urlInfo.query.repo, response);
+  // } else if (urlInfo.pathname === '/pull') {
+  //   pullFlower(urlInfo.query.repo, response);
 
   // ajax request
   } else if (urlInfo.pathname === '/repos') {
