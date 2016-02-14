@@ -21,7 +21,8 @@
     "gulp-nodemon": "^2.0.4",
     "gulp-open": "^1.0.0",
     "mkpath": "^0.1.0",
-    "q": "^1.4.1"
+    "q": "^1.4.1",
+    "rimraf": "^2.5.2"
   },
   "devDependencies": {
     "gulp-livereload": "^3.8.1"

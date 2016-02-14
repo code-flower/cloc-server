@@ -12,8 +12,15 @@ var ServerSentEvents = require('./scripts/SSE.js');
 var serveStaticFile = require('./scripts/staticFileServer.js');
 var git = require('./scripts/git.js');
 var cloc = require('./scripts/cloc.js');
+var deleteFiles = require('./scripts/delete.js');
 
 /////////////////// RESPOND TO SSE REQUESTS //////////////////
+
+function closeSSE(user, repo, SSE) {
+  SSE.write('');
+  SSE.write('END:' + user + '/' + repo);
+  SSE.close();
+}
 
 // parses git clone url and converts
 // the repo to flowerable json
@@ -40,11 +47,17 @@ function cloneFlower(url, response) {
   // clone repo, create and convert cloc file
   git.cloneRepo(url, user, SSE)
   .then(function() {
-    cloc.createClocFile(user, repo, SSE)
-    .then(function() {
-      cloc.convertClocFile(user, repo, SSE);
-    });
+    return cloc.createClocFile(user, repo, SSE)
   })
+  .then(function() {
+    return cloc.convertClocFile(user, repo, SSE);
+  })
+  .then(function() {
+    return deleteFiles(user, repo, SSE);
+  })
+  .then(function() {
+    closeSSE(user, repo, SSE);
+  });
 }
 
 ////////////////// RESPOND TO AJAX REQUESTS ////////////////////
