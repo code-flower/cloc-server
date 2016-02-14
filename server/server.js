@@ -1,6 +1,7 @@
 
 ///////////////////////// MODULES /////////////////////////
 
+// npm
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
@@ -8,8 +9,11 @@ var path = require('path');
 var exec = require('child_process').exec;
 var Q = require('q');
 var mkpath = require('mkpath');
+
+// app
 var convertCloc = require('./scripts/dataConverter.js');
 var SSE = require('./scripts/SSE.js');
+var serveStaticFile = require('./scripts/staticFileServer.js');
 
 ////////////////// TURN REPOS INTO JSON /////////////////
 
@@ -184,44 +188,6 @@ function serveRepos(response) {
   response.end(JSON.stringify(repos));
 }
 
-/////////////// RESPOND TO STATIC FILE REQUESTS //////////////////
-
-function getContentType(pathname) {
-  var extension = pathname.match(/\.[^.]*$/)[0];
-  switch(extension) {
-    case '.css': return 'text/css';
-    case '.js':  return 'text/javascript';
-    default:     return 'text/html';
-  }
-}
-
-function serveStaticFile(response, relPath) {
-
-  // get the full file path
-  if (relPath == '/')
-    relPath = '/index.html';
-
-  var absPath = path.join(__dirname, '../client' + relPath);
-
-  // return 404 if the file doesn't exist
-  try {
-    var stat = fs.statSync(absPath);
-  } catch(e) {
-    console.log("File not found: " + absPath);
-    response.writeHead(404, {'Content-Type': 'text/plain'});
-    response.end();
-    return;
-  }
-
-  // otherwise serve the file
-  console.log("Serving: " + relPath);
-  response.writeHead(200, {
-    'Content-Type': getContentType(relPath),
-    'Content-Length': stat.size
-  });
-  fs.createReadStream(absPath).pipe(response);
-}
-
 //////////////////////// START THE SERVER /////////////////////
 
 http.createServer(function (request, response) {
@@ -246,5 +212,4 @@ http.createServer(function (request, response) {
 }).listen(8000);
 
 console.log("Server running at http://localhost:8000/");
-
 
