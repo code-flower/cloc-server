@@ -1,8 +1,4 @@
 PRIORITIES
-  1. clean up server code
-  2. eliminate server-side storage and delete serveRepos
-  3. delete repos and cloc files after converting to JSON
-  4. delete JSON after serving it
   2. private repo access
   3. convert to websockets
   4. need better build process

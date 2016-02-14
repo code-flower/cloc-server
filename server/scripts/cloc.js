@@ -9,8 +9,6 @@ var Q = require('q');
 ///////////// CONSTANTS ////////////
 
 var REPO_DIR = '/../repos/';
-var CLOC_DIR = '/../cloc-data/';
-var JSON_DIR = '/../../client/data/';
 
 ///////////// PRIVATE //////////////
 
@@ -19,9 +17,8 @@ function createClocFile(user, repo, SSE) {
   var cd = 'cd ' + __dirname + REPO_DIR + user + '/; ';
   var cloc = 'cloc ' + repo +
              ' --csv --by-file ' + 
-             '--ignored=../../reasons.txt ' +  
-             '--report-file=../../cloc-data/' +
-             user + '/' + repo + '.cloc';
+             '--ignored=reasons.txt ' +  
+             '--report-file=../' + user + '/' + repo + '.cloc';
 
   SSE.write('');
   SSE.write('>> ' + cloc);
@@ -37,7 +34,7 @@ function convertClocFile(user, repo, SSE) {
   SSE.write('Converting cloc file to json...');
 
   // read the cloc file
-  var inFile = __dirname + CLOC_DIR + user + '/' + repo + '.cloc';
+  var inFile = __dirname + REPO_DIR + user + '/' + repo + '.cloc';
   fs.readFile(inFile, 'utf8', function(err, data) {
     if (err) {
       console.log(err);
@@ -47,7 +44,7 @@ function convertClocFile(user, repo, SSE) {
       var json = convertCloc(data);
 
       // make a new folder for the user
-      var outFilePath = __dirname + JSON_DIR + user + '/';
+      var outFilePath = __dirname + REPO_DIR + user + '/';
       mkpath.sync(outFilePath);
 
       // write out the json

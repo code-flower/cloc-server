@@ -24,7 +24,7 @@ function closeSSE(user, repo, SSE) {
 
 // parses git clone url and converts
 // the repo to flowerable json
-function cloneFlower(url, response) {
+function cloneFlower(response, url) {
 
   // open eventsource connection
   var SSE = new ServerSentEvents(response);
@@ -53,10 +53,19 @@ function cloneFlower(url, response) {
     return cloc.convertClocFile(user, repo, SSE);
   })
   .then(function() {
-    return deleteFiles(user, repo, SSE);
-  })
-  .then(function() {
     closeSSE(user, repo, SSE);
+  });
+}
+
+function serveFlower(response, repo) {
+  response.writeHead(200, {'Content-Type': 'application/json'});
+
+  var absPath = __dirname + '/repos/' + repo + '.json';
+  var readStream = fs.createReadStream(absPath);
+  readStream.pipe(response);
+  readStream.on('end', function() {
+    var user = repo.match(/(^.*?)\//)[1];
+    deleteFiles(user);
   });
 }
 
@@ -66,12 +75,13 @@ http.createServer(function (request, response) {
 
   var urlInfo = url.parse(request.url, true);
 
-  // SSE requests
-  if (urlInfo.pathname === '/clone') {
-    cloneFlower(urlInfo.query.url, response);
+  if (urlInfo.pathname === '/clone')
+    cloneFlower(response, urlInfo.query.url);
 
-  // regular http request
-  } else
+  else if (urlInfo.pathname === '/harvest')
+    serveFlower(response, urlInfo.query.repo);
+
+  else
     serveStaticFile(response, urlInfo.pathname);
 
 }).listen(8000);

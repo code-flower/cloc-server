@@ -52,7 +52,7 @@ angular.module('CodeFlower')
         if (data)
           deferred.resolve(data);
         else {
-          var url = 'data/' + repoName + '.json';
+          var url = SERVER + '/harvest?repo=' + encodeURIComponent(repoName);
           $http.get(url)
           .then(function(res) {
             dbAccess.set(repoName, res.data);
