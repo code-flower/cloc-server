@@ -43,8 +43,10 @@ angular.module('CodeFlower')
   return {
 
     // grow a flower from a git clone url
-    clone: function(url) {
-      getFlower(SERVER + '/clone?url=' + encodeURIComponent(url));
+    clone: function(url, isPrivate) {
+      var cloneUrl = SERVER + '/clone?url=' + encodeURIComponent(url) + 
+                     (isPrivate ? '&private=1' : '');
+      getFlower(cloneUrl);
     },
 
     // pluck a flower from the garden

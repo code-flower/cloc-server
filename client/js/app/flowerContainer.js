@@ -128,7 +128,11 @@ angular.module('CodeFlower')
     });
 
     scope.$on('needCredentials', function() {
-      alert("Please enter credentials.")
+      var creds = prompt("Please enter credentials.");
+      if (creds !== null) {
+        var urlWithCreds = scope.giturl.replace('://', '://' + creds + '@');
+        Gardener.clone(urlWithCreds, true);
+      }
     });
 
     //// COMMANDS ////

@@ -14,8 +14,21 @@ var serveStaticFile = require('./scripts/staticFileServer.js');
 
 /////////////////// FUNCTIONS  /////////////////
 
+function analyzeRepo(url, user, repo, SSE) {
+  // clone repo, create and convert cloc file
+  git.cloneRepo(url, user, SSE)
+  .then(function() {
+    return cloc.generateJson(user, repo, SSE);
+  })
+  .then(function() {
+    SSE.write('');
+    SSE.write('END:' + user + '/' + repo);
+    SSE.close();
+  });
+}
+
 // parses git clone url and converts the repo to flowerable json
-function cloneFlower(response, url) {
+function cloneFlower(response, url, isPrivate) {
 
   // open eventsource connection
   var SSE = new ServerSentEvents(response);
@@ -35,33 +48,26 @@ function cloneFlower(response, url) {
     return;
   }
 
-  git.checkPrivateRepo(user, repo, SSE)
-  .then(function(isPrivate) {
-
-    if (isPrivate) {
-      SSE.write('CREDENTIALS');
-      SSE.close();
-    } else {
-
-      // clone repo, create and convert cloc file
-      git.cloneRepo(url, user, SSE)
-      .then(function() {
-        return cloc.generateJson(user, repo, SSE);
-      })
-      .then(function() {
-        SSE.write('');
-        SSE.write('END:' + user + '/' + repo);
+  if (isPrivate) 
+    analyzeRepo(url, user, repo, SSE);
+  else 
+    git.checkPrivateRepo(user, repo, SSE)
+    .then(function(isPrivate) {
+      if (isPrivate) {
+        SSE.write('CREDENTIALS');
         SSE.close();
-      });
-
-    }
-
-  });
+      } else {
+        analyzeRepo(url, user, repo, SSE);
+      }
+    });
 }
 
 // serves up the json for a given repo
 function serveFlower(response, repo) {
-  response.writeHead(200, {'Content-Type': 'application/json'});
+  response.writeHead(200, {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  });
 
   var absPath = __dirname + '/repos/' + repo + '.json';
   var readStream = fs.createReadStream(absPath);
@@ -80,7 +86,8 @@ http.createServer(function (request, response) {
 
   switch(urlInfo.pathname) {
     case '/clone': 
-      cloneFlower(response, urlInfo.query.url);
+      console.log("clone query params:", urlInfo.query);
+      cloneFlower(response, urlInfo.query.url, !!urlInfo.query.private);
       break;
     case '/harvest':
       serveFlower(response, urlInfo.query.repo);

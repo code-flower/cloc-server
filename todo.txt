@@ -30,6 +30,8 @@ UI
   - need a credits section
   - deal with case where all repos are deleted
   - upgrade to Angular2?
+  - handle case where user tried to clone a repo that's already in the DB
+    - probably just treat it as an update, i.e., delete the entry in the DB and clone anew
 
 FAUX TERMINAL
   - use websockets instead of event source 
