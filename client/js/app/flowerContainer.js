@@ -126,7 +126,8 @@ angular.module('CodeFlower')
       scope.repoNames.push.apply(scope.repoNames, repoNames);
       scope.selectedRepo = scope.repoNames[0];
 
-      Gardener.harvest(repoNames[0]).then(buildUI);
+      if (scope.selectedRepo)
+        scope.switchRepos(scope.selectedRepo);
     });
     
   }
