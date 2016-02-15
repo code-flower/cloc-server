@@ -26,7 +26,6 @@ angular.module('CodeFlower')
     },
 
     getFolder: function(repo, folderPath) {
-      console.log("repo = ", repo);
       var folder = repo;
       var props = folderPath.split('/');
       for (var i = 1; i < props.length; i++)  {
@@ -38,6 +37,33 @@ angular.module('CodeFlower')
         }
       }
       return folder;
+    },
+
+    analyzeFolder: function(rootFolder) {
+      var languages = {};
+
+      (function recurse(folder) {
+        if (folder.language) {
+          var lang = folder.language;
+
+          if (!languages[lang]) 
+            languages[lang] = {
+              files: 0,
+              lines: 0
+            };
+
+          languages[lang].files++;
+          languages[lang].lines += folder.size;
+        }
+
+        if (folder.children) 
+          folder.children.forEach(function(child) {
+            recurse(child);
+          });
+
+      })(rootFolder);
+
+      return languages;
     }
 
   };
