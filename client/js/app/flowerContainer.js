@@ -50,7 +50,9 @@ angular.module('CodeFlower')
       return languages;
     }
 
-    function buildUI(repo) {
+    function buildUI(json) {
+      repo = json;
+
       scope.folderPaths.length = 0;
       scope.folderPaths.push.apply(scope.folderPaths, flowerUtils.getFolderPaths(repo));
       scope.selectedFolder = scope.folderPaths[0];
@@ -72,6 +74,7 @@ angular.module('CodeFlower')
     //// SCOPE FUNCTIONS ////
 
     scope.redrawFlower = function(folderPath) {
+      console.log("redrawing flower");
       var folder = flowerUtils.getFolder(repo, folderPath);
       drawFlower(folder);
       scope.languages = analyzeFolder(folder);
