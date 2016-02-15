@@ -127,6 +127,10 @@ angular.module('CodeFlower')
       });
     });
 
+    scope.$on('needCredentials', function() {
+      alert("Please enter credentials.")
+    });
+
     //// COMMANDS ////
 
     dbAccess.init()

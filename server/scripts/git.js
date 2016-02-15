@@ -12,14 +12,15 @@ var REPO_DIR = '/../repos/';
 //////// PRIVATE /////
 
 // returns a promise with data === true if repo is private, otherwise false
-function privateRepo(user, repo) {
-  console.log("checking privacy: ", user, repo);
-
+function checkPrivateRepo(user, repo, SSE) {
   var deferred = Q.defer();
 
   var curl = 'curl https://api.github.com/repos/' + user + '/' + repo;
+  SSE.write('>> ' + curl);
+
   exec(curl, function(error, stdout, stdin) {
-    deferred.resolve(!!JSON.parse(stdout).message);
+    var isPrivate = !!JSON.parse(stdout).message;
+    deferred.resolve(isPrivate);
   });
 
   return deferred.promise;
@@ -32,6 +33,7 @@ function cloneRepo(giturl, user, SSE) {
   var cd = 'cd ' + __dirname + REPO_DIR + user + '/; '; 
   var clone = 'git clone ' + giturl + ' --progress';
 
+  SSE.write('');
   SSE.write('>> ' + clone.replace(' --progress', ''));
 
   return execShellCommand(cd + clone, SSE);
@@ -40,6 +42,6 @@ function cloneRepo(giturl, user, SSE) {
 /////// PUBLIC ///////
 
 module.exports = {
-  privateRepo: privateRepo,
+  checkPrivateRepo: checkPrivateRepo,
   cloneRepo: cloneRepo
 };

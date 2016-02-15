@@ -28,25 +28,17 @@ function cloneFlower(response, url) {
     var user = matchParts[0];
     var repo = matchParts[1];
   } else {
-    SSE.write('Not a valid repository.');
+    SSE.write('Not a valid git clone url.');
     SSE.write('');
     SSE.write('ERROR');
     SSE.close();
     return;
   }
 
-  // var privateUser = 'jmensch1';
-  // var privateRep = 'test';
-
-  // var publicUser = 'ruyadorno';
-  // var publicRep = 'ntl';
-
-  git.privateRepo(user, repo)
+  git.checkPrivateRepo(user, repo, SSE)
   .then(function(isPrivate) {
-    console.log("repo is private:", isPrivate);
 
     if (isPrivate) {
-      SSE.write('');
       SSE.write('CREDENTIALS');
       SSE.close();
     } else {
