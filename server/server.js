@@ -24,6 +24,12 @@ function analyzeRepo(url, user, repo, SSE) {
     SSE.write('');
     SSE.write('END:' + user + '/' + repo);
     SSE.close();
+  })
+  .catch(function(error) {
+    if (error = 'unauthorized') {
+      SSE.write('UNAUTHORIZED');
+      SSE.close();
+    }
   });
 }
 
@@ -86,7 +92,6 @@ http.createServer(function (request, response) {
 
   switch(urlInfo.pathname) {
     case '/clone': 
-      console.log("clone query params:", urlInfo.query);
       cloneFlower(response, urlInfo.query.url, !!urlInfo.query.private);
       break;
     case '/harvest':

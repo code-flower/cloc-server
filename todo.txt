@@ -1,7 +1,11 @@
 PRIORITIES
-  2. private repo access
-  3. convert to websockets
-  4. need better build process
+  1. private repo access
+    - need to turn credentials prompt into a modal
+    - need to return an error message in the same modal if credentials prove invalid
+      - this will also require a catch block in analyzeRepo so that SSE can emit: 'UNAUTHORIZED' in
+      the event that credentials are submitted but don't work
+  2. convert stream to websockets
+  3. need better build process
 
 ENVIRONMENT
   - need browsersync
@@ -37,18 +41,14 @@ FAUX TERMINAL
   - use websockets instead of event source 
 
 GIT FUNCTIONALITY
-  - add way to track private repos
-    - see http://stackoverflow.com/questions/22755268/clone-a-private-repo-of-github-with-username-and-password
-      - git clone https://username:passwordgit@github.com/*****/******.git
   - look at visualizing git history
 
 CLOC
   - make reasons.txt available in the client
 
 SERVER
-  - modularize the server code
   - figure out why cloc is ignoring certain files
-  - can probably delete repos and cloc data after analysis (also change path)
+
 
 
 

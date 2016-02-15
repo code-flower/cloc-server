@@ -28,6 +28,10 @@ function checkPrivateRepo(user, repo, SSE) {
 
 // runs git clone and returns a promise
 function cloneRepo(giturl, user, SSE) {
+  console.log("CLONING REPO");
+
+  var deferred = Q.defer();
+
   mkpath.sync(__dirname + REPO_DIR + user + '/');
 
   var cd = 'cd ' + __dirname + REPO_DIR + user + '/; '; 
@@ -36,7 +40,18 @@ function cloneRepo(giturl, user, SSE) {
   SSE.write('');
   SSE.write('>> ' + clone.replace(' --progress', ''));
 
-  return execShellCommand(cd + clone, SSE);
+  var process = exec(cd + clone, function() { deferred.resolve(); });
+
+  // listen for command output
+  process.stdout.on('data', function(data) { SSE.write(data); });
+
+  process.stderr.on('data', function(data) { 
+    SSE.write(data); 
+    if (data.match(/Invalid username or password/)) 
+      deferred.reject('unauthorized');
+  });
+
+  return deferred.promise;
 }
 
 /////// PUBLIC ///////

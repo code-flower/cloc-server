@@ -23,6 +23,12 @@ angular.module('CodeFlower')
         source.close();
         $rootScope.$broadcast('needCredentials');
 
+      } else if (event.data === 'UNAUTHORIZED') {
+        source.close();
+        $rootScope.$broadcast('needCredentials', { 
+          invalid: true 
+        });
+
       } else if (event.data.match(/END:/)) {
         source.close();
         $rootScope.$broadcast('flowerReady', { 

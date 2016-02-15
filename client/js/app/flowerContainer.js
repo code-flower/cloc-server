@@ -127,8 +127,14 @@ angular.module('CodeFlower')
       });
     });
 
-    scope.$on('needCredentials', function() {
-      var creds = prompt("Please enter credentials.");
+    scope.$on('needCredentials', function(e, data) {
+      // need to turn this into a modal rather than a prompt
+      // if (data && data.invalid) is true then the modal should
+      // state that the previously entered credentials are invalid
+      // otherwise simply ask for credentials
+      
+      var message = "Please enter credentials." + (data && data.invalid ? ' MORON' : '');
+      var creds = prompt(message);
       if (creds !== null) {
         var urlWithCreds = scope.giturl.replace('://', '://' + creds + '@');
         Gardener.clone(urlWithCreds, true);
