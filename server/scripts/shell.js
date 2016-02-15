@@ -1,5 +1,9 @@
+//////// IMPORTS ////////
+
 var exec = require('child_process').exec;
 var Q = require('q');
+
+///////// PUBLIC ///////
 
 // execute a shell command and stream the output over SSE.
 // returns a promise that resolves when the command is done executing
@@ -14,4 +18,4 @@ module.exports = function execShellCommand(cmd, SSE) {
   process.stderr.on('data', function(data) { SSE.write(data); });
 
   return deferred.promise;
-}
+};

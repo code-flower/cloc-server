@@ -1,8 +1,13 @@
+/////// IMPORTS ///////
 
 var mkpath = require('mkpath');
 var execShellCommand = require('./shell.js');
 
+/////// CONSTANTS /////
+
 var REPO_DIR = '/../repos/';
+
+//////// PRIVATE /////
 
 // runs git clone
 function cloneRepo(giturl, user, SSE) {
@@ -15,6 +20,8 @@ function cloneRepo(giturl, user, SSE) {
 
   return execShellCommand(cd + clone, SSE);
 }
+
+/////// PUBLIC ///////
 
 module.exports = {
   cloneRepo: cloneRepo

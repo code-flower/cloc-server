@@ -3,10 +3,12 @@
 var fs = require('fs');
 var path = require('path');
 
-/////////////// PRIVATE //////////////////
+/////////////// CONSTANTS /////////////////
 
 // the location of the static files relative to this file
 var DOCUMENT_ROOT = '../../client';
+
+/////////////// PRIVATE //////////////////
 
 function getContentType(pathname) {
   var extension = pathname.match(/\.[^.]*$/)[0];
@@ -44,5 +46,5 @@ module.exports = function serveStaticFile(response, relPath) {
     'Content-Length': stat.size
   });
   fs.createReadStream(absPath).pipe(response);
-}
+};
 

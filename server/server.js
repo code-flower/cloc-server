@@ -1,29 +1,20 @@
-
-///////////////////////// MODULES /////////////////////////
+/////////////////// IMPORTS ////////////////////
 
 // npm
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
-var path = require('path');
 
 // app
 var ServerSentEvents = require('./scripts/SSE.js');
-var serveStaticFile = require('./scripts/staticFileServer.js');
 var git = require('./scripts/git.js');
 var cloc = require('./scripts/cloc.js');
 var deleteFiles = require('./scripts/delete.js');
+var serveStaticFile = require('./scripts/staticFileServer.js');
 
-/////////////////// RESPOND TO SSE REQUESTS //////////////////
+/////////////////// FUNCTIONS  /////////////////
 
-function closeSSE(user, repo, SSE) {
-  SSE.write('');
-  SSE.write('END:' + user + '/' + repo);
-  SSE.close();
-}
-
-// parses git clone url and converts
-// the repo to flowerable json
+// parses git clone url and converts the repo to flowerable json
 function cloneFlower(response, url) {
 
   // open eventsource connection
@@ -47,16 +38,16 @@ function cloneFlower(response, url) {
   // clone repo, create and convert cloc file
   git.cloneRepo(url, user, SSE)
   .then(function() {
-    return cloc.createClocFile(user, repo, SSE);
+    return cloc.generateJson(user, repo, SSE);
   })
   .then(function() {
-    return cloc.convertClocFile(user, repo, SSE);
-  })
-  .then(function() {
-    closeSSE(user, repo, SSE);
+    SSE.write('');
+    SSE.write('END:' + user + '/' + repo);
+    SSE.close();
   });
 }
 
+// serves up the json for a given repo
 function serveFlower(response, repo) {
   response.writeHead(200, {'Content-Type': 'application/json'});
 
@@ -69,20 +60,23 @@ function serveFlower(response, repo) {
   });
 }
 
-//////////////////////// START THE SERVER /////////////////////
+//////////////// START THE SERVER /////////////////
 
 http.createServer(function (request, response) {
 
   var urlInfo = url.parse(request.url, true);
 
-  if (urlInfo.pathname === '/clone')
-    cloneFlower(response, urlInfo.query.url);
-
-  else if (urlInfo.pathname === '/harvest')
-    serveFlower(response, urlInfo.query.repo);
-
-  else
-    serveStaticFile(response, urlInfo.pathname);
+  switch(urlInfo.pathname) {
+    case '/clone': 
+      cloneFlower(response, urlInfo.query.url);
+      break;
+    case '/harvest':
+      serveFlower(response, urlInfo.query.repo);
+      break;
+    default:
+      serveStaticFile(response, urlInfo.pathname);
+      break;
+  }   
 
 }).listen(8000);
 
