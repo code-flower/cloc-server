@@ -19,6 +19,10 @@ angular.module('CodeFlower')
       if (event.data === 'ERROR') {
         source.close();
 
+      } else if (event.data === 'CREDENTIALS') {
+        source.close();
+        console.log("credentials needed");
+
       } else if (event.data.match(/END:/)) {
         source.close();
         $rootScope.$broadcast('flowerReady', { 

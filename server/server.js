@@ -35,15 +35,35 @@ function cloneFlower(response, url) {
     return;
   }
 
-  // clone repo, create and convert cloc file
-  git.cloneRepo(url, user, SSE)
-  .then(function() {
-    return cloc.generateJson(user, repo, SSE);
-  })
-  .then(function() {
-    SSE.write('');
-    SSE.write('END:' + user + '/' + repo);
-    SSE.close();
+  // var privateUser = 'jmensch1';
+  // var privateRep = 'test';
+
+  // var publicUser = 'ruyadorno';
+  // var publicRep = 'ntl';
+
+  git.privateRepo(user, repo)
+  .then(function(isPrivate) {
+    console.log("repo is private:", isPrivate);
+
+    if (isPrivate) {
+      SSE.write('');
+      SSE.write('CREDENTIALS');
+      SSE.close();
+    } else {
+
+      // clone repo, create and convert cloc file
+      git.cloneRepo(url, user, SSE)
+      .then(function() {
+        return cloc.generateJson(user, repo, SSE);
+      })
+      .then(function() {
+        SSE.write('');
+        SSE.write('END:' + user + '/' + repo);
+        SSE.close();
+      });
+
+    }
+
   });
 }
 
