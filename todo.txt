@@ -6,6 +6,7 @@ PRIORITIES
       the event that credentials are submitted but don't work
   2. convert stream to websockets
   3. need better build process
+  4. need to populate some dumy repos when DB is installed the first time
 
 ENVIRONMENT
   - need browsersync

@@ -24,7 +24,7 @@ angular.module('CodeFlower')
       var deferred = $q.defer();
 
       if(!"indexedDB" in window) {
-        console.log("can't used indexedDb");
+        console.log("Can't used indexedDb");
         return;
       } 
 
@@ -85,7 +85,6 @@ angular.module('CodeFlower')
     },
 
     delete: function(key) {
-      console.log("deleting:", key);
       var deferred = $q.defer();
 
       var transaction = DB.transaction([repoTable], "readwrite");

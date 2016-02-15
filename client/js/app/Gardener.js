@@ -55,6 +55,10 @@ angular.module('CodeFlower')
       getFlower(cloneUrl);
     },
 
+    update: function(repoName) {
+      console.log("updating repo:", repoName);
+    },
+
     // pluck a flower from the garden
     harvest: function(repoName) {
       var deferred = $q.defer();

@@ -59,10 +59,10 @@ angular.module('CodeFlower')
       }, 500);
     };
 
-    scope.pullFlower = function() {
+    scope.updateFlower = function() {
       scope.$emit('openTerminal');
       setTimeout(function() {
-        Gardener.pull(scope.selectedRepo);
+        Gardener.update(scope.selectedRepo);
       }, 500);
     };
 
