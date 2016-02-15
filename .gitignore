@@ -1,7 +1,5 @@
 node_modules/
-server/cloc-data/
-server/repos/
-client/data/
 client/bower_components/
-reasons.txt
+server/repos/
 sftp-config.json
+notes/
