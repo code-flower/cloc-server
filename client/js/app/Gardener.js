@@ -12,7 +12,12 @@ angular.module('CodeFlower')
 
   // gets a flower from the backend
   function getFlower(data) {
-    var source = new WebSocket("ws://"+window.location.hostname+":8001");
+    var source = new WebSocket('ws://' + window.location.hostname + ':8001');
+
+    source.onopen = function(event) {
+      console.log("Websocket connection opening:", event);
+      source.send(JSON.stringify(data));  
+    };
 
     source.onmessage = function(event) {
       if (event.data === 'ERROR') {
@@ -42,16 +47,12 @@ angular.module('CodeFlower')
       }
     };
 
-    source.onopen = function () {
-      source.send(JSON.stringify(data));  
+    source.onclose = function() {
+      console.log("Websocket connection closed")
     };
 
-    source.onclose = function () {
-      console.log("Connection closed")
-    };
-
-    source.onerror = function () {
-      console.error("Connection error")
+    source.onerror = function() {
+      console.error("Websocket connection error")
     };
   }
 

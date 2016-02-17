@@ -86,40 +86,39 @@ function serveFlower(response, repo) {
 }
 
 ////////////// START THE HTTP SERVER /////////////
+// this server handles static file requests and
+// harvesting the json after repos are cloned
 
 http.createServer(function (request, response) {
 
   var urlInfo = url.parse(request.url, true);
 
-  switch(urlInfo.pathname) {
-    case '/clone': 
-      cloneFlower(response, urlInfo.query.url, !!urlInfo.query.private);
-      break;
-    case '/harvest':
-      serveFlower(response, urlInfo.query.repo);
-      break;
-    default:
-      serveStaticFile(response, urlInfo.pathname);
-      break;
-  }   
+  if (urlInfo.pathname === '/harvest') 
+    serveFlower(response, urlInfo.query.repo);
+  else
+    serveStaticFile(response, urlInfo.pathname);
 
 }).listen(8000);
 
 console.log("HTTP server running at http://localhost:8000/");
 
 /////////// START THE WEBSOCKETS SERVER ///////////
+// this server handles clone requests and broadcasts
+// the server events to the client
 
 ws.createServer(function(conn) {
-  console.log("New websockets connection");
 
   conn.on('text', function (data) {
+    console.log("New websockets connection");
     data = JSON.parse(data);
     cloneFlower(conn, data.url, data.isPrivate);
-  })
+  });
+
   conn.on('close', function (code, reason) {
     console.log("Connection closed");
   });
+
 }).listen(8001);
 
-console.log("Websockets server running at ws://localhost:8001");
+console.log("Websockets server running at ws://localhost:8001/");
 
