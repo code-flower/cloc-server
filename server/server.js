@@ -4,6 +4,7 @@
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
+var ws = require('nodejs-websocket');
 
 // app
 var ServerSentEvents = require('./scripts/SSE.js');
@@ -106,3 +107,18 @@ http.createServer(function (request, response) {
 
 console.log("Server running at http://localhost:8000/");
 
+/////////// START THE WEBSOCKETS SERVER ///////////
+
+ws.createServer(function(conn) {
+  console.log("New connection");
+
+  conn.on("text", function (url) {
+    console.log("Received: " + url);
+    cloneFlower(conn, url, false);
+  })
+  conn.on("close", function (code, reason) {
+    console.log("Connection closed");
+  });
+}).listen(8001);
+
+console.log("websockets server running at localhost:8001");

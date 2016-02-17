@@ -3,23 +3,21 @@
 
 //////////////////// WEBSOCKETS IMPLEMENTATION ////////////////////
 
-var ws = require('nodejs-websocket');
+function SSE(wsConn) {
+  console.log("SSE constructor called");
+  this.conn = wsConn;
+}
 
-var server = ws.createServer(function(conn) {
-  console.log("New connection")
-  conn.on("text", function (str) {
-    console.log("Received "+str)
-    conn.sendText(str.toUpperCase()+"!!!")
-  })
-  conn.on("close", function (code, reason) {
-    console.log("Connection closed")
-  })
-}).listen(8001);
+SSE.prototype.write = function(data) {
+  console.log(data);
+  this.conn.send(data);
+};
 
+SSE.prototype.close = function() {
+  this.conn.close();
+};
 
-
-
-
+module.exports = SSE;
 
 
 
