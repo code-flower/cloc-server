@@ -1,40 +1,38 @@
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
-var open = require('gulp-open');
+var browserSync = require('browser-sync').create();
 
-gulp.task('welcome', function() {
-  console.log("welcome");
-});
-
-gulp.task('dir', function() {
-  console.log(__dirname);
-});
-
-gulp.task('watch:client', function() {
-  livereload.listen();
-  gulp.watch('client/**', ['welcome']);
-});
-
-gulp.task('dev:server', function() {
+gulp.task('watch:server', function() {
   nodemon({
     script: 'server/server.js',
     ext: 'js',
     ignore: [
-      'gulpfile.js',
       'client/**',
       'server/repos/**',
-      'server/cloc-data/**',
-      'server/reasons.txt'
+      'gulpfile.js'
     ]
+  }).on('restart', function() {
+    browserSync.reload();
   });
 });
 
-gulp.task('dev:open', function() {
-  gulp.src('')
-    .pipe(open({
-      app: 'google chrome', 
-      uri: 'http://localhost:8000'
-    }));
+gulp.task('watch:client', function() {
+  gulp.watch(['./client/**'])
+    .on('change', function() {
+      browserSync.reload();
+    });
 });
 
-gulp.task('dev', ['dev:server', 'dev:open']);
+gulp.task('browser-sync', function() {
+  browserSync.init({
+    server: {
+      baseDir: './client',
+    },
+    ui: {
+      port: 8090
+    }
+  });
+});
+
+gulp.task('default', ['watch:server', 'watch:client', 'browser-sync']);
+
