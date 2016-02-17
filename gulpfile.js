@@ -28,8 +28,8 @@ gulp.task('watch:client', function() {
 
 gulp.task('browser-sync', function() {
   browserSync.init({
-    // not using browserSync as a server
-    // since the node server serves the static files
+    // Not using browserSync as a server since the node server serves the static files.
+    // Unfortunately this requires a script to be added to index.html.
     // server: {
     //   baseDir: './client',
     // },
