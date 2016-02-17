@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
 var browserSync = require('browser-sync').create();
+var open = require('gulp-open');
 
 gulp.task('watch:server', function() {
   nodemon({
@@ -12,7 +13,9 @@ gulp.task('watch:server', function() {
       'gulpfile.js'
     ]
   }).on('restart', function() {
-    browserSync.reload();
+    setTimeout(function() {
+      browserSync.reload();
+    }, 1000);
   });
 });
 
@@ -25,14 +28,24 @@ gulp.task('watch:client', function() {
 
 gulp.task('browser-sync', function() {
   browserSync.init({
-    server: {
-      baseDir: './client',
-    },
+    // not using browserSync as a server
+    // since the node server serves the static files
+    // server: {
+    //   baseDir: './client',
+    // },
     ui: {
       port: 8090
     }
   });
 });
 
-gulp.task('default', ['watch:server', 'watch:client', 'browser-sync']);
+gulp.task('open-chrome', function() {
+  gulp.src('')
+    .pipe(open({
+      app: 'google chrome', 
+      uri: 'http://localhost:8000'
+    }));
+});
+
+gulp.task('default', ['watch:server', 'watch:client', 'browser-sync', 'open-chrome']);
 
