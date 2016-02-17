@@ -85,7 +85,7 @@ function serveFlower(response, repo) {
   });
 }
 
-//////////////// START THE SERVER /////////////////
+////////////// START THE HTTP SERVER /////////////
 
 http.createServer(function (request, response) {
 
@@ -105,20 +105,21 @@ http.createServer(function (request, response) {
 
 }).listen(8000);
 
-console.log("Server running at http://localhost:8000/");
+console.log("HTTP server running at http://localhost:8000/");
 
 /////////// START THE WEBSOCKETS SERVER ///////////
 
 ws.createServer(function(conn) {
-  console.log("New connection");
+  console.log("New websockets connection");
 
-  conn.on("text", function (url) {
-    console.log("Received: " + url);
-    cloneFlower(conn, url, false);
+  conn.on('text', function (data) {
+    data = JSON.parse(data);
+    cloneFlower(conn, data.url, data.isPrivate);
   })
-  conn.on("close", function (code, reason) {
+  conn.on('close', function (code, reason) {
     console.log("Connection closed");
   });
 }).listen(8001);
 
-console.log("websockets server running at localhost:8001");
+console.log("Websockets server running at ws://localhost:8001");
+

@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('Gardener', function($rootScope, $http, $q, dbAccess, SERVER) {
+.factory('Gardener', function($rootScope, $http, $q, dbAccess) {
 
   //// PRIVATE ////
 
@@ -10,43 +10,8 @@ angular.module('CodeFlower')
   // eventsource receives a message
   var subscribers = [];
 
-  ////// EVENT SOURCE IMPLEMENTATION //////
-  // gets a flower from the backend,
-  // either though git clone or git pull
-  // function getFlower(url) {
-  //   var source = new EventSource(url);
-
-  //   source.onmessage = function(event) {
-  //     if (event.data === 'ERROR') {
-  //       source.close();
-
-  //     } else if (event.data === 'CREDENTIALS') {
-  //       source.close();
-  //       $rootScope.$broadcast('needCredentials');
-
-  //     } else if (event.data === 'UNAUTHORIZED') {
-  //       source.close();
-  //       $rootScope.$broadcast('needCredentials', { 
-  //         invalid: true 
-  //       });
-
-  //     } else if (event.data.match(/END:/)) {
-  //       source.close();
-  //       $rootScope.$broadcast('flowerReady', { 
-  //         repoName: event.data.replace('END:', '') 
-  //       });
-
-  //     } else {
-  //       // notify subscribers of the flower's growth
-  //       subscribers.forEach(function(subscriber) {
-  //         subscriber(event.data);
-  //       });
-  //     }
-  //   };
-  // }
-
-  //////// WEBSOCKETS IMPLEMENTATION ////////
-  function getFlower(url) {
+  // gets a flower from the backend
+  function getFlower(data) {
     var source = new WebSocket("ws://"+window.location.hostname+":8001");
 
     source.onmessage = function(event) {
@@ -78,8 +43,7 @@ angular.module('CodeFlower')
     };
 
     source.onopen = function () {
-      console.log("Connection opened")
-      source.send(url);  
+      source.send(JSON.stringify(data));  
     };
 
     source.onclose = function () {
@@ -89,13 +53,7 @@ angular.module('CodeFlower')
     source.onerror = function () {
       console.error("Connection error")
     };
-
-    // source.onmessage = function (event) {
-    //   console.log("received message:", event);
-    // };
   }
-
-
 
   //// THE SERVICE ////
 
@@ -103,11 +61,10 @@ angular.module('CodeFlower')
 
     // grow a flower from a git clone url
     clone: function(url, isPrivate) {
-      // var cloneUrl = SERVER + '/clone?url=' + encodeURIComponent(url) + 
-      //                (isPrivate ? '&private=1' : '');
-      //var cloneUrl = encodeURIComponent(url);
-      var cloneUrl = url;
-      getFlower(cloneUrl);
+      getFlower({
+        url: url,
+        isPrivate: isPrivate || false
+      });
     },
 
     update: function(repoName) {
@@ -123,7 +80,7 @@ angular.module('CodeFlower')
         if (data)
           deferred.resolve(data);
         else {
-          var url = SERVER + '/harvest?repo=' + encodeURIComponent(repoName);
+          var url = '/harvest?repo=' + encodeURIComponent(repoName);
           $http.get(url)
           .then(function(res) {
             dbAccess.set(repoName, res.data);

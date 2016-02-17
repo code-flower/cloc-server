@@ -1,10 +1,7 @@
 
-
-
 //////////////////// WEBSOCKETS IMPLEMENTATION ////////////////////
 
 function SSE(wsConn) {
-  console.log("SSE constructor called");
   this.conn = wsConn;
 }
 
