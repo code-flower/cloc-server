@@ -1,4 +1,4 @@
-language,filename,blank,comment,code,"http://cloc.sourceforge.net v 1.64  T=0.07 s (90.3 files/s, 6831.2 lines/s)"
+language,filename,blank,comment,code,"http://cloc.sourceforge.net v 1.64  T=0.07 s (86.4 files/s, 6534.0 lines/s)"
 Javascript,ntl/test/index.js,20,2,223
 Javascript,ntl/index.js,11,0,91
 JSON,ntl/package.json,0,0,58

@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('dbAccess', function($q) {
+.factory('dbAccess', function($q, $http) {
 
   //// CONSTANTS ////
 
@@ -13,32 +13,59 @@ angular.module('CodeFlower')
 
   var DB;
 
+  //// PRIVATE FUNCTIONS ////
+
+  // grab the sample repos and add them to the DB
+  function loadSamples() {
+    return $http.get('/samples').then(function(response) {
+      return $q.all(response.data.map(function(repo) {
+        return service.set(repo.name, repo.data);
+      }));
+    });
+  }
+
   //// THE SERVICE ////
 
-  return {
+  var service = {
 
     init: function() {
+
+      // uncomment to delete the database
+      // service.deleteDB(repoDB);
+      // return $q.when();
+
       if (DB) 
         return $q.when();
-
-      var deferred = $q.defer();
 
       if(!"indexedDB" in window) {
         console.log("Can't used indexedDb");
         return;
       } 
 
+      var deferred = $q.defer();
       var openRequest = indexedDB.open(repoDB, 1);
+      var firstTime = false;
 
+      // this runs only if the database was just created
+      // the onsuccess function runs immediately afterwards
       openRequest.onupgradeneeded = function(e) {
         var thisDB = e.target.result;
-        if (!thisDB.objectStoreNames.contains(repoTable))
+        if (!thisDB.objectStoreNames.contains(repoTable)) {
           thisDB.createObjectStore(repoTable);
+          firstTime = true;
+        }
       };
 
+      // this runs every time the DB is opened
       openRequest.onsuccess = function(e) {
         DB = e.target.result;
-        deferred.resolve(e);
+
+        if (firstTime) 
+          loadSamples().then(function() {
+            deferred.resolve(e);
+          });
+        else 
+          deferred.resolve(e);
       };
 
       openRequest.onerror = function(e) {
@@ -141,4 +168,6 @@ angular.module('CodeFlower')
       };
     }
   };
+
+  return service;
 });

@@ -93,7 +93,7 @@ function serveFlower(response, repo) {
   readStream.pipe(response);
   readStream.on('end', function() {
     var user = repo.match(/(^.*?)\//)[1];
-    deleteFiles(user);
+    //deleteFiles(user);
   });
 }
 
@@ -108,16 +108,17 @@ function serveSamples(response) {
   };
 
   // construct array of repos
-  var repos = [];
-  var users = readNoDS(__dirname + '/samples/');
+  var repos = [],
+      samples = __dirname + '/samples/',
+      users = readNoDS(samples);
+
   users.forEach(function(user) {
-    var inFile = readNoDS(__dirname + '/samples/' + user + '/').filter(function(file) {
+    var repo = readNoDS(samples + user + '/').filter(function(file) {
       return file.match(/\.json/);
     })[0];
-    inFile = __dirname + '/samples/' + user + '/' + inFile;
-    var json = fs.readFileSync(inFile, 'utf8'); 
+    var json = fs.readFileSync(samples + user + '/' + repo, 'utf8'); 
     repos.push({
-      name: user,
+      name: user + '/' + repo.replace('.json', ''),
       data: JSON.parse(json)
     });
   });

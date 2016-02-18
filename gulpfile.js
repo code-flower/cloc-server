@@ -10,6 +10,7 @@ gulp.task('watch:server', function() {
     ignore: [
       'client/**',
       'server/repos/**',
+      'server/samples/**',
       'gulpfile.js'
     ]
   }).on('restart', function() {
