@@ -1,7 +1,4 @@
 require('angular');
-require('./app/vendor/d3.js');
-require('./app/vendor/d3.geom.js');
-require('./app/vendor/d3.layout.js');
 require('./app/app.js');
 require('./app/CodeFlower.js');
 require('./app/dbAccess.js');

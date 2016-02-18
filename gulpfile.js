@@ -5,7 +5,6 @@ var open = require('gulp-open');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 
-
 /////////////// SUB-TASKS ///////////////////
 
 gulp.task('bundle', function() {
@@ -57,7 +56,7 @@ gulp.task('browser-sync', function() {
   });
 });
 
-gulp.task('open-chrome', function() {
+gulp.task('open-chrome', ['bundle'], function() {
   gulp.src('')
     .pipe(open({
       app: 'google chrome', 
