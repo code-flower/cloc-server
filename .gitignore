@@ -1,5 +1,5 @@
 node_modules/
-client/bower_components/
+client/js/bundle.js
 server/repos/
 sftp-config.json
 notes/
