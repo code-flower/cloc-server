@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerViz', function() {
+.directive('flowerViz', function(CodeFlower) {
 
   return {
     restrict: 'E',
