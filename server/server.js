@@ -5,6 +5,7 @@ var http = require('http');
 var url = require('url');
 var fs = require('fs');
 var ws = require('nodejs-websocket');
+var parseGitUrl = require('git-url-parse');
 
 // app
 var ServerSentEvents = require('./scripts/SSE.js');
@@ -40,33 +41,35 @@ function cloneFlower(response, url, isPrivate) {
   // open eventsource connection
   var SSE = new ServerSentEvents(response);
 
+  console.log(parseGitUrl(url));
+
   // parse the url
   // NEED TO MAKE THIS MORE ROBUST
-  var match = url.match(/.com\/(.*?)\.git$/);
-  if (match && match[1]) {
-    var matchParts = match[1].split('/');
-    var user = matchParts[0];
-    var repo = matchParts[1];
-  } else {
-    SSE.write('Not a valid git clone url.');
-    SSE.write('');
-    SSE.write('ERROR');
-    SSE.close();
-    return;
-  }
+  // var match = url.match(/.com\/(.*?)\.git$/);
+  // if (match && match[1]) {
+  //   var matchParts = match[1].split('/');
+  //   var user = matchParts[0];
+  //   var repo = matchParts[1];
+  // } else {
+  //   SSE.write('Not a valid git clone url.');
+  //   SSE.write('');
+  //   SSE.write('ERROR');
+  //   SSE.close();
+  //   return;
+  // }
 
-  if (isPrivate) 
-    analyzeRepo(url, user, repo, SSE);
-  else 
-    git.checkPrivateRepo(user, repo, SSE)
-    .then(function(isPrivate) {
-      if (isPrivate) {
-        SSE.write('CREDENTIALS');
-        SSE.close();
-      } else {
-        analyzeRepo(url, user, repo, SSE);
-      }
-    });
+  // if (isPrivate) 
+  //   analyzeRepo(url, user, repo, SSE);
+  // else 
+  //   git.checkPrivateRepo(user, repo, SSE)
+  //   .then(function(isPrivate) {
+  //     if (isPrivate) {
+  //       SSE.write('CREDENTIALS');
+  //       SSE.close();
+  //     } else {
+  //       analyzeRepo(url, user, repo, SSE);
+  //     }
+  //   });
 }
 
 // serves up the json for a given repo

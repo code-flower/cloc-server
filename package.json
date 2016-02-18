@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jmensch1/CodeFlower#readme",
   "dependencies": {
+    "git-url-parse": "^5.0.1",
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.4",
     "gulp-open": "^1.0.0",
