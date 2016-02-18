@@ -38,38 +38,31 @@ function analyzeRepo(url, user, repo, SSE) {
 // parses git clone url and converts the repo to flowerable json
 function cloneFlower(response, url, isPrivate) {
 
-  // open eventsource connection
   var SSE = new ServerSentEvents(response);
+  var urlInfo = parseGitUrl(url);
+  var user = urlInfo.owner;
+  var repo = urlInfo.name;
 
-  console.log(parseGitUrl(url));
+  if (!user || !repo) {
+    SSE.write('Not a valid git clone url.');
+    SSE.write('');
+    SSE.write('ERROR');
+    SSE.close();
+    return;
+  }
 
-  // parse the url
-  // NEED TO MAKE THIS MORE ROBUST
-  // var match = url.match(/.com\/(.*?)\.git$/);
-  // if (match && match[1]) {
-  //   var matchParts = match[1].split('/');
-  //   var user = matchParts[0];
-  //   var repo = matchParts[1];
-  // } else {
-  //   SSE.write('Not a valid git clone url.');
-  //   SSE.write('');
-  //   SSE.write('ERROR');
-  //   SSE.close();
-  //   return;
-  // }
-
-  // if (isPrivate) 
-  //   analyzeRepo(url, user, repo, SSE);
-  // else 
-  //   git.checkPrivateRepo(user, repo, SSE)
-  //   .then(function(isPrivate) {
-  //     if (isPrivate) {
-  //       SSE.write('CREDENTIALS');
-  //       SSE.close();
-  //     } else {
-  //       analyzeRepo(url, user, repo, SSE);
-  //     }
-  //   });
+  if (isPrivate) 
+    analyzeRepo(url, user, repo, SSE);
+  else 
+    git.checkPrivateRepo(user, repo, SSE)
+    .then(function(isPrivate) {
+      if (isPrivate) {
+        SSE.write('CREDENTIALS');
+        SSE.close();
+      } else {
+        analyzeRepo(url, user, repo, SSE);
+      }
+    });
 }
 
 // serves up the json for a given repo
