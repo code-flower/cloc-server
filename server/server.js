@@ -97,6 +97,39 @@ function serveFlower(response, repo) {
   });
 }
 
+// serves a list of the repos currently stored in repos/
+function serveSamples(response) {
+  // get array of files in a directory,
+  // not including .DS_Store
+  var readNoDS = function(path) {
+    return fs.readdirSync(path).filter(function(file) {
+      return file !== '.DS_Store';
+    });
+  };
+
+  // construct array of repos
+  var repos = [];
+  var users = readNoDS(__dirname + '/samples/');
+  users.forEach(function(user) {
+    var inFile = readNoDS(__dirname + '/samples/' + user + '/').filter(function(file) {
+      return file.match(/\.json/);
+    })[0];
+    inFile = __dirname + '/samples/' + user + '/' + inFile;
+    var json = fs.readFileSync(inFile, 'utf8'); 
+    repos.push({
+      name: user,
+      data: JSON.parse(json)
+    });
+  });
+
+  // serve up the array
+  response.writeHead(200, {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  });
+  response.end(JSON.stringify(repos));
+}
+
 ////////////// START THE HTTP SERVER /////////////
 // this server handles static file requests and
 // harvesting the json after repos are cloned
@@ -107,6 +140,8 @@ http.createServer(function (request, response) {
 
   if (urlInfo.pathname === '/harvest') 
     serveFlower(response, urlInfo.query.repo);
+  else if (urlInfo.pathname === '/samples')
+    serveSamples(response);
   else
     serveStaticFile(response, urlInfo.pathname);
 
