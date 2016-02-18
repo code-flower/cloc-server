@@ -43,6 +43,22 @@ function cloneFlower(response, url, isPrivate) {
   var user = urlInfo.owner;
   var repo = urlInfo.name;
 
+  console.log("urlInfo = ", urlInfo);
+
+  // require https
+  if (!urlInfo.protocol.match(/https/i)) {
+    SSE.write('Please use an https url.');
+    SSE.write('');
+    SSE.write('ERROR');
+    SSE.close();
+    return;
+  }
+
+  // because some urls don't contain a user
+  // like the beanstalk one in roofshoot
+  if (!user) user = 'temp';
+
+  // require a user and repo
   if (!user || !repo) {
     SSE.write('Not a valid git clone url.');
     SSE.write('');

@@ -19,6 +19,9 @@ function checkPrivateRepo(user, repo, SSE) {
   SSE.write('>> ' + curl);
 
   exec(curl, function(error, stdout, stdin) {
+    console.log("error:", error);
+    console.log("stdout:", stdout);
+    console.log("stdin:", stdin);
     var isPrivate = !!JSON.parse(stdout).message;
     deferred.resolve(isPrivate);
   });
@@ -47,7 +50,8 @@ function cloneRepo(giturl, user, SSE) {
 
   process.stderr.on('data', function(data) { 
     SSE.write(data); 
-    if (data.match(/Invalid username or password/)) 
+    if (data.match(/Invalid username or password/) ||
+        data.match(/unable to access/)) 
       deferred.reject('unauthorized');
   });
 
