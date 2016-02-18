@@ -2,6 +2,26 @@ var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
 var browserSync = require('browser-sync').create();
 var open = require('gulp-open');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+
+
+/////////////// SUB-TASKS ///////////////////
+
+gulp.task('bundle', function() {
+  var bundler = browserify();
+  return bundler
+    .add('./client/js/index.js')
+    .bundle()
+    .pipe(source('./bundle.js'))
+    .pipe(gulp.dest('./client/js/'));
+});
+
+gulp.task('bundle-and-reload', ['bundle'], function() {
+  browserSync.reload();
+});
+
+/////////// DEFAULT TASK COMPONENTS /////////
 
 gulp.task('watch:server', function() {
   nodemon({
@@ -21,10 +41,7 @@ gulp.task('watch:server', function() {
 });
 
 gulp.task('watch:client', function() {
-  gulp.watch(['./client/**'])
-    .on('change', function() {
-      browserSync.reload();
-    });
+  gulp.watch(['./client/**'], ['bundle-and-reload']);
 });
 
 gulp.task('browser-sync', function() {
@@ -47,6 +64,8 @@ gulp.task('open-chrome', function() {
       uri: 'http://localhost:8000'
     }));
 });
+
+/////////////// DEFAULT TASK ///////////////
 
 gulp.task('default', ['watch:server', 'watch:client', 'browser-sync', 'open-chrome']);
 
