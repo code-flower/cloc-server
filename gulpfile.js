@@ -15,7 +15,7 @@ function bundle() {
     .on('error', function(err) { console.log(err); })
     .bundle()
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest('./client/js/'))
+    .pipe(gulp.dest('./client/dist/'))
     .pipe(browserSync.stream());
 }
 
@@ -37,7 +37,7 @@ gulp.task('watch:server', function() {
 });
 
 gulp.task('watch:client', function() {
-  gulp.watch(['./client/**', '!./client/js/bundle.js'], bundle);
+  gulp.watch(['./client/**', '!./client/dist/bundle.js'], bundle);
 });
 
 gulp.task('open-browser', ['bundle'], function() {

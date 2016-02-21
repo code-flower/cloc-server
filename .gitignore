@@ -1,5 +1,5 @@
 node_modules/
-client/js/bundle.js
+client/dist/
 server/repos/
 sftp-config.json
 notes/
