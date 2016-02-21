@@ -1,3 +1,6 @@
+// The background script for the chrome extension.
+// Has no effect when the app is run as a regular web app.
+
 // instead of this script, it might be better to use just this:
 // chrome.browserAction.onClicked.addListener(function() {
 //   window.open('index.html', '_blank');

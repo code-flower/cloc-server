@@ -4,20 +4,18 @@ var browserSync = require('browser-sync').create();
 var open = require('gulp-open');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var babelify = require('babelify');
 
 /////////////// SUB-TASKS ///////////////////
 
 gulp.task('bundle', function() {
-  var bundler = browserify();
-  return bundler
-    .add('./client/js/index.js')
+  return browserify('./client/js/index.js')
+    .transform(babelify, {presets: ["es2015"]})
+    .on('error', function(err) {console.log(err);})
     .bundle()
-    .pipe(source('./bundle.js'))
-    .pipe(gulp.dest('./client/js/'));
-});
-
-gulp.task('bundle-and-reload', ['bundle'], function() {
-  browserSync.reload();
+    .pipe(source('bundle.js'))
+    .pipe(gulp.dest('./client/js/'))
+    .pipe(browserSync.stream());
 });
 
 /////////// DEFAULT TASK COMPONENTS /////////
@@ -40,20 +38,11 @@ gulp.task('watch:server', function() {
 });
 
 gulp.task('watch:client', function() {
-  gulp.watch(['./client/**'], ['bundle-and-reload']);
+  gulp.watch(['./client/**', '!./client/js/bundle.js'], ['bundle']);
 });
 
 gulp.task('browser-sync', function() {
-  browserSync.init({
-    // Not using browserSync as a server since the node server serves the static files.
-    // Unfortunately this requires a script to be added to index.html.
-    // server: {
-    //   baseDir: './client',
-    // },
-    ui: {
-      port: 8090
-    }
-  });
+  browserSync.init({ ui: { port: 8090 } });
 });
 
 gulp.task('open-chrome', ['bundle'], function() {
