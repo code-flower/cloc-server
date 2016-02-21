@@ -8,13 +8,13 @@ var ws = require('nodejs-websocket');
 var parseGitUrl = require('git-url-parse');
 
 // app
+var appConfig = require('../shared/appConfig.js');
 var ServerSentEvents = require('./scripts/SSE.js');
 var git = require('./scripts/git.js');
 var cloc = require('./scripts/cloc.js');
 var deleteFiles = require('./scripts/delete.js');
 var serveStaticFile = require('./scripts/staticFileServer.js');
 
-var appConfig = require('../shared/appConfig.js');
 console.log("APPCONFIG = ", appConfig);
 
 /////////////////// FUNCTIONS  /////////////////
@@ -151,7 +151,7 @@ http.createServer(function (request, response) {
 
 }).listen(appConfig.ports.HTTP);
 
-console.log("HTTP server running at http://localhost:" + appConfig.ports.HTTP);
+console.log(`HTTP server running at http://${appConfig.hostName}:${appConfig.ports.HTTP}`);
 
 /////////// START THE WEBSOCKETS SERVER ///////////
 // this server handles clone requests and broadcasts
@@ -171,5 +171,5 @@ ws.createServer(function(conn) {
 
 }).listen(appConfig.ports.WS);
 
-console.log("Websockets server running at ws://localhost:" + appConfig.ports.WS);
+console.log(`Websockets server running at ws://${appConfig.hostName}:${appConfig.ports.WS}`);
 

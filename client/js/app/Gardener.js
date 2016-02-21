@@ -12,7 +12,7 @@ angular.module('CodeFlower')
 
   // gets a flower from the backend
   function getFlower(data) {
-    var source = new WebSocket('ws://' + appConfig.hostName + ':' + appConfig.ports.WS);
+    var source = new WebSocket(`ws://${appConfig.hostName}:${appConfig.ports.WS}`);
 
     source.onopen = function(event) {
       console.log("Websocket connection opening:", event);
@@ -81,8 +81,8 @@ angular.module('CodeFlower')
         if (data)
           deferred.resolve(data);
         else {
-          var url = 'http://' + appConfig.hostName + ':' + appConfig.ports.HTTP + 
-                    '/harvest?repo=' + encodeURIComponent(repoName);
+          var url = `http://${appConfig.hostName}:${appConfig.ports.HTTP}` + 
+                    `/harvest?repo=${encodeURIComponent(repoName)}`;
           $http.get(url)
           .then(function(res) {
             dbAccess.set(repoName, res.data);
