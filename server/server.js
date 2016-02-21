@@ -39,14 +39,11 @@ function analyzeRepo(url, user, repo, SSE) {
 }
 
 // parses git clone url and converts the repo to flowerable json
-function cloneFlower(response, url, isPrivate) {
+function cloneFlower(SSE, url, isPrivate) {
 
-  var SSE = new ServerSentEvents(response);
   var urlInfo = parseGitUrl(url);
   var user = urlInfo.owner;
   var repo = urlInfo.name;
-
-  console.log("urlInfo = ", urlInfo);
 
   // require https
   if (!urlInfo.protocol.match(/https/i)) {
@@ -161,8 +158,9 @@ ws.createServer(function(conn) {
 
   conn.on('text', function (data) {
     console.log("New websockets connection");
+    var SSE = new ServerSentEvents(conn);
     data = JSON.parse(data);
-    cloneFlower(conn, data.url, data.isPrivate);
+    cloneFlower(SSE, data.url, data.isPrivate);
   });
 
   conn.on('close', function (code, reason) {
