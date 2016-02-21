@@ -19,9 +19,9 @@ function checkPrivateRepo(user, repo, SSE) {
   SSE.write('>> ' + curl);
 
   exec(curl, function(error, stdout, stdin) {
-    console.log("error:", error);
-    console.log("stdout:", stdout);
-    console.log("stdin:", stdin);
+    // console.log("error:", error);
+    // console.log("stdout:", stdout);
+    // console.log("stdin:", stdin);
     var isPrivate = !!JSON.parse(stdout).message;
     deferred.resolve(isPrivate);
   });
