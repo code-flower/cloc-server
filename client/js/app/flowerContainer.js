@@ -84,6 +84,11 @@ angular.module('CodeFlower')
       Gardener.harvest(repoName).then(buildUI);
     };
 
+    scope.deleteDB = function() {
+      dbAccess.deleteDB();
+      location.reload();
+    };
+
     //// EVENT LISTENERS ////
 
     scope.$on('flowerReady', function(e, data) {

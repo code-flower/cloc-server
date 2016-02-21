@@ -32,7 +32,7 @@ angular.module('CodeFlower')
     init: function() {
 
       // uncomment to delete the database
-      // service.deleteDB(repoDB);
+      // service.deleteDB();
       // return $q.when();
 
       if (DB) 
@@ -155,8 +155,8 @@ angular.module('CodeFlower')
       return deferred.promise;
     },
 
-    deleteDB: function(DBname) {
-      var req = indexedDB.deleteDatabase(DBname);
+    deleteDB: function() {
+      var req = indexedDB.deleteDatabase(repoDB);
       req.onsuccess = function () {
         console.log("Deleted database successfully");
       };

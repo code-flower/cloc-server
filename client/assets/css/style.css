@@ -148,6 +148,14 @@ line.link {
   word-break: break-word;
 }
 
+/*//////////// DELTE DB BUTTON /////////////*/
+
+.delete-db {
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+}
+
 
 
 
