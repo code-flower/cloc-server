@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('Gardener', function($rootScope, $http, $q, dbAccess) {
+.factory('Gardener', function($rootScope, $http, $q, dbAccess, appConfig) {
 
   //// PRIVATE ////
 
@@ -12,7 +12,7 @@ angular.module('CodeFlower')
 
   // gets a flower from the backend
   function getFlower(data) {
-    var source = new WebSocket('ws://' + window.location.hostname + ':8001');
+    var source = new WebSocket('ws://' + appConfig.hostName + ':' + appConfig.ports.WS);
 
     source.onopen = function(event) {
       console.log("Websocket connection opening:", event);
@@ -81,7 +81,8 @@ angular.module('CodeFlower')
         if (data)
           deferred.resolve(data);
         else {
-          var url = '/harvest?repo=' + encodeURIComponent(repoName);
+          var url = 'http://' + appConfig.hostName + ':' + appConfig.ports.HTTP + 
+                    '/harvest?repo=' + encodeURIComponent(repoName);
           $http.get(url)
           .then(function(res) {
             dbAccess.set(repoName, res.data);

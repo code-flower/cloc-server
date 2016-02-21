@@ -15,7 +15,7 @@ var deleteFiles = require('./scripts/delete.js');
 var serveStaticFile = require('./scripts/staticFileServer.js');
 
 var appConfig = require('../shared/appConfig.js');
-console.log("APPCONFIG = ", appConfig);   
+console.log("APPCONFIG = ", appConfig);
 
 /////////////////// FUNCTIONS  /////////////////
 
@@ -96,7 +96,7 @@ function serveFlower(response, repo) {
   readStream.pipe(response);
   readStream.on('end', function() {
     var user = repo.match(/(^.*?)\//)[1];
-    //deleteFiles(user);
+    deleteFiles(user);
   });
 }
 
@@ -149,9 +149,9 @@ http.createServer(function (request, response) {
   else
     serveStaticFile(response, urlInfo.pathname);
 
-}).listen(8000);
+}).listen(appConfig.ports.HTTP);
 
-console.log("HTTP server running at http://localhost:8000/");
+console.log("HTTP server running at http://localhost:" + appConfig.ports.HTTP);
 
 /////////// START THE WEBSOCKETS SERVER ///////////
 // this server handles clone requests and broadcasts
@@ -169,7 +169,7 @@ ws.createServer(function(conn) {
     console.log("Connection closed");
   });
 
-}).listen(8001);
+}).listen(appConfig.ports.WS);
 
-console.log("Websockets server running at ws://localhost:8001/");
+console.log("Websockets server running at ws://localhost:" + appConfig.ports.WS);
 

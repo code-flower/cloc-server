@@ -5,6 +5,7 @@ var nodemon = require('gulp-nodemon');
 var browserSync = require('browser-sync').create();
 var open = require('gulp-open');
 var source = require('vinyl-source-stream');
+var appConfig = require('./shared/appConfig.js');
 
 /////////////// BUNDLER ///////////////////
 
@@ -41,12 +42,12 @@ gulp.task('watch:client', function() {
 
 gulp.task('open-browser', ['bundle'], function() {
   browserSync.init({ 
-    ui: { port: 8090 } 
+    ui: { port: appConfig.ports.browserSyncUI } 
   });
 
   gulp.src('').pipe(open({
     app: 'google chrome', 
-    uri: 'http://localhost:8000'
+    uri: 'http://localhost:' + appConfig.ports.HTTP
   }));
 });
 

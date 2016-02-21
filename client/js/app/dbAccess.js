@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('dbAccess', function($q, $http) {
+.factory('dbAccess', function($q, $http, appConfig) {
 
   //// CONSTANTS ////
 
@@ -17,7 +17,8 @@ angular.module('CodeFlower')
 
   // grab the sample repos and add them to the DB
   function loadSamples() {
-    return $http.get('/samples').then(function(response) {
+    var url = 'http://' + appConfig.hostName + ':' + appConfig.ports.HTTP + '/samples';
+    return $http.get(url).then(function(response) {
       return $q.all(response.data.map(function(repo) {
         return service.set(repo.name, repo.data);
       }));

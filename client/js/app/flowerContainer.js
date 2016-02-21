@@ -118,6 +118,8 @@ angular.module('CodeFlower')
 
     //// COMMANDS ////
 
+    console.log("appConfig = ", appConfig);
+
     dbAccess.init()
     .then(Gardener.enumerate)
     .then(function(repoNames) {
