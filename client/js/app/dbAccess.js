@@ -143,8 +143,7 @@ angular.module('CodeFlower')
         if (cursor) {
           keys.push(cursor.key);
           cursor.continue();
-        }
-        else {
+        } else {
           deferred.resolve(keys);
         }
       };
