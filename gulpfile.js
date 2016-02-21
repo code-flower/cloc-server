@@ -6,9 +6,9 @@ var browserSync = require('browser-sync').create();
 var open = require('gulp-open');
 var source = require('vinyl-source-stream');
 
-/////////////// SUB-TASKS ///////////////////
+/////////////// BUNDLER ///////////////////
 
-gulp.task('bundle', function() {
+function bundle() {
   return browserify('./client/js/index.js')
     .transform(babelify, { presets: ["es2015"] })
     .on('error', function(err) { console.log(err); })
@@ -16,7 +16,9 @@ gulp.task('bundle', function() {
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./client/js/'))
     .pipe(browserSync.stream());
-});
+}
+
+gulp.task('bundle', bundle);
 
 /////////// DEFAULT TASK COMPONENTS /////////
 
@@ -30,11 +32,11 @@ gulp.task('watch:server', function() {
       'server/samples/**',
       'gulpfile.js'
     ]
-  }).on('start', browserSync.reload);
+  }).on('start', bundle);
 });
 
 gulp.task('watch:client', function() {
-  gulp.watch(['./client/**', '!./client/js/bundle.js'], ['bundle']);
+  gulp.watch(['./client/**', '!./client/js/bundle.js'], bundle);
 });
 
 gulp.task('open-browser', ['bundle'], function() {

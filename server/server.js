@@ -14,6 +14,9 @@ var cloc = require('./scripts/cloc.js');
 var deleteFiles = require('./scripts/delete.js');
 var serveStaticFile = require('./scripts/staticFileServer.js');
 
+var appConfig = require('../shared/appConfig.js');
+console.log("APPCONFIG = ", appConfig);   
+
 /////////////////// FUNCTIONS  /////////////////
 
 function analyzeRepo(url, user, repo, SSE) {

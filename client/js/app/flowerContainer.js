@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerContainer', function($timeout, BASE_PATH, Gardener, flowerUtils, dbAccess) {
+.directive('flowerContainer', function($timeout, BASE_PATH, appConfig, Gardener, flowerUtils, dbAccess) {
 
   return {
     restrict: 'E',
