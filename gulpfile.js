@@ -11,8 +11,6 @@ const appConfig = require('./shared/appConfig.js');
 
 /////////////// BUNDLER ///////////////////
 
-console.log("process.argv", argv);
-
 function bundle() {
   return browserify('./client/js/index.js')
     .transform(babelify, { presets: ['es2015'] })

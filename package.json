@@ -20,6 +20,7 @@
     "angular": "^1.5.0",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
+    "cloc": "^2.0.0",
     "envify": "^3.4.0",
     "git-url-parse": "^5.0.1",
     "gulp": "^3.9.0",
