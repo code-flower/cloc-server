@@ -33,6 +33,9 @@ angular.module('CodeFlower')
       if (currentCodeFlower) 
         currentCodeFlower.cleanup();
 
+      if (!json)
+        return;
+
       // adapt layout size to the total number of elements
       // var padding = 200;
       // var total = countElements(json);

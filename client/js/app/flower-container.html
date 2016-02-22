@@ -1,5 +1,5 @@
 <div class="flower-container">
-  <div class="flower-data">
+  <div class="flower-data" ng-show="repoNames.length">
     <table class="table">
       <thead>
         <tr>
@@ -35,7 +35,7 @@
           </button>
         </td>
       </tr>
-      <tr>
+      <tr ng-show="repoNames.length">
         <td><label>Current repo</label></td>
         <td>
           <select ng-model="selectedRepo"
@@ -57,7 +57,7 @@
           </button>
         </td>
       </tr>
-      <tr>
+      <tr ng-show="repoNames.length">
         <td><label>Current folder</label></td>
         <td colspan="2">
           <select ng-model="selectedFolder" 
@@ -72,7 +72,7 @@
     </table>
   </div>
 
-  <flower-viz></flower-viz>
+  <flower-viz ng-show="repoNames.length"></flower-viz>
   <flower-terminal></flower-terminal>
 
   <button class="delete-db btn btn-primary" ng-click="deleteDB()">Delete DB</button>

@@ -128,9 +128,7 @@ angular.module('CodeFlower')
     dbAccess.init()
     .then(Gardener.enumerate)
     .then(function(repoNames) {
-
-      scope.repoNames.length = 0;
-      scope.repoNames.push.apply(scope.repoNames, repoNames);
+      scope.repoNames = repoNames;
       scope.selectedRepo = scope.repoNames[0];
 
       if (scope.selectedRepo)
