@@ -82,7 +82,7 @@ angular.module('CodeFlower')
           deferred.resolve(data);
         else {
           var url = `http://${appConfig.hostName}:${appConfig.ports.HTTP}` + 
-                    `/harvest?repo=${encodeURIComponent(repoName)}`;
+                    `${appConfig.endpoints.harvest}?repo=${encodeURIComponent(repoName)}`;
           $http.get(url)
           .then(function(res) {
             dbAccess.set(repoName, res.data);

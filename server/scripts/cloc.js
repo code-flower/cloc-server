@@ -4,10 +4,7 @@ var fs = require('fs');
 var mkpath = require('mkpath');
 var execShellCommand = require('./shell.js');
 var Q = require('q');
-
-/////////////// CONSTANTS ///////////////
-
-var REPO_DIR = '/../repos/';
+var appConfig = require('../../shared/appConfig.js');
 
 ////////// PRIVATE FUNCTIONS ////////////
 
@@ -75,28 +72,28 @@ function clocToJson(clocData) {
 }
 
 // run the cloc command on the given repo
-function createClocFile(user, repo, SSE) {
-  var cd = 'cd ' + __dirname + REPO_DIR + user + '/; ';
+function createClocFile(user, repo, socket) {
+  var cd = 'cd ' + appConfig.paths.repos + user + '/; ';
   var cloc = 'cloc ' + repo +
              ' --csv --by-file ' + 
              '--ignored=reasons.txt ' +  
              '--report-file=../' + user + '/' + repo + '.cloc';
 
-  SSE.write('');
-  SSE.write('>> ' + cloc);
+  socket.write('');
+  socket.write('>> ' + cloc);
 
-  return execShellCommand(cd + cloc, SSE);
+  return execShellCommand(cd + cloc, socket);
 }
 
 // converts a cloc file to json
-function convertClocFile(user, repo, SSE) {
+function convertClocFile(user, repo, socket) {
   var deferred = Q.defer();
 
-  SSE.write('');
-  SSE.write('Converting cloc file to json...');
+  socket.write('');
+  socket.write('Converting cloc file to json...');
 
   // read the cloc file
-  var inFile = __dirname + REPO_DIR + user + '/' + repo + '.cloc';
+  var inFile = appConfig.paths.repos + user + '/' + repo + '.cloc';
   fs.readFile(inFile, 'utf8', function(err, clocData) {
     if (err) {
       console.log(err);
@@ -106,7 +103,7 @@ function convertClocFile(user, repo, SSE) {
       var json = clocToJson(clocData);
 
       // make a new folder for the user
-      var outFilePath = __dirname + REPO_DIR + user + '/';
+      var outFilePath = appConfig.paths.repos + user + '/';
       mkpath.sync(outFilePath);
 
       // write out the json
@@ -117,7 +114,7 @@ function convertClocFile(user, repo, SSE) {
           deferred.reject(err);
         }
         else {
-          SSE.write('Wrote ' + outFile);
+          socket.write('Wrote ' + outFile);
           deferred.resolve();
         }
       });
@@ -132,10 +129,10 @@ function convertClocFile(user, repo, SSE) {
 module.exports = {
   // generates a piece of Json representing a code flower for the given repo
   // uses the cloc command to analyze the repo
-  generateJson: function(user, repo, SSE) {
-    return createClocFile(user, repo, SSE)
+  generateJson: function(user, repo, socket) {
+    return createClocFile(user, repo, socket)
     .then(function() {
-      return convertClocFile(user, repo, SSE);
+      return convertClocFile(user, repo, socket);
     });
   }
 };

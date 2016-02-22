@@ -6,27 +6,27 @@ var parseGitUrl = require('git-url-parse');
 
 //////////// PRIVATE //////////////
 
-function analyzeRepo(url, user, repo, SSE) {
+function analyzeRepo(url, user, repo, socket) {
   // clone repo, create and convert cloc file
-  git.cloneRepo(url, user, SSE)
+  git.cloneRepo(url, user, socket)
   .then(function() {
-    return cloc.generateJson(user, repo, SSE);
+    return cloc.generateJson(user, repo, socket);
   })
   .then(function() {
-    SSE.write('');
-    SSE.write('END:' + user + '/' + repo);
-    SSE.close();
+    socket.write('');
+    socket.write('END:' + user + '/' + repo);
+    socket.close();
   })
   .catch(function(error) {
     if (error = 'unauthorized') {
-      SSE.write('UNAUTHORIZED');
-      SSE.close();
+      socket.write('UNAUTHORIZED');
+      socket.close();
     }
   });
 }
 
 // parses git clone url and converts the repo to flowerable json
-function cloneFlower(SSE, url, isPrivate) {
+function cloneFlower(socket, url, isPrivate) {
 
   var urlInfo = parseGitUrl(url);
   var user = urlInfo.owner;
@@ -34,10 +34,10 @@ function cloneFlower(SSE, url, isPrivate) {
 
   // require https
   if (!urlInfo.protocol.match(/https/i)) {
-    SSE.write('Please use an https url.');
-    SSE.write('');
-    SSE.write('ERROR');
-    SSE.close();
+    socket.write('Please use an https url.');
+    socket.write('');
+    socket.write('ERROR');
+    socket.close();
     return;
   }
 
@@ -47,23 +47,23 @@ function cloneFlower(SSE, url, isPrivate) {
 
   // require a user and repo
   if (!user || !repo) {
-    SSE.write('Not a valid git clone url.');
-    SSE.write('');
-    SSE.write('ERROR');
-    SSE.close();
+    socket.write('Not a valid git clone url.');
+    socket.write('');
+    socket.write('ERROR');
+    socket.close();
     return;
   }
 
   if (isPrivate) 
-    analyzeRepo(url, user, repo, SSE);
+    analyzeRepo(url, user, repo, socket);
   else 
-    git.checkPrivateRepo(user, repo, SSE)
+    git.checkPrivateRepo(user, repo, socket)
     .then(function(isPrivate) {
       if (isPrivate) {
-        SSE.write('CREDENTIALS');
-        SSE.close();
+        socket.write('CREDENTIALS');
+        socket.close();
       } else {
-        analyzeRepo(url, user, repo, SSE);
+        analyzeRepo(url, user, repo, socket);
       }
     });
 }

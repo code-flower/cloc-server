@@ -1,12 +1,7 @@
 //////////////// IMPORTS //////////////////
 
 var fs = require('fs');
-var path = require('path');
-
-/////////////// CONSTANTS /////////////////
-
-// the location of the static files relative to this file
-var DOCUMENT_ROOT = '../../client';
+var appConfig = require('../../shared/appConfig.js');
 
 /////////////// PRIVATE //////////////////
 
@@ -27,7 +22,7 @@ module.exports = function serveStaticFile(response, relPath) {
   if (relPath == '/')
     relPath = '/index.html';
 
-  var absPath = path.join(__dirname, DOCUMENT_ROOT + relPath);
+  var absPath = appConfig.paths.client + relPath;
 
   // return 404 if the file doesn't exist
   try {
