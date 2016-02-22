@@ -10,14 +10,14 @@ angular.module('CodeFlower')
 
   return function cloneFlower(data, subscribers) {
     
-    var source = new WebSocket(`ws://${appConfig.hostName}:${appConfig.ports.WS}`);
+    var socket = new WebSocket(`ws://${appConfig.hostName}:${appConfig.ports.WS}`);
 
-    source.onopen = function(event) {
+    socket.onopen = function(event) {
       console.log("Websocket connection opening:", event);
-      source.send(JSON.stringify(data));  
+      socket.send(JSON.stringify(data));  
     };
 
-    source.onmessage = function(event) {
+    socket.onmessage = function(event) {
       var data = JSON.parse(event.data);
       var types = appConfig.messageTypes;
 
@@ -28,20 +28,20 @@ angular.module('CodeFlower')
           });    
           break;
         case types.error:
-          source.close();
+          socket.close();
           break;
         case types.credentials:
-          source.close();
+          socket.close();
           $rootScope.$broadcast('needCredentials');
           break;
         case types.unauthorized:
-          source.close();
+          socket.close();
           $rootScope.$broadcast('needCredentials', { 
             invalid: true 
           });
           break;
         case types.complete:
-          source.close();
+          socket.close();
           $rootScope.$broadcast('flowerReady', { 
             repoName: data.repoName
           });
@@ -49,11 +49,11 @@ angular.module('CodeFlower')
       }
     };
 
-    source.onclose = function() {
+    socket.onclose = function() {
       console.log("Websocket connection closed")
     };
 
-    source.onerror = function() {
+    socket.onerror = function() {
       console.error("Websocket connection error")
     };
   };
