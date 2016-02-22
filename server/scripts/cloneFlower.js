@@ -83,16 +83,19 @@ function cloneFlower(socket, repo) {
 
 module.exports = cloneFlower;
 
-var fakeSocket = {
-  write: function(data) {
-    console.log("SOCKET:", data);
-  }
-};
 
-var repo = {
-  url: 'https://github.com/claudiajs/claudia',
-  private: false
-};
+//////////// TESTING ///////////
+
+// var fakeSocket = {
+//   write: function(data) {
+//     console.log("SOCKET:", data);
+//   }
+// };
+
+// var repo = {
+//   url: 'https://github.com/claudiajs/claudia',
+//   private: false
+// };
 
 // cloneFlower(fakeSocket, repo);
 

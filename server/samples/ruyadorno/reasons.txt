@@ -1,7 +1,0 @@
-ntl: --exclude-dir=1
-ntl/.babelrc: language unknown (#3)
-ntl/.editorconfig: language unknown (#3)
-ntl/.gitattributes: language unknown (#3)
-ntl/.gitignore: language unknown (#3)
-ntl/license: language unknown (#3)
-ntl/readme.md: language unknown (#3)

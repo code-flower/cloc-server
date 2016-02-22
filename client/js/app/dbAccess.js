@@ -19,6 +19,7 @@ angular.module('CodeFlower')
   function loadSamples() {
     var url = `http://${appConfig.hostName}:${appConfig.ports.HTTP}${appConfig.endpoints.samples}`;
     return $http.get(url).then(function(response) {
+      console.log("response from harvest:", response);
       return $q.all(response.data.map(function(repo) {
         return service.set(repo.name, repo.data);
       }));

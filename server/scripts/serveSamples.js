@@ -16,17 +16,13 @@ module.exports = function serveSamples(response) {
   };
 
   // construct array of repos
-  var repos = [],
-      samples = appConfig.paths.samples,
-      users = readNoDS(samples);
+  var repos = [];
 
-  users.forEach(function(user) {
-    var repo = readNoDS(samples + user + '/').filter(function(file) {
-      return file.match(/\.json/);
-    })[0];
-    var json = fs.readFileSync(samples + user + '/' + repo, 'utf8'); 
+  readNoDS(appConfig.paths.samples).forEach(function(repo) {
+    var fileName = `${appConfig.paths.samples}${repo}/data.json`;
+    var json = fs.readFileSync(fileName, 'utf8'); 
     repos.push({
-      name: user + '/' + repo.replace('.json', ''),
+      name: repo.replace('#', '/'),
       data: JSON.parse(json)
     });
   });
