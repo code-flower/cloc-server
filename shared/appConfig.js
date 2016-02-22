@@ -3,7 +3,7 @@
 
 module.exports = {
 
-  hostName: 'localhost',
+  hostName: process.env.NODE_ENV === 'production' ? '162.243.241.140' : 'localhost',
 
   ports: {
     HTTP: 8000,

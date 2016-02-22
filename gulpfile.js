@@ -1,17 +1,22 @@
 const gulp = require('gulp');
 const browserify = require('browserify');
+const envify = require('envify/custom');
 const babelify = require('babelify');
 const nodemon = require('gulp-nodemon');
 const browserSync = require('browser-sync').create();
 const open = require('gulp-open');
 const source = require('vinyl-source-stream');
+const argv = require('yargs').argv;
 const appConfig = require('./shared/appConfig.js');
 
 /////////////// BUNDLER ///////////////////
 
+console.log("process.argv", argv);
+
 function bundle() {
   return browserify('./client/js/index.js')
-    .transform(babelify, { presets: ["es2015"] })
+    .transform(babelify, { presets: ['es2015'] })
+    .transform(envify({ NODE_ENV: argv.env || 'development' }))
     .on('error', function(err) { console.log(err); })
     .bundle()
     .pipe(source('bundle.js'))
