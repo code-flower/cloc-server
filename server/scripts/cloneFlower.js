@@ -7,16 +7,16 @@ var parseGitUrl = require('git-url-parse');
 
 //////////// PRIVATE //////////////
 
-function analyzeRepo(url, user, repo, socket) {
+function analyzeRepo(repo, socket) {
   // clone repo, create and convert cloc file
-  git.cloneRepo(url, user, socket)
+  git.cloneRepo(repo, socket)
   .then(function() {
-    return cloc.generateJson(user, repo, socket);
+    return cloc.generateJson(repo, socket);
   })
   .then(function() {
     socket.write({
       type: appConfig.messageTypes.complete,
-      repoName: user + '/' + repo
+      repoName: repo.fullName
     });
     socket.close();
   })
@@ -31,29 +31,14 @@ function analyzeRepo(url, user, repo, socket) {
 }
 
 // parses git clone url and converts the repo to flowerable json
-function cloneFlower(socket, url, isPrivate) {
+function cloneFlower(socket, repo) {
 
-  var urlInfo = parseGitUrl(url);
-  var user = urlInfo.owner;
-  var repo = urlInfo.name;
+  var urlInfo = parseGitUrl(repo.url),
+      usingHTTPS = urlInfo.protocol === 'https';
 
-  // require https
-  if (!urlInfo.protocol.match(/https/i)) {
-    socket.write('Please use an https url.');
-    socket.write('');
-    socket.write({
-      type: appConfig.messageTypes.error
-    });
-    socket.close();
-    return;
-  }
+  repo.fullName = urlInfo.full_name;
 
-  // because some urls don't contain a user
-  // like the beanstalk one in roofshoot
-  if (!user) user = 'temp';
-
-  // require a user and repo
-  if (!user || !repo) {
+  if (!repo.fullName) {
     socket.write('Not a valid git clone url.');
     socket.write('');
     socket.write({
@@ -63,18 +48,33 @@ function cloneFlower(socket, url, isPrivate) {
     return;
   }
 
-  if (isPrivate) 
-    analyzeRepo(url, user, repo, socket);
+  if (repo.private) {
+    // require https for private repos
+    if (!usingHTTPS) {
+      socket.write('Please use an https url.');
+      socket.write('');
+      socket.write({
+        type: appConfig.messageTypes.error
+      });
+      socket.close();
+      return;
+    } else {
+      analyzeRepo(repo, socket);
+    }
+  }
   else 
-    git.checkPrivateRepo(user, repo, socket)
+    git.checkPrivateRepo(repo, socket)
     .then(function(isPrivate) {
+      console.log("isPrivate?", isPrivate);
       if (isPrivate) {
         socket.write({
-          type: appConfig.messageTypes.credentials
+          type: appConfig.messageTypes.credentials,
+          needHTTPS: !usingHTTPS
         });
         socket.close();
       } else {
-        analyzeRepo(url, user, repo, socket);
+        console.log("not private:", repo);
+        analyzeRepo(repo, socket);
       }
     });
 }
@@ -82,3 +82,17 @@ function cloneFlower(socket, url, isPrivate) {
 //////////// PUBLIC //////////////
 
 module.exports = cloneFlower;
+
+var fakeSocket = {
+  write: function(data) {
+    console.log("SOCKET:", data);
+  }
+};
+
+var repo = {
+  url: 'https://github.com/claudiajs/claudia',
+  private: false
+};
+
+cloneFlower(fakeSocket, repo);
+

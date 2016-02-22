@@ -72,28 +72,32 @@ function clocToJson(clocData) {
 }
 
 // run the cloc command on the given repo
-function createClocFile(user, repo, socket) {
-  var cd = 'cd ' + appConfig.paths.repos + user + '/; ';
-  var cloc = 'cloc ' + repo +
+function createClocFile(repo, socket) {
+  var dirName = repo.fullName.replace('/', '#');
+
+  var cd = 'cd ' + appConfig.paths.repos + dirName + '; ';
+  var cloc = 'cloc ' + dirName +
              ' --csv --by-file ' + 
              '--ignored=reasons.txt ' +  
-             '--report-file=../' + user + '/' + repo + '.cloc';
+             '--report-file=data.cloc';
 
   socket.write('');
-  socket.write('>> ' + cloc);
+  socket.write('>> ' + cd + cloc);
 
   return execShellCommand(cd + cloc, socket);
 }
 
 // converts a cloc file to json
-function convertClocFile(user, repo, socket) {
+function convertClocFile(repo, socket) {
   var deferred = Q.defer();
 
   socket.write('');
   socket.write('Converting cloc file to json...');
 
+  var dirName = repo.fullName.replace('/', '#');
+
   // read the cloc file
-  var inFile = appConfig.paths.repos + user + '/' + repo + '.cloc';
+  var inFile = appConfig.paths.repos + dirName + '/data.cloc';
   fs.readFile(inFile, 'utf8', function(err, clocData) {
     if (err) {
       console.log(err);
@@ -103,11 +107,12 @@ function convertClocFile(user, repo, socket) {
       var json = clocToJson(clocData);
 
       // make a new folder for the user
-      var outFilePath = appConfig.paths.repos + user + '/';
+      var outFilePath = appConfig.paths.repos + dirName + '/';
+      console.log("OUTFILEPATH:", outFilePath);
       mkpath.sync(outFilePath);
 
       // write out the json
-      var outFile =  outFilePath + repo + '.json';
+      var outFile =  outFilePath + 'data.json';
       fs.writeFile(outFile, JSON.stringify(json), 'utf8', function(err) {
         if (err) {
           console.log(err);
@@ -129,10 +134,10 @@ function convertClocFile(user, repo, socket) {
 module.exports = {
   // generates a piece of Json representing a code flower for the given repo
   // uses the cloc command to analyze the repo
-  generateJson: function(user, repo, socket) {
-    return createClocFile(user, repo, socket)
+  generateJson: function(repo, socket) {
+    return createClocFile(repo, socket)
     .then(function() {
-      return convertClocFile(user, repo, socket);
+      return convertClocFile(repo, socket);
     });
   }
 };

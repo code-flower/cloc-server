@@ -15,11 +15,10 @@ angular.module('CodeFlower')
   return {
 
     // grow a flower from a git clone url
-    clone: function(url, isPrivate) {
-      cloneFlower({
-        url: url,
-        isPrivate: isPrivate || false
-      }, subscribers);
+    clone: function(repo) {
+      if (!repo.hasOwnProperty('private'))
+        repo.private = false;
+      cloneFlower(repo, subscribers);
     },
 
     update: function(repoName) {

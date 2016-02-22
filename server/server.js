@@ -49,8 +49,8 @@ ws.createServer(function(conn) {
 
   conn.on('text', function (data) {
     var socket = new WebSocket(conn),
-        data = JSON.parse(data);
-    cloneFlower(socket, data.url, data.isPrivate);
+        repo = JSON.parse(data);
+    cloneFlower(socket, repo);
   });
 
 }).listen(appConfig.ports.WS);

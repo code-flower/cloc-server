@@ -55,7 +55,7 @@ angular.module('CodeFlower')
     scope.cloneFlower = function() {
       scope.$emit('openTerminal');
       setTimeout(function() {
-        Gardener.clone(scope.giturl);
+        Gardener.clone({ url: scope.giturl });
       }, 500);
     };
 
@@ -114,10 +114,15 @@ angular.module('CodeFlower')
       // otherwise simply ask for credentials
       
       var message = "Please enter credentials." + (data && data.invalid ? ' MORON' : '');
-      var creds = prompt(message);
+      var creds = prompt(message).split(':'); // temporary, eventually there will be two fields
+
       if (creds !== null) {
-        var urlWithCreds = scope.giturl.replace('://', '://' + creds + '@');
-        Gardener.clone(urlWithCreds, true);
+        Gardener.clone({
+          url: scope.giturl,
+          private: true,
+          username: creds[0],
+          password: creds[1]
+        });
       }
     });
 

@@ -8,11 +8,22 @@ var appConfig = require('../../shared/appConfig.js');
 
 //////// PRIVATE /////
 
+// turns a repo object into a git clone url
+function gitCloneUrl(repo) {
+  if (!repo.private)
+    return repo.url;
+  else {
+    var username = repo.username.replace(/@/g, '%40');
+    var password = repo.password.replace(/@/g, '%40');
+    return repo.url.replace('://', `://${username}:${password}@`);
+  }
+}
+
 // returns a promise with data === true if repo is private, otherwise false
-function checkPrivateRepo(user, repo, socket) {
+function checkPrivateRepo(repo, socket) {
   var deferred = Q.defer();
 
-  var curl = 'curl https://api.github.com/repos/' + user + '/' + repo;
+  var curl = `curl https://api.github.com/repos/${repo.fullName}`;
   socket.write('>> ' + curl);
 
   exec(curl, function(error, stdout, stdin) {
@@ -24,13 +35,15 @@ function checkPrivateRepo(user, repo, socket) {
 }
 
 // runs git clone and returns a promise
-function cloneRepo(giturl, user, socket) {
+function cloneRepo(repo, socket) {
   var deferred = Q.defer();
 
-  mkpath.sync(appConfig.paths.repos + user + '/');
+  var dirName = repo.fullName.replace('/', '#');
 
-  var cd = 'cd ' + appConfig.paths.repos + user + '/; '; 
-  var clone = 'git clone ' + giturl + ' --progress';
+  mkpath.sync(appConfig.paths.repos + dirName);
+
+  var cd = 'cd ' + appConfig.paths.repos + dirName + '/; '; 
+  var clone = `git clone ${gitCloneUrl(repo)} ${dirName} --progress`;
 
   socket.write('');
   socket.write('>> ' + clone.replace(' --progress', ''));
@@ -56,3 +69,12 @@ module.exports = {
   checkPrivateRepo: checkPrivateRepo,
   cloneRepo: cloneRepo
 };
+
+/////// TESTING /////////
+
+console.log(gitCloneUrl({
+  url: 'https://dustlandmedia.git.beanstalkapp.com/roofshootserver.git',
+  private: true,
+  username: 'jake',
+  password: 's0meP@ssword2257'
+}));
