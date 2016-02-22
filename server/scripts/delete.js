@@ -6,11 +6,11 @@ var appConfig = require('../../shared/appConfig.js');
 
 //////// PUBLIC /////////
 
-module.exports = function deleteFiles(user) {
+module.exports = function deleteFolder(dirName) {
   var deferred = Q.defer(); 
 
-  console.log("deleting repo:", user);
-  rimraf(appConfig.paths.repos + user, function() {
+  console.log("deleting folder:", dirName);
+  rimraf(appConfig.paths.repos + dirName, function() {
     deferred.resolve();
   });
 

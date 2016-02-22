@@ -94,5 +94,5 @@ var repo = {
   private: false
 };
 
-cloneFlower(fakeSocket, repo);
+// cloneFlower(fakeSocket, repo);
 
