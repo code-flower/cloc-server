@@ -8,8 +8,17 @@ Built with <a href="https://github.com/mbostock/d3">d3.js</a>
 
 
 
-HOW TO RUN:
+HOW TO RUN THE DEV ENVIRONEMNT:
 
-1. gulp dev -- from the root of the repo 
-2. npm start -- from the root of the repo
-3. node server.js -- from server/
+gulp -- from the root of the repo 
+
+
+HOW TO RUN THE APP 
+
+npm start -- from the root of the repo
+
+
+HOW TO BUILD
+
+gulp bundle --env production
+  - the env is option, if set will add the hostname
