@@ -2,12 +2,12 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerContainer', function($timeout, BASE_PATH, appConfig, Gardener, flowerUtils, dbAccess) {
+.directive('flowerContainer', function($timeout, appConfig, Gardener, flowerUtils, dbAccess) {
 
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: BASE_PATH + 'flower-container.html',
+    templateUrl: appConfig.paths.partials + 'flower-container.html',
     link: link
   };
 

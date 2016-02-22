@@ -26,10 +26,11 @@ module.exports = {
   },
 
   paths: {
-    client:  `${__dirname}/../client/`,
-    server:  `${__dirname}/../server/`,
-    repos:   `${__dirname}/../server/repos/`,
-    samples: `${__dirname}/../server/samples/`
+    client:   `${__dirname}/../client/`,
+    server:   `${__dirname}/../server/`,
+    repos:    `${__dirname}/../server/repos/`,
+    samples:  `${__dirname}/../server/samples/`,
+    partials: 'js/app/'
   },
 
   database: {
