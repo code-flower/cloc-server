@@ -1,5 +1,6 @@
 ///////////// IMPORTS /////////////
 
+var appConfig = require('../../shared/appConfig.js');
 var git = require('./git.js');
 var cloc = require('./cloc.js');
 var parseGitUrl = require('git-url-parse');
@@ -13,13 +14,17 @@ function analyzeRepo(url, user, repo, socket) {
     return cloc.generateJson(user, repo, socket);
   })
   .then(function() {
-    socket.write('');
-    socket.write('END:' + user + '/' + repo);
+    socket.write({
+      type: appConfig.messageTypes.complete,
+      repoName: user + '/' + repo
+    });
     socket.close();
   })
   .catch(function(error) {
-    if (error = 'unauthorized') {
-      socket.write('UNAUTHORIZED');
+    if (error === appConfig.messageTypes.unauthorized) {
+      socket.write({
+        type: appConfig.messageTypes.unauthorized
+      });
       socket.close();
     }
   });
@@ -36,7 +41,9 @@ function cloneFlower(socket, url, isPrivate) {
   if (!urlInfo.protocol.match(/https/i)) {
     socket.write('Please use an https url.');
     socket.write('');
-    socket.write('ERROR');
+    socket.write({
+      type: appConfig.messageTypes.error
+    });
     socket.close();
     return;
   }
@@ -49,7 +56,9 @@ function cloneFlower(socket, url, isPrivate) {
   if (!user || !repo) {
     socket.write('Not a valid git clone url.');
     socket.write('');
-    socket.write('ERROR');
+    socket.write({
+      type: appConfig.messageTypes.error
+    });
     socket.close();
     return;
   }
@@ -60,7 +69,9 @@ function cloneFlower(socket, url, isPrivate) {
     git.checkPrivateRepo(user, repo, socket)
     .then(function(isPrivate) {
       if (isPrivate) {
-        socket.write('CREDENTIALS');
+        socket.write({
+          type: appConfig.messageTypes.credentials
+        });
         socket.close();
       } else {
         analyzeRepo(url, user, repo, socket);

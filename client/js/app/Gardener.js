@@ -20,30 +20,34 @@ angular.module('CodeFlower')
     };
 
     source.onmessage = function(event) {
-      if (event.data === 'ERROR') {
-        source.close();
+      var data = JSON.parse(event.data);
+      var types = appConfig.messageTypes;
 
-      } else if (event.data === 'CREDENTIALS') {
-        source.close();
-        $rootScope.$broadcast('needCredentials');
-
-      } else if (event.data === 'UNAUTHORIZED') {
-        source.close();
-        $rootScope.$broadcast('needCredentials', { 
-          invalid: true 
-        });
-
-      } else if (event.data.match(/END:/)) {
-        source.close();
-        $rootScope.$broadcast('flowerReady', { 
-          repoName: event.data.replace('END:', '') 
-        });
-
-      } else {
-        // notify subscribers of the flower's growth
-        subscribers.forEach(function(subscriber) {
-          subscriber(event.data);
-        });
+      switch(data.type) {
+        case types.text:
+          subscribers.forEach(function(subscriber) {
+            subscriber(data.text);
+          });    
+          break;
+        case types.error:
+          source.close();
+          break;
+        case types.credentials:
+          source.close();
+          $rootScope.$broadcast('needCredentials');
+          break;
+        case types.unauthorized:
+          source.close();
+          $rootScope.$broadcast('needCredentials', { 
+            invalid: true 
+          });
+          break;
+        case types.complete:
+          source.close();
+          $rootScope.$broadcast('flowerReady', { 
+            repoName: data.repoName
+          });
+          break;
       }
     };
 

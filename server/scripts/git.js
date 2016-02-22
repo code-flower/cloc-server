@@ -25,8 +25,6 @@ function checkPrivateRepo(user, repo, socket) {
 
 // runs git clone and returns a promise
 function cloneRepo(giturl, user, socket) {
-  console.log("CLONING REPO");
-
   var deferred = Q.defer();
 
   mkpath.sync(appConfig.paths.repos + user + '/');
@@ -46,7 +44,7 @@ function cloneRepo(giturl, user, socket) {
     socket.write(data); 
     if (data.match(/Invalid username or password/) ||
         data.match(/unable to access/)) 
-      deferred.reject('unauthorized');
+      deferred.reject(appConfig.messageTypes.unauthorized);
   });
 
   return deferred.promise;

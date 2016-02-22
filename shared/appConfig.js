@@ -18,6 +18,13 @@ module.exports = {
     samples: '/samples'
   },
 
+  messageTypes: {
+    error: 'error',
+    credentials: 'credentials',
+    unauthorized: 'unauthorized',
+    complete: 'complete'
+  },
+
   paths: {
     client:  `${__dirname}/../client/`,
     server:  `${__dirname}/../server/`,
