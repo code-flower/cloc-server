@@ -31,10 +31,6 @@ angular.module('CodeFlower')
 
     init: function() {
 
-      // uncomment to delete the database
-      // service.deleteDB();
-      // return $q.when();
-
       if (DB) 
         return $q.when();
 

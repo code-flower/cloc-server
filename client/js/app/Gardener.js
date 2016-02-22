@@ -2,63 +2,13 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('Gardener', function($rootScope, $http, $q, dbAccess, appConfig) {
+.factory('Gardener', function($rootScope, $http, $q, dbAccess, appConfig, cloneFlower) {
 
   //// PRIVATE ////
 
-  // an array of callbacks to call when the
-  // eventsource receives a message
+  // an array of callbacks to call when 
+  // progress is made on the clone
   var subscribers = [];
-
-  // gets a flower from the backend
-  function getFlower(data) {
-    var source = new WebSocket(`ws://${appConfig.hostName}:${appConfig.ports.WS}`);
-
-    source.onopen = function(event) {
-      console.log("Websocket connection opening:", event);
-      source.send(JSON.stringify(data));  
-    };
-
-    source.onmessage = function(event) {
-      var data = JSON.parse(event.data);
-      var types = appConfig.messageTypes;
-
-      switch(data.type) {
-        case types.text:
-          subscribers.forEach(function(subscriber) {
-            subscriber(data.text);
-          });    
-          break;
-        case types.error:
-          source.close();
-          break;
-        case types.credentials:
-          source.close();
-          $rootScope.$broadcast('needCredentials');
-          break;
-        case types.unauthorized:
-          source.close();
-          $rootScope.$broadcast('needCredentials', { 
-            invalid: true 
-          });
-          break;
-        case types.complete:
-          source.close();
-          $rootScope.$broadcast('flowerReady', { 
-            repoName: data.repoName
-          });
-          break;
-      }
-    };
-
-    source.onclose = function() {
-      console.log("Websocket connection closed")
-    };
-
-    source.onerror = function() {
-      console.error("Websocket connection error")
-    };
-  }
 
   //// THE SERVICE ////
 
@@ -66,10 +16,10 @@ angular.module('CodeFlower')
 
     // grow a flower from a git clone url
     clone: function(url, isPrivate) {
-      getFlower({
+      cloneFlower({
         url: url,
         isPrivate: isPrivate || false
-      });
+      }, subscribers);
     },
 
     update: function(repoName) {
