@@ -112,9 +112,16 @@ angular.module('CodeFlower')
       // if (data && data.invalid) is true then the modal should
       // state that the previously entered credentials are invalid
       // otherwise simply ask for credentials
+
+      console.log("data in needCredentials:", data);
       
-      var message = "Please enter credentials." + (data && data.invalid ? ' MORON' : '');
+      var message = "Please enter your {username}:{password}." + (data && data.invalid ? ' MORON' : '');
       var creds = prompt(message).split(':'); // temporary, eventually there will be two fields
+
+      if (data.needHTTPS) {
+        console.log("Asking for HTTPS");
+        scope.giturl = prompt("Please enter an HTTPS url.");
+      }
 
       if (creds !== null) {
         Gardener.clone({

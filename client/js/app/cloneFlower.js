@@ -32,7 +32,10 @@ angular.module('CodeFlower')
           break;
         case types.credentials:
           socket.close();
-          $rootScope.$broadcast('needCredentials');
+          console.log("DATA = ", data);
+          $rootScope.$broadcast('needCredentials', {
+            needHTTPS: data.needHTTPS
+          });
           break;
         case types.unauthorized:
           socket.close();
