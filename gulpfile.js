@@ -12,7 +12,7 @@ const appConfig = require('./shared/appConfig.js');
 /////////////// BUNDLER ///////////////////
 
 function bundle() {
-  return browserify('./client/js/index.js')
+  return browserify('./client/js/require.js')
     .transform(babelify, { presets: ['es2015'] })
     .transform(envify({ NODE_ENV: argv.env || 'development' }))
     .on('error', function(err) { console.log(err); })
