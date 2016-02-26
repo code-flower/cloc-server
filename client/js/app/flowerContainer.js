@@ -43,6 +43,7 @@ angular.module('CodeFlower')
     scope.languages = {};
 
     scope.giturl = '';
+    scope.cloning = false;
 
     //// SCOPE FUNCTIONS ////
 
@@ -55,6 +56,7 @@ angular.module('CodeFlower')
     scope.cloneFlower = function() {
       scope.$emit('openTerminal');
       setTimeout(function() {
+        $timeout(function() { scope.cloning = true; });
         Gardener.clone({ url: scope.giturl });
       }, 500);
     };
@@ -80,6 +82,10 @@ angular.module('CodeFlower')
       });
     };
 
+    scope.abortClone = function() {
+      console.log("aborting clone");
+    };
+
     scope.switchRepos = function(repoName) {
       Gardener.harvest(repoName).then(buildUI);
     };
@@ -92,6 +98,7 @@ angular.module('CodeFlower')
     //// EVENT LISTENERS ////
 
     scope.$on('flowerReady', function(e, data) {
+      $timeout(function() { scope.cloning = true; });
 
       Gardener.harvest(data.repoName)
       .then(function(repo) {

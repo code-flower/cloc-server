@@ -29,9 +29,15 @@
                  placeholder="git clone url"></input>
         </td>
         <td>
-          <button class="btn btn-primary clone-button" 
+          <button ng-show="!cloning"
+                  class="btn btn-primary clone-button" 
                   ng-click="cloneFlower()">
             git clone
+          </button>
+          <button ng-show="cloning"
+                  class="btn btn-danger clone-button" 
+                  ng-click="abortClone()">
+            abort
           </button>
         </td>
       </tr>
