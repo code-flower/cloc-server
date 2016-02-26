@@ -143,6 +143,7 @@ angular.module('CodeFlower')
 
     scope.$on('cloneAborted', function() {
       scope.$emit('closeTerminal');
+      scope.cloning = false;
     });
 
     //// COMMANDS ////
