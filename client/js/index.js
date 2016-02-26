@@ -8,6 +8,7 @@ require('./app/flowerTerminal.js');
 require('./app/flowerUtils.js');
 require('./app/flowerViz.js');
 require('./app/Gardener.js');
+require('./app/state.js');
 
 
 

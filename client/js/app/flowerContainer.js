@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerContainer', function($timeout, appConfig, Gardener, flowerUtils, dbAccess) {
+.directive('flowerContainer', function($timeout, appConfig, Gardener, flowerUtils, dbAccess, state) {
 
   return {
     restrict: 'E',
@@ -84,6 +84,7 @@ angular.module('CodeFlower')
 
     scope.abortClone = function() {
       console.log("aborting clone");
+      state.cloning = false;
     };
 
     scope.switchRepos = function(repoName) {
@@ -138,6 +139,10 @@ angular.module('CodeFlower')
           password: creds[1]
         });
       }
+    });
+
+    scope.$on('cloneAborted', function() {
+      scope.$emit('closeTerminal');
     });
 
     //// COMMANDS ////

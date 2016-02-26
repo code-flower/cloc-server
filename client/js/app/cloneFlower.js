@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('cloneFlower', function($rootScope, appConfig) {
+.factory('cloneFlower', function($rootScope, appConfig, state) {
 
   // initiates a clone on the backend,
   // monitors progress over a websockets connection,
@@ -15,11 +15,21 @@ angular.module('CodeFlower')
     socket.onopen = function(event) {
       console.log("Websocket connection opening:", event);
       socket.send(JSON.stringify(data));  
+      state.cloning = true;
     };
 
     socket.onmessage = function(event) {
       var data = JSON.parse(event.data);
       var types = appConfig.messageTypes;
+
+      console.log("state", state);
+
+      if (!state.cloning) {
+        // MAY NEED TO SEND CLOSING MESSAGE TO SERVER
+        socket.close();
+        console.log("socket closed");
+        $rootScope.$broadcast('cloneAborted');
+      }
 
       switch(data.type) {
         case types.text:
