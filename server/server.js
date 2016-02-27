@@ -12,6 +12,7 @@ var WebSocket = require('./scripts/WebSocket.js');
 var serveFlower = require('./scripts/serveFlower.js');
 var serveSamples = require('./scripts/serveSamples.js');
 var serveStaticFile = require('./scripts/staticFileServer.js');
+var state = require('./scripts/state');
 
 
 
@@ -47,10 +48,27 @@ console.log(`HTTP server running at http://${appConfig.hostName}:${appConfig.por
 
 ws.createServer(function(conn) {
 
+  var socket;
+
   conn.on('text', function (data) {
-    var socket = new WebSocket(conn),
-        repo = JSON.parse(data);
-    cloneFlower(socket, repo);
+    var parsed = JSON.parse(data);
+    console.log("parsed:", parsed);
+
+    switch(parsed.type) {
+      case 'open':
+        console.log("received open message");
+        state.closed = false;
+        socket = new WebSocket(conn);
+        cloneFlower(socket, parsed.repo);
+        break;
+      case 'close':
+        console.log("RECEIVED CLOSE MESSAGE");
+        state.closed = true;
+        break;
+      default:
+        console.log("unrecognized type");
+    }
+
   });
 
 }).listen(appConfig.ports.WS);
