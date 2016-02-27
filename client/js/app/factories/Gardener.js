@@ -21,10 +21,6 @@ angular.module('CodeFlower')
       cloneFlower(repo, subscribers);
     },
 
-    update: function(repoName) {
-      console.log("updating repo:", repoName);
-    },
-
     // pluck a flower from the garden
     harvest: function(repoName) {
       var deferred = $q.defer();

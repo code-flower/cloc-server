@@ -61,14 +61,6 @@ angular.module('CodeFlower')
       }, 500);
     };
 
-    // MAYBE DELETE THIS HERE AND IN GARDENER.JS
-    scope.updateFlower = function() {
-      scope.$emit('openTerminal');
-      setTimeout(function() {
-        Gardener.update(scope.selectedRepo);
-      }, 500);
-    };
-
     scope.deleteFlower = function() {
       var index = scope.repoNames.indexOf(scope.selectedRepo);
       scope.repoNames.splice(index, 1);

@@ -47,17 +47,12 @@
           <select ng-model="selectedRepo"
                   ng-change="switchRepos(selectedRepo)"
                   class="dropdown">
-           <option ng-repeat="name in repoNames" 
-                   value="{{name}}"
-                   ng-bind="name"></option>
+            <option ng-repeat="name in repoNames" 
+                    value="{{name}}"
+                    ng-bind="name"></option>
           </select>
         </td>
         <td>
-          <button class="btn btn-primary update-button" 
-                  ng-click="updateFlower()"
-                  ng-disabled="cloning">
-            update
-          </button>
           <button class="btn btn-primary delete-button"
                   ng-click="deleteFlower()"
                   ng-disabled="cloning">

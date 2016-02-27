@@ -27,13 +27,9 @@ body {
   letter-spacing: 1.0px;
 }
 
-.clone-button {
-  width: 145px;
-}
-
-.update-button,
+.clone-button,
 .delete-button {
-  width: 70px;
+  width: 100px;
 }
 
 .repo-form label {
@@ -64,7 +60,7 @@ body {
 }
 
 .repo-form .two-col {
-  width: 375px;
+  width: 330px;
 }
 
 /*///////// VISUALIZATION /////////*/
