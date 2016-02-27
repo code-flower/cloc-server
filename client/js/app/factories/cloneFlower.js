@@ -26,10 +26,7 @@ angular.module('CodeFlower')
       var data = JSON.parse(event.data);
       var types = appConfig.messageTypes;
 
-      console.log("state", state);
-
       if (!state.cloning) {
-        // MAY NEED TO SEND CLOSING MESSAGE TO SERVER
         socket.send(JSON.stringify({
           type: 'close'
         }));

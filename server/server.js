@@ -49,18 +49,15 @@ ws.createServer(function(conn) {
 
   var socket;
 
-  conn.on('text', function (data) {
-    var parsed = JSON.parse(data);
-    console.log("parsed:", parsed);
+  conn.on('text', function (rawData) {
+    var data = JSON.parse(rawData);
 
-    switch(parsed.type) {
+    switch(data.type) {
       case 'open':
-        console.log("received open message");
         socket = new WebSocket(conn);
-        cloneFlower(socket, parsed.repo);
+        cloneFlower(socket, data.repo);
         break;
       case 'close':
-        console.log("RECEIVED CLOSE MESSAGE");
         socket.close();
         break;
       default:

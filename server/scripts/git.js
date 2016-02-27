@@ -49,15 +49,6 @@ function cloneRepo(repo, socket) {
   socket.text('\n>> ' + clone.replace(' --progress', ''));
 
   var process = exec(cd + clone, function() { deferred.resolve(); });
-    // console.log("TIME TO CLEAN UP");
-    // if (socket.isOpen()) {
-    //   deferred.resolve(); 
-    // } else {
-    //   console.log("PROCESS ABORTED");
-    //   deleteRepo(repo.fullName);
-    //   deferred.reject('process terminated');
-    // }
-  //});
 
   // listen for command output
   process.stdout.on('data', function(data) { socket.text(data); });
@@ -80,11 +71,3 @@ module.exports = {
   cloneRepo: cloneRepo
 };
 
-/////// TESTING /////////
-
-// console.log(gitCloneUrl({
-//   url: 'https://dustlandmedia.git.beanstalkapp.com/roofshootserver.git',
-//   private: true,
-//   username: 'jake',
-//   password: 's0meP@ssword2257'
-// }));

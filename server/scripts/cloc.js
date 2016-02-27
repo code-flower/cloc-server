@@ -106,7 +106,6 @@ function convertClocFile(repo, socket) {
 
       // make a new folder for the user
       var outFilePath = appConfig.paths.repos + dirName + '/';
-      console.log("OUTFILEPATH:", outFilePath);
       mkpath.sync(outFilePath);
 
       // write out the json

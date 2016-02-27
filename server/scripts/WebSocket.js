@@ -11,7 +11,7 @@ function WebSocket(wsConn) {
 
 // private: not to be called outside this file
 WebSocket.prototype._send = function(data) {
-  console.log("Sending:", data);
+  console.log("Sending:", data.hasOwnProperty('text') ? data.text : data);
   if (this.conn)
     this.conn.send(JSON.stringify(data));
 };
