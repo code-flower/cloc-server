@@ -152,6 +152,12 @@ line.link {
   bottom: 10px;
 }
 
+.open-modal {
+  position: fixed;
+  left: 120px;
+  bottom: 10px;
+}
+
 
 
 

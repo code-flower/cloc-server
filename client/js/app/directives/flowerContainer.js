@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerContainer', function($timeout, appConfig, Gardener, flowerUtils, dbAccess, state) {
+.directive('flowerContainer', function($timeout, appConfig, Gardener, flowerUtils, dbAccess, state, $uibModal) {
 
   return {
     restrict: 'E',
@@ -89,6 +89,16 @@ angular.module('CodeFlower')
       location.reload();
     };
 
+    scope.openModal = function() {
+      console.log("opening modal");
+      var options = {
+        controller: 'credentialsModal',
+        templateUrl: appConfig.paths.partials + 'credentials-modal.html',
+        size: 'md'
+      };
+      $uibModal.open(options);
+    };
+
     //// EVENT LISTENERS ////
 
     scope.$on('flowerReady', function(e, data) {
@@ -151,6 +161,7 @@ angular.module('CodeFlower')
     //// COMMANDS ////
 
     console.log("appConfig = ", appConfig);
+    console.log("$uibModal = ", $uibModal);
 
     dbAccess.init()
     .then(Gardener.enumerate)
