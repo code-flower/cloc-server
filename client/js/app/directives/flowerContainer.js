@@ -94,14 +94,22 @@ angular.module('CodeFlower')
     scope.$on('flowerReady', function(e, data) {
       scope.cloning = false;
 
-      Gardener.harvest(data.repoName)
+      // clear out any previous db entry
+      Gardener.delete(data.repoName)
+      // then get the repo data
+      .then(function() {
+        return Gardener.harvest(data.repoName)
+      })
+      // then display the data
       .then(function(repo) {
 
         scope.$emit('closeTerminal');
         $timeout(function() {
           scope.giturl = '';
-          scope.repoNames.push(data.repoName);
-          scope.repoNames.sort();
+          if (scope.repoNames.indexOf(data.repoName) === -1) {
+            scope.repoNames.push(data.repoName);
+            scope.repoNames.sort();
+          }
           scope.selectedRepo = data.repoName;
           buildUI(repo);
         }, 500);

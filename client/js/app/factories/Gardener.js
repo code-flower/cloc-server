@@ -37,6 +37,7 @@ angular.module('CodeFlower')
                     `${appConfig.endpoints.harvest}?repo=${encodeURIComponent(repoName)}`;
           $http.get(url)
           .then(function(res) {
+            // and store the repo in the DB
             dbAccess.set(repoName, res.data);
             deferred.resolve(res.data);
           });
@@ -55,6 +56,7 @@ angular.module('CodeFlower')
       return dbAccess.getKeys();
     },
 
+    // delete the given repo
     delete: function(repoName) {
       return dbAccess.delete(repoName);
     },
