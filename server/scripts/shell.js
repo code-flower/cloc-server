@@ -14,8 +14,8 @@ module.exports = function execShellCommand(cmd, socket) {
   var process = exec(cmd, function() { deferred.resolve(); }); 
 
   // listen for command output
-  process.stdout.on('data', function(data) { socket.write(data); });
-  process.stderr.on('data', function(data) { socket.write(data); });
+  process.stdout.on('data', function(data) { socket.text(data); });
+  process.stderr.on('data', function(data) { socket.text(data); });
 
   return deferred.promise;
 };

@@ -24,7 +24,7 @@ function checkPrivateRepo(repo, socket) {
   var deferred = Q.defer();
 
   var curl = `curl https://api.github.com/repos/${repo.fullName}`;
-  socket.write('>> ' + curl);
+  socket.text('>> ' + curl);
 
   exec(curl, function(error, stdout, stdin) {
     var isPrivate = !!JSON.parse(stdout).message;
@@ -45,16 +45,15 @@ function cloneRepo(repo, socket) {
   var cd = `cd ${appConfig.paths.repos}${dirName}/; `; 
   var clone = `git clone ${gitCloneUrl(repo)} ${dirName} --progress`;
 
-  socket.write('');
-  socket.write('>> ' + clone.replace(' --progress', ''));
+  socket.text('\n>> ' + clone.replace(' --progress', ''));
 
   var process = exec(cd + clone, function() { deferred.resolve(); });
 
   // listen for command output
-  process.stdout.on('data', function(data) { socket.write(data); });
+  process.stdout.on('data', function(data) { socket.text(data); });
 
   process.stderr.on('data', function(data) { 
-    socket.write(data); 
+    socket.text(data); 
     if (data.match(/Invalid username or password/) ||
         data.match(/unable to access/) ||
         data.match(/Unauthorized/)) 

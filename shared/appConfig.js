@@ -19,6 +19,7 @@ module.exports = {
   },
 
   messageTypes: {
+    text: 'text',
     error: 'error',
     credentials: 'credentials',
     unauthorized: 'unauthorized',

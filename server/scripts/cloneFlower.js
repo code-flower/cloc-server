@@ -14,19 +14,11 @@ function analyzeRepo(repo, socket) {
     return cloc.generateJson(repo, socket);
   })
   .then(function() {
-    socket.write({
-      type: appConfig.messageTypes.complete,
-      repoName: repo.fullName
-    });
-    socket.close();
+    socket.complete(repo);
   })
   .catch(function(error) {
-    if (error === appConfig.messageTypes.unauthorized) {
-      socket.write({
-        type: appConfig.messageTypes.unauthorized
-      });
-      socket.close();
-    }
+    if (error === appConfig.messageTypes.unauthorized) 
+      socket.unauthorized(repo);
   });
 }
 
@@ -38,64 +30,27 @@ function cloneFlower(socket, repo) {
 
   repo.fullName = urlInfo.full_name;
 
-  if (!repo.fullName) {
-    socket.write('Not a valid git clone url.');
-    socket.write('');
-    socket.write({
-      type: appConfig.messageTypes.error
-    });
-    socket.close();
-    return;
-  }
+  if (!repo.fullName) 
+    socket.invalidUrl(repo);
 
-  if (repo.private) {
-    // require https for private repos
-    if (!usingHTTPS) {
-      socket.write('Please use an https url.');
-      socket.write('');
-      socket.write({
-        type: appConfig.messageTypes.error
-      });
-      socket.close();
-      return;
-    } else {
+  else if (repo.private) {
+    if (!usingHTTPS) 
+      socket.needHTTPS(repo);
+    else 
       analyzeRepo(repo, socket);
-    }
   }
+  
   else 
     git.checkPrivateRepo(repo, socket)
     .then(function(isPrivate) {
-      console.log("isPrivate?", isPrivate);
-      if (isPrivate) {
-        socket.write({
-          type: appConfig.messageTypes.credentials,
-          needHTTPS: !usingHTTPS
-        });
-        socket.close();
-      } else {
-        console.log("not private:", repo);
+      if (isPrivate) 
+        socket.credentials(repo, !usingHTTPS);
+      else 
         analyzeRepo(repo, socket);
-      }
     });
 }
 
 //////////// PUBLIC //////////////
 
 module.exports = cloneFlower;
-
-
-//////////// TESTING ///////////
-
-// var fakeSocket = {
-//   write: function(data) {
-//     console.log("SOCKET:", data);
-//   }
-// };
-
-// var repo = {
-//   url: 'https://github.com/claudiajs/claudia',
-//   private: false
-// };
-
-// cloneFlower(fakeSocket, repo);
 

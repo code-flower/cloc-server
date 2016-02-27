@@ -81,8 +81,7 @@ function createClocFile(repo, socket) {
              '--ignored=reasons.txt ' +  
              '--report-file=data.cloc';
 
-  socket.write('');
-  socket.write('>> ' + cd + cloc);
+  socket.text('\n>> ' + cd + cloc);
 
   return execShellCommand(cd + cloc, socket);
 }
@@ -91,8 +90,7 @@ function createClocFile(repo, socket) {
 function convertClocFile(repo, socket) {
   var deferred = Q.defer();
 
-  socket.write('');
-  socket.write('Converting cloc file to json...');
+  socket.text('\nConverting cloc file to json...');
 
   var dirName = repo.fullName.replace('/', '#');
 
@@ -119,7 +117,7 @@ function convertClocFile(repo, socket) {
           deferred.reject(err);
         }
         else {
-          socket.write('Wrote ' + outFile);
+          socket.text('Wrote ' + outFile);
           deferred.resolve();
         }
       });
