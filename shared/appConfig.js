@@ -19,11 +19,15 @@ module.exports = {
   },
 
   messageTypes: {
+    // from server to client
     text: 'text',
     error: 'error',
     credentials: 'credentials',
     unauthorized: 'unauthorized',
-    complete: 'complete'
+    complete: 'complete',
+    // from client to server
+    open: 'open',
+    close: 'close'
   },
 
   paths: {

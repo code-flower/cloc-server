@@ -13,27 +13,30 @@ angular.module('CodeFlower')
     var socket = new WebSocket(`ws://${appConfig.hostName}:${appConfig.ports.WS}`);
 
     socket.onopen = function(event) {
-      console.log("data:", data);
-      console.log("Websocket connection opening:", event);
+      console.log("Websocket connection opening");
+      console.log("sending:", data);
       socket.send(JSON.stringify({
-        type: 'open',
+        type: appConfig.messageTypes.open,
         repo: data
       }));  
       state.cloning = true;
     };
 
     socket.onmessage = function(event) {
-      var data = JSON.parse(event.data);
-      var types = appConfig.messageTypes;
 
+      // halt if the clone has been aborted
       if (!state.cloning) {
         socket.send(JSON.stringify({
-          type: 'close'
+          type: appConfig.messageTypes.close
         }));
         console.log("socket closed");
         $rootScope.$broadcast('cloneAborted');
         return;
       }
+
+      // otherwise handle the event
+      var data = JSON.parse(event.data);
+      var types = appConfig.messageTypes;
 
       switch(data.type) {
         case types.text:
@@ -46,7 +49,6 @@ angular.module('CodeFlower')
           break;
         case types.credentials:
           socket.close();
-          console.log("DATA = ", data);
           $rootScope.$broadcast('needCredentials', {
             needHTTPS: data.needHTTPS
           });

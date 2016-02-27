@@ -53,15 +53,16 @@ ws.createServer(function(conn) {
     var data = JSON.parse(rawData);
 
     switch(data.type) {
-      case 'open':
+      case appConfig.messageTypes.open:
         socket = new WebSocket(conn);
         cloneFlower(socket, data.repo);
         break;
-      case 'close':
+      case appConfig.messageTypes.close:
         socket.close();
         break;
       default:
-        console.log("unrecognized type");
+        console.log("unrecognized message type");
+        break;
     }
 
   });
