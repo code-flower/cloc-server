@@ -29,10 +29,13 @@ angular.module('CodeFlower')
     harvest: function(repoName) {
       var deferred = $q.defer();
 
+      // check the db for the given repo
       dbAccess.get(repoName)
       .then(function(data) {
+        // if it's there, return it
         if (data)
           deferred.resolve(data);
+        // otherwise hit the back end
         else {
           var url = `http://${appConfig.hostName}:${appConfig.ports.HTTP}` + 
                     `${appConfig.endpoints.harvest}?repo=${encodeURIComponent(repoName)}`;

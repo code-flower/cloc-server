@@ -37,12 +37,12 @@ angular.module('CodeFlower')
 
     scope.repoNames = [];
     scope.folderPaths = [];
+    scope.languages = {};
+    scope.giturl = '';
     
     scope.selectedRepo = null;
     scope.selectedFolder = null;
-    scope.languages = {};
-
-    scope.giturl = '';
+    
     scope.cloning = false;
 
     //// SCOPE FUNCTIONS ////
@@ -55,12 +55,13 @@ angular.module('CodeFlower')
 
     scope.cloneFlower = function() {
       scope.$emit('openTerminal');
-      setTimeout(function() {
-        $timeout(function() { scope.cloning = true; });
+      $timeout(function() {
+        scope.cloning = true;
         Gardener.clone({ url: scope.giturl });
       }, 500);
     };
 
+    // MAYBE DELETE THIS HERE AND IN GARDENER.JS
     scope.updateFlower = function() {
       scope.$emit('openTerminal');
       setTimeout(function() {
@@ -99,7 +100,7 @@ angular.module('CodeFlower')
     //// EVENT LISTENERS ////
 
     scope.$on('flowerReady', function(e, data) {
-      $timeout(function() { scope.cloning = true; });
+      scope.cloning = false;
 
       Gardener.harvest(data.repoName)
       .then(function(repo) {
@@ -108,6 +109,7 @@ angular.module('CodeFlower')
         $timeout(function() {
           scope.giturl = '';
           scope.repoNames.push(data.repoName);
+          scope.repoNames.sort();
           scope.selectedRepo = data.repoName;
           buildUI(repo);
         }, 500);

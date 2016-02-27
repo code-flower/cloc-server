@@ -54,11 +54,13 @@
         </td>
         <td>
           <button class="btn btn-primary update-button" 
-                  ng-click="updateFlower()">
+                  ng-click="updateFlower()"
+                  ng-disabled="cloning">
             update
           </button>
           <button class="btn btn-primary delete-button"
-                  ng-click="deleteFlower()">
+                  ng-click="deleteFlower()"
+                  ng-disabled="cloning">
             delete
           </button>
         </td>
