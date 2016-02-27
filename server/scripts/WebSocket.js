@@ -1,7 +1,6 @@
 ///////// IMPORTS //////////
 
 var appConfig = require('../../shared/appConfig.js');
-var state = require('./state.js');
 
 ///////// PRIVATE //////////
 
@@ -13,10 +12,6 @@ function WebSocket(wsConn) {
 // private: not to be called outside this file
 WebSocket.prototype._send = function(data) {
   console.log("Sending:", data);
-
-  if (state.closed)
-    return;
-
   this.conn.send(JSON.stringify(data));
 };
 

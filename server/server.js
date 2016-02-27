@@ -12,7 +12,6 @@ var WebSocket = require('./scripts/WebSocket.js');
 var serveFlower = require('./scripts/serveFlower.js');
 var serveSamples = require('./scripts/serveSamples.js');
 var serveStaticFile = require('./scripts/staticFileServer.js');
-var state = require('./scripts/state');
 
 
 
@@ -57,13 +56,11 @@ ws.createServer(function(conn) {
     switch(parsed.type) {
       case 'open':
         console.log("received open message");
-        state.closed = false;
         socket = new WebSocket(conn);
         cloneFlower(socket, parsed.repo);
         break;
       case 'close':
         console.log("RECEIVED CLOSE MESSAGE");
-        state.closed = true;
         break;
       default:
         console.log("unrecognized type");
