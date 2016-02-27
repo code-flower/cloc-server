@@ -4,6 +4,7 @@ var appConfig = require('../../shared/appConfig.js');
 var git = require('./git.js');
 var cloc = require('./cloc.js');
 var parseGitUrl = require('git-url-parse');
+var deleteRepo = require('./delete');
 
 //////////// PRIVATE //////////////
 
@@ -14,7 +15,10 @@ function analyzeRepo(repo, socket) {
     return cloc.generateJson(repo, socket);
   })
   .then(function() {
-    socket.complete(repo);
+    if (socket.isOpen())
+      socket.complete(repo);
+    else 
+      deleteRepo(repo.fullName);  // this runs if the process has been aborted
   })
   .catch(function(error) {
     if (error === appConfig.messageTypes.unauthorized) 

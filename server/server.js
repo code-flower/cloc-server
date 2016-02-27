@@ -61,6 +61,7 @@ ws.createServer(function(conn) {
         break;
       case 'close':
         console.log("RECEIVED CLOSE MESSAGE");
+        socket.close();
         break;
       default:
         console.log("unrecognized type");

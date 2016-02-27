@@ -12,7 +12,8 @@ function WebSocket(wsConn) {
 // private: not to be called outside this file
 WebSocket.prototype._send = function(data) {
   console.log("Sending:", data);
-  this.conn.send(JSON.stringify(data));
+  if (this.conn)
+    this.conn.send(JSON.stringify(data));
 };
 
 // public methods
@@ -66,9 +67,15 @@ WebSocket.prototype.unauthorized = function(repo) {
   this.close();
 };
 
+WebSocket.prototype.isOpen = function() {
+  return !!this.conn;
+};
+
 WebSocket.prototype.close = function() {
   // the close function doesn't seem to work
+  console.log("CLOSING CONNECTION");
   this.conn.close();
+  this.conn = null;
 };
 
 ////////// PUBLIC //////////

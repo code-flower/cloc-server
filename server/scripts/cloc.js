@@ -136,6 +136,6 @@ module.exports = {
     return createClocFile(repo, socket)
     .then(function() {
       return convertClocFile(repo, socket);
-    });
+    })
   }
 };

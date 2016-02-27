@@ -5,6 +5,7 @@ var mkpath = require('mkpath');
 var execShellCommand = require('./shell.js');
 var Q = require('q');
 var appConfig = require('../../shared/appConfig.js');
+var deleteRepo = require('./delete.js');
 
 //////// PRIVATE /////
 
@@ -48,6 +49,15 @@ function cloneRepo(repo, socket) {
   socket.text('\n>> ' + clone.replace(' --progress', ''));
 
   var process = exec(cd + clone, function() { deferred.resolve(); });
+    // console.log("TIME TO CLEAN UP");
+    // if (socket.isOpen()) {
+    //   deferred.resolve(); 
+    // } else {
+    //   console.log("PROCESS ABORTED");
+    //   deleteRepo(repo.fullName);
+    //   deferred.reject('process terminated');
+    // }
+  //});
 
   // listen for command output
   process.stdout.on('data', function(data) { socket.text(data); });
