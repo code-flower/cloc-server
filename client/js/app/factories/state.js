@@ -8,5 +8,4 @@ angular.module('CodeFlower')
     cloning: false
   };
 
-
 });

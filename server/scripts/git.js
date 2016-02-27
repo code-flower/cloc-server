@@ -42,7 +42,7 @@ function cloneRepo(repo, socket) {
 
   mkpath.sync(appConfig.paths.repos + dirName);
 
-  var cd = 'cd ' + appConfig.paths.repos + dirName + '/; '; 
+  var cd = `cd ${appConfig.paths.repos}${dirName}/; `; 
   var clone = `git clone ${gitCloneUrl(repo)} ${dirName} --progress`;
 
   socket.write('');
@@ -73,9 +73,9 @@ module.exports = {
 
 /////// TESTING /////////
 
-console.log(gitCloneUrl({
-  url: 'https://dustlandmedia.git.beanstalkapp.com/roofshootserver.git',
-  private: true,
-  username: 'jake',
-  password: 's0meP@ssword2257'
-}));
+// console.log(gitCloneUrl({
+//   url: 'https://dustlandmedia.git.beanstalkapp.com/roofshootserver.git',
+//   private: true,
+//   username: 'jake',
+//   password: 's0meP@ssword2257'
+// }));

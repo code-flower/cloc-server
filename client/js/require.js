@@ -1,14 +1,21 @@
+// vendor
 require('angular');
+
+// main
 require('./app/app.js');
-require('./app/cloneFlower.js');
-require('./app/CodeFlower.js');
-require('./app/dbAccess.js');
-require('./app/flowerContainer.js');
-require('./app/flowerTerminal.js');
-require('./app/flowerUtils.js');
-require('./app/flowerViz.js');
-require('./app/Gardener.js');
-require('./app/state.js');
+
+// directives
+require('./app/directives/flowerContainer.js');
+require('./app/directives/flowerTerminal.js');
+require('./app/directives/flowerViz.js');
+
+// factories
+require('./app/factories/cloneFlower.js');
+require('./app/factories/CodeFlower.js');
+require('./app/factories/dbAccess.js');
+require('./app/factories/flowerUtils.js');
+require('./app/factories/Gardener.js');
+require('./app/factories/state.js');
 
 
 

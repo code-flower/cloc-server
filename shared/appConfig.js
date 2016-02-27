@@ -30,7 +30,7 @@ module.exports = {
     server:   `${__dirname}/../server/`,
     repos:    `${__dirname}/../server/repos/`,
     samples:  `${__dirname}/../server/samples/`,
-    partials: 'js/app/'
+    partials: 'js/app/partials/'
   },
 
   database: {
