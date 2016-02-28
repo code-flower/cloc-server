@@ -53,11 +53,11 @@ ws.createServer(function(conn) {
     var data = JSON.parse(rawData);
 
     switch(data.type) {
-      case appConfig.messageTypes.open:
+      case appConfig.messageTypes.clone:
         socket = new WebSocket(conn);
         cloneFlower(socket, data.repo);
         break;
-      case appConfig.messageTypes.close:
+      case appConfig.messageTypes.abort:
         socket.close();
         break;
       default:

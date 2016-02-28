@@ -16,7 +16,7 @@ angular.module('CodeFlower')
       console.log("Websocket connection opening");
       console.log("sending:", data);
       socket.send(JSON.stringify({
-        type: appConfig.messageTypes.open,
+        type: appConfig.messageTypes.clone,
         repo: data
       }));  
       state.cloning = true;
@@ -27,7 +27,7 @@ angular.module('CodeFlower')
       // halt if the clone has been aborted
       if (!state.cloning) {
         socket.send(JSON.stringify({
-          type: appConfig.messageTypes.close
+          type: appConfig.messageTypes.abort
         }));
         console.log("socket closed");
         $rootScope.$broadcast('cloneAborted');

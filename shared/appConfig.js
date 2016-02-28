@@ -26,8 +26,8 @@ module.exports = {
     unauthorized: 'unauthorized',
     complete: 'complete',
     // from client to server
-    open: 'open',
-    close: 'close'
+    clone: 'clone',
+    abort: 'abort'
   },
 
   paths: {
