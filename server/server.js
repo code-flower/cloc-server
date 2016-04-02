@@ -1,17 +1,9 @@
 /////////////////// IMPORTS ////////////////////
 
-// npm
-var http = require('http');
-var url = require('url');
-var ws = require('nodejs-websocket');
-
-// app
 var appConfig = require('../shared/appConfig.js');
-var cloneFlower = require('./scripts/cloneFlower.js');
-var WebSocket = require('./scripts/WebSocket.js');
-var serveFlower = require('./scripts/serveFlower.js');
-var serveSamples = require('./scripts/serveSamples.js');
-var serveStaticFile = require('./scripts/staticFileServer.js');
+var HTTP = require('./HTTP/');
+var WS = require('./WS/');
+var System = require('./System/');
 
 
 
@@ -19,19 +11,19 @@ var serveStaticFile = require('./scripts/staticFileServer.js');
 // this server handles static file requests and
 // harvesting the json after repos are cloned
 
-http.createServer(function (request, response) {
+HTTP.createServer(function (request, response) {
 
-  var urlInfo = url.parse(request.url, true);
+  var urlInfo = HTTP.parseUrl(request.url);
 
   switch(urlInfo.pathname) {
     case appConfig.endpoints.harvest:
-      serveFlower(response, urlInfo.query.repo);
+      HTTP.serveFlower(response, urlInfo.query.repo);
       break;
     case appConfig.endpoints.samples:
-      serveSamples(response);
+      HTTP.serveSamples(response);
       break;
     default:
-      serveStaticFile(response, urlInfo.pathname);
+      HTTP.serveStaticFile(response, urlInfo.pathname);
       break;
   }
 
@@ -45,7 +37,7 @@ console.log(`HTTP server running at http://${appConfig.hostName}:${appConfig.por
 // this server handles clone requests and broadcasts
 // the server events to the client
 
-ws.createServer(function(conn) {
+WS.createServer(function(conn) {
 
   var socket;
 
@@ -54,8 +46,8 @@ ws.createServer(function(conn) {
 
     switch(data.type) {
       case appConfig.messageTypes.clone:
-        socket = new WebSocket(conn);
-        cloneFlower(socket, data.repo);
+        socket = new WS.WebSocket(conn);
+        System.cloneFlower(socket, data.repo);
         break;
       case appConfig.messageTypes.abort:
         socket.close();

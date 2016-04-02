@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var appConfig = require('../../shared/appConfig.js');
-var deleteRepo = require('./delete.js');
+var deleteRepo = require('../System/').delete;
 
 ////////// PUBLIC ///////////
 

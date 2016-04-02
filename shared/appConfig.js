@@ -33,8 +33,8 @@ module.exports = {
   paths: {
     client:   `${__dirname}/../client/`,
     server:   `${__dirname}/../server/`,
-    repos:    `${__dirname}/../server/repos/`,
-    samples:  `${__dirname}/../server/samples/`,
+    repos:    `${__dirname}/../server/System/repos/`,
+    samples:  `${__dirname}/../server/HTTP/samples/`,
     partials: 'js/app/partials/'
   },
 

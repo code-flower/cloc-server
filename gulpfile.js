@@ -32,8 +32,8 @@ gulp.task('watch:server', function() {
     ext: 'js',
     ignore: [
       'client/**',
-      'server/repos/**',
-      'server/samples/**',
+      'server/System/repos/**',   // USE APPCONFIG PATHS FOR THIS
+      'server/HTTP/samples/**',
       'gulpfile.js'
     ]
   }).on('start', bundle);
