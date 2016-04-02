@@ -5,5 +5,5 @@ module.exports = {
 
   serveFlower: require('./serveFlower'),
   serveSamples: require('./serveSamples'),
-  serveStaticFile: require('./staticFileServer')
+  serveStaticFile: require('./serveStaticFile')
 };

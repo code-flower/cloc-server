@@ -11,9 +11,7 @@ module.exports = function deleteRepo(repoName) {
   var dirName = repoName.replace('/', '#');
 
   console.log("deleting folder:", dirName);
-  rimraf(appConfig.paths.repos + dirName, function() {
-    deferred.resolve();
-  });
+  rimraf(appConfig.paths.repos + dirName, deferred.resolve);
 
   return deferred.promise;
 };

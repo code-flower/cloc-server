@@ -1,8 +1,7 @@
 ////////// IMPORTS //////////
 
-var fs = require('fs');
 var appConfig = require('../../shared/appConfig.js');
-var deleteRepo = require('../System/').delete;
+var getFlower = require('../system/').getFlower;
 
 ////////// PUBLIC ///////////
 
@@ -12,11 +11,5 @@ module.exports = function serveFlower(response, repoName) {
     'Access-Control-Allow-Origin': '*'
   });
 
-  var dirName = repoName.replace('/', '#');
-  var absPath = `${appConfig.paths.repos}${dirName}/data.json`;
-  var readStream = fs.createReadStream(absPath);
-  readStream.pipe(response);
-  readStream.on('end', function() {
-    deleteRepo(repoName);
-  });
+  getFlower(repoName).pipe(response);
 };

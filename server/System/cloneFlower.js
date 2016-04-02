@@ -27,7 +27,7 @@ function analyzeRepo(repo, socket) {
 }
 
 // parses git clone url and converts the repo to flowerable json
-function cloneFlower(socket, repo) {
+function cloneFlower(repo, socket) {
 
   var urlInfo = parseGitUrl(repo.url || ''),
       usingHTTPS = urlInfo.protocol === 'https';

@@ -3,7 +3,7 @@
 var appConfig = require('../shared/appConfig.js');
 var HTTP = require('./HTTP/');
 var WS = require('./WS/');
-var System = require('./System/');
+var system = require('./system/');
 
 
 
@@ -47,7 +47,7 @@ WS.createServer(function(conn) {
     switch(data.type) {
       case appConfig.messageTypes.clone:
         socket = new WS.WebSocket(conn);
-        System.cloneFlower(socket, data.repo);
+        system.cloneFlower(data.repo, socket);
         break;
       case appConfig.messageTypes.abort:
         socket.close();

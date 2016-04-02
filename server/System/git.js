@@ -48,7 +48,7 @@ function cloneRepo(repo, socket) {
 
   socket.text('\n>> ' + clone.replace(' --progress', ''));
 
-  var process = exec(cd + clone, function() { deferred.resolve(); });
+  var process = exec(cd + clone, deferred.resolve);
 
   // listen for command output
   process.stdout.on('data', function(data) { socket.text(data); });

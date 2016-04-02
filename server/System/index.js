@@ -1,5 +1,5 @@
 
 module.exports = {
   cloneFlower: require('./cloneFlower'),
-  delete: require('./delete')
+  getFlower: require('./getFlower')
 };

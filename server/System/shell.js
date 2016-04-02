@@ -11,7 +11,7 @@ module.exports = function execShellCommand(cmd, socket) {
   var deferred = Q.defer();
 
   // run the command
-  var process = exec(cmd, function() { deferred.resolve(); }); 
+  var process = exec(cmd, deferred.resolve); 
 
   // listen for command output
   process.stdout.on('data', function(data) { socket.text(data); });
