@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerTerminal', function($rootScope, $timeout, appConfig) {
+.directive('flowerTerminal', function($timeout, appConfig) {
 
   return {
     restrict: 'E',
@@ -39,12 +39,11 @@ angular.module('CodeFlower')
       }, 4000);
     }
 
-    $rootScope.$on('openTerminal', function() {
-      console.log("received openTerminal");
+    scope.$on('openTerminal', function() {
       scope.terminalOpen = true;
     });
 
-    $rootScope.$on('closeTerminal', function() {
+    scope.$on('closeTerminal', function() {
       $timeout(function() {
         scope.terminalOpen = false;
       }, 0);
@@ -58,8 +57,6 @@ angular.module('CodeFlower')
       if (scrollDown)
         termBody[0].scrollTop = termBody[0].scrollHeight;
     });
-
-    console.log("scope:", scope);
 
   }
 });

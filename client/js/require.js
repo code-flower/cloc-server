@@ -9,6 +9,7 @@ require('./app/app.js');
 require('./app/directives/flowerContainer.js');
 require('./app/directives/flowerTerminal.js');
 require('./app/directives/flowerViz.js');
+require('./app/directives/flowerLanguages.js');
 
 // factories
 require('./app/factories/WS.js');

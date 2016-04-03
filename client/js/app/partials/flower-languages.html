@@ -1,0 +1,18 @@
+<div class="flower-languages">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Language</th>
+        <th>Files</th>
+        <th>Lines</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="(key, value) in languages">
+        <td>{{key}}</td>
+        <td>{{value.files}}</td>
+        <td>{{value.lines}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

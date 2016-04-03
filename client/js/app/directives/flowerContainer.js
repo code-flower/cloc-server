@@ -20,7 +20,7 @@ angular.module('CodeFlower')
     function drawFlower(folder) {
       // copy because the viz modifies the object
       var folderCopy = JSON.parse(JSON.stringify(folder));
-      scope.$emit('drawFlower', folderCopy);
+      scope.$broadcast('drawFlower', folderCopy);
     }
 
     function buildUI(json) {
@@ -56,8 +56,7 @@ angular.module('CodeFlower')
     };
 
     scope.cloneFlower = function() {
-      console.log("emitting openTerminal");
-      scope.$emit('openTerminal');
+      scope.$broadcast('openTerminal');
       $timeout(function() {
         scope.cloning = true;
         dataService.clone({ url: scope.giturl });
@@ -116,7 +115,7 @@ angular.module('CodeFlower')
       // then display the data
       .then(function(repo) {
 
-        scope.$emit('closeTerminal');
+        scope.$broadcast('closeTerminal');
         $timeout(function() {
           scope.giturl = '';
           if (scope.repoNames.indexOf(data.repoName) === -1) {
@@ -157,14 +156,14 @@ angular.module('CodeFlower')
     });
 
     scope.$on('cloneAborted', function() {
-      scope.$emit('closeTerminal');
+      scope.$broadcast('closeTerminal');
       scope.cloning = false;
     });
 
     //// COMMANDS ////
 
     console.log("appConfig = ", appConfig);
-    console.log("$uibModal = ", $uibModal);
+    //console.log("$uibModal = ", $uibModal);
 
     dataService.init()
     .then(dataService.enumerate)
