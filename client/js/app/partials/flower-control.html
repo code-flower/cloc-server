@@ -1,0 +1,64 @@
+<div class="repo-form">
+  <table>
+    <tr>
+      <td><label>Add new repo</label></td>
+      <td>
+        <input 
+          type="text" 
+          class="url-input form-control" 
+          ng-model="gitUrl" 
+          placeholder="git clone url" />
+      </td>
+      <td>
+        <button 
+          ng-show="!cloning"
+          class="btn btn-primary clone-button" 
+          ng-click="doClone(gitUrl)">
+          git clone
+        </button>
+        <button 
+          ng-show="cloning"
+          class="btn btn-danger clone-button" 
+          ng-click="abortClone()">
+          abort
+        </button>
+      </td>
+    </tr>
+    <tr ng-show="state.repoNames.length">
+      <td><label>Current repo</label></td>
+      <td>
+        <select 
+          ng-model="selectedRepo"
+          ng-change="switchRepo(selectedRepo)"
+          class="dropdown">
+          <option 
+            ng-repeat="name in state.repoNames" 
+            value="{{name}}"
+            ng-bind="name" />
+        </select>
+      </td>
+      <td>
+        <button 
+          class="btn btn-primary delete-button"
+          ng-click="deleteFlower()"
+          ng-disabled="cloning">
+          delete
+        </button>
+      </td>
+    </tr>
+    <tr ng-show="state.repoNames.length">
+      <td><label>Current folder</label></td>
+      <td colspan="2">
+        <select 
+          ng-model="selectedFolder" 
+          ng-change="switchFolder(selectedFolder)" 
+          class="dropdown two-col">
+          <option 
+            ng-repeat="path in state.folderPaths" 
+            value="{{path}}" 
+            ng-bind="path" />
+        </select>
+      </td>
+    </tr>
+  </table>
+</div>

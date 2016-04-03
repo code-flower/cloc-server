@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerViz', function(CodeFlower) {
+.directive('flowerViz', function(CodeFlower, state) {
 
   return {
     restrict: 'E',
@@ -61,8 +61,11 @@ angular.module('CodeFlower')
 
     //// EVENT LISTENERS ////
 
-    scope.$on('drawFlower', function(e, data) {
-      createCodeFlower(data);
+    scope.$watch(function () {
+      return state.currentFolder.data;
+    }, function (newVal, oldVal) {
+      if (newVal !== oldVal) 
+        createCodeFlower(angular.copy(newVal));  // copy because the viz modifies the object
     });
 
   }
