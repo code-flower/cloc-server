@@ -7,35 +7,23 @@ var appConfig = require('../../shared/appConfig.js');
 /////////// PRIVATE ///////////
 
 function getSampleNames() {
-  var deferred = Q.defer();
-
-  fs.readdir(appConfig.paths.samples, function(err, files) {
-    if (err)
-      deferred.reject(err)
-    else 
-      deferred.resolve(files.filter(function(f) {
-        return f !== '.DS_Store';
-      }));
+  return Q.nfapply(fs.readdir, [appConfig.paths.samples])
+  .then(function(files) {
+    return files.filter(function(f) {
+      return f !== '.DS_Store';
+    });
   });
-
-  return deferred.promise;
 }
 
 function sampleToObject(sample) {
-  var deferred = Q.defer();
-
   var fileName = `${appConfig.paths.samples}${sample}/data.json`;
-  fs.readFile(fileName, 'utf8', function(err, json) {
-    if (err)
-      deferred.reject(err);
-    else 
-      deferred.resolve({
-        name: sample.replace('#', '/'),
-        data: JSON.parse(json)
-      });
+  return Q.nfapply(fs.readFile, [fileName, 'utf8'])
+  .then(function(json) {
+    return {
+      name: sample.replace('#', '/'),
+      data: JSON.parse(json)
+    };
   });
-
-  return deferred.promise;
 }
 
 /////////// EXPORTS ///////////
