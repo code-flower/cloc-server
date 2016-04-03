@@ -11,11 +11,12 @@ require('./app/directives/flowerTerminal.js');
 require('./app/directives/flowerViz.js');
 
 // factories
-require('./app/factories/cloneFlower.js');
+require('./app/factories/WS.js');
+require('./app/factories/HTTP.js');
 require('./app/factories/CodeFlower.js');
 require('./app/factories/dbAccess.js');
 require('./app/factories/flowerUtils.js');
-require('./app/factories/Gardener.js');
+require('./app/factories/dataService.js');
 require('./app/factories/state.js');
 
 // controllers

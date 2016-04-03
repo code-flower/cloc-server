@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerTerminal', function($timeout, appConfig, Gardener) {
+.directive('flowerTerminal', function($timeout, appConfig, dataService) {
 
   return {
     restrict: 'E',
@@ -48,7 +48,7 @@ angular.module('CodeFlower')
 
     //// COMMANDS ////
 
-    Gardener.subscribe(function(data) {
+    dataService.subscribe(function(data) {
       termBody.append(data + '<br>');
       if (scrollDown)       
         termBody[0].scrollTop = termBody[0].scrollHeight;

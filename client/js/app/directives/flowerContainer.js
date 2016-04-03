@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerContainer', function($timeout, appConfig, Gardener, flowerUtils, dbAccess, state, $uibModal) {
+.directive('flowerContainer', function($timeout, appConfig, dataService, flowerUtils, state, $uibModal) {
 
   return {
     restrict: 'E',
@@ -57,7 +57,7 @@ angular.module('CodeFlower')
       scope.$emit('openTerminal');
       $timeout(function() {
         scope.cloning = true;
-        Gardener.clone({ url: scope.giturl });
+        dataService.clone({ url: scope.giturl });
       }, 500);
     };
 
@@ -65,7 +65,7 @@ angular.module('CodeFlower')
       var index = scope.repoNames.indexOf(scope.selectedRepo);
       scope.repoNames.splice(index, 1);
 
-      Gardener.delete(scope.selectedRepo)
+      dataService.delete(scope.selectedRepo)
       .then(function() {
         if (!scope.repoNames.length)
           return;
@@ -81,11 +81,11 @@ angular.module('CodeFlower')
     };
 
     scope.switchRepos = function(repoName) {
-      Gardener.harvest(repoName).then(buildUI);
+      dataService.harvest(repoName).then(buildUI);
     };
 
     scope.deleteDB = function() {
-      dbAccess.deleteDB();
+      dataService.deleteDB();
       location.reload();
     };
 
@@ -105,10 +105,10 @@ angular.module('CodeFlower')
       scope.cloning = false;
 
       // clear out any previous db entry
-      Gardener.delete(data.repoName)
+      dataService.delete(data.repoName)
       // then get the repo data
       .then(function() {
-        return Gardener.harvest(data.repoName)
+        return dataService.harvest(data.repoName)
       })
       // then display the data
       .then(function(repo) {
@@ -144,7 +144,7 @@ angular.module('CodeFlower')
       }
 
       if (creds !== null) {
-        Gardener.clone({
+        dataService.clone({
           url: scope.giturl,
           private: true,
           username: creds[0],
@@ -163,8 +163,8 @@ angular.module('CodeFlower')
     console.log("appConfig = ", appConfig);
     console.log("$uibModal = ", $uibModal);
 
-    dbAccess.init()
-    .then(Gardener.enumerate)
+    dataService.init()
+    .then(dataService.enumerate)
     .then(function(repoNames) {
       scope.repoNames = repoNames;
       scope.selectedRepo = scope.repoNames[0];

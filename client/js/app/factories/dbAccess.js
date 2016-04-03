@@ -2,25 +2,23 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('dbAccess', function($q, $http, appConfig) {
+.factory('dbAccess', function($q, appConfig) {
 
   //// CONSTANTS ////
 
   var repoDB = appConfig.database.dbName;
   var repoTable = appConfig.database.tableName;
 
-  //// THE DATABASE OBJECT ////
+  //// PRIVATE ////
 
-  var DB;
+  var DB;           // the database object
+  var getSamples;   // a function to get samples from the back end
 
   //// PRIVATE FUNCTIONS ////
 
-  // grab the sample repos and add them to the DB
   function loadSamples() {
-    var url = `http://${appConfig.hostName}:${appConfig.ports.HTTP}${appConfig.endpoints.samples}`;
-    return $http.get(url).then(function(response) {
-      console.log("response from harvest:", response);
-      return $q.all(response.data.map(function(repo) {
+    return getSamples().then(function(samples) {
+      return $q.all(samples.map(function(repo) {
         return service.set(repo.name, repo.data);
       }));
     });
@@ -30,10 +28,11 @@ angular.module('CodeFlower')
 
   var service = {
 
-    init: function() {
+    init: function(getSamplesFunc) {
+      getSamples = getSamplesFunc;
 
-      if (DB) 
-        return $q.when();
+      // if (DB) 
+      //   return $q.when();
 
       if(!"indexedDB" in window) {
         console.log("Can't used indexedDb");
