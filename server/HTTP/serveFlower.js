@@ -1,9 +1,9 @@
-////////// IMPORTS //////////
+//////////// IMPORTS ////////////
 
 var appConfig = require('../../shared/appConfig.js');
 var getFlower = require('../system/').getFlower;
 
-////////// PUBLIC ///////////
+//////////// EXPORTS ////////////
 
 module.exports = function serveFlower(response, repoName) {
   response.writeHead(200, {

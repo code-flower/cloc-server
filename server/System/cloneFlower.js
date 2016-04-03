@@ -1,4 +1,4 @@
-///////////// IMPORTS /////////////
+//////////// IMPORTS ////////////
 
 var appConfig = require('../../shared/appConfig.js');
 var git = require('./git.js');
@@ -54,7 +54,7 @@ function cloneFlower(repo, socket) {
     });
 }
 
-//////////// PUBLIC //////////////
+//////////// EXPORTS ////////////
 
 module.exports = cloneFlower;
 

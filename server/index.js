@@ -1,4 +1,4 @@
-/////////////////// IMPORTS ////////////////////
+/////////////////// IMPORTS //////////////////////
 
 var appConfig = require('../shared/appConfig.js');
 var HTTP = require('./HTTP/');
@@ -51,9 +51,6 @@ WS.createServer(function(conn) {
         break;
       case appConfig.messageTypes.abort:
         socket.close();
-        break;
-      default:
-        console.log("unrecognized message type");
         break;
     }
 

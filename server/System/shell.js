@@ -1,9 +1,9 @@
-//////// IMPORTS ////////
+//////////// IMPORTS ////////////
 
 var exec = require('child_process').exec;
 var Q = require('q');
 
-///////// PUBLIC ///////
+//////////// EXPORTS ////////////
 
 // execute a shell command and stream the output over the given socket.
 // returns a promise that resolves when the command is done executing

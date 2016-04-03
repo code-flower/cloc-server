@@ -15,7 +15,7 @@ function bundle() {
   return browserify('./client/js/require.js')
     .transform(babelify, { presets: ['es2015'] })
     .transform(envify({ NODE_ENV: argv.env || 'development' }))
-    .on('error', function(err) { console.log(err); })
+    .on('error', console.log)
     .bundle()
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./client/dist/'))
@@ -28,7 +28,7 @@ gulp.task('bundle', bundle);
 
 gulp.task('watch:server', function() {
   return nodemon({
-    script: 'server/server.js',
+    script: 'server/index.js',
     ext: 'js',
     ignore: [
       'client/**',

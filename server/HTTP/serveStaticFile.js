@@ -1,9 +1,9 @@
-//////////////// IMPORTS //////////////////
+//////////// IMPORTS ////////////
 
 var fs = require('fs');
 var appConfig = require('../../shared/appConfig.js');
 
-/////////////// PRIVATE //////////////////
+//////////// PRIVATE ////////////
 
 function getContentType(pathname) {
   var extension = pathname.match(/\.[^.]*$/)[0];
@@ -14,7 +14,7 @@ function getContentType(pathname) {
   }
 }
 
-//////////////// PUBLIC //////////////////
+//////////// EXPORTS ////////////
 
 module.exports = function serveStaticFile(response, relPath) {
 

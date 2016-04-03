@@ -1,4 +1,4 @@
-//////////////// IMPORTS ////////////////
+//////////// IMPORTS ////////////
 
 var fs = require('fs');
 var mkpath = require('mkpath');
@@ -6,7 +6,7 @@ var execShellCommand = require('./shell.js');
 var Q = require('q');
 var appConfig = require('../../shared/appConfig.js');
 
-////////// PRIVATE FUNCTIONS ////////////
+//////////// PRIVATE ////////////
 
 /**
  * Convert a simple json object into another specifying children as an array
@@ -126,7 +126,7 @@ function convertClocFile(repo, socket) {
   return deferred.promise;
 }
 
-///////////// PUBLIC //////////////
+//////////// EXPORTS ////////////
 
 module.exports = {
   // generates a piece of Json representing a code flower for the given repo

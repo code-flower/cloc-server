@@ -1,4 +1,4 @@
-// the exports object defined below is available both on the server (by requiring this file)
+// this object is available both on the server (by requiring this file)
 // and in the client (by being injected into the angular app in app.js)
 
 module.exports = {
@@ -13,31 +13,34 @@ module.exports = {
     browserSyncUI: 8090
   },
 
+  paths: {
+    client:   `${__dirname}/../client/`,
+    server:   `${__dirname}/../server/`,
+    repos:    `${__dirname}/../server/system/repos/`,
+    samples:  `${__dirname}/../server/HTTP/samples/`,
+    partials: 'js/app/partials/'
+  },
+
+  //// HTTP ////
   endpoints: {
     harvest: '/harvest',
     samples: '/samples'
   },
 
+  //// WS ////
   messageTypes: {
+    // from client to server
+    clone: 'clone',
+    abort: 'abort',
     // from server to client
     text: 'text',
     error: 'error',
     credentials: 'credentials',
     unauthorized: 'unauthorized',
-    complete: 'complete',
-    // from client to server
-    clone: 'clone',
-    abort: 'abort'
+    complete: 'complete'
   },
 
-  paths: {
-    client:   `${__dirname}/../client/`,
-    server:   `${__dirname}/../server/`,
-    repos:    `${__dirname}/../server/System/repos/`,
-    samples:  `${__dirname}/../server/HTTP/samples/`,
-    partials: 'js/app/partials/'
-  },
-
+  //// CLIENT-SIDE DB ////
   database: {
     dbName: 'repos',
     tableName: 'repoTable'

@@ -13,7 +13,7 @@ HOW TO RUN THE DEV ENVIRONEMNT:
 gulp -- from the root of the repo 
 
 
-HOW TO RUN THE APP 
+HOW TO RUN THE APP ON A LIVE SERVER
 
 npm start -- from the root of the repo
 

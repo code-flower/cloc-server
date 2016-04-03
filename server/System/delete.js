@@ -1,10 +1,10 @@
-//////// IMPORTS ////////
+//////////// IMPORTS ////////////
 
 var rimraf = require('rimraf');
 var Q = require('q');
 var appConfig = require('../../shared/appConfig.js');
 
-//////// PUBLIC /////////
+//////////// EXPORTS ////////////
 
 module.exports = function deleteRepo(repoName) {
   var deferred = Q.defer(); 

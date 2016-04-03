@@ -1,22 +1,22 @@
-///////// IMPORTS //////////
+//////////// IMPORTS ////////////
 
 var appConfig = require('../../shared/appConfig.js');
 
-///////// PRIVATE //////////
+//////////// PRIVATE ////////////
 
-// the constructor
+// CONSTRUCTOR //
 function WebSocket(wsConn) {
   this.conn = wsConn;
 }
 
-// private: not to be called outside this file
+// PRIVATE METHODS //
 WebSocket.prototype._send = function(data) {
   console.log("Sending:", data.hasOwnProperty('text') ? data.text : data);
   if (this.conn)
     this.conn.send(JSON.stringify(data));
 };
 
-// public methods
+// PUBLIC METHODS //
 WebSocket.prototype.text = function(text) {
   var self = this;
   var lines = text.split('\n');
@@ -78,7 +78,7 @@ WebSocket.prototype.close = function() {
   this.conn = null;
 };
 
-////////// PUBLIC //////////
+//////////// EXPORTS ////////////
 
 module.exports = WebSocket;
 

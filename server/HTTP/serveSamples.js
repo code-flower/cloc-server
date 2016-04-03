@@ -1,10 +1,10 @@
-/////////// IMPORTS ///////////
+//////////// IMPORTS ////////////
 
 var fs = require('fs');
 var Q = require('q');
 var appConfig = require('../../shared/appConfig.js');
 
-/////////// PRIVATE ///////////
+//////////// PRIVATE ////////////
 
 function getSampleNames() {
   return Q.nfapply(fs.readdir, [appConfig.paths.samples])
@@ -26,7 +26,7 @@ function sampleToObject(sample) {
   });
 }
 
-/////////// EXPORTS ///////////
+//////////// EXPORTS ////////////
 
 module.exports = function serveSamples(response) {
 

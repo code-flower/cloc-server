@@ -1,4 +1,4 @@
-/////// IMPORTS ///////
+//////////// IMPORTS ////////////
 
 var exec = require('child_process').exec;
 var mkpath = require('mkpath');
@@ -7,7 +7,7 @@ var Q = require('q');
 var appConfig = require('../../shared/appConfig.js');
 var deleteRepo = require('./delete.js');
 
-//////// PRIVATE /////
+//////////// PRIVATE ////////////
 
 // turns a repo object into a git clone url
 function gitCloneUrl(repo) {
@@ -64,7 +64,7 @@ function cloneRepo(repo, socket) {
   return deferred.promise;
 }
 
-/////// PUBLIC ///////
+//////////// EXPORTS ////////////
 
 module.exports = {
   checkPrivateRepo: checkPrivateRepo,
