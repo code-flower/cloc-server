@@ -45,6 +45,8 @@ angular.module('CodeFlower')
     
     scope.cloning = false;
 
+    scope.subscribe = dataService.subscribe;
+
     //// SCOPE FUNCTIONS ////
 
     scope.redrawFlower = function(folderPath) {
@@ -54,6 +56,7 @@ angular.module('CodeFlower')
     };
 
     scope.cloneFlower = function() {
+      console.log("emitting openTerminal");
       scope.$emit('openTerminal');
       $timeout(function() {
         scope.cloning = true;

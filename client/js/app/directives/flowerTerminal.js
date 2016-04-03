@@ -2,12 +2,15 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerTerminal', function($timeout, appConfig, dataService) {
+.directive('flowerTerminal', function($rootScope, $timeout, appConfig) {
 
   return {
     restrict: 'E',
     replace: true,
     templateUrl: appConfig.paths.partials + 'flower-terminal.html',
+    scope: {
+      subscribe: '='
+    },
     link: link
   };
 
@@ -36,11 +39,12 @@ angular.module('CodeFlower')
       }, 4000);
     }
 
-    scope.$on('openTerminal', function() {
+    $rootScope.$on('openTerminal', function() {
+      console.log("received openTerminal");
       scope.terminalOpen = true;
     });
 
-    scope.$on('closeTerminal', function() {
+    $rootScope.$on('closeTerminal', function() {
       $timeout(function() {
         scope.terminalOpen = false;
       }, 0);
@@ -48,11 +52,14 @@ angular.module('CodeFlower')
 
     //// COMMANDS ////
 
-    dataService.subscribe(function(data) {
+    scope.subscribe(function(data) {
+      console.log("received data");
       termBody.append(data + '<br>');
-      if (scrollDown)       
+      if (scrollDown)
         termBody[0].scrollTop = termBody[0].scrollHeight;
     });
+
+    console.log("scope:", scope);
 
   }
 });

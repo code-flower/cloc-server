@@ -56,6 +56,7 @@ angular.module('CodeFlower')
 
     // add a subscriber
     subscribe: function(callback) {
+      console.log("running subscribe:", callback);
       subscribers.push(callback);
     },
 
