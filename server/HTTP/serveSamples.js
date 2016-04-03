@@ -4,58 +4,57 @@ var fs = require('fs');
 var Q = require('q');
 var appConfig = require('../../shared/appConfig.js');
 
-/////////// EXPORTS ///////////
+/////////// PRIVATE ///////////
 
-// module.exports = function serveSamples(response) {
-//   console.log("RUNNING SERVE SAMPLES");
+function getSampleNames() {
+  var deferred = Q.defer();
 
-//   // get array of files in a directory,
-//   // not including .DS_Store
-//   var readNoDS = function(path) {
-//     return fs.readdirSync(path).filter(function(file) {
-//       return file !== '.DS_Store';
-//     });
-//   };
-
-//   // construct array of repos
-//   var repos = [];
-
-//   readNoDS(appConfig.paths.samples).forEach(function(repo) {
-//     var fileName = `${appConfig.paths.samples}${repo}/data.json`;
-//     var json = fs.readFileSync(fileName, 'utf8'); 
-//     repos.push({
-//       name: repo.replace('#', '/'),
-//       data: JSON.parse(json)
-//     });
-//   });
-
-//   // serve up the array
-//   response.writeHead(200, {
-//     'Content-Type': 'application/json',
-//     'Access-Control-Allow-Origin': '*'
-//   });
-//   response.end(JSON.stringify(repos));
-// };
-
-function getFilesInDir(path) {
-  var deferred = q.defer();
-
-  fs.readdir(path, function(err, files) {
+  fs.readdir(appConfig.paths.samples, function(err, files) {
     if (err)
       deferred.reject(err)
-    else {
-      var filteredFiles = files.filter((file) => file !== '.DS_Store');
-      deferred.resolve(filteredFiles);
-    }
+    else 
+      deferred.resolve(files.filter(function(f) {
+        return f !== '.DS_Store';
+      }));
   });
 
   return deferred.promise;
 }
 
-getFilesInDir('./')
-.then((files) => {
-  console.log("FILES:", files);
-});
+function sampleToObject(sample) {
+  var deferred = Q.defer();
 
-module.exports = function serveSamples() {};
+  var fileName = `${appConfig.paths.samples}${sample}/data.json`;
+  fs.readFile(fileName, 'utf8', function(err, json) {
+    if (err)
+      deferred.reject(err);
+    else 
+      deferred.resolve({
+        name: sample.replace('#', '/'),
+        data: JSON.parse(json)
+      });
+  });
+
+  return deferred.promise;
+}
+
+/////////// EXPORTS ///////////
+
+module.exports = function serveSamples(response) {
+
+  getSampleNames()
+  .then(function(samples) {
+    return Q.all(samples.map(function(sample) {
+      return sampleToObject(sample);
+    }));
+  })
+  .then(function(samples) {
+    response.writeHead(200, {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+    response.end(JSON.stringify(samples));
+  });
+
+};
 
