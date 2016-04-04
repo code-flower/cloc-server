@@ -2,15 +2,12 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerTerminal', function($timeout, appConfig) {
+.directive('flowerTerminal', function($timeout, appConfig, dataService) {
 
   return {
     restrict: 'E',
     replace: true,
     templateUrl: appConfig.paths.partials + 'flower-terminal.html',
-    scope: {
-      subscribe: '='
-    },
     link: link
   };
 
@@ -51,8 +48,7 @@ angular.module('CodeFlower')
 
     //// COMMANDS ////
 
-    scope.subscribe(function(data) {
-      console.log("received data");
+    dataService.subscribe(function(data) {
       termBody.append(data + '<br>');
       if (scrollDown)
         termBody[0].scrollTop = termBody[0].scrollHeight;

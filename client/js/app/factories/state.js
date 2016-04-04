@@ -5,6 +5,7 @@ angular.module('CodeFlower')
 .factory('state', function() {
 
   return {
+
     repoNames: [],
 
     currentRepo: {
@@ -19,9 +20,8 @@ angular.module('CodeFlower')
       data: null
     },
 
-    giturl: '',
-
     cloning: false
+    
   };
 
 });

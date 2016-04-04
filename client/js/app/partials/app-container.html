@@ -1,10 +1,9 @@
 <div class="flower-container" ng-controller="dispatcher">
 
-  <flower-languages ng-show="state.repoNames.length" />
   <flower-viz ng-show="state.repoNames.length" />
+  <flower-languages ng-show="state.repoNames.length" />  
   <flower-control />
-
-<!--   <flower-terminal /> -->
+  <flower-terminal />
 
   <button 
     class="delete-db btn btn-primary" 

@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('dataService', function($rootScope, $q, appConfig, dbAccess, WS, HTTP) {
+.factory('dataService', function(appConfig, dbAccess, WS, HTTP) {
 
   //// PRIVATE ////
 
@@ -18,35 +18,29 @@ angular.module('CodeFlower')
       return dbAccess.init(HTTP.getSamples);
     },
 
-    // list the flowers in the garden
+    // list the repos in the client-side DB
     enumerate: function() {
       return dbAccess.getKeys();
     },
 
-    // pluck a flower from the garden
+    // initiate a clone
+    clone: function(repo) {
+      if (!repo.hasOwnProperty('private'))
+        repo.private = false;
+      WS.cloneRepo(repo, subscribers);
+    },
+
+    // get the data for a repo, either from the client-side
+    // DB (if the data is there) or from the backed
     harvest: function(repoName) {
-      // check the db for the given repo
       return dbAccess.get(repoName)
       .then(function(data) {
-        // return data if it's in the db, otherwise hit the
-        // back end, store the data in the db, and return the data
         return data || HTTP.getRepo(repoName)
                        .then(function(data) {
                          dbAccess.set(repoName, data);
                          return data;
                        });
-      })
-      .catch(function(err) {
-        console.log("db access error = ", err);
-        return err;
       });
-    },
-
-    // grow a flower from a git clone url
-    clone: function(repo) {
-      if (!repo.hasOwnProperty('private'))
-        repo.private = false;
-      WS.cloneFlower(repo, subscribers);
     },
 
     // delete the given repo

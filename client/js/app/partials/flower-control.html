@@ -11,13 +11,13 @@
       </td>
       <td>
         <button 
-          ng-show="!cloning"
+          ng-show="!state.cloning"
           class="btn btn-primary clone-button" 
           ng-click="doClone(gitUrl)">
           git clone
         </button>
         <button 
-          ng-show="cloning"
+          ng-show="state.cloning"
           class="btn btn-danger clone-button" 
           ng-click="abortClone()">
           abort
@@ -40,7 +40,7 @@
       <td>
         <button 
           class="btn btn-primary delete-button"
-          ng-click="deleteFlower()"
+          ng-click="deleteRepo(selectedRepo)"
           ng-disabled="cloning">
           delete
         </button>

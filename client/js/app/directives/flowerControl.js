@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerControl', function ($rootScope, appConfig, state) {
+.directive('flowerControl', function(appConfig, state) {
 
   return {
     restrict: 'E',
@@ -12,17 +12,23 @@ angular.module('CodeFlower')
   };
 
   function link(scope, el, attrs) {
+
+    //// SCOPE VARIABLES ////
+
     scope.state = state;
     scope.gitUrl = '';
     scope.selectedRepo = '';
     scope.selectedFolder = '';
 
+    //// EVENT EMITTERS ////
+
     scope.doClone = function(gitUrl) {
       scope.$emit('doClone', gitUrl);
     };
 
-    scope.abortClone = function () {
+    scope.abortClone = function() {
       scope.$emit('abortClone');
+      scope.gitUrl = '';
     };
 
     scope.switchRepo = function(repoName) {
@@ -33,15 +39,20 @@ angular.module('CodeFlower')
       scope.$emit('deleteRepo', repoName);
     };
 
-    scope.switchFolder = function (folderPath) {
+    scope.switchFolder = function(folderPath) {
       scope.$emit('switchFolder', folderPath);
     };
 
+    //// EVENT LISTENERS ////
+
+    scope.$on('cloneComplete', function (e, data) {
+      scope.gitUrl = '';
+    }); 
 
     //// WATCHERS ////
 
     // this is awkward, should only need to watch the first time because
-    // afterwards selectedRepo/selectedFolder are already set correctly
+    // afterwards selectedRepo/selectedFolder are already set correctly (except after a clone)
     // maybe fire a 'newRepo' or 'newFolder' event from the dispatcher?
 
     scope.$watch(function () {
@@ -57,7 +68,6 @@ angular.module('CodeFlower')
       if (newVal !== oldVal)
         scope.selectedFolder = newVal;
     });
-
   }
 
 });

@@ -14,8 +14,6 @@ angular.module('CodeFlower')
   var DB;           // the database object
   var getSamples;   // a function to get samples from the back end
 
-  //// PRIVATE FUNCTIONS ////
-
   function loadSamples() {
     return getSamples().then(function(samples) {
       return $q.all(samples.map(function(repo) {
@@ -30,14 +28,6 @@ angular.module('CodeFlower')
 
     init: function(getSamplesFunc) {
       getSamples = getSamplesFunc;
-
-      // if (DB) 
-      //   return $q.when();
-
-      if(!"indexedDB" in window) {
-        console.log("Can't used indexedDb");
-        return;
-      } 
 
       var deferred = $q.defer();
       var openRequest = indexedDB.open(repoDB, 1);

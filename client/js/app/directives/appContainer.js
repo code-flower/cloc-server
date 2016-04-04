@@ -12,8 +12,6 @@ angular.module('CodeFlower')
   };
 
   function link (scope, el, attrs) {
-    console.log("running app-container");
-
     scope.state = state;
 
     // temporary?
