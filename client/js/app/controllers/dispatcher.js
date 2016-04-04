@@ -32,7 +32,8 @@ angular.module('CodeFlower')
   function doClone(gitUrl) {
     state.gitUrl = gitUrl;
     state.cloning = true;
-    $scope.$broadcast('openTerminal');
+    state.terminalOpen = true;
+
     $timeout(function() {
       dataService.clone({ url: gitUrl });
     }, 500);
@@ -48,7 +49,7 @@ angular.module('CodeFlower')
     })
     .then(function(repoData) {
 
-      $scope.$broadcast('closeTerminal');
+      state.terminalOpen = false;
       $timeout(function() {
         if (state.repoNames.indexOf(repoName) === -1) {
           state.repoNames.push(repoName);
@@ -95,7 +96,7 @@ angular.module('CodeFlower')
 
       state.cloning = false;
       state.gitUrl = '';
-      $scope.$broadcast('closeTerminal');
+      state.terminalOpen = false;
 
     });
   }
@@ -109,7 +110,7 @@ angular.module('CodeFlower')
   $scope.$on('abortClone', function(e, data) {
     state.cloning = false;
     state.gitUrl = '';
-    $scope.$broadcast('closeTerminal');
+    state.terminalOpen = false;
   });
 
   $scope.$on('needCredentials', function(e, data) {

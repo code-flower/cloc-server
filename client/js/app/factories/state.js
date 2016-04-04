@@ -22,6 +22,8 @@ angular.module('CodeFlower')
 
     cloning: false,
 
+    terminalOpen: false,
+
     gitUrl: ''
     //gitUrl: 'git@dustlandmedia.git.beanstalkapp.com:/dustlandmedia/roofshootserver.git'
     

@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerTerminal', function($timeout, appConfig, dataService) {
+.directive('flowerTerminal', function($timeout, appConfig, dataService, state) {
 
   return {
     restrict: 'E',
@@ -14,47 +14,47 @@ angular.module('CodeFlower')
 
   function link(scope, el, attrs) {
 
-    //// PRIVATE VARIABLES ////
+    //// PRIVATE ////
 
     var termBody = angular.element(el[0].querySelector('.terminal-body'));
     var scrollDown = true;
     var timer;
 
-    //// SCOPE VARIABLES ////
-
-    scope.terminalOpen = false;
-
-    //// EVENT LISTENERS ////
+    // append new data to the terminal
+    function handleData(data) {
+      termBody.append(data + '<br>');
+      if (scrollDown)
+        termBody[0].scrollTop = termBody[0].scrollHeight;
+    }
 
     // stop scrolling down for 4 secs
     // if user scrolls inside terminal
-    termBody[0].onmousewheel = function() {
+    function handleMousewheel() {
       scrollDown = false;
-
       clearTimeout(timer);
       timer = setTimeout(function() {
         scrollDown = true;
       }, 4000);
     }
 
-    scope.$on('openTerminal', function() {
-      scope.terminalOpen = true;
-    });
+    //// SCOPE VARIABLES ////
 
-    scope.$on('closeTerminal', function() {
+    scope.terminalOpen = false;
+
+    //// WATCHERS ////
+
+    scope.$watch(function () {
+      return state.terminalOpen;
+    }, function(newVal, oldVal) {
       $timeout(function() {
-        scope.terminalOpen = false;
-      }, 0);
+        scope.terminalOpen = newVal;
+      });
     });
 
-    //// COMMANDS ////
+    //// INITIALIZATION ////
 
-    dataService.subscribe(function(data) {
-      termBody.append(data + '<br>');
-      if (scrollDown)
-        termBody[0].scrollTop = termBody[0].scrollHeight;
-    });
-
+    dataService.subscribe(handleData);
+    termBody[0].onmousewheel = handleMousewheel;
   }
 });
 
