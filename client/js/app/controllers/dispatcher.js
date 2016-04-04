@@ -94,8 +94,8 @@ angular.module('CodeFlower')
     })
     .catch(function(reason) {
 
-      state.cloning = false;
       state.gitUrl = '';
+      state.cloning = false;
       state.terminalOpen = false;
 
     });
@@ -108,8 +108,8 @@ angular.module('CodeFlower')
   });
 
   $scope.$on('abortClone', function(e, data) {
-    state.cloning = false;
     state.gitUrl = '';
+    state.cloning = false;
     state.terminalOpen = false;
   });
 

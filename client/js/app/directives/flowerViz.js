@@ -21,11 +21,12 @@ angular.module('CodeFlower')
     //// PRIVATE FUNCTIONS ////
 
     // Recursively count all elements in a tree
-    // copied here from dataConverter.js
     function countElements(node) {
       var nbElements = 1;
       if (node.children) 
-        nbElements += node.children.reduce(function(p, v) { return p + countElements(v); }, 0);
+        nbElements += node.children.reduce(function(prev, cur) { 
+          return prev + countElements(cur); 
+        }, 0);
       return nbElements;
     }
 

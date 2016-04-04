@@ -5,6 +5,7 @@ angular.module('CodeFlower')
 .factory('state', function() {
 
   return {
+    gitUrl: '',
 
     repoNames: [],
 
@@ -22,11 +23,7 @@ angular.module('CodeFlower')
 
     cloning: false,
 
-    terminalOpen: false,
-
-    gitUrl: ''
-    //gitUrl: 'git@dustlandmedia.git.beanstalkapp.com:/dustlandmedia/roofshootserver.git'
-    
+    terminalOpen: false
   };
 
 });
