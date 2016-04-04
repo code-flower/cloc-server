@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.controller('dispatcher', function($scope, $timeout, appConfig, state, dataService, flowerUtils) {
+.controller('dispatcher', function($scope, $timeout, $uibModal, appConfig, state, dataService, flowerUtils) {
 
   //// PRIVATE FUNCTIONS ////
 
@@ -30,14 +30,16 @@ angular.module('CodeFlower')
   }
 
   function doClone(gitUrl) {
+    state.gitUrl = gitUrl;
+    state.cloning = true;
     $scope.$broadcast('openTerminal');
     $timeout(function() {
-      state.cloning = true;
       dataService.clone({ url: gitUrl });
     }, 500);
   }
 
   function handleNewRepo(repoName) {
+    state.gitUrl = '';
     state.cloning = false;
 
     dataService.delete(repoName)
@@ -69,6 +71,35 @@ angular.module('CodeFlower')
     });
   }
 
+  function getCredentials(params) {
+    $uibModal.open({
+
+      controller: 'credentialsModal',
+      templateUrl: appConfig.paths.partials + 'credentials-modal.html',
+      size: 'sm',
+      resolve: {
+        params: params
+      }
+
+    }).result.then(function(data) {
+
+      dataService.clone({
+        url: data.url || state.gitUrl,
+        private: true,
+        username: data.username,
+        password: data.password
+      });
+
+    })
+    .catch(function(reason) {
+
+      state.cloning = false;
+      state.gitUrl = '';
+      $scope.$broadcast('closeTerminal');
+
+    });
+  }
+
   //// EVENT LISTENERS ////
 
   $scope.$on('doClone', function(e, gitUrl) {
@@ -80,8 +111,18 @@ angular.module('CodeFlower')
     $scope.$broadcast('closeTerminal');
   });
 
-  $scope.$on('cloneComplete', function (e, data) {
+  $scope.$on('needCredentials', function(e, data) {
+    getCredentials(data);
+  });
+
+  $scope.$on('cloneComplete', function(e, data) {
     handleNewRepo(data.repoName);
+  });
+
+  $scope.$on('cloneError', function(e, data) {
+    $timeout(function() { 
+      state.cloning = false; 
+    });
   });
 
   $scope.$on('switchRepo', function(e, repoName) {

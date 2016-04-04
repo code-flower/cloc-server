@@ -43,30 +43,24 @@ angular.module('CodeFlower')
       scope.$emit('switchFolder', folderPath);
     };
 
-    //// EVENT LISTENERS ////
-
-    scope.$on('cloneComplete', function (e, data) {
-      scope.gitUrl = '';
-    }); 
-
     //// WATCHERS ////
 
-    // this is awkward, should only need to watch the first time because
-    // afterwards selectedRepo/selectedFolder are already set correctly (except after a clone)
-    // maybe fire a 'newRepo' or 'newFolder' event from the dispatcher?
-
-    scope.$watch(function () {
+    scope.$watch(function() {
       return state.currentRepo.name;
-    }, function (newVal, oldVal) {
-      if (newVal !== oldVal)
-        scope.selectedRepo = newVal;
+    }, function(newVal, oldVal) {
+      scope.selectedRepo = newVal;
     });
 
     scope.$watch(function () {
       return state.currentFolder.path;
-    }, function (newVal, oldVal) {
-      if (newVal !== oldVal)
+    }, function(newVal, oldVal) {
         scope.selectedFolder = newVal;
+    });
+
+    scope.$watch(function() {
+      return state.gitUrl;
+    }, function(newVal, oldVal) {
+      scope.gitUrl = newVal;
     });
   }
 

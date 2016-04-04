@@ -158,6 +158,32 @@ line.link {
   bottom: 10px;
 }
 
+/*/////////// CREDENTIALS MODAL /////////////*/
+
+.credentials-modal {
+  padding: 15px;
+}
+
+.credentials-modal table {
+  margin: 8px auto 2px;
+}
+
+.credentials-modal input {
+  margin-bottom: 0;
+  width: 350px;
+}
+
+.credentials-modal td {
+  padding-bottom: 10px;
+}
+
+.credentials-modal td:nth-child(1) {
+  text-align: left;
+  padding-right: 15px;
+  font-weight: bold;
+}
+
+
 
 
 

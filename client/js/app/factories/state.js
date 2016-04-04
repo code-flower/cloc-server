@@ -20,7 +20,10 @@ angular.module('CodeFlower')
       data: null
     },
 
-    cloning: false
+    cloning: false,
+
+    gitUrl: ''
+    //gitUrl: 'git@dustlandmedia.git.beanstalkapp.com:/dustlandmedia/roofshootserver.git'
     
   };
 

@@ -43,7 +43,9 @@ angular.module('CodeFlower')
             });    
             break;
           case types.error:
+            console.log("ERROR");
             socket.close();
+            $rootScope.$broadcast('cloneError');
             break;
           case types.credentials:
             socket.close();

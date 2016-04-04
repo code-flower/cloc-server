@@ -2,14 +2,29 @@
 'use strict';
 
 angular.module('CodeFlower')
-.controller('credentialsModal', function($scope, $uibModalInstance) {
+.controller('credentialsModal', function($scope, params) {
 
-  console.log("inside modal controller:", $uibModalInstance);
-  console.log("$scope = ", $scope);
+  //// SCOPE VARIABLES ////
 
-  $scope.closeModal = function() {
-    console.log("closing modal");
-    $uibModalInstance.close('hello');
+  $scope.username = '';
+  $scope.password = '';
+  $scope.url = '';
+  $scope.needHTTPS = params.needHTTPS;
+
+  //// SCOPE FUNCTIONS ////
+
+  $scope.clone = function() {
+    var obj = {
+      username: $scope.username,
+      password: $scope.password
+    };
+
+    if (params.needHTTPS)
+      obj.url = $scope.url;
+
+    $scope.$close(obj);
   };
+
+  $scope.abort = $scope.$dismiss;
 
 });
