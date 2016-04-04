@@ -8,6 +8,7 @@ angular.module('CodeFlower')
     restrict: 'E',
     replace: true,
     template: '<div id="visualization"></div>',
+    scope: {},
     link: link
   };
 

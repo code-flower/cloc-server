@@ -8,6 +8,7 @@ angular.module('CodeFlower')
     restrict: 'E',
     replace: true,
     templateUrl: appConfig.paths.partials + 'flower-languages.html',
+    scope: {},
     link: link
   };
 
@@ -17,7 +18,7 @@ angular.module('CodeFlower')
     scope.$watch(function() { 
       return state.currentFolder.data; 
     }, function (newVal, oldVal) {
-      if (newVal !== oldVal)
+      if (newVal)
         scope.languages = flowerUtils.analyzeFolder(newVal);
     });
   }

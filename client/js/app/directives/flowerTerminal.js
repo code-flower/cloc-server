@@ -8,6 +8,7 @@ angular.module('CodeFlower')
     restrict: 'E',
     replace: true,
     templateUrl: appConfig.paths.partials + 'flower-terminal.html',
+    scope: {},
     link: link
   };
 

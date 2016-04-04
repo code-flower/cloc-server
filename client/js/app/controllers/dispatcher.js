@@ -108,6 +108,7 @@ angular.module('CodeFlower')
 
   $scope.$on('abortClone', function(e, data) {
     state.cloning = false;
+    state.gitUrl = '';
     $scope.$broadcast('closeTerminal');
   });
 

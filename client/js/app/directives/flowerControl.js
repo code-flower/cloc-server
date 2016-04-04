@@ -8,6 +8,7 @@ angular.module('CodeFlower')
     restrict: 'E',
     replace: true,
     templateUrl: appConfig.paths.partials + 'flower-control.html',
+    scope: {},
     link: link
   };
 
@@ -28,7 +29,6 @@ angular.module('CodeFlower')
 
     scope.abortClone = function() {
       scope.$emit('abortClone');
-      scope.gitUrl = '';
     };
 
     scope.switchRepo = function(repoName) {
@@ -45,22 +45,16 @@ angular.module('CodeFlower')
 
     //// WATCHERS ////
 
-    scope.$watch(function() {
-      return state.currentRepo.name;
-    }, function(newVal, oldVal) {
+    scope.$watch('state.gitUrl', function(newVal, oldVal) {
+      scope.gitUrl = newVal;
+    });
+
+    scope.$watch('state.currentRepo.name', function(newVal, oldVal) {
       scope.selectedRepo = newVal;
     });
 
-    scope.$watch(function () {
-      return state.currentFolder.path;
-    }, function(newVal, oldVal) {
-        scope.selectedFolder = newVal;
-    });
-
-    scope.$watch(function() {
-      return state.gitUrl;
-    }, function(newVal, oldVal) {
-      scope.gitUrl = newVal;
+    scope.$watch('state.currentFolder.path', function(newVal, oldVal) {
+      scope.selectedFolder = newVal;
     });
   }
 
