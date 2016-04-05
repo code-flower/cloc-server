@@ -6,13 +6,21 @@ angular.module('CodeFlower')
 
   //// PRIVATE FUNCTIONS ////
 
-  function switchFolder(folderPath) {
+  function setSort(sortData) {
+    flowerUtils.sortLanguages(state.languages, sortData);
+  }
+
+  function setFolder(folderPath) {
     var folder = flowerUtils.getFolder(state.currentRepo.data, folderPath);
     state.currentFolder = {
       path: folderPath,
       data: folder
     };
     state.languages = flowerUtils.getLanguages(folder);
+    setSort({
+      sortCol: 'lines',
+      sortDesc: true
+    });
   }
 
   function buildUI(repoName, repoData) {
@@ -21,10 +29,10 @@ angular.module('CodeFlower')
       data: repoData
     };
     state.folderPaths = flowerUtils.getFolderPaths(repoData);
-    switchFolder(state.folderPaths[0]);
+    setFolder(state.folderPaths[0]);
   }
 
-  function switchRepo(repoName) {
+  function setRepo(repoName) {
     dataService.harvest(repoName)
     .then(function(repoData) {
       buildUI(repoName, repoData);
@@ -70,7 +78,7 @@ angular.module('CodeFlower')
     dataService.delete(repoName)
     .then(function() {
       if (state.repoNames.length)
-        switchRepo(state.repoNames[index] || state.repoNames[0]);
+        setRepo(state.repoNames[index] || state.repoNames[0]);
     });
   }
 
@@ -130,7 +138,7 @@ angular.module('CodeFlower')
   });
 
   $scope.$on('switchRepo', function(e, repoName) {
-    switchRepo(repoName);
+    setRepo(repoName);
   });
 
   $scope.$on('deleteRepo', function(e, repoName) {
@@ -138,7 +146,11 @@ angular.module('CodeFlower')
   });
 
   $scope.$on('switchFolder', function(e, folderPath) {
-    switchFolder(folderPath);
+    setFolder(folderPath);
+  });
+
+  $scope.$on('switchSort', function (e, sortData) {
+    console.log("switching sort:", sortData);
   });
 
   $scope.$on('deleteDB', function(e, data) {
@@ -153,7 +165,7 @@ angular.module('CodeFlower')
   .then(function(repoNames) {
     state.repoNames = repoNames;
     if (repoNames[0])
-      switchRepo(repoNames[0]);
+      setRepo(repoNames[0]);
   });
 
 });

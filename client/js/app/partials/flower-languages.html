@@ -9,13 +9,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="(key, value) in languages">
-        <td>{{key}}</td>
-        <td>{{value.files}}</td>
-        <td>{{value.lines}}</td>
+      <tr ng-repeat="lang in languages">
+        <td>{{lang.language}}</td>
+        <td>{{lang.files}}</td>
+        <td>{{lang.lines}}</td>
         <td>
           <span class="color-indicator"
-                ng-style="{'background-color': value.color}" />
+                ng-style="{'background-color': lang.color}" />
         </td>
       </tr>
     </tbody>

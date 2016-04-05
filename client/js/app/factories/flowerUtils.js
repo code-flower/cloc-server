@@ -61,20 +61,47 @@ angular.module('CodeFlower')
 
       })(folder);
 
-      var langNames = Object.keys(languages);
-      var total = langNames.length;
-      langNames.forEach(function(lang, index) {
-        languages[lang].color = "hsl(" + parseInt(360 / total * index, 10) + ",90%,70%)";
+      // convert the obj to an array
+      var languagesArr = [];
+      Object.keys(languages).forEach(function(langName) {
+        languages[langName].language = langName;
+        languagesArr.push(languages[langName]);
       });
 
-      return languages;
+      return languagesArr;
     },
 
+    // NOTE: this modifies the languages object
+    sortLanguages: function(languages, sortData) {
+      console.log("sorting:", languages, sortData);
+
+      // sort languages based on sortData
+      var prop = sortData.sortCol;
+      var sortFactor = sortData.sortDesc ? 1 : -1;
+      languages.sort(function (a, b) {
+        return sortFactor * (b[prop] > a[prop] ? 1 : -1);
+      });
+
+      // apply colors
+      var total = languages.length;
+      languages.forEach(function(lang, index) {
+        lang.color = "hsl(" + parseInt(360 / total * index, 10) + ",90%,70%)";
+      });
+    },
+
+    // NOTE: this modifies the json object
     applyLanguagesToJson: function(json, languages) {
+      // set up an object of language colors
+      var languageColors = {};
+      languages.forEach(function(lang) {
+        languageColors[lang.language] = lang.color;
+      });
+
+      // apply colors to nodes
       (function recurse(node) {
 
         node.languageColor = node.language ?
-                             languages[node.language].color : 
+                             languageColors[node.language] : 
                              '#ededed';
 
         if (node.children) 
