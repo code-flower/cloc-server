@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerViz', function(CodeFlower, state) {
+.directive('flowerViz', function(CodeFlower, state, flowerUtils) {
 
   return {
     restrict: 'E',
@@ -66,8 +66,11 @@ angular.module('CodeFlower')
     scope.$watch(function () {
       return state.currentFolder.data;
     }, function (newVal, oldVal) {
-      if (newVal !== oldVal) 
-        createCodeFlower(angular.copy(newVal));  // copy because the viz modifies the object
+      if (newVal !== oldVal) { 
+        var json = angular.copy(newVal);  // copy because the viz modifies the object
+        flowerUtils.applyLanguagesToJson(json, state.languages);
+        createCodeFlower(json);  
+      }
     });
 
   }

@@ -7,10 +7,12 @@ angular.module('CodeFlower')
   //// PRIVATE FUNCTIONS ////
 
   function switchFolder(folderPath) {
+    var folder = flowerUtils.getFolder(state.currentRepo.data, folderPath);
     state.currentFolder = {
       path: folderPath,
-      data: flowerUtils.getFolder(state.currentRepo.data, folderPath)
+      data: folder
     };
+    state.languages = flowerUtils.getLanguages(folder);
   }
 
   function buildUI(repoName, repoData) {

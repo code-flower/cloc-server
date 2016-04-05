@@ -69,13 +69,12 @@ angular.module('CodeFlower')
         languages[lang].color = "hsl(" + parseInt(360 / total * index, 10) + ",90%,70%)";
       });
 
-      console.log("languages:", languages);
-
       return languages;
     },
 
     applyLanguagesToJson(languages, json) {
-      console.log("applying languages to json");
+      console.log("languages:", languages);
+      console.log("json:", json);
     }
 
   };

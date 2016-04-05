@@ -15,11 +15,10 @@ angular.module('CodeFlower')
   function link(scope, el, attrs) {
     scope.languages = [];
 
-    scope.$watch(function() { 
-      return state.currentFolder.data; 
-    }, function (newVal, oldVal) {
-      if (newVal)
-        scope.languages = flowerUtils.getLanguages(newVal);
+    scope.$watch(function() {
+      return state.languages;
+    }, function(newVal, oldVal) {
+      scope.languages = state.languages;
     });
   }
 
