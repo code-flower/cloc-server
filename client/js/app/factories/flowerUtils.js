@@ -39,12 +39,12 @@ angular.module('CodeFlower')
       return folder;
     },
 
-    getLanguages: function(rootFolder) {
+    getLanguages: function(folder) {
       var languages = {};
 
-      (function recurse(folder) {
-        if (folder.language) {
-          var lang = folder.language;
+      (function recurse(node) {
+        if (node.language) {
+          var lang = node.language;
 
           if (!languages[lang]) 
             languages[lang] = {
@@ -53,15 +53,13 @@ angular.module('CodeFlower')
             };
 
           languages[lang].files++;
-          languages[lang].lines += folder.size;
+          languages[lang].lines += node.size;
         }
 
-        if (folder.children) 
-          folder.children.forEach(function(child) {
-            recurse(child);
-          });
+        if (node.children) 
+          node.children.forEach(recurse);
 
-      })(rootFolder);
+      })(folder);
 
       var langNames = Object.keys(languages);
       var total = langNames.length;
@@ -72,9 +70,17 @@ angular.module('CodeFlower')
       return languages;
     },
 
-    applyLanguagesToJson(languages, json) {
-      console.log("languages:", languages);
-      console.log("json:", json);
+    applyLanguagesToJson: function(json, languages) {
+      (function recurse(node) {
+
+        node.languageColor = node.language ?
+                             languages[node.language].color : 
+                             '#ededed';
+
+        if (node.children) 
+          node.children.forEach(recurse);
+
+      })(json);
     }
 
   };
