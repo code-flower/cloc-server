@@ -21,6 +21,11 @@ angular.module('CodeFlower')
       data: null
     },
 
+    sortParams: {
+      sortCol: 'lines',
+      sortDesc: true
+    },
+
     cloning: false,
 
     terminalOpen: false

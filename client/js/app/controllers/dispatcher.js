@@ -6,8 +6,10 @@ angular.module('CodeFlower')
 
   //// PRIVATE FUNCTIONS ////
 
-  function setSort(sortData) {
-    flowerUtils.sortLanguages(state.languages, sortData);
+  function setSort(sortParams) {
+    state.sortParams = sortParams;
+    flowerUtils.sortLanguages(state.languages, sortParams);
+    $scope.$broadcast('languagesReady');
   }
 
   function setFolder(folderPath) {
@@ -149,8 +151,8 @@ angular.module('CodeFlower')
     setFolder(folderPath);
   });
 
-  $scope.$on('switchSort', function (e, sortData) {
-    console.log("switching sort:", sortData);
+  $scope.$on('switchSort', function (e, sortParams) {
+    setSort(sortParams);
   });
 
   $scope.$on('deleteDB', function(e, data) {

@@ -2,9 +2,9 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Language</th>
-        <th>Files</th>
-        <th>Lines</th>
+        <th ng-click="setSort('language')">Language</th>
+        <th ng-click="setSort('files')">Files</th>
+        <th ng-click="setSort('lines')">Lines</th>
         <th>Color</th>
       </tr>
     </thead>
@@ -18,6 +18,11 @@
                 ng-style="{'background-color': lang.color}" />
         </td>
       </tr>
+      <tr>
+        <td>Totals</td>
+        <td>{{totals.files}}</td>
+        <td>{{totals.lines}}</td>
+        <td></td>
     </tbody>
   </table>
 </div>

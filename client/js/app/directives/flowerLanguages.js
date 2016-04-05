@@ -13,12 +13,42 @@ angular.module('CodeFlower')
   };
 
   function link(scope, el, attrs) {
-    scope.languages = [];
 
-    scope.$watch(function() {
-      return state.languages;
-    }, function(newVal, oldVal) {
+    //// PRIVATE ////
+
+    function calcTotals() {
+      scope.totals = {
+        files: 0,
+        lines: 0
+      };
+
+      scope.languages.forEach(function(lang) {
+        scope.totals.files += lang.files;
+        scope.totals.lines += lang.lines;
+      });
+    }
+
+    //// SCOPE ////
+
+    scope.languages = [];
+    scope.sortParams = {};
+    scope.totals = {};
+
+    scope.setSort = function(col) {
+      scope.$emit('switchSort', {
+        sortCol: col,
+        sortDesc: scope.sortParams.sortCol === col ?
+                  !scope.sortParams.sortDesc :
+                  true
+      });
+    };
+
+    //// EVENT LISTENERS ////
+
+    scope.$on('languagesReady', function (e, data) {
       scope.languages = state.languages;
+      scope.sortParams = state.sortParams;
+      calcTotals();
     });
   }
 

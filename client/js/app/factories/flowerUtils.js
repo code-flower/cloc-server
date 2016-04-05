@@ -4,7 +4,7 @@
 angular.module('CodeFlower')
 .factory('flowerUtils', function() {
 
-  return {
+  var service = {
 
     getFolderPaths: function(repo) {
       var folderPaths = [];
@@ -68,24 +68,27 @@ angular.module('CodeFlower')
         languagesArr.push(languages[langName]);
       });
 
+      // sort
+      service.sortLanguages(languagesArr, {
+        sortCol: 'lines',
+        sortDesc: true
+      });
+
+      // apply colors
+      var total = languagesArr.length;
+      languagesArr.forEach(function(lang, index) {
+        lang.color = "hsl(" + parseInt(360 / total * index, 10) + ",90%,70%)";
+      });
+
       return languagesArr;
     },
 
     // NOTE: this modifies the languages object
     sortLanguages: function(languages, sortData) {
-      console.log("sorting:", languages, sortData);
-
-      // sort languages based on sortData
       var prop = sortData.sortCol;
       var sortFactor = sortData.sortDesc ? 1 : -1;
       languages.sort(function (a, b) {
         return sortFactor * (b[prop] > a[prop] ? 1 : -1);
-      });
-
-      // apply colors
-      var total = languages.length;
-      languages.forEach(function(lang, index) {
-        lang.color = "hsl(" + parseInt(360 / total * index, 10) + ",90%,70%)";
       });
     },
 
@@ -103,7 +106,6 @@ angular.module('CodeFlower')
         node.languageColor = node.language ?
                              languageColors[node.language] : 
                              '#ededed';
-
         if (node.children) 
           node.children.forEach(recurse);
 
@@ -111,4 +113,7 @@ angular.module('CodeFlower')
     }
 
   };
+
+  return service;
+
 });
