@@ -7,9 +7,8 @@ angular.module('CodeFlower')
   //// PRIVATE FUNCTIONS ////
 
   function setSort(sortParams) {
-    state.sortParams = sortParams;
     flowerUtils.sortLanguages(state.languages, sortParams);
-    $scope.$broadcast('languagesReady');
+    state.sortParams = sortParams;
   }
 
   function setFolder(folderPath) {

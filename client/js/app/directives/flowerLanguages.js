@@ -45,10 +45,13 @@ angular.module('CodeFlower')
 
     //// EVENT LISTENERS ////
 
-    scope.$on('languagesReady', function (e, data) {
+    scope.$watch(function () {
+      return state.sortParams;
+    }, function(newVal, oldVal) {
       scope.languages = state.languages;
       scope.sortParams = state.sortParams;
-      calcTotals();
+      if (scope.languages)
+        calcTotals();
     });
   }
 
