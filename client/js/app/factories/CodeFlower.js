@@ -32,6 +32,9 @@ angular.module('CodeFlower')
   };
 
   CodeFlower.prototype.update = function(json) {
+    console.log("old json:", angular.copy(json));
+    console.log("new json:", json);
+
     if (json) this.json = json;
 
     this.json.fixed = true;
@@ -81,6 +84,10 @@ angular.module('CodeFlower')
       .classed('directory', function(d) { return (d._children || d.children) ? 1 : 0; })
       .attr("r", function(d) { return d.children ? 3.5 : Math.pow(d.size, 2/5) || 1; })
       .style("fill", function color(d) {
+
+        // DEFINE COLOR HERE
+        // - maybe choose a color function  based on the color scheme setting
+        //console.log("d:", d);
         return "hsl(" + parseInt(360 / total * d.id, 10) + ",90%,70%)";
       })
       .call(this.force.drag)

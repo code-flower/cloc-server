@@ -15,6 +15,21 @@ body {
   background-color: rgba(255,255,255,0.7);
 }
 
+.flower-languages td {
+  vertical-align: middle;
+  position: relative;
+}
+
+.flower-languages .color-indicator {
+  position: absolute;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  top: 8px;
+  left: 15px;
+  border-radius: 12px;
+}
+
 /*////// UPPER-RIGHT FORM ///////*/
 
 .repo-form {

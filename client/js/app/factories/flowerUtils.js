@@ -39,7 +39,7 @@ angular.module('CodeFlower')
       return folder;
     },
 
-    analyzeFolder: function(rootFolder) {
+    getLanguages: function(rootFolder) {
       var languages = {};
 
       (function recurse(folder) {
@@ -63,7 +63,19 @@ angular.module('CodeFlower')
 
       })(rootFolder);
 
+      var langNames = Object.keys(languages);
+      var total = langNames.length;
+      langNames.forEach(function(lang, index) {
+        languages[lang].color = "hsl(" + parseInt(360 / total * index, 10) + ",90%,70%)";
+      });
+
+      console.log("languages:", languages);
+
       return languages;
+    },
+
+    applyLanguagesToJson(languages, json) {
+      console.log("applying languages to json");
     }
 
   };

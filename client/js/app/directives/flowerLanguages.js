@@ -19,7 +19,7 @@ angular.module('CodeFlower')
       return state.currentFolder.data; 
     }, function (newVal, oldVal) {
       if (newVal)
-        scope.languages = flowerUtils.analyzeFolder(newVal);
+        scope.languages = flowerUtils.getLanguages(newVal);
     });
   }
 

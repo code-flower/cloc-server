@@ -5,6 +5,7 @@
         <th>Language</th>
         <th>Files</th>
         <th>Lines</th>
+        <th>Color</th>
       </tr>
     </thead>
     <tbody>
@@ -12,6 +13,10 @@
         <td>{{key}}</td>
         <td>{{value.files}}</td>
         <td>{{value.lines}}</td>
+        <td>
+          <span class="color-indicator"
+                ng-style="{'background-color': value.color}" />
+        </td>
       </tr>
     </tbody>
   </table>
