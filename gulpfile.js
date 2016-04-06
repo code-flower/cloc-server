@@ -8,6 +8,7 @@ const open = require('gulp-open');
 const source = require('vinyl-source-stream');
 const argv = require('yargs').argv;
 const appConfig = require('./shared/appConfig.js');
+const sass = require('gulp-sass');
 
 /////////////// BUNDLER ///////////////////
 
@@ -24,6 +25,17 @@ function bundle() {
 
 gulp.task('bundle', bundle);
 
+//////////////// SASS //////////////////////
+
+function sassify() {
+  return gulp.src('./client/scss/**')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./client/dist'))
+    .pipe(browserSync.stream());
+}
+
+gulp.task('sass', sassify);
+
 /////////// DEFAULT TASK COMPONENTS /////////
 
 gulp.task('watch:server', function() {
@@ -38,11 +50,15 @@ gulp.task('watch:server', function() {
   }).on('start', bundle);
 });
 
-gulp.task('watch:client', function() {
-  gulp.watch(['./client/**', '!./client/dist/bundle.js'], bundle);
+gulp.task('watch:js', function() {
+  gulp.watch(['./client/js/**/*.js'], bundle);
 });
 
-gulp.task('open-browser', ['bundle'], function() {
+gulp.task('watch:sass', function() {
+  gulp.watch(['./client/scss/**/*.scss'], sassify);
+});
+
+gulp.task('open-browser', ['bundle', 'sass'], function() {
   browserSync.init({ 
     ui: { port: appConfig.ports.browserSyncUI } 
   });
@@ -55,5 +71,5 @@ gulp.task('open-browser', ['bundle'], function() {
 
 /////////////// DEFAULT TASK ///////////////
 
-gulp.task('default', ['watch:server', 'watch:client', 'open-browser']);
+gulp.task('default', ['watch:server', 'watch:js', 'watch:sass', 'open-browser']);
 
