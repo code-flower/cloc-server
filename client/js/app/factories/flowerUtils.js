@@ -6,6 +6,8 @@ angular.module('CodeFlower')
 
   var service = {
 
+    // returns an array of all the paths
+    // in the given repo
     getFolderPaths: function(repo) {
       var folderPaths = [];
 
@@ -25,6 +27,8 @@ angular.module('CodeFlower')
       return folderPaths;
     },
 
+    // return the portion of a repo object
+    // indicated by the given folderPath
     getFolder: function(repo, folderPath) {
       var folder = repo;
       var props = folderPath.split('/');
@@ -39,21 +43,26 @@ angular.module('CodeFlower')
       return folder;
     },
 
+    // get an array for all of the languages
+    // in the given folder
     getLanguages: function(folder) {
-      var languages = {};
+      var languagesObj = {};
 
+      // traverse the given folder and calculate
+      // the file and line folders
       (function recurse(node) {
+
         if (node.language) {
           var lang = node.language;
 
-          if (!languages[lang]) 
-            languages[lang] = {
+          if (!languagesObj[lang]) 
+            languagesObj[lang] = {
               files: 0,
               lines: 0
             };
 
-          languages[lang].files++;
-          languages[lang].lines += node.size;
+          languagesObj[lang].files++;
+          languagesObj[lang].lines += node.size;
         }
 
         if (node.children) 
@@ -63,30 +72,26 @@ angular.module('CodeFlower')
 
       // convert the obj to an array
       var languagesArr = [];
-      Object.keys(languages).forEach(function(langName) {
-        languages[langName].language = langName;
-        languagesArr.push(languages[langName]);
-      });
-
-      // sort
-      service.sortLanguages(languagesArr, {
-        sortCol: 'lines',
-        sortDesc: true
-      });
-
-      // apply colors
-      var total = languagesArr.length;
-      languagesArr.forEach(function(lang, index) {
-        lang.color = "hsl(" + parseInt(360 / total * index, 10) + ",90%,70%)";
+      Object.keys(languagesObj).forEach(function(langName) {
+        languagesObj[langName].language = langName;
+        languagesArr.push(languagesObj[langName]);
       });
 
       return languagesArr;
     },
 
-    // NOTE: this modifies the languages object
-    sortLanguages: function(languages, sortData) {
-      var prop = sortData.sortCol;
-      var sortFactor = sortData.sortDesc ? 1 : -1;
+    // NOTE: this modifies the languages array
+    setLanguageColors: function(languages) {
+      var total = languages.length;
+      languages.forEach(function(lang, index) {
+        lang.color = "hsl(" + parseInt(360 / total * index, 10) + ",90%,70%)";
+      });
+    },
+
+    // NOTE: this modifies the languages array
+    sortLanguages: function(languages, sortParams) {
+      var prop = sortParams.sortCol;
+      var sortFactor = sortParams.sortDesc ? 1 : -1;
       languages.sort(function (a, b) {
         return sortFactor * (b[prop] > a[prop] ? 1 : -1);
       });
@@ -108,7 +113,7 @@ angular.module('CodeFlower')
                              '#ededed';
         if (node.children) 
           node.children.forEach(recurse);
-
+        
       })(json);
     }
 

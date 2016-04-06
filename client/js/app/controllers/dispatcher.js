@@ -2,13 +2,14 @@
 'use strict';
 
 angular.module('CodeFlower')
-.controller('dispatcher', function($scope, $timeout, $uibModal, appConfig, state, dataService, flowerUtils) {
+.controller('dispatcher', function($scope, $timeout, $uibModal, 
+                                   appConfig, state, dataService, flowerUtils) {
 
   //// PRIVATE FUNCTIONS ////
 
   function setSort(sortParams) {
-    flowerUtils.sortLanguages(state.languages, sortParams);
     state.sortParams = sortParams;
+    flowerUtils.sortLanguages(state.languages, sortParams);
   }
 
   function setFolder(folderPath) {
@@ -22,6 +23,7 @@ angular.module('CodeFlower')
       sortCol: 'lines',
       sortDesc: true
     });
+    flowerUtils.setLanguageColors(state.languages);
   }
 
   function buildUI(repoName, repoData) {
@@ -102,8 +104,7 @@ angular.module('CodeFlower')
         password: data.password
       });
 
-    })
-    .catch(function(reason) {
+    }).catch(function(reason) {
 
       state.gitUrl = '';
       state.cloning = false;
