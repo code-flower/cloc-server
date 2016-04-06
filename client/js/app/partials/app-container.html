@@ -1,7 +1,7 @@
 <div class="flower-container" ng-controller="dispatcher">
 
   <flower-viz ng-show="state.repoNames.length" />
-  <flower-languages ng-show="state.repoNames.length" />  
+  <flower-languages ng-show="state.repoNames.length" />
   <flower-control />
   <flower-terminal />
 
@@ -10,5 +10,10 @@
     ng-click="deleteDB()">
     Delete DB
   </button>
-<!--   <button class="open-modal btn btn-primary" ng-click="openModal()">Open Modal</button> -->
+
+  <button 
+    class="open-prefs btn btn-primary" 
+    ng-click="openPrefs()">
+    Prefs
+  </button>
 </div>

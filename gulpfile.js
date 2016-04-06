@@ -51,7 +51,7 @@ gulp.task('watch:server', function() {
 });
 
 gulp.task('watch:js', function() {
-  gulp.watch(['./client/js/**/*.js'], bundle);
+  gulp.watch(['./client/js/**/*.{js,html}'], bundle);
 });
 
 gulp.task('watch:sass', function() {

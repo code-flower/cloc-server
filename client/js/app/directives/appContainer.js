@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('appContainer', function(appConfig, state) {
+.directive('appContainer', function(appConfig, state, $uibModal) {
 
   return {
     restrict: 'E',
@@ -15,8 +15,27 @@ angular.module('CodeFlower')
     scope.state = state;
 
     // temporary?
-    scope.deleteDB = function () {
+    scope.deleteDB = function() {
       scope.$emit('deleteDB');
+    };
+
+    scope.openPrefs = function() {
+      console.log("opening prefs");
+
+      var params = {
+        test: 'hello'
+      };
+
+      $uibModal.open({
+
+        controller: 'prefsModal',
+        templateUrl: appConfig.paths.partials + 'prefs-modal.html',
+        size: 'sm',
+        resolve: {
+          params: params
+        }
+
+      });
     };
   }
 

@@ -24,6 +24,7 @@ require('./app/factories/state');
 // controllers
 require('./app/controllers/dispatcher');
 require('./app/controllers/credentialsModal');
+require('./app/controllers/prefsModal');
 
 
 
