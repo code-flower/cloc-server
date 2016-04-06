@@ -1,0 +1,42 @@
+.flower-terminal {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  height: 29px;
+  width: 400px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-family: Arial;
+  font-size: 12px;
+  text-align: left;
+  border-top-left-radius: 10px;
+  transition: all 0.5s ease-in-out;
+
+  .terminal-head {
+    cursor: pointer;
+    height: 21px;
+    padding: 4px 10px 4px 12px;
+    border-bottom: 1px white solid;
+    .arrow {
+      line-height: 27px;
+    }
+  }
+
+  .terminal-body {
+    position: absolute;
+    top: 38px;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    overflow-y: scroll;
+    word-break: break-word;
+  }
+
+  &.open {
+    height: 500px;
+    .terminal-head .arrow {
+      line-height: 18px;
+      transform: rotate(180deg);
+    }
+  }
+}
