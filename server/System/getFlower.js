@@ -11,7 +11,8 @@ module.exports = function getFlower(repoName) {
   var absPath = `${appConfig.paths.repos}${dirName}/data.json`;
   var readStream = fs.createReadStream(absPath);
   readStream.on('end', function() {
-    deleteRepo(repoName);
+    if (appConfig.deleteAfterClone)
+      deleteRepo(repoName);
   });
 
   return readStream;

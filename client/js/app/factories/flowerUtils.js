@@ -4,6 +4,21 @@
 angular.module('CodeFlower')
 .factory('flowerUtils', function() {
 
+  //// PRIVATE ////
+
+  function getColor(total, index, colorScheme) {
+    switch(colorScheme) {
+      case 'rainbow':
+        var hue = Math.round(360 * index / total);
+        return `hsl(${hue}, 90%, 70%)`;
+      case 'cyans':
+        var hue = 170 + Math.round(190 * index / total);
+        return `hsl(${hue}, 100%, 50%)`;
+    }
+  }
+
+  //// THE SERVICE ////
+
   var service = {
 
     // returns an array of all the paths
@@ -81,10 +96,10 @@ angular.module('CodeFlower')
     },
 
     // NOTE: this modifies the languages array
-    setLanguageColors: function(languages) {
+    setLanguageColors: function(languages, colorScheme) {
       var total = languages.length;
       languages.forEach(function(lang, index) {
-        lang.color = "hsl(" + parseInt(360 / total * index, 10) + ",90%,70%)";
+        lang.color = getColor(total, index, colorScheme);
       });
     },
 
@@ -98,7 +113,7 @@ angular.module('CodeFlower')
     },
 
     // NOTE: this modifies the json object
-    applyLanguagesToJson: function(json, languages) {
+    applyLanguageColorsToJson: function(json, languages) {
       // set up an object of language colors
       var languageColors = {};
       languages.forEach(function(lang) {

@@ -23,7 +23,7 @@ angular.module('CodeFlower')
       sortCol: 'lines',
       sortDesc: true
     });
-    flowerUtils.setLanguageColors(state.languages);
+    flowerUtils.setLanguageColors(state.languages, state.prefs.colorScheme);
   }
 
   function buildUI(repoName, repoData) {

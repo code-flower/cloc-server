@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('state', function() {
+.factory('state', function(appConfig) {
 
   return {
     gitUrl: '',
@@ -28,7 +28,9 @@ angular.module('CodeFlower')
 
     cloning: false,
 
-    terminalOpen: false
+    terminalOpen: false,
+
+    prefs: localStorage.prefs || appConfig.defaultPrefs
   };
 
 });

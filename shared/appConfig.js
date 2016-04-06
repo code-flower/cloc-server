@@ -44,6 +44,16 @@ module.exports = {
   database: {
     dbName: 'repos',
     tableName: 'repoTable'
-  }
+  },
+
+  //// PREFERENCES ////
+  // options are: rainbow, cyans
+  defaultPrefs: {
+    colorScheme: 'rainbow'
+  },
+
+  //// MISC ////
+
+  deleteAfterClone: false
 
 };

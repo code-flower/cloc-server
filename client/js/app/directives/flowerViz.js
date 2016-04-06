@@ -31,6 +31,8 @@ angular.module('CodeFlower')
     }
 
     function createCodeFlower(json) {
+      console.log("json:", json);
+
       // remove previous flower
       if (currentCodeFlower) 
         currentCodeFlower.cleanup();
@@ -68,7 +70,7 @@ angular.module('CodeFlower')
     }, function (newVal, oldVal) {
       if (newVal !== oldVal) { 
         var json = angular.copy(newVal);  // copy because the viz modifies the object
-        flowerUtils.applyLanguagesToJson(json, state.languages);
+        flowerUtils.applyLanguageColorsToJson(json, state.languages);
         createCodeFlower(json);  
       }
     });
