@@ -1,1 +1,32 @@
-<div class="prefs-modal">Preferences</div>
+<div class="prefs-modal">
+  <div class="modal-tabs">
+    <div 
+      class="modal-tab" 
+      ng-click="setTab('about')"
+      ng-class="{active: activeTab === 'about'}">About</div>
+    <div 
+      class="modal-tab" 
+      ng-click="setTab('prefs')"
+      ng-class="{active: activeTab === 'prefs'}">Prefs</div>
+  </div>
+
+  <div class="about-tab" ng-show="activeTab === 'about'">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sed dictum justo, id porttitor turpis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas posuere mattis libero sed bibendum. Phasellus sed quam hendrerit, placerat neque eu, euismod erat. In hac habitasse platea dictumst. Pellentesque ultrices leo sed augue vulputate consequat. Etiam nisi diam, dapibus vel sem quis, vulputate condimentum velit. Curabitur lacus sapien, sodales sed dapibus vitae, fringilla a lacus.
+
+    <p>Duis tincidunt ac lorem eget posuere. Donec eu ipsum iaculis, blandit nisl et, aliquam velit. Integer sed est vestibulum, elementum mauris sit amet, eleifend odio. Cras ut dignissim felis. Mauris facilisis, est ac venenatis scelerisque, erat augue mattis quam, in pretium lectus augue tristique lorem. Mauris eget ultrices nibh. Fusce vulputate, lacus quis ullamcorper sodales, purus lorem varius elit, vitae hendrerit est mi sed justo. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed dignissim metus id neque eleifend, in commodo eros blandit. Nam rutrum, magna vel facilisis fermentum, nisi velit consectetur dolor, id imperdiet erat odio ac arcu. Cras a ante urna. Aliquam turpis massa, scelerisque in imperdiet nec, luctus id mauris. In dui turpis, porta id pharetra et, facilisis ac lectus. Aenean lobortis, justo at ornare rhoncus, elit nunc porttitor eros, sit amet ornare lorem erat nec odio. Praesent nec nulla ac purus ullamcorper elementum vel ac nisl.
+
+    <p>Etiam interdum ligula dignissim, luctus quam nec, hendrerit purus. Etiam ut neque neque. Maecenas auctor finibus ligula nec posuere. Nullam pellentesque, odio nec aliquam pharetra, urna ex hendrerit sem, sed blandit lorem lacus vitae magna. Curabitur facilisis lacinia metus, quis pellentesque ante facilisis sed. Duis sit amet ipsum vitae mi vehicula vehicula. Nullam iaculis dictum sem, non mattis nisl elementum eu. Duis vitae massa ex. Pellentesque turpis arcu, pretium at vulputate et, aliquam vel mi. Aliquam tincidunt suscipit eros eu consequat.
+  </div>
+
+  <div class="prefs-tab" ng-show="activeTab === 'prefs'">
+
+    <select 
+      ng-model="selectedTheme" 
+      ng-options="theme for theme in colorThemes" 
+      ng-change="setTheme(selectedTheme)"
+      class="form-control">
+    </select>
+    
+    <button class="btn btn-danger" ng-click="deleteDB()">Factory Reset</button>
+  </div>
+</div>

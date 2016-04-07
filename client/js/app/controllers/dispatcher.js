@@ -156,6 +156,7 @@ angular.module('CodeFlower')
   });
 
   $scope.$on('deleteDB', function(e, data) {
+    console.log("deleting DB");
     dataService.deleteDB();
     location.reload();
   });
