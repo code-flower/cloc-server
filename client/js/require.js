@@ -20,6 +20,7 @@ require('./app/factories/dbAccess');
 require('./app/factories/flowerUtils');
 require('./app/factories/dataService');
 require('./app/factories/state');
+require('./app/factories/userPrefs');
 
 // controllers
 require('./app/controllers/dispatcher');

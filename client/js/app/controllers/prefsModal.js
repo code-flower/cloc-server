@@ -2,26 +2,34 @@
 'use strict';
 
 angular.module('CodeFlower')
-.controller('prefsModal', function($scope, params, appConfig) {
+.controller('prefsModal', function($scope, appConfig, state, userPrefs) {
 
-  console.log("inside prefs modal:", params);
+  //// SCOPE VARS ////
 
-  $scope.activeTab = 'prefs';
+  $scope.activeTab = 'about';
+  $scope.colorSchemes = appConfig.colorSchemes;
+  $scope.selectedScheme = state.prefs.colorScheme;
 
-  $scope.colorThemes = appConfig.colorThemes;
-  //$scope.selectedTheme = userPrefs.get('colorTheme');
+  //// SCOPE FUNCTIONS ////
 
   $scope.setTab = function(tab) {
-    console.log("setting tab:", tab);
     $scope.activeTab = tab;
   };
 
-  $scope.setTheme = function(theme) {
-    console.log("setting theme:", theme);
+  $scope.savePrefs = function() {
+    userPrefs.set('colorScheme', $scope.selectedScheme);
+    $scope.$close();
+    $scope.$emit('prefsChanged', {
+      prefs: {
+        colorScheme: $scope.selectedScheme
+      }
+    });
   };
 
   $scope.deleteDB = function() {
     $scope.$emit('deleteDB');
   };
+
+  $scope.cancel = $scope.$close;
 
 });

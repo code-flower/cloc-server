@@ -14,31 +14,12 @@ angular.module('CodeFlower')
   function link (scope, el, attrs) {
     scope.state = state;
 
-    // temporary?
-    scope.deleteDB = function() {
-      scope.$emit('deleteDB');
-    };
-
     scope.openPrefs = function() {
-      console.log("opening prefs");
-
-      var params = {
-        test: 'hello'
-      };
-
       $uibModal.open({
-
         controller: 'prefsModal',
         templateUrl: appConfig.paths.partials + 'prefs-modal.html',
-        size: 'sm',
-        resolve: {
-          params: params
-        }
-
       });
     };
-
-    scope.openPrefs();
   }
 
 });

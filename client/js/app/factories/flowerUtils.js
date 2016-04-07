@@ -11,7 +11,7 @@ angular.module('CodeFlower')
       case 'rainbow':
         var hue = Math.round(360 * index / total);
         return `hsl(${hue}, 90%, 70%)`;
-      case 'cyans':
+      case 'cyanara':
         var hue = 170 + Math.round(190 * index / total);
         return `hsl(${hue}, 100%, 50%)`;
     }

@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('state', function(appConfig) {
+.factory('state', function(userPrefs) {
 
   return {
     gitUrl: '',
@@ -30,7 +30,9 @@ angular.module('CodeFlower')
 
     terminalOpen: false,
 
-    prefs: localStorage.prefs || appConfig.defaultPrefs
+    prefs: {
+      colorScheme: userPrefs.get('colorScheme')
+    }
   };
 
 });

@@ -46,13 +46,13 @@ module.exports = {
     tableName: 'repoTable'
   },
 
-  //// PREFERENCES ////
-  // options are: rainbow, cyans
+  //// MISC ////
+
+  colorSchemes: ['rainbow', 'cyanara'],
+
   defaultPrefs: {
     colorScheme: 'rainbow'
   },
-
-  //// MISC ////
 
   deleteAfterClone: false
 

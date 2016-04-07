@@ -2,16 +2,18 @@ body {
   text-align: center;
 }
 
-.delete-db {
-  position: fixed;
-  left: 10px;
-  bottom: 10px;
+.app-container {
+  .open-prefs {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+  }
 }
 
-.open-prefs {
-  position: fixed;
-  left: 110px;
-  bottom: 10px;
+//// MODALS ////
+
+.modal {
+  top: -25%;
 }
 
 .modal-open {

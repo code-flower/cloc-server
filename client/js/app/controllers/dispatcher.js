@@ -156,9 +156,17 @@ angular.module('CodeFlower')
   });
 
   $scope.$on('deleteDB', function(e, data) {
-    console.log("deleting DB");
     dataService.deleteDB();
     location.reload();
+  });
+
+  $scope.$on('prefsChanged', function(e, data) {
+    if (state.prefs.colorScheme !== data.prefs.colorScheme) {
+      state.prefs.colorScheme = data.prefs.colorScheme;
+      $timeout(function() {
+        setRepo(state.currentRepo.name);
+      }, 250);
+    }
   });
 
   //// STATE INITIALIZATION ////
