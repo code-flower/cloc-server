@@ -6,7 +6,8 @@ angular.module('CodeFlower')
 
   //// PRIVATE ////
 
-  function getColor(total, index, colorScheme) {
+  function getLanguageColor(languages, index, colorScheme) {
+    var total = languages.length;
     switch(colorScheme) {
       case 'rainbow':
         var hue = Math.round(360 * index / total);
@@ -15,6 +16,12 @@ angular.module('CodeFlower')
         var hue = 170 + Math.round(190 * index / total);
         return `hsl(${hue}, 100%, 50%)`;
     }
+  }
+
+  function getNodeColor(node, languageColors, colorScheme) {
+    return node.language ?
+           languageColors[node.language] : 
+           '#ededed';
   }
 
   //// THE SERVICE ////
@@ -97,9 +104,8 @@ angular.module('CodeFlower')
 
     // NOTE: this modifies the languages array
     setLanguageColors: function(languages, colorScheme) {
-      var total = languages.length;
       languages.forEach(function(lang, index) {
-        lang.color = getColor(total, index, colorScheme);
+        lang.color = getLanguageColor(languages, index, colorScheme);
       });
     },
 
@@ -113,7 +119,7 @@ angular.module('CodeFlower')
     },
 
     // NOTE: this modifies the json object
-    applyLanguageColorsToJson: function(json, languages) {
+    applyLanguageColorsToJson: function(json, languages, colorScheme) {
       // set up an object of language colors
       var languageColors = {};
       languages.forEach(function(lang) {
@@ -122,13 +128,9 @@ angular.module('CodeFlower')
 
       // apply colors to nodes
       (function recurse(node) {
-
-        node.languageColor = node.language ?
-                             languageColors[node.language] : 
-                             '#ededed';
+        node.color = getNodeColor(node, languageColors, colorScheme);
         if (node.children) 
           node.children.forEach(recurse);
-        
       })(json);
     }
 

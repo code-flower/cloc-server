@@ -23,7 +23,7 @@ angular.module('CodeFlower')
       sortCol: 'lines',
       sortDesc: true
     });
-    flowerUtils.setLanguageColors(state.languages, state.prefs.colorScheme);
+    flowerUtils.setLanguageColors(state.languages, state.colorScheme);
   }
 
   function buildUI(repoName, repoData) {
@@ -161,8 +161,8 @@ angular.module('CodeFlower')
   });
 
   $scope.$on('prefsChanged', function(e, data) {
-    if (state.prefs.colorScheme !== data.prefs.colorScheme) {
-      state.prefs.colorScheme = data.prefs.colorScheme;
+    if (state.colorScheme !== data.prefs.colorScheme) {
+      state.colorScheme = data.prefs.colorScheme;
       $timeout(function() {
         setRepo(state.currentRepo.name);
       }, 250);

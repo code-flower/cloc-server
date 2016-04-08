@@ -8,7 +8,7 @@ angular.module('CodeFlower')
 
   $scope.activeTab = 'about';
   $scope.colorSchemes = appConfig.colorSchemes;
-  $scope.selectedScheme = state.prefs.colorScheme;
+  $scope.selectedScheme = state.colorScheme;
 
   //// SCOPE FUNCTIONS ////
 

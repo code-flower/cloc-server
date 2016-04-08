@@ -86,7 +86,7 @@ angular.module('CodeFlower')
       .style("fill", function color(d) {
 
         // NODE COLOR DEFINITION
-        return d.languageColor;
+        return d.color;
         //return "hsl(" + parseInt(360 / total * d.id, 10) + ",90%,70%)";
 
       })

@@ -70,7 +70,7 @@ angular.module('CodeFlower')
     }, function (newVal, oldVal) {
       if (newVal !== oldVal) { 
         var json = angular.copy(newVal);  // copy because the viz modifies the object
-        flowerUtils.applyLanguageColorsToJson(json, state.languages);
+        flowerUtils.applyLanguageColorsToJson(json, state.languages, state.colorScheme);
         createCodeFlower(json);  
       }
     });

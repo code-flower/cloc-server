@@ -30,9 +30,7 @@ angular.module('CodeFlower')
 
     terminalOpen: false,
 
-    prefs: {
-      colorScheme: userPrefs.get('colorScheme')
-    }
+    colorScheme: userPrefs.get('colorScheme')
   };
 
 });
