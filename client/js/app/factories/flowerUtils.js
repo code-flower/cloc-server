@@ -19,9 +19,17 @@ angular.module('CodeFlower')
   }
 
   function getNodeColor(node, languageColors, colorScheme) {
-    return node.language ?
-           languageColors[node.language] : 
-           '#ededed';
+    switch(colorScheme) {
+      case 'rainbow':
+      case 'cyanara':
+        return node.language ?
+               languageColors[node.language] : 
+               '#ededed';
+      case 'bumblebee':
+        return node.language ? 
+               'black' :
+               'yellow';
+    }
   }
 
   //// THE SERVICE ////

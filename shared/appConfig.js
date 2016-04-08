@@ -48,7 +48,7 @@ module.exports = {
 
   //// MISC ////
 
-  colorSchemes: ['rainbow', 'cyanara'],
+  colorSchemes: ['rainbow', 'cyanara', 'bumblebee'],
 
   defaultPrefs: {
     colorScheme: 'rainbow'
