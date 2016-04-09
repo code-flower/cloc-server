@@ -5,7 +5,7 @@ var Q = require('q');
 var appConfig = require('../../shared/appConfig.js');
 var deleteRepo = require('./delete');
 
-//////////// EXPORTS ////////////
+//////////// PRIVATE ////////////
 
 function getFile(fileName) {
   return Q.nfapply(fs.readFile, [fileName, 'utf8']);
@@ -37,6 +37,8 @@ function getFlower(reposDir, repoName, deleteAfter) {
     };
   });
 }
+
+//////////// EXPORTS ////////////
 
 module.exports = getFlower;
 
