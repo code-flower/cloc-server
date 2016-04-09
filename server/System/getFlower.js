@@ -17,7 +17,7 @@ function getFlower(reposDir, repoName, deleteAfter) {
 
   return Q.all([
     getFile(repoDir + 'data.json'),
-    getFile(repoDir + 'reasons.txt')
+    getFile(repoDir + 'ignored.txt')
   ])
   .then(function(data) {
 
@@ -26,7 +26,7 @@ function getFlower(reposDir, repoName, deleteAfter) {
 
     return {
       repoData: JSON.parse(data[0]),
-      reasons:  data[1]
+      ignored:  data[1]
     };
   });
 }

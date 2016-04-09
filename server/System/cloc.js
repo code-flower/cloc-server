@@ -78,7 +78,7 @@ function createClocFile(repo, socket) {
   var cd = 'cd ' + appConfig.paths.repos + dirName + '; ';
   var cloc = 'cloc ' + dirName +
              ' --csv --by-file ' + 
-             '--ignored=reasons.txt ' +  
+             '--ignored=ignored.txt ' +  
              '--report-file=data.cloc';
 
   socket.text('\n>> ' + cd + cloc);
