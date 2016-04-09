@@ -2,6 +2,11 @@ body {
   text-align: center;
 }
 
+// bootstrap override
+select {
+  outline: none !important;
+}
+
 .app-container {
   .open-prefs {
     position: fixed;

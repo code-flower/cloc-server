@@ -4,9 +4,9 @@
     ng-change="displayIgnored(selectedRepo)"
     class="dropdown">
     <option 
-      ng-repeat="name in state.repoNames" 
+      ng-repeat="name in repoNames" 
       value="{{name}}"
       ng-bind="name" />
   </select>
-  <div class="ignored-text" ng-bind="ignoredText"></div>
+  <div class="ignored-text" ng-bind-html="ignoredText"></div>
 </div>

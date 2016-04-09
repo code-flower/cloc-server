@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('ignoredFiles', function(appConfig, state, dataService) {
+.directive('ignoredFiles', function(appConfig, state, dataService, $sce) {
 
   return {
     restrict: 'E',
@@ -13,22 +13,33 @@ angular.module('CodeFlower')
   };
 
   function link(scope, el, attrs) {
-    console.log("inside ignored files link");
 
-    scope.state = state;
+    //// PRIVATE ////
 
+    function displayIgnored(ignored) {
+      var formatted = ('&bull; ' + ignored)
+                      .replace(/\n/g, '<br/> &bull; ')
+                      .replace(/&bull;\s$/, '');
+
+      return $sce.trustAsHtml(formatted);
+    }
+
+    //// SCOPE VARS ////
+
+    scope.repoNames = state.repoNames;
     scope.selectedRepo = state.currentRepo.name;
-
     scope.ignoredText = '';
 
+    //// SCOPE FUNCTIONS ////
+
     scope.displayIgnored = function(repoName) {
-      console.log("displaying:", repoName);
       dataService.getIgnored(repoName)
-      .then(function(data) {
-        console.log(data);
-        scope.ignoredText = data;
+      .then(function(ignored) {
+        scope.ignoredText = displayIgnored(ignored);
       });
     };
+
+    //// INITIALIZATION ////
 
     scope.displayIgnored(scope.selectedRepo);
   }

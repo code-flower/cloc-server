@@ -11,6 +11,18 @@ function getFile(fileName) {
   return Q.nfapply(fs.readFile, [fileName, 'utf8']);
 }
 
+function cleanIgnoredText(ignoredText, dirName) {
+  return ignoredText.split('\n').slice(1).map(function(line) {
+    return line.replace(dirName, 'root');
+  }).join('\n');
+}
+
+// function replaceDirName(ignoredText, dirName) {
+//   console.log("replacing dir name", dirName);
+//   var regex = new RexExp(dirName, 'g');
+//   return ignoredText.replace(regex, 'root');
+// }
+
 function getFlower(reposDir, repoName, deleteAfter) {
   var dirName = repoName.replace('/', '#');
   var repoDir = `${reposDir}${dirName}/`;
@@ -26,7 +38,7 @@ function getFlower(reposDir, repoName, deleteAfter) {
 
     return {
       repoData: JSON.parse(data[0]),
-      ignored:  data[1]
+      ignored:  cleanIgnoredText(data[1], dirName)
     };
   });
 }
