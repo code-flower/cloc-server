@@ -31,8 +31,6 @@ angular.module('CodeFlower')
     }
 
     function createCodeFlower(json) {
-      console.log("json:", json);
-
       // remove previous flower
       if (currentCodeFlower) 
         currentCodeFlower.cleanup();
