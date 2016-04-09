@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerViz', function(CodeFlower, state, flowerUtils) {
+.directive('flowerViz', function(CodeFlower, appConfig, state, flowerUtils) {
 
   return {
     restrict: 'E',
@@ -57,8 +57,10 @@ angular.module('CodeFlower')
       viz.style.marginTop = topMargin + 'px';
       viz.style.marginleft = leftMargin + 'px';
 
+      var colorScheme = appConfig.colorSchemes[state.colorScheme];
+
       // create the flower
-      currentCodeFlower = new CodeFlower('#visualization', w, h).update(json);
+      currentCodeFlower = new CodeFlower('#visualization', w, h, colorScheme).update(json);
     }
 
     //// EVENT LISTENERS ////

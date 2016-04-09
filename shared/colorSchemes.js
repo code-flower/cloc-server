@@ -14,7 +14,8 @@ module.exports = {
       return `hsl(${hue}, 90%, 70%)`;
     },
     folderColor: '#ededed',
-    rootFolderColor: '#ededed'
+    rootFolderColor: '#ededed',
+    backgroundColor: 'white'
   },
 
   cyanara: {
@@ -24,7 +25,8 @@ module.exports = {
       return `hsl(${hue}, 100%, 50%)`;
     },
     folderColor: '#ededed',
-    rootFolderColor: '#ededed'
+    rootFolderColor: '#ededed',
+    backgroundColor: 'white'
   },
 
   bumblebee: {
@@ -32,7 +34,8 @@ module.exports = {
       return 'black';
     },
     folderColor: 'yellow',
-    rootFolderColor: 'yellow'
+    rootFolderColor: 'yellow',
+    backgroundColor: 'purple'
   },
 
   bumblebutt: {
@@ -40,7 +43,8 @@ module.exports = {
       return 'blue';
     },
     folderColor: 'yellow',
-    rootFolderColor: 'yellow'
+    rootFolderColor: 'yellow',
+    backgroundColor: 'grey'
   }
 
 };

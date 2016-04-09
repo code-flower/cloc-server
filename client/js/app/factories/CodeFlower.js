@@ -4,7 +4,7 @@
 angular.module('CodeFlower')
 .factory('CodeFlower', function() {
 
-  var CodeFlower = function(selector, w, h) {
+  var CodeFlower = function(selector, w, h, colorScheme) {
     this.w = w;
     this.h = h;
 
@@ -16,7 +16,7 @@ angular.module('CodeFlower')
 
     this.svg.append("svg:rect")
       .style("stroke", "#999")
-      .style("fill", "#fff")
+      .style("fill", colorScheme ? colorScheme.backgroundColor : "#fff")
       .attr('width', w)
       .attr('height', h);
 
