@@ -4,6 +4,7 @@ var fs = require('fs');
 var Q = require('q');
 var appConfig = require('../../shared/appConfig.js');
 var getFlower = require('../system/').getFlower;
+var serveJson = require('./serveJson');
 
 //////////// PRIVATE ////////////
 
@@ -37,11 +38,7 @@ module.exports = function serveSamples(response) {
       }));
     })
     .then(function(samples) {
-      response.writeHead(200, {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      });
-      response.end(JSON.stringify(samples));
+      serveJson(response, samples);
     });
 
 };
