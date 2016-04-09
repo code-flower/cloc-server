@@ -2,36 +2,46 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('flowerUtils', function() {
+.factory('flowerUtils', function(appConfig) {
 
   //// PRIVATE ////
 
+  // function getLanguageColor(languages, index, colorScheme) {
+  //   var total = languages.length;
+  //   switch(colorScheme) {
+  //     case 'rainbow':
+  //       var hue = Math.round(360 * index / total);
+  //       return `hsl(${hue}, 90%, 70%)`;
+  //     case 'cyanara':
+  //       var hue = 170 + Math.round(190 * index / total);
+  //       return `hsl(${hue}, 100%, 50%)`;
+  //     case 'bumblebee':
+  //       return 'black';
+  //   }
+  // }
+
   function getLanguageColor(languages, index, colorScheme) {
-    var total = languages.length;
-    switch(colorScheme) {
-      case 'rainbow':
-        var hue = Math.round(360 * index / total);
-        return `hsl(${hue}, 90%, 70%)`;
-      case 'cyanara':
-        var hue = 170 + Math.round(190 * index / total);
-        return `hsl(${hue}, 100%, 50%)`;
-      case 'bumblebee':
-        return 'black';
-    }
+    return appConfig.colorConfig[colorScheme].fileColor(languages, index);
   }
 
+  // function getNodeColor(node, languageColors, colorScheme) {
+  //   switch(colorScheme) {
+  //     case 'rainbow':
+  //     case 'cyanara':
+  //       return node.language ?
+  //              languageColors[node.language] : 
+  //              '#ededed';
+  //     case 'bumblebee':
+  //       return node.language ? 
+  //              languageColors[node.language] : 
+  //              'yellow';
+  //   }
+  // }
+
   function getNodeColor(node, languageColors, colorScheme) {
-    switch(colorScheme) {
-      case 'rainbow':
-      case 'cyanara':
-        return node.language ?
-               languageColors[node.language] : 
-               '#ededed';
-      case 'bumblebee':
-        return node.language ? 
-               languageColors[node.language] : 
-               'yellow';
-    }
+    return node.language ?
+           languageColors[node.language] :
+           appConfig.colorConfig[colorScheme].folderColor;
   }
 
   //// THE SERVICE ////
@@ -114,6 +124,7 @@ angular.module('CodeFlower')
 
     // NOTE: this modifies the languages array
     setLanguageColors: function(languages, colorScheme) {
+      console.log("languages:", languages);
       languages.forEach(function(lang, index) {
         lang.color = getLanguageColor(languages, index, colorScheme);
       });

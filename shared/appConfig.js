@@ -1,6 +1,8 @@
 // this object is available both on the server (by requiring this file)
 // and in the client (by being injected into the angular app in app.js)
 
+const colorConfig = require('./colorConfig');
+
 module.exports = {
 
   hostName: process.env.NODE_ENV === 'production' ? 
@@ -48,7 +50,9 @@ module.exports = {
 
   //// MISC ////
 
-  colorSchemes: ['rainbow', 'cyanara', 'bumblebee'],
+  colorSchemes: Object.keys(colorConfig),
+
+  colorConfig: colorConfig,
 
   defaultPrefs: {
     colorScheme: 'rainbow'
