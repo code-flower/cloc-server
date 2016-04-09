@@ -1,5 +1,11 @@
 .ignored-files {
+  height: 100%;
+  overflow: hidden;
+  .label-with-select {
+    margin-bottom: 8px;
+  }
   .ignored-text {
-    outline: 1px black solid;
+    height: calc(100% - 50px);
+    overflow: scroll;
   }
 }

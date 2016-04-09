@@ -7,6 +7,17 @@ select {
   outline: none !important;
 }
 
+.label-with-select {
+  label {
+    font-weight: bold;
+    display: inline-block;
+    padding-right: 8px;
+  }
+  select.form-control {
+    margin-bottom: 2px;
+  }
+}
+
 .app-container {
   .open-prefs {
     position: fixed;

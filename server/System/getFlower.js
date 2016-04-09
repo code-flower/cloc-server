@@ -12,16 +12,11 @@ function getFile(fileName) {
 }
 
 function cleanIgnoredText(ignoredText, dirName) {
+  var regex = new RegExp(dirName + '/', 'g');
   return ignoredText.split('\n').slice(1).map(function(line) {
-    return line.replace(dirName, 'root');
+    return line.replace(regex, '');
   }).join('\n');
 }
-
-// function replaceDirName(ignoredText, dirName) {
-//   console.log("replacing dir name", dirName);
-//   var regex = new RexExp(dirName, 'g');
-//   return ignoredText.replace(regex, 'root');
-// }
 
 function getFlower(reposDir, repoName, deleteAfter) {
   var dirName = repoName.replace('/', '#');
