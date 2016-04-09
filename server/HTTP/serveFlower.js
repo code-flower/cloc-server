@@ -11,5 +11,8 @@ module.exports = function serveFlower(response, repoName) {
     'Access-Control-Allow-Origin': '*'
   });
 
-  getFlower(repoName).pipe(response);
+  return getFlower(appConfig.paths.repos, repoName, appConfig.deleteAfterClone)
+    .then(function(data) {  
+      response.end(JSON.stringify(data));
+    });
 };

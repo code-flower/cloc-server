@@ -17,7 +17,7 @@ module.exports = {
     client:   `${__dirname}/../client/`,
     server:   `${__dirname}/../server/`,
     repos:    `${__dirname}/../server/system/repos/`,
-    samples:  `${__dirname}/../server/HTTP/samples/`,
+    samples:  `${__dirname}/../server/system/samples/`,
     partials: 'js/app/partials/'
   },
 
@@ -54,6 +54,6 @@ module.exports = {
     colorScheme: 'rainbow'
   },
 
-  deleteAfterClone: false
+  deleteAfterClone: true
 
 };

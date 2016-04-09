@@ -34,13 +34,15 @@ angular.module('CodeFlower')
     // DB (if the data is there) or from the backed
     harvest: function(repoName) {
       return dbAccess.get(repoName)
-      .then(function(data) {
-        return data || HTTP.getRepo(repoName)
-                       .then(function(data) {
-                         dbAccess.set(repoName, data);
-                         return data;
-                       });
-      });
+        .then(function(data) {
+          return data ? 
+                 data.repoData : 
+                 HTTP.getRepo(repoName)
+                 .then(function(data) {
+                   dbAccess.set(repoName, data);
+                   return data.repoData;
+                 });
+        });
     },
 
     // delete the given repo
