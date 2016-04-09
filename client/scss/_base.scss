@@ -47,8 +47,11 @@ body {
           .modal-tab {
             float: left;
             padding: 5px 25px;
-            cursor: pointer;
             background-color: #d6d6d6;
+            cursor: default;
+            &:not(.active) {
+              cursor: pointer;
+            }
             &.active {
               background-color: white;
             }

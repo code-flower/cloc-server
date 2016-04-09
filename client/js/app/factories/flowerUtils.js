@@ -15,6 +15,8 @@ angular.module('CodeFlower')
       case 'cyanara':
         var hue = 170 + Math.round(190 * index / total);
         return `hsl(${hue}, 100%, 50%)`;
+      case 'bumblebee':
+        return 'black';
     }
   }
 
@@ -27,7 +29,7 @@ angular.module('CodeFlower')
                '#ededed';
       case 'bumblebee':
         return node.language ? 
-               'black' :
+               languageColors[node.language] : 
                'yellow';
     }
   }
