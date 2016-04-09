@@ -29,6 +29,14 @@ module.exports = {
 
   bumblebee: {
     fileColor: function(languages, index) {
+      return 'black';
+    },
+    folderColor: 'yellow',
+    rootFolderColor: 'yellow'
+  },
+
+  bumblebutt: {
+    fileColor: function(languages, index) {
       return 'blue';
     },
     folderColor: 'yellow',

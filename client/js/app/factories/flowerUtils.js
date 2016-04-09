@@ -21,7 +21,7 @@ angular.module('CodeFlower')
   // }
 
   function getLanguageColor(languages, index, colorScheme) {
-    return appConfig.colorConfig[colorScheme].fileColor(languages, index);
+    return appConfig.colorSchemes[colorScheme].fileColor(languages, index);
   }
 
   // function getNodeColor(node, languageColors, colorScheme) {
@@ -41,7 +41,7 @@ angular.module('CodeFlower')
   function getNodeColor(node, languageColors, colorScheme) {
     return node.language ?
            languageColors[node.language] :
-           appConfig.colorConfig[colorScheme].folderColor;
+           appConfig.colorSchemes[colorScheme].folderColor;
   }
 
   //// THE SERVICE ////

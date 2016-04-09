@@ -18,7 +18,7 @@ angular.module('CodeFlower')
 
     //// SCOPE VARS ////
 
-    scope.colorSchemes = appConfig.colorSchemes;
+    scope.colorSchemes = Object.keys(appConfig.colorSchemes);
     scope.selectedScheme = state.colorScheme;
 
     //// SCOPE FUNCTIONS ////
