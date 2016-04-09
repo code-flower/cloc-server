@@ -20,6 +20,11 @@ angular.module('CodeFlower')
         templateUrl: appConfig.paths.partials + 'prefs-modal.html',
       });
     };
+
+    setTimeout(function() {
+       scope.openPrefs();
+    }, 500)
+   
   }
 
 });

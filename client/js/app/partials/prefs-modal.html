@@ -3,11 +3,21 @@
     <div 
       class="modal-tab" 
       ng-click="setTab('about')"
-      ng-class="{active: activeTab === 'about'}">About</div>
+      ng-class="{active: activeTab === 'about'}">
+      About
+    </div>
     <div 
       class="modal-tab" 
       ng-click="setTab('prefs')"
-      ng-class="{active: activeTab === 'prefs'}">Prefs</div>
+      ng-class="{active: activeTab === 'prefs'}">
+      Prefs
+    </div>
+    <div 
+      class="modal-tab" 
+      ng-click="setTab('ignored')"
+      ng-class="{active: activeTab === 'ignored'}">
+      Ignored
+    </div>
   </div>
 
   <div class="about-tab" ng-show="activeTab === 'about'">
@@ -47,4 +57,6 @@
       <span class="warning">This will delete all your data and restore the app to its original state.</span>
     </div>
   </div>
+
+  <ignored-files ng-show="activeTab === 'ignored'" />
 </div>

@@ -11,6 +11,7 @@ require('./app/directives/flowerControl');
 require('./app/directives/flowerTerminal');
 require('./app/directives/flowerViz');
 require('./app/directives/flowerLanguages');
+require('./app/directives/ignoredFiles');
 
 // factories
 require('./app/factories/WS');

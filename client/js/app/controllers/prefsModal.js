@@ -6,7 +6,7 @@ angular.module('CodeFlower')
 
   //// SCOPE VARS ////
 
-  $scope.activeTab = 'about';
+  $scope.activeTab = 'ignored';
   $scope.colorSchemes = appConfig.colorSchemes;
   $scope.selectedScheme = state.colorScheme;
 

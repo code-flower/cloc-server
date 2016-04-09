@@ -45,6 +45,13 @@ angular.module('CodeFlower')
         });
     },
 
+    getIgnored: function(repoName) {
+      return dbAccess.get(repoName) 
+        .then(function(data) {
+          return data.ignored;
+        });
+    },
+
     // delete the given repo
     delete: function(repoName) {
       return dbAccess.delete(repoName);
