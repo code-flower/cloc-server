@@ -16,15 +16,15 @@ angular.module('CodeFlower')
 
     scope.openPrefs = function() {
       $uibModal.open({
-        controller: 'prefsModal',
-        templateUrl: appConfig.paths.partials + 'prefs-modal.html',
+        controller: 'mainModal',
+        templateUrl: appConfig.paths.partials + 'main-modal.html',
       });
     };
 
-    setTimeout(function() {
-       scope.openPrefs();
-    }, 500)
-   
+    // for testing modal
+    // setTimeout(function() {
+    //    scope.openPrefs();
+    // }, 500);
   }
 
 });

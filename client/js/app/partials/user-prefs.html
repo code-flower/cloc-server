@@ -1,0 +1,24 @@
+<div class="user-prefs">
+  <div class="prefs">
+    <div class="pref label-with-select">
+      <label>Color Scheme</label>
+      <select 
+        ng-model="selectedScheme" 
+        ng-options="scheme for scheme in colorSchemes" 
+        class="form-control">
+      </select>
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+      <button class="btn btn-primary" ng-click="savePrefs()">Apply</button>
+    </div>
+  </div>
+  
+  <hr>
+
+  <div class="factory-reset">
+    <button class="btn btn-danger" ng-click="deleteDB()">Factory Reset</button><br>
+    <span class="warning">This will delete all your data and restore the app to its original state.</span>
+  </div>
+</div>

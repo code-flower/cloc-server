@@ -6,16 +6,13 @@
 
   table {
     background-color: rgba(255,255,255,0.7);
-
     th:not(:last-child) {
       cursor: pointer;
     }
-
     td {
       vertical-align: middle;
       position: relative;
     }
-
     .color-indicator {
       position: absolute;
       display: inline-block;
@@ -25,7 +22,6 @@
       left: 15px;
       border-radius: 12px;
     }
-
     tr:last-child td {
       font-weight: bold;
     }

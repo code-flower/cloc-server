@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('userPrefs', function(appConfig) {
+.factory('userPrefsService', function(appConfig) {
 
   return {
     get: function(pref) {

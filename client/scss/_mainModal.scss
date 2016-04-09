@@ -1,0 +1,14 @@
+.main-modal {
+  width: 500px;
+  height: 500px;
+  text-align: left;
+
+  .about-tab {
+    height: 100%;
+    overflow: hidden;
+    .about-content {
+      height: 100%;
+      overflow: scroll;
+    }
+  }
+}

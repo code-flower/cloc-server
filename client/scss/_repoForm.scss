@@ -2,43 +2,34 @@
   position: fixed;
   top: 15px;
   right: 15px;
-
   .btn-primary {
     letter-spacing: 1.0px;
   }
-
   .clone-button,
   .delete-button {
     width: 100px;
   }
-
   label {
     font-weight: bold;
     color: #3e3e3e;
     margin: 0;
   }
-
   td {
     padding: 5px 6px
   }
-
   td:nth-child(1) {
     text-align: right;
   }
-
   td:nth-child(2) {
     text-align: left;
   }
-
   td:nth-child(3) {
     text-align: left;
   }
-
   input,
   select {
     margin: 0;
   }
-
   .two-col {
     width: 330px;
   }

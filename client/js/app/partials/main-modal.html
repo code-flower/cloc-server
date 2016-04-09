@@ -1,0 +1,26 @@
+<div class="main-modal">
+  <div class="modal-tabs">
+    <div 
+      class="modal-tab" 
+      ng-click="setTab('about')"
+      ng-class="{active: activeTab === 'about'}">
+      About
+    </div>
+    <div 
+      class="modal-tab" 
+      ng-click="setTab('prefs')"
+      ng-class="{active: activeTab === 'prefs'}">
+      Prefs
+    </div>
+    <div 
+      class="modal-tab" 
+      ng-click="setTab('ignored')"
+      ng-class="{active: activeTab === 'ignored'}">
+      Ignored
+    </div>
+  </div>
+
+  <div class="about-tab" ng-show="activeTab === 'about'" ng-include="aboutTabPartial"></div>
+  <user-prefs ng-show="activeTab === 'prefs'" close-modal="cancel"></user-prefs>
+  <ignored-files ng-show="activeTab === 'ignored'"></ignored-files>
+</div>
