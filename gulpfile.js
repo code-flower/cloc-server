@@ -9,6 +9,7 @@ const source = require('vinyl-source-stream');
 const argv = require('yargs').argv;
 const appConfig = require('./shared/appConfig.js');
 const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
 
 /////////////// BUNDLER ///////////////////
 
@@ -30,6 +31,9 @@ gulp.task('bundle', bundle);
 function sassify() {
   return gulp.src('./client/scss/**')
     .pipe(sass().on('error', sass.logError))
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions']
+    }))
     .pipe(gulp.dest('./client/dist'))
     .pipe(browserSync.stream());
 }
