@@ -124,7 +124,6 @@ angular.module('CodeFlower')
 
     // NOTE: this modifies the languages array
     setLanguageColors: function(languages, colorScheme) {
-      console.log("languages:", languages);
       languages.forEach(function(lang, index) {
         lang.color = getLanguageColor(languages, index, colorScheme);
       });

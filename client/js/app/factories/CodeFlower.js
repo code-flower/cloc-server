@@ -8,20 +8,20 @@ angular.module('CodeFlower')
     this.w = w;
     this.h = h;
 
-    d3.select(selector).selectAll("svg").remove();
+    d3.select(selector).selectAll('svg').remove();
 
-    this.svg = d3.select(selector).append("svg:svg")
+    this.svg = d3.select(selector).append('svg:svg')
       .attr('width', w)
       .attr('height', h);
 
-    this.svg.append("svg:rect")
-      .style("stroke", "#999")
-      .style("fill", colorScheme ? colorScheme.backgroundColor : "#fff")
+    this.svg.append('svg:rect')
+      //.style('stroke', '#999')
+      .style('fill', colorScheme ? colorScheme.backgroundColor : '#fff')
       .attr('width', w)
       .attr('height', h);
 
     this.force = d3.layout.force()
-      .on("tick", this.tick.bind(this))
+      .on('tick', this.tick.bind(this))
       .charge(function(d) { return d._children ? -d.size / 100 : -40; })
       .linkDistance(function(d) { return d.target._children ? 80 : 25; })
       .size([h, w]);
@@ -32,8 +32,8 @@ angular.module('CodeFlower')
   };
 
   CodeFlower.prototype.update = function(json) {
-    // console.log("old json:", angular.copy(json));
-    // console.log("new json:", json);
+    // console.log('old json:', angular.copy(json));
+    // console.log('new json:', json);
 
     if (json) this.json = json;
 
@@ -45,8 +45,8 @@ angular.module('CodeFlower')
     var links = d3.layout.tree().links(nodes);
     var total = nodes.length || 1;
 
-    // remove existing text (will readd it afterwards to be sure it's on top)
-    this.svg.selectAll("text").remove();
+    // remove existing text (will read it afterwards to be sure it's on top)
+    this.svg.selectAll('text').remove();
 
     // Restart the force layout
     this.force
@@ -56,44 +56,41 @@ angular.module('CodeFlower')
       .start();
 
     // Update the links
-    this.link = this.svg.selectAll("line.link")
+    this.link = this.svg.selectAll('line.link')
       .data(links, function(d) { return d.target.name; });
 
     // Enter any new links
-    this.link.enter().insert("svg:line", ".node")
-      .attr("class", "link")
-      .attr("x1", function(d) { return d.source.x; })
-      .attr("y1", function(d) { return d.source.y; })
-      .attr("x2", function(d) { return d.target.x; })
-      .attr("y2", function(d) { return d.target.y; });
+    this.link.enter().insert('svg:line', '.node')
+      .attr('class', 'link')
+      .attr('x1', function(d) { return d.source.x; })
+      .attr('y1', function(d) { return d.source.y; })
+      .attr('x2', function(d) { return d.target.x; })
+      .attr('y2', function(d) { return d.target.y; });
 
     // Exit any old links.
     this.link.exit().remove();
 
     // Update the nodes
-    this.node = this.svg.selectAll("circle.node")
+    this.node = this.svg.selectAll('circle.node')
       .data(nodes, function(d) { return d.name; })
-      .classed("collapsed", function(d) { return d._children ? 1 : 0; });
+      .classed('collapsed', function(d) { return d._children ? 1 : 0; });
 
     this.node.transition()
-      .attr("r", function(d) { return d.children ? 3.5 : Math.pow(d.size, 2/5) || 1; });
+      .attr('r', function(d) { return d.children ? 3.5 : Math.pow(d.size, 2/5) || 1; });
 
     // Enter any new nodes
     this.node.enter().append('svg:circle')
-      .attr("class", "node")
+      .attr('class', 'node')
       .classed('directory', function(d) { return (d._children || d.children) ? 1 : 0; })
-      .attr("r", function(d) { return d.children ? 3.5 : Math.pow(d.size, 2/5) || 1; })
-      .style("fill", function color(d) {
-
-        // NODE COLOR DEFINITION
+      .attr('r', function(d) { return d.children ? 3.5 : Math.pow(d.size, 2/5) || 1; })
+      .style('fill', function color(d) {
         return d.color;
-        //return "hsl(" + parseInt(360 / total * d.id, 10) + ",90%,70%)";
-
+        //return 'hsl(' + parseInt(360 / total * d.id, 10) + ',90%,70%)';
       })
       .call(this.force.drag)
-      .on("click", this.click.bind(this))
-      .on("mouseover", this.mouseover.bind(this))
-      .on("mouseout", this.mouseout.bind(this));
+      //.on('click', this.click.bind(this))
+      .on('mouseover', this.mouseover.bind(this))
+      .on('mouseout', this.mouseout.bind(this));
 
     // Exit any old nodes
     this.node.exit().remove();
@@ -139,7 +136,7 @@ angular.module('CodeFlower')
 
   CodeFlower.prototype.mouseover = function(d) {
     this.text.attr('transform', 'translate(' + d.x + ',' + (d.y - 5 - (d.children ? 3.5 : Math.sqrt(d.size) / 2)) + ')')
-      .text(d.name + ": " + d.size + " loc")
+      .text(d.name + ': ' + d.size + ' loc')
       .style('display', null);
   };
 
@@ -150,13 +147,14 @@ angular.module('CodeFlower')
   CodeFlower.prototype.tick = function() {
     var h = this.h;
     var w = this.w;
-    this.link.attr("x1", function(d) { return d.source.x; })
-      .attr("y1", function(d) { return d.source.y; })
-      .attr("x2", function(d) { return d.target.x; })
-      .attr("y2", function(d) { return d.target.y; });
+    this.link
+      .attr('x1', function(d) { return d.source.x; })
+      .attr('y1', function(d) { return d.source.y; })
+      .attr('x2', function(d) { return d.target.x; })
+      .attr('y2', function(d) { return d.target.y; });
 
-    this.node.attr("transform", function(d) {
-      return "translate(" + Math.max(5, Math.min(w - 5, d.x)) + "," + Math.max(5, Math.min(h - 5, d.y)) + ")";
+    this.node.attr('transform', function(d) {
+      return 'translate(' + Math.max(5, Math.min(w - 5, d.x)) + ',' + Math.max(5, Math.min(h - 5, d.y)) + ')';
     });
   };
 

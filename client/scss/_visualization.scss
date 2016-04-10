@@ -1,6 +1,7 @@
 #visualization {
   & > svg > rect {
     stroke: none !important;
+    fill: none;             // makes the svg background transparent (at least in chrome)
     overflow: auto;
   }
 

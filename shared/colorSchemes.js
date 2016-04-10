@@ -18,7 +18,7 @@ module.exports = {
     backgroundColor: 'white'
   },
 
-  cyanara: {
+  periwinkle: {
     fileColor: function(languages, index) {
       var total = languages.length;
       var hue = 170 + Math.round(190 * index / total);
@@ -33,9 +33,9 @@ module.exports = {
     fileColor: function(languages, index) {
       return 'black';
     },
-    folderColor: 'yellow',
-    rootFolderColor: 'yellow',
-    backgroundColor: 'white'
-  },
+    folderColor: 'orange',
+    rootFolderColor: 'orange',
+    backgroundColor: 'grey'
+  }
 
 };
