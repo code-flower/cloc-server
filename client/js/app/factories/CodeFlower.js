@@ -88,7 +88,6 @@ angular.module('CodeFlower')
         //return 'hsl(' + parseInt(360 / total * d.id, 10) + ',90%,70%)';
       })
       .call(this.force.drag)
-      //.on('click', this.click.bind(this))
       .on('mouseover', this.mouseover.bind(this))
       .on('mouseout', this.mouseout.bind(this));
 
@@ -120,18 +119,6 @@ angular.module('CodeFlower')
 
     root.size = recurse(root);
     return nodes;
-  };
-
-  CodeFlower.prototype.click = function(d) {
-    // Toggle children on click.
-    if (d.children) {
-      d._children = d.children;
-      d.children = null;
-    } else {
-      d.children = d._children;
-      d._children = null;
-    }
-    this.update();
   };
 
   CodeFlower.prototype.mouseover = function(d) {
