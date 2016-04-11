@@ -1,0 +1,21 @@
+
+@mixin backgroundColor($color) {
+  background-color: $color;
+  .flower-languages table {
+    background-color: transparentize($color, 0.3);
+  }
+  #visualization {
+    & > svg > rect {
+      fill: $color;
+    }
+  }
+}
+
+@mixin textColor($color) {
+  .flower-languages table {
+    color: $color;
+  }
+  .repo-form label {
+    color: $color;
+  }
+}

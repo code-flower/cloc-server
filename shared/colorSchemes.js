@@ -15,7 +15,6 @@ module.exports = {
     },
     folderColor: '#ededed',
     rootFolderColor: '#ededed',
-    backgroundColor: 'white'
   },
 
   periwinkle: {
@@ -26,16 +25,14 @@ module.exports = {
     },
     folderColor: '#ededed',
     rootFolderColor: '#ededed',
-    backgroundColor: 'white' //'#4c4c4c'
   },
 
   bumblebee: {
     fileColor: function(languages, index) {
       return 'black';
     },
-    folderColor: 'orange',
-    rootFolderColor: 'orange',
-    backgroundColor: 'grey'
+    folderColor: 'yellow',
+    rootFolderColor: 'yellow'
   }
 
 };
