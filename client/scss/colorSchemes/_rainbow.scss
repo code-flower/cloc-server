@@ -10,8 +10,9 @@
 
   /* the circle around the folders */
   circle.node.directory {
-    stroke: #9ecae1;
+    stroke: none;// #9ecae1;
     stroke-width: 2px;
+    fill: none;//#ededed;
   }
 
   /* the loc text */

@@ -6,42 +6,14 @@ angular.module('CodeFlower')
 
   //// PRIVATE ////
 
-  // function getLanguageColor(languages, index, colorScheme) {
-  //   var total = languages.length;
-  //   switch(colorScheme) {
-  //     case 'rainbow':
-  //       var hue = Math.round(360 * index / total);
-  //       return `hsl(${hue}, 90%, 70%)`;
-  //     case 'cyanara':
-  //       var hue = 170 + Math.round(190 * index / total);
-  //       return `hsl(${hue}, 100%, 50%)`;
-  //     case 'bumblebee':
-  //       return 'black';
-  //   }
-  // }
-
   function getLanguageColor(languages, index, colorScheme) {
     return appConfig.colorSchemes[colorScheme].fileColor(languages, index);
   }
 
-  // function getNodeColor(node, languageColors, colorScheme) {
-  //   switch(colorScheme) {
-  //     case 'rainbow':
-  //     case 'cyanara':
-  //       return node.language ?
-  //              languageColors[node.language] : 
-  //              '#ededed';
-  //     case 'bumblebee':
-  //       return node.language ? 
-  //              languageColors[node.language] : 
-  //              'yellow';
-  //   }
-  // }
-
   function getNodeColor(node, languageColors, colorScheme) {
-    return node.language ?
-           languageColors[node.language] :
-           appConfig.colorSchemes[colorScheme].folderColor;
+    return node.language ? 
+           languageColors[node.language] :  // files
+           null;                            // folder -- color defined in scss files
   }
 
   //// THE SERVICE ////
@@ -139,7 +111,7 @@ angular.module('CodeFlower')
     },
 
     // NOTE: this modifies the json object
-    applyLanguageColorsToJson: function(json, languages, colorScheme) {
+    applyLanguageColorsToJson: function(json, languages) {
       // set up an object of language colors
       var languageColors = {};
       languages.forEach(function(lang) {
@@ -148,7 +120,7 @@ angular.module('CodeFlower')
 
       // apply colors to nodes
       (function recurse(node) {
-        node.color = getNodeColor(node, languageColors, colorScheme);
+        node.color = getNodeColor(node, languageColors);
         if (node.children) 
           node.children.forEach(recurse);
       })(json);

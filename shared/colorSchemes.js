@@ -12,9 +12,7 @@ module.exports = {
       var total = languages.length;
       var hue = Math.round(360 * index / total);
       return `hsl(${hue}, 90%, 70%)`;
-    },
-    folderColor: '#ededed',
-    rootFolderColor: '#ededed',
+    }
   },
 
   periwinkle: {
@@ -22,17 +20,13 @@ module.exports = {
       var total = languages.length;
       var hue = 170 + Math.round(190 * index / total);
       return `hsl(${hue}, 100%, 50%)`;
-    },
-    folderColor: '#ededed',
-    rootFolderColor: '#ededed',
+    }
   },
 
   bumblebee: {
     fileColor: function(languages, index) {
       return 'black';
-    },
-    folderColor: 'yellow',
-    rootFolderColor: 'yellow'
+    }
   }
 
 };

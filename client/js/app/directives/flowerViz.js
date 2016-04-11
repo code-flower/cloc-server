@@ -39,12 +39,6 @@ angular.module('CodeFlower')
         return;
 
       // adapt layout size to the total number of elements
-      // var padding = 200;
-      // var total = countElements(json);
-      // var h = parseInt(Math.sqrt(total) * 30, 10) + padding;
-      // var w = parseInt(Math.sqrt(total) * 30, 10) + padding;
-
-      // set width and height of the flower
       var padding = 200;
       var total = countElements(json);
       var h = Math.max(parseInt(Math.sqrt(total) * 30, 10) + padding, window.innerHeight);
@@ -68,7 +62,7 @@ angular.module('CodeFlower')
     }, function (newVal, oldVal) {
       if (newVal !== oldVal) { 
         var json = angular.copy(newVal);  // copy because the viz modifies the object
-        flowerUtils.applyLanguageColorsToJson(json, state.languages, state.colorScheme);
+        flowerUtils.applyLanguageColorsToJson(json, state.languages);
         createCodeFlower(json);  
       }
     });
