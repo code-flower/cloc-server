@@ -1,0 +1,11 @@
+.app-container.bumblebee {
+  $background-color: grey;
+
+  background-color: $background-color;
+
+  #visualization {
+    & > svg > rect {
+      fill: $background-color;
+    }
+  }
+}

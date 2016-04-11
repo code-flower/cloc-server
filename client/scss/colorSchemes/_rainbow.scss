@@ -1,0 +1,11 @@
+.app-container.rainbow {
+  $background-color: #fff;
+
+  background-color: $background-color;
+
+  #visualization {
+    & > svg > rect {
+      fill: $background-color;
+    }
+  }
+}

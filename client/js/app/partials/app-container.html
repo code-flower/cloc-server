@@ -1,4 +1,4 @@
-<div class="app-container" ng-style="{'background-color': backgroundColor}">
+<div class="app-container {{state.colorScheme}}">
 
   <flower-viz ng-show="state.repoNames.length" />
   <flower-languages ng-show="state.repoNames.length" />
