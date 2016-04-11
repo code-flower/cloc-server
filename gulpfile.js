@@ -29,7 +29,7 @@ gulp.task('bundle', bundle);
 //////////////// SASS //////////////////////
 
 function sassify() {
-  return gulp.src('./client/scss/**')
+  return gulp.src('./client/scss/index.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer({
       browsers: ['last 2 versions']
