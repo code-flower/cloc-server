@@ -90,7 +90,7 @@ angular.module('CodeFlower')
 
       controller: 'credentialsModal',
       templateUrl: appConfig.paths.partials + 'credentials-modal.html',
-      size: 'sm',
+      animation: false,
       resolve: {
         params: params
       }

@@ -19,6 +19,7 @@ angular.module('CodeFlower')
       $uibModal.open({
         controller: 'mainModal',
         templateUrl: appConfig.paths.partials + 'main-modal.html',
+        animation: false
       });
     };
 
