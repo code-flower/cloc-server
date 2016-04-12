@@ -8,6 +8,7 @@
     border-radius: 6px;
     th:not(:last-child) {
       cursor: pointer;
+      user-select: none;
     }
     td {
       vertical-align: middle;

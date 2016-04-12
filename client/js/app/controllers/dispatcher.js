@@ -162,8 +162,8 @@ angular.module('CodeFlower')
 
   $scope.$on('prefsChanged', function(e, data) {
     if (state.colorScheme !== data.prefs.colorScheme) {
-      state.colorScheme = data.prefs.colorScheme;
       $timeout(function() {
+        state.colorScheme = data.prefs.colorScheme;
         setRepo(state.currentRepo.name);
       }, 250);
     }

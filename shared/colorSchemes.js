@@ -7,14 +7,6 @@
 
 module.exports = {
 
-  rainbow: {
-    fileColor: function(languages, index) {
-      var total = languages.length;
-      var hue = Math.round(360 * index / total);
-      return `hsl(${hue}, 90%, 70%)`;
-    }
-  },
-
   periwinkle: {
     fileColor: function(languages, index) {
       var total = languages.length;
@@ -26,6 +18,14 @@ module.exports = {
   bumblebee: {
     fileColor: function(languages, index) {
       return 'black';
+    }
+  },
+
+  rainbow: {
+    fileColor: function(languages, index) {
+      var total = languages.length;
+      var hue = Math.round(360 * index / total);
+      return `hsl(${hue}, 90%, 70%)`;
     }
   }
 
