@@ -86,8 +86,9 @@ angular.module('CodeFlower')
 
       // convert the obj to an array
       var languagesArr = [];
-      Object.keys(languagesObj).forEach(function(langName) {
+      Object.keys(languagesObj).forEach(function(langName, index) {
         languagesObj[langName].language = langName;
+        languagesObj[langName].languageClass = 'lang-' + index;
         languagesArr.push(languagesObj[langName]);
       });
 

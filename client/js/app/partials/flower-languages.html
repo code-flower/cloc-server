@@ -9,7 +9,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="lang in languages">
+      <tr 
+        ng-repeat="lang in languages" 
+        ng-mouseenter="mouseEnter($event, lang)" 
+        ng-mouseleave="mouseLeave($event, lang)"
+        ng-class="{'highlight': lang.highlighted}">
         <td>{{lang.language}}</td>
         <td>{{lang.files}}</td>
         <td>{{lang.lines}}</td>
