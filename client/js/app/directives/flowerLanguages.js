@@ -46,13 +46,13 @@ angular.module('CodeFlower')
     scope.mouseEnter = function(e, lang) {
       console.log("entered:", lang);
       lang.highlighted = true;
-      flowerUtils.createCSSSelector('.' + lang.language, 'fill: red !important');
+      flowerUtils.createCSSSelector('.' + lang.languageClass, 'fill: red !important');
     };
 
     scope.mouseLeave = function(e, lang) {
       console.log("left:", lang.language);
       lang.highlighted = false;
-      flowerUtils.createCSSSelector('.' + lang.language, 'fill: initial');
+      flowerUtils.createCSSSelector('.' + lang.languageClass, 'fill: initial');
     };
 
     //// EVENT LISTENERS ////

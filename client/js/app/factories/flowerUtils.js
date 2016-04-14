@@ -10,10 +10,16 @@ angular.module('CodeFlower')
     return appConfig.colorSchemes[colorScheme].fileColor(languages, index);
   }
 
-  function getNodeColor(node, languageColors, colorScheme) {
+  function getNodeColor(node, languageColors) {
     return node.language ? 
-           languageColors[node.language] :  // files
-           null;                            // folder -- color defined in scss files
+           languageColors[node.language].color :  // files
+           null;                                  // folder -- color defined in scss files
+  }
+
+  function getNodeClass(node, languageColors) {
+    return node.language ? 
+           languageColors[node.language].class :  // files
+           null;                                  // folder -- color defined in scss files
   }
 
   //// THE SERVICE ////
@@ -116,12 +122,16 @@ angular.module('CodeFlower')
       // set up an object of language colors
       var languageColors = {};
       languages.forEach(function(lang) {
-        languageColors[lang.language] = lang.color;
+        languageColors[lang.language] = {
+          color: lang.color,
+          class: lang.languageClass
+        };
       });
 
       // apply colors to nodes
       (function recurse(node) {
         node.color = getNodeColor(node, languageColors);
+        node.languageClass = getNodeClass(node, languageColors);
         if (node.children) 
           node.children.forEach(recurse);
       })(json);
