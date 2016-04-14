@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerLanguages', function($rootScope, $timeout, appConfig, state, flowerUtils) {
+.directive('flowerLanguages', function(appConfig, state, createCSSSelector) {
 
   return {
     restrict: 'E',
@@ -46,20 +46,20 @@ angular.module('CodeFlower')
     scope.mouseEnter = function(e, lang) {
       console.log("entered:", lang.language);
       lang.highlighted = true;
-      flowerUtils.createCSSSelector('.' + lang.languageClass, 'fill: ' + lang.color + ' !important');
+      createCSSSelector('.' + lang.languageClass, 'fill: ' + lang.color + ' !important');
       scope.languages.forEach(function(other) {
         if (other.language !== lang.language)
-          flowerUtils.createCSSSelector('.' + other.languageClass, 'display: none');
+          createCSSSelector('.' + other.languageClass, 'display: none');
       });
     };
 
     scope.mouseLeave = function(e, lang) {
       console.log("left:", lang.language);
       lang.highlighted = false;
-      flowerUtils.createCSSSelector('.' + lang.languageClass, 'fill: initial');
+      createCSSSelector('.' + lang.languageClass, 'fill: initial');
       scope.languages.forEach(function(other) {
         if (other.language !== lang.language)
-          flowerUtils.createCSSSelector('.' + other.languageClass, 'display: initial');
+          createCSSSelector('.' + other.languageClass, 'display: initial');
       });
     };
 

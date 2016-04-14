@@ -23,6 +23,7 @@ require('./app/factories/HTTP');
 require('./app/factories/state');
 require('./app/factories/userPrefsService');
 require('./app/factories/WS');
+require('./app/factories/createCSSSelector');
 
 // controllers
 require('./app/controllers/credentialsModal');

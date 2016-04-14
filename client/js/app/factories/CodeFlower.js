@@ -78,7 +78,6 @@ angular.module('CodeFlower')
 
     // Enter any new nodes
     this.node.enter().append('svg:circle')
-      //.attr('class', 'node')
       .attr('class', function(d) {
         return d.languageClass ? 'node ' + d.languageClass : 'node'
       })
