@@ -44,22 +44,24 @@ angular.module('CodeFlower')
     };
 
     scope.mouseEnter = function(e, lang) {
-      console.log("entered:", lang.language);
+      var colorConfig = appConfig.colorSchemes[state.colorScheme];
       lang.highlighted = true;
-      createCSSSelector('.' + lang.languageClass, 'fill: ' + lang.color + ' !important');
+
+      createCSSSelector('.' + lang.languageClass, colorConfig.highlightNode(lang));
       scope.languages.forEach(function(other) {
-        if (other.language !== lang.language)
-          createCSSSelector('.' + other.languageClass, 'display: none');
+        if (other.language !== lang.language) 
+          createCSSSelector('.' + other.languageClass, colorConfig.suppressNode(other));
       });
     };
 
     scope.mouseLeave = function(e, lang) {
-      console.log("left:", lang.language);
+      var colorConfig = appConfig.colorSchemes[state.colorScheme];
       lang.highlighted = false;
-      createCSSSelector('.' + lang.languageClass, 'fill: initial');
+
+      createCSSSelector('.' + lang.languageClass, colorConfig.unhighlightNode(lang));
       scope.languages.forEach(function(other) {
-        if (other.language !== lang.language)
-          createCSSSelector('.' + other.languageClass, 'display: initial');
+        if (other.language !== lang.language) 
+          createCSSSelector('.' + other.languageClass, colorConfig.unsuppressNode(other));
       });
     };
 
