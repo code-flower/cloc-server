@@ -20,7 +20,7 @@ function bundle() {
     .on('error', console.log)
     .bundle()
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest('./client/dist/'))
+    .pipe(gulp.dest('./client/dist/js/'))
     .pipe(browserSync.stream());
 }
 
@@ -34,11 +34,27 @@ function sassify() {
     .pipe(autoprefixer({
       browsers: ['last 2 versions']
     }))
-    .pipe(gulp.dest('./client/dist'))
+    .pipe(gulp.dest('./client/dist/css/'))
     .pipe(browserSync.stream());
 }
 
 gulp.task('sass', sassify);
+
+/////////////// COPY TASKS //////////////////
+
+function copyIndex() {
+  return gulp.src('./client/index.html')
+    .pipe(gulp.dest('./client/dist'));
+}
+
+gulp.task('copy:index', copyIndex);
+
+function copyAssets() {
+  return gulp.src('./client/assets/**')
+    .pipe(gulp.dest('./client/dist'));
+}
+
+gulp.task('copy:assets', copyAssets);
 
 /////////// DEFAULT TASK COMPONENTS /////////
 
@@ -77,3 +93,5 @@ gulp.task('open-browser', ['bundle', 'sass'], function() {
 
 gulp.task('default', ['watch:server', 'watch:js', 'watch:sass', 'open-browser']);
 
+
+gulp.task('build', ['bundle', 'sass', 'copy:index', 'copy:assets']);

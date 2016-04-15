@@ -22,7 +22,7 @@ module.exports = function serveStaticFile(response, relPath) {
   if (relPath == '/')
     relPath = '/index.html';
 
-  var absPath = appConfig.paths.client + relPath;
+  var absPath = appConfig.paths.client + 'dist' + relPath;
 
   // return 404 if the file doesn't exist
   try {
