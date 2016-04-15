@@ -10,6 +10,7 @@ const argv = require('yargs').argv;
 const appConfig = require('./shared/appConfig.js');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
+const ngTemplates = require('gulp-ng-templates');
 
 /////////////// BUNDLER ///////////////////
 
@@ -51,10 +52,22 @@ gulp.task('copy:index', copyIndex);
 
 function copyAssets() {
   return gulp.src('./client/assets/**')
-    .pipe(gulp.dest('./client/dist'));
+    .pipe(gulp.dest('./client/dist/'));
 }
 
 gulp.task('copy:assets', copyAssets);
+
+//////////////// TEMPLATES //////////////////
+ 
+gulp.task('templates', function () {
+  return gulp.src('./client/js/**/*.html')
+    .pipe(ngTemplates({
+      filename: 'templates.js',
+      module: 'CodeFlower',
+      standalone: false
+    }))
+    .pipe(gulp.dest('./client/dist/js/'));
+});
 
 /////////// DEFAULT TASK COMPONENTS /////////
 
@@ -78,7 +91,7 @@ gulp.task('watch:sass', function() {
   gulp.watch(['./client/scss/**/*.scss'], sassify);
 });
 
-gulp.task('open-browser', ['bundle', 'sass'], function() {
+gulp.task('open-browser', ['build' ], function() {
   browserSync.init({ 
     ui: { port: appConfig.ports.browserSyncUI } 
   });
@@ -91,7 +104,9 @@ gulp.task('open-browser', ['bundle', 'sass'], function() {
 
 /////////////// DEFAULT TASK ///////////////
 
+gulp.task('build', ['bundle', 'sass', 'templates', 'copy:index', 'copy:assets']);
+
 gulp.task('default', ['watch:server', 'watch:js', 'watch:sass', 'open-browser']);
 
 
-gulp.task('build', ['bundle', 'sass', 'copy:index', 'copy:assets']);
+

@@ -18,7 +18,7 @@ module.exports = {
     server:   `${__dirname}/../server/`,
     repos:    `${__dirname}/../server/system/repos/`,
     samples:  `${__dirname}/../server/system/samples/`,
-    partials: 'js/app/partials/'
+    partials: 'app/partials/'
   },
 
   //// HTTP ////
