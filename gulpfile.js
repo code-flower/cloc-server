@@ -11,6 +11,7 @@ const appConfig = require('./shared/appConfig.js');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const ngTemplates = require('gulp-ng-templates');
+const concat = require('gulp-concat');
 
 /////////////// BUNDLER ///////////////////
 
@@ -56,6 +57,18 @@ function copyAssets() {
 }
 
 gulp.task('copy:assets', copyAssets);
+
+function bundleD3() {
+  return gulp.src([
+    './client/js/vendor/d3.js',
+    './client/js/vendor/d3.geom.js',
+    './client/js/vendor/d3.layout.js'
+  ])
+    .pipe(concat('d3.bundle.js'))
+    .pipe(gulp.dest('./client/dist/js/'));
+}
+
+gulp.task('bundle:d3', bundleD3);
 
 //////////////// TEMPLATES //////////////////
  
@@ -104,7 +117,7 @@ gulp.task('open-browser', ['build' ], function() {
 
 /////////////// DEFAULT TASK ///////////////
 
-gulp.task('build', ['bundle', 'sass', 'templates', 'copy:index', 'copy:assets']);
+gulp.task('build', ['bundle', 'sass', 'templates', 'bundle:d3', 'copy:index', 'copy:assets']);
 
 gulp.task('default', ['watch:server', 'watch:js', 'watch:sass', 'open-browser']);
 
