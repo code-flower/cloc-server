@@ -24,7 +24,7 @@ const DIST = './client/dist';
 
 /////////////// BUNDLER ///////////////////
 
-function bundle() {
+gulp.task('bundle', function() {
   return browserify('./client/js/require.js')
     .transform(babelify, { presets: ['es2015'] })
     .transform(envify({ NODE_ENV: argv.env || 'development' }))
@@ -33,13 +33,11 @@ function bundle() {
     .pipe(source('bundle.js'))
     .pipe(gulp.dest(`${DIST}/js/`))
     .pipe(browserSync.stream());
-}
-
-gulp.task('bundle', bundle);
+});
 
 //////////////// SASS //////////////////////
 
-function sassify() {
+gulp.task('sass', function() {
   return gulp.src('./client/scss/index.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer({
@@ -47,39 +45,11 @@ function sassify() {
     }))
     .pipe(gulp.dest(`${DIST}/css/`))
     .pipe(browserSync.stream());
-}
-
-gulp.task('sass', sassify);
-
-/////////////// COPY TASKS //////////////////
-
-function copyAssets() {
-  return gulp.src('./client/assets/**')
-    .pipe(gulp.dest(DIST));
-}
-
-gulp.task('copy:assets', copyAssets);
-
-function bundleD3() {
-  return gulp.src([
-    './client/js/vendor/d3.js',
-    './client/js/vendor/d3.geom.js',
-    './client/js/vendor/d3.layout.js'
-  ])
-    .pipe(concat('d3.bundle.js'))
-    .pipe(gulp.dest(`${DIST}/js/`));
-}
-
-gulp.task('bundle:d3', bundleD3);
-
-gulp.task('copy:chrome', function() {
-  return gulp.src('./client/chrome/**')
-    .pipe(gulp.dest(DIST));
 });
 
 //////////////// TEMPLATES //////////////////
  
-gulp.task('templates', function () {
+gulp.task('templates', function() {
   return gulp.src('./client/js/**/*.html')
     .pipe(ngTemplates({
       filename: 'templates.js',
@@ -89,15 +59,33 @@ gulp.task('templates', function () {
     .pipe(gulp.dest(`${DIST}/js/`));
 });
 
-////////////////// INDEX ////////////////////
+/////////////// COPY TASKS //////////////////
 
-function prepIndexFile() {
+gulp.task('copy:index', function() {
   return gulp.src('./client/index.html')
     .pipe(removeCode({ production: argv.env === 'production' }))
     .pipe(gulp.dest(DIST));
-}
+});
 
-gulp.task('prep:index', prepIndexFile);
+gulp.task('copy:assets', function() {
+  return gulp.src('./client/assets/**')
+    .pipe(gulp.dest(DIST));  
+});
+
+gulp.task('copy:d3', function() {
+  return gulp.src([
+    './client/js/vendor/d3.js',
+    './client/js/vendor/d3.geom.js',
+    './client/js/vendor/d3.layout.js'
+  ])
+    .pipe(concat('d3.bundle.js'))
+    .pipe(gulp.dest(`${DIST}/js/`));
+});
+
+gulp.task('copy:chrome', function() {
+  return gulp.src('./client/chrome/**')
+    .pipe(gulp.dest(DIST));
+});
 
 ////////////////// CLEAN ////////////////////
 
@@ -117,18 +105,22 @@ gulp.task('watch:server', function() {
       'repos/**',
       'gulpfile.js'
     ]
-  }).on('start', bundle);
+  }).on('start', function() {
+    setTimeout(function() {
+      gulp.src('').pipe(browserSync.stream());
+    }, 500);
+  });
 });
 
 gulp.task('watch:js', function() {
-  gulp.watch(['./client/js/**/*.{js,html}'], bundle);
+  gulp.watch(['./client/js/**/*.{js,html}'], ['bundle']);
 });
 
 gulp.task('watch:sass', function() {
-  gulp.watch(['./client/scss/**/*.scss'], sassify);
+  gulp.watch(['./client/scss/**/*.scss'], ['sass']);
 });
 
-gulp.task('open-browser', ['build'], function() {
+gulp.task('open-browser', function() {
   browserSync.init({ 
     ui: { port: appConfig.ports.browserSyncUI } 
   });
@@ -139,22 +131,23 @@ gulp.task('open-browser', ['build'], function() {
   }));
 });
 
-/////////////// DEFAULT TASK ///////////////
+//////////// BUILD AND DEFAULT /////////////
 
-gulp.task('build', function() {
+gulp.task('build', function(callback) {
   const tasks = [
-    'bundle', 
-    'sass', 
-    'templates', 
-    'bundle:d3', 
-    'prep:index', 
-    'copy:assets'
+    'bundle',
+    'sass',
+    'templates',
+    'copy:assets',
+    'copy:index',
+    'copy:d3'
   ].concat(argv.chrome ? ['copy:chrome'] : []);
 
-  runSequence('clean', tasks);
+  runSequence('clean', tasks, callback);
 });
 
-gulp.task('default', ['watch:server', 'watch:js', 'watch:sass', 'open-browser']);
-
+gulp.task('default', function() {
+  runSequence('build', ['watch:js', 'watch:sass', 'open-browser'], 'watch:server');
+});
 
 
