@@ -3,6 +3,9 @@
   overflow: hidden;
   .label-with-select {
     margin-bottom: 8px;
+    select {
+      width: 230px;
+    }
   }
   .ignored-text {
     height: calc(100% - 50px);

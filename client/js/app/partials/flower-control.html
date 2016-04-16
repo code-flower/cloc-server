@@ -1,4 +1,4 @@
-<div class="repo-form">
+<div class="flower-control">
   <table>
     <tr>
       <td><label>Add new repo</label></td>
@@ -57,6 +57,20 @@
             ng-repeat="path in state.folderPaths" 
             value="{{path}}" 
             ng-bind="path" />
+        </select>
+      </td>
+    </tr>
+    <tr ng-show="state.repoNames.length">
+      <td><label>Color scheme</label></td>
+      <td colspan="2">
+        <select 
+          ng-model="selectedColorScheme" 
+          ng-change="switchColorScheme(selectedColorScheme)" 
+          class="dropdown two-col">
+          <option 
+            ng-repeat="colorScheme in colorSchemes" 
+            value="{{colorScheme}}" 
+            ng-bind="colorScheme" />
         </select>
       </td>
     </tr>

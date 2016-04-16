@@ -23,6 +23,7 @@ angular.module('CodeFlower')
 
     //// SCOPE FUNCTIONS ////
 
+    // currently unused since colorScheme is now in the flowerControl
     scope.savePrefs = function() {
       userPrefsService.set('colorScheme', scope.selectedScheme);
       scope.closeModal();

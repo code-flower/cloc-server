@@ -1,7 +1,10 @@
 
 @mixin backgroundColor($color) {
   background-color: $color;
-  .flower-languages table {
+  .flower-languages {
+    background-color: transparentize($color, 0.3);
+  }
+  .flower-control {
     background-color: transparentize($color, 0.3);
   }
   #visualization {
@@ -15,7 +18,7 @@
   .flower-languages table {
     color: $color;
   }
-  .repo-form label {
+  .flower-control label {
     color: $color;
   }
   .nodetext {

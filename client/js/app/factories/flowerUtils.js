@@ -10,18 +10,6 @@ angular.module('CodeFlower')
     return appConfig.colorSchemes[colorScheme].nodeColor(languages, index);
   }
 
-  function getNodeColor(node, languageColors) {
-    return node.language ? 
-           languageColors[node.language].color :  // files
-           null;                                  // folder -- color defined in scss files
-  }
-
-  function getNodeClass(node, languageColors) {
-    return node.language ? 
-           languageColors[node.language].class :
-           null;
-  }
-
   //// THE SERVICE ////
 
   var service = {

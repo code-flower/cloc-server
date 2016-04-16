@@ -155,6 +155,11 @@ angular.module('CodeFlower')
     setSort(sortParams);
   });
 
+  $scope.$on('switchColorScheme', function(e, colorScheme) {
+    state.colorScheme = colorScheme;
+    setRepo(state.currentRepo.name);
+  });
+
   $scope.$on('deleteDB', function(e, data) {
     dataService.deleteDB();
     location.reload();

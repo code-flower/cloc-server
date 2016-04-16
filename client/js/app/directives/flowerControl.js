@@ -20,6 +20,8 @@ angular.module('CodeFlower')
     scope.gitUrl = '';
     scope.selectedRepo = '';
     scope.selectedFolder = '';
+    scope.selectedColorScheme = '';
+    scope.colorSchemes = Object.keys(appConfig.colorSchemes);
 
     //// EVENT EMITTERS ////
 
@@ -43,6 +45,10 @@ angular.module('CodeFlower')
       scope.$emit('switchFolder', folderPath);
     };
 
+    scope.switchColorScheme = function(colorScheme) {
+      scope.$emit('switchColorScheme', colorScheme);
+    };
+
     //// WATCHERS ////
 
     scope.$watch('state.gitUrl', function(newVal, oldVal) {
@@ -56,6 +62,10 @@ angular.module('CodeFlower')
     scope.$watch('state.currentFolder.path', function(newVal, oldVal) {
       scope.selectedFolder = newVal;
     });
+
+    scope.$watch('state.colorScheme', function(newVal, oldVal) {
+      scope.selectedColorScheme = newVal;
+    })
   }
 
 });

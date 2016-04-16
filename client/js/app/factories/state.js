@@ -21,6 +21,8 @@ angular.module('CodeFlower')
       data: null
     },
 
+    languages: [],
+
     sortParams: {
       sortCol: 'lines',
       sortDesc: true
