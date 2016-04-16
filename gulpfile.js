@@ -16,6 +16,7 @@ const ngTemplates = require('gulp-ng-templates');
 const concat = require('gulp-concat');
 const removeCode = require('gulp-remove-code');
 const clean = require('gulp-clean');
+const runSequence = require('run-sequence');
 
 /////////////// CONSTANTS /////////////////
 
@@ -70,6 +71,11 @@ function bundleD3() {
 }
 
 gulp.task('bundle:d3', bundleD3);
+
+gulp.task('copy:chrome', function() {
+  return gulp.src('./client/chrome/**')
+    .pipe(gulp.dest(DIST));
+});
 
 //////////////// TEMPLATES //////////////////
  
@@ -135,7 +141,18 @@ gulp.task('open-browser', ['build'], function() {
 
 /////////////// DEFAULT TASK ///////////////
 
-gulp.task('build', ['bundle', 'sass', 'templates', 'bundle:d3', 'prep:index', 'copy:assets']);
+gulp.task('build', function() {
+  const tasks = [
+    'bundle', 
+    'sass', 
+    'templates', 
+    'bundle:d3', 
+    'prep:index', 
+    'copy:assets'
+  ].concat(argv.chrome ? ['copy:chrome'] : []);
+
+  runSequence('clean', tasks);
+});
 
 gulp.task('default', ['watch:server', 'watch:js', 'watch:sass', 'open-browser']);
 

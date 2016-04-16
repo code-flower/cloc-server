@@ -4,8 +4,8 @@
   "version": "0.1",
   "description": "Visualize repos",
   "icons": { 
-    "48": "assets/images/favicon.ico",
-    "128": "assets/images/favicon.ico" 
+    "48": "images/favicon.ico",
+    "128": "images/favicon.ico" 
   },
   "background": {
     "persistent": false,
@@ -14,6 +14,6 @@
   "permissions": ["storage"],
   "browser_action": {
     "default_title": "Git Viz",
-    "default_icon": "assets/images/icon48.png"
+    "default_icon": "images/icon48.png"
   }
 }
