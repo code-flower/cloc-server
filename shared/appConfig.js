@@ -51,7 +51,7 @@ module.exports = {
   colorSchemes: require('./colorSchemes'),
 
   defaultPrefs: {
-    colorScheme: 'rainbow'
+    colorScheme: 'periwinkle'
   },
 
   deleteAfterClone: true

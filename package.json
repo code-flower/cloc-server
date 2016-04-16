@@ -4,7 +4,7 @@
   "description": "CodeFlower",
   "main": "server/index.js",
   "scripts": {
-    "start": "cd server; node server.js"
+    "start": "cd server; node index.js"
   },
   "repository": {
     "type": "git",

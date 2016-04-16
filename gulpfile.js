@@ -63,7 +63,7 @@ gulp.task('templates', function() {
 
 gulp.task('copy:index', function() {
   return gulp.src('./client/index.html')
-    .pipe(removeCode({ production: argv.env === 'production' }))
+    .pipe(removeCode({ removeScript: argv.env === 'production' || argv.chrome }))
     .pipe(gulp.dest(DIST));
 });
 

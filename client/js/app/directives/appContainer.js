@@ -23,9 +23,6 @@ angular.module('CodeFlower')
       });
     };
 
-
-    console.log("running appContainer");
-
     // for testing modal
     // setTimeout(function() {
     //    scope.openPrefs();
