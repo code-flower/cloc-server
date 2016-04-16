@@ -15,6 +15,6 @@ angular.module('CodeFlower')
     $scope.activeTab = tab;
   };
 
-  $scope.cancel = $scope.$close;
+  $scope.closeModal = $scope.$close;
 
 });
