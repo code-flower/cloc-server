@@ -7,7 +7,7 @@ angular.module('CodeFlower')
   //// PRIVATE ////
 
   function getLanguageColor(languages, index, colorScheme) {
-    return appConfig.colorSchemes[colorScheme].fileColor(languages, index);
+    return appConfig.colorSchemes[colorScheme].nodeColor(languages, index);
   }
 
   function getNodeColor(node, languageColors) {
@@ -94,7 +94,7 @@ angular.module('CodeFlower')
       var languagesArr = [];
       Object.keys(languagesObj).forEach(function(langName, index) {
         languagesObj[langName].language = langName;
-        languagesObj[langName].languageClass = 'lang-' + index;
+        languagesObj[langName].class = 'lang-' + index;
         languagesArr.push(languagesObj[langName]);
       });
 
@@ -124,14 +124,14 @@ angular.module('CodeFlower')
       languages.forEach(function(lang) {
         languageColors[lang.language] = {
           color: lang.color,
-          class: lang.languageClass
+          class: lang.class
         };
       });
 
       // apply colors to nodes
       (function recurse(node) {
-        node.color = getNodeColor(node, languageColors);
-        node.languageClass = getNodeClass(node, languageColors);
+        node.color = node.language ? languageColors[node.language].color : null;
+        node.class = node.language ? languageColors[node.language].class : null;
         if (node.children) 
           node.children.forEach(recurse);
       })(json);

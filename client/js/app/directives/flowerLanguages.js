@@ -47,10 +47,10 @@ angular.module('CodeFlower')
       var colorConfig = appConfig.colorSchemes[state.colorScheme];
       lang.highlighted = true;
 
-      createCSSSelector('.' + lang.languageClass, colorConfig.highlightNode(lang));
+      createCSSSelector('.' + lang.class, colorConfig.highlightNode(lang));
       scope.languages.forEach(function(other) {
         if (other.language !== lang.language) 
-          createCSSSelector('.' + other.languageClass, colorConfig.suppressNode(other));
+          createCSSSelector('.' + other.class, colorConfig.suppressNode(other));
       });
     };
 
@@ -58,10 +58,10 @@ angular.module('CodeFlower')
       var colorConfig = appConfig.colorSchemes[state.colorScheme];
       lang.highlighted = false;
 
-      createCSSSelector('.' + lang.languageClass, colorConfig.unhighlightNode(lang));
+      createCSSSelector('.' + lang.class, colorConfig.unhighlightNode(lang));
       scope.languages.forEach(function(other) {
         if (other.language !== lang.language) 
-          createCSSSelector('.' + other.languageClass, colorConfig.unsuppressNode(other));
+          createCSSSelector('.' + other.class, colorConfig.unsuppressNode(other));
       });
     };
 

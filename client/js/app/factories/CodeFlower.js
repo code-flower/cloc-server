@@ -79,7 +79,7 @@ angular.module('CodeFlower')
     // Enter any new nodes
     this.node.enter().append('svg:circle')
       .attr('class', function(d) {
-        return d.languageClass ? 'node ' + d.languageClass : 'node'
+        return d.class ? 'node ' + d.class : 'node'
       })
       .classed('directory', function(d) { return (d._children || d.children) ? 1 : 0; })
       .attr('r', function(d) { return d.children ? 3.5 : Math.pow(d.size, 2/5) || 1; })

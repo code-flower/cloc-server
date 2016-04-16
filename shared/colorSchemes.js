@@ -8,7 +8,7 @@
 module.exports = {
 
   periwinkle: {
-    fileColor: function(languages, index) {
+    nodeColor: function(languages, index) {
       var total = languages.length;
       var hue = 170 + Math.round(190 * index / total);
       return `hsl(${hue}, 100%, 50%)`;
@@ -16,7 +16,7 @@ module.exports = {
     highlightNode: function(language) {
       return '';
     },
-    unhighlightNode: function(langage) {
+    unhighlightNode: function(language) {
       return '';
     },
     suppressNode: function(language) {
@@ -28,13 +28,13 @@ module.exports = {
   },
 
   bumblebee: {
-    fileColor: function(languages, index) {
+    nodeColor: function(languages, index) {
       return 'black';
     },
     highlightNode: function(language) {
       return 'fill: red !important';
     },
-    unhighlightNode: function(langage) {
+    unhighlightNode: function(language) {
       return 'fill: initial';
     },
     suppressNode: function(language) {
@@ -46,7 +46,7 @@ module.exports = {
   },
 
   rainbow: {
-    fileColor: function(languages, index) {
+    nodeColor: function(languages, index) {
       var total = languages.length;
       var hue = Math.round(360 * index / total);
       return `hsl(${hue}, 90%, 70%)`;
@@ -54,7 +54,7 @@ module.exports = {
     highlightNode: function(language) {
       return '';
     },
-    unhighlightNode: function(langage) {
+    unhighlightNode: function(language) {
       return '';
     },
     suppressNode: function(language) {
