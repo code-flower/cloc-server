@@ -13,14 +13,18 @@ HOW TO RUN THE DEV ENVIRONEMNT:
 gulp -- from the root of the repo 
 
 
-HOW TO RUN THE APP ON A LIVE SERVER
 
-npm start -- from the root of the repo
+RUN THE CHROME EXTENSION LOCALLY, BUT USING A LIVE SERVER
+1. install cloc globally on the server
+2. clone the repo on the server
+3. npm install on the server
+4. npm start on the server
+5. 'gulp build --env=production --chrome' locally, then refresh browser window containing the extension
 
 
 HOW TO BUILD
 
-gulp bundle --env production
+gulp bundle --env=production
   - the env is option, if set will add the hostname
 
 
