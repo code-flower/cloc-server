@@ -1,3 +1,5 @@
+/* CURRENTLY UNUSED */
+
 /* global angular */
 'use strict';
 
