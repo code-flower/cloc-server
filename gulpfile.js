@@ -1,3 +1,5 @@
+////////////// MODULES ////////////////////
+
 const gulp = require('gulp');
 const browserify = require('browserify');
 const envify = require('envify/custom');
@@ -13,6 +15,11 @@ const autoprefixer = require('gulp-autoprefixer');
 const ngTemplates = require('gulp-ng-templates');
 const concat = require('gulp-concat');
 const removeCode = require('gulp-remove-code');
+const clean = require('gulp-clean');
+
+/////////////// CONSTANTS /////////////////
+
+const DIST = './client/dist';
 
 /////////////// BUNDLER ///////////////////
 
@@ -23,7 +30,7 @@ function bundle() {
     .on('error', console.log)
     .bundle()
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest('./client/dist/js/'))
+    .pipe(gulp.dest(`${DIST}/js/`))
     .pipe(browserSync.stream());
 }
 
@@ -37,7 +44,7 @@ function sassify() {
     .pipe(autoprefixer({
       browsers: ['last 2 versions']
     }))
-    .pipe(gulp.dest('./client/dist/css/'))
+    .pipe(gulp.dest(`${DIST}/css/`))
     .pipe(browserSync.stream());
 }
 
@@ -45,16 +52,9 @@ gulp.task('sass', sassify);
 
 /////////////// COPY TASKS //////////////////
 
-function copyIndex() {
-  return gulp.src('./client/index.html')
-    .pipe(gulp.dest('./client/dist'));
-}
-
-gulp.task('copy:index', copyIndex);
-
 function copyAssets() {
   return gulp.src('./client/assets/**')
-    .pipe(gulp.dest('./client/dist/'));
+    .pipe(gulp.dest(DIST));
 }
 
 gulp.task('copy:assets', copyAssets);
@@ -66,7 +66,7 @@ function bundleD3() {
     './client/js/vendor/d3.layout.js'
   ])
     .pipe(concat('d3.bundle.js'))
-    .pipe(gulp.dest('./client/dist/js/'));
+    .pipe(gulp.dest(`${DIST}/js/`));
 }
 
 gulp.task('bundle:d3', bundleD3);
@@ -80,7 +80,7 @@ gulp.task('templates', function () {
       module: 'CodeFlower',
       standalone: false
     }))
-    .pipe(gulp.dest('./client/dist/js/'));
+    .pipe(gulp.dest(`${DIST}/js/`));
 });
 
 ////////////////// INDEX ////////////////////
@@ -88,12 +88,19 @@ gulp.task('templates', function () {
 function prepIndexFile() {
   return gulp.src('./client/index.html')
     .pipe(removeCode({ production: argv.env === 'production' }))
-    .pipe(gulp.dest('./client/dist/'));
+    .pipe(gulp.dest(DIST));
 }
 
-gulp.task('prep-index', prepIndexFile);
+gulp.task('prep:index', prepIndexFile);
 
-/////////// DEFAULT TASK COMPONENTS /////////
+////////////////// CLEAN ////////////////////
+
+gulp.task('clean', function() {
+  return gulp.src(DIST, { read: false })
+    .pipe(clean());
+});
+
+////////////////// DEV TASKS ////////////////
 
 gulp.task('watch:server', function() {
   return nodemon({
@@ -115,7 +122,7 @@ gulp.task('watch:sass', function() {
   gulp.watch(['./client/scss/**/*.scss'], sassify);
 });
 
-gulp.task('open-browser', ['build' ], function() {
+gulp.task('open-browser', ['build'], function() {
   browserSync.init({ 
     ui: { port: appConfig.ports.browserSyncUI } 
   });
@@ -128,7 +135,7 @@ gulp.task('open-browser', ['build' ], function() {
 
 /////////////// DEFAULT TASK ///////////////
 
-gulp.task('build', ['bundle', 'sass', 'templates', 'bundle:d3', 'copy:index', 'copy:assets']);
+gulp.task('build', ['bundle', 'sass', 'templates', 'bundle:d3', 'prep:index', 'copy:assets']);
 
 gulp.task('default', ['watch:server', 'watch:js', 'watch:sass', 'open-browser']);
 
