@@ -39,7 +39,7 @@ function checkPrivateRepo(repo, socket) {
 function cloneRepo(repo, socket) {
   var deferred = Q.defer();
 
-  var dirName = repo.fullName.replace('/', '#');
+  var dirName = appConfig.repoToFolder(repo.fullName);
 
   mkpath.sync(appConfig.paths.repos + dirName);
 

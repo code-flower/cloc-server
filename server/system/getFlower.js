@@ -19,7 +19,7 @@ function cleanIgnoredText(ignoredText, dirName) {
 }
 
 function getFlower(reposDir, repoName, deleteAfter) {
-  var dirName = repoName.replace('/', '#');
+  var dirName = appConfig.repoToFolder(repoName);
   var repoDir = `${reposDir}${dirName}/`;
 
   return Q.all([

@@ -21,7 +21,7 @@ function sampleToObject(sample) {
   return getFlower(appConfig.paths.samples, sample, false)
     .then(function(json) {
       return {
-        name: sample.replace('#', '/'),
+        name: appConfig.folderToRepo(sample),
         data: json
       };
     });

@@ -8,7 +8,7 @@ var appConfig = require('../../shared/appConfig.js');
 
 module.exports = function deleteRepo(repoName) {
   var deferred = Q.defer(); 
-  var dirName = repoName.replace('/', '#');
+  var dirName = appConfig.repoToFolder(repoName);
 
   console.log("deleting folder:", dirName);
   rimraf(appConfig.paths.repos + dirName, deferred.resolve);
