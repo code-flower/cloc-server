@@ -12,6 +12,7 @@ const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const ngTemplates = require('gulp-ng-templates');
 const concat = require('gulp-concat');
+const removeCode = require('gulp-remove-code');
 
 /////////////// BUNDLER ///////////////////
 
@@ -81,6 +82,16 @@ gulp.task('templates', function () {
     }))
     .pipe(gulp.dest('./client/dist/js/'));
 });
+
+////////////////// INDEX ////////////////////
+
+function prepIndexFile() {
+  return gulp.src('./client/index.html')
+    .pipe(removeCode({ production: argv.env === 'production' }))
+    .pipe(gulp.dest('./client/dist/'));
+}
+
+gulp.task('prep-index', prepIndexFile);
 
 /////////// DEFAULT TASK COMPONENTS /////////
 
