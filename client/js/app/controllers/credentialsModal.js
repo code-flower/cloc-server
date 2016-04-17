@@ -10,6 +10,7 @@ angular.module('CodeFlower')
   $scope.password = '';
   $scope.url = '';
   $scope.needHTTPS = params.needHTTPS;
+  $scope.gitUrl = params.gitUrl;
 
   //// SCOPE FUNCTIONS ////
 

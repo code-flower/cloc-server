@@ -126,7 +126,9 @@ angular.module('CodeFlower')
   });
 
   $scope.$on('needCredentials', function(e, data) {
-    getCredentials(data);
+    getCredentials(angular.extend(data, {
+      gitUrl: state.gitUrl
+    }));
   });
 
   $scope.$on('cloneComplete', function(e, data) {
