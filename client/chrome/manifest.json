@@ -1,11 +1,11 @@
 {
   "manifest_version": 2,
-  "name": "Git-viz",
+  "name": "CodeFlower-Test",
   "version": "0.1",
   "description": "Visualize repos",
   "icons": { 
-    "48": "images/favicon.ico",
-    "128": "images/favicon.ico" 
+    "48": "images/icon48.png",
+    "128": "images/icon48.png" 
   },
   "background": {
     "persistent": false,
@@ -13,7 +13,7 @@
   },
   "permissions": ["storage"],
   "browser_action": {
-    "default_title": "Git Viz",
+    "default_title": "CodeFlower-Test",
     "default_icon": "images/icon48.png"
   }
 }
