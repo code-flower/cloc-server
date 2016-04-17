@@ -18,30 +18,30 @@
   "homepage": "https://github.com/jmensch1/CodeFlower#readme",
   "dependencies": {
     "angular": "^1.5.0",
-    "babelify": "^7.2.0",
-    "browserify": "^13.0.0",
-    "envify": "^3.4.0",
     "git-url-parse": "^5.0.1",
-    "gulp": "^3.9.0",
-    "gulp-nodemon": "^2.0.4",
-    "gulp-open": "^1.0.0",
     "mkpath": "^0.1.0",
     "nodejs-websocket": "^1.5.0",
     "q": "^1.4.1",
-    "rimraf": "^2.5.2",
-    "vinyl-source-stream": "^1.1.0",
-    "yargs": "^4.1.0"
+    "rimraf": "^2.5.2"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.5.0",
+    "babelify": "^7.2.0",
     "browser-sync": "^2.11.1",
+    "browserify": "^13.0.0",
+    "envify": "^3.4.0",
+    "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.0",
     "gulp-ng-templates": "0.0.6",
+    "gulp-nodemon": "^2.0.4",
+    "gulp-open": "^1.0.0",
     "gulp-remove-code": "^1.0.2",
     "gulp-sass": "^2.2.0",
     "gulp-zip": "^3.2.0",
-    "run-sequence": "^1.1.5"
+    "run-sequence": "^1.1.5",
+    "vinyl-source-stream": "^1.1.0",
+    "yargs": "^4.1.0"
   }
 }
