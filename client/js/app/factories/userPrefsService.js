@@ -8,7 +8,7 @@ angular.module('CodeFlower')
 
   return {
     get: function(pref) {
-      return localStorage[pref] || appConfig.defaultPrefs[pref];
+      return localStorage[pref];
     },
 
     set: function(pref, val) {

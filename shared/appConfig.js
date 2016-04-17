@@ -46,7 +46,6 @@ module.exports = {
     tableName: 'repoTable'
   },
 
-  //// REPONAME/FOLDERNAME CONVERSION ////
   repoToFolder: function(repoName) {
     return repoName.replace('/', '#');
   },
@@ -55,12 +54,7 @@ module.exports = {
     return folderName.replace('#', '/');
   },
 
-  //// MISC ////
   colorSchemes: require('./colorSchemes'),
-
-  defaultPrefs: {
-    colorScheme: 'periwinkle'
-  },
 
   deleteAfterClone: true
 

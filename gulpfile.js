@@ -16,6 +16,7 @@ const concat = require('gulp-concat');
 const removeCode = require('gulp-remove-code');
 const clean = require('gulp-clean');
 const runSequence = require('run-sequence');
+const zip = require('gulp-zip');
 
 const appConfig = require('./shared/appConfig');
 
@@ -101,6 +102,14 @@ gulp.task('clean', function() {
     .pipe(clean());
 });
 
+/////////////////// ZIP //////////////////////
+
+gulp.task('zip-chrome', function() {
+  return gulp.src(`${DIST}/**`)
+    .pipe(zip('chrome-dist.zip'))
+    .pipe(gulp.dest('./client/'));
+});
+
 ////////////////// DEV TASKS /////////////////
 
 gulp.task('watch:server', function() {
@@ -152,9 +161,14 @@ gulp.task('build', function(callback) {
     'copy:assets',
     'copy:index',
     'copy:d3'
-  ].concat(argv.chrome ? ['copy:chrome'] : []);
+  ];
 
-  runSequence('clean', tasks, callback);
+  if (argv.chrome) {
+    tasks.push('copy:chrome');
+    runSequence('clean', tasks, 'zip-chrome', callback);
+  } else {
+    runSequence('clean', tasks, callback);
+  }
 });
 
 gulp.task('default', function() {
