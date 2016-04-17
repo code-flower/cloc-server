@@ -9,7 +9,6 @@ const browserSync = require('browser-sync').create();
 const open = require('gulp-open');
 const source = require('vinyl-source-stream');
 const argv = require('yargs').argv;
-const appConfig = require('./shared/appConfig.js');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const ngTemplates = require('gulp-ng-templates');
@@ -18,7 +17,9 @@ const removeCode = require('gulp-remove-code');
 const clean = require('gulp-clean');
 const runSequence = require('run-sequence');
 
-/////////////// CONSTANTS /////////////////
+const appConfig = require('./shared/appConfig');
+
+////////////// CONSTANTS //////////////////
 
 const DIST = './client/dist';
 
@@ -47,23 +48,29 @@ gulp.task('sass', function() {
     .pipe(browserSync.stream());
 });
 
-//////////////// TEMPLATES //////////////////
+//////////////// TEMPLATES /////////////////
  
 gulp.task('templates', function() {
-  return gulp.src('./client/js/**/*.html')
+  return gulp.src('./client/js/app/partials/*.html')
     .pipe(ngTemplates({
       filename: 'templates.js',
       module: 'CodeFlower',
+      path: function(path, base) {
+        return appConfig.paths.partials + path.replace(base, '');
+      },
       standalone: false
     }))
-    .pipe(gulp.dest(`${DIST}/js/`));
+    .pipe(gulp.dest(`${DIST}/js/`))
+    .pipe(browserSync.stream());
 });
 
 /////////////// COPY TASKS //////////////////
 
 gulp.task('copy:index', function() {
   return gulp.src('./client/index.html')
-    .pipe(removeCode({ removeScript: argv.env === 'production' || argv.chrome }))
+    .pipe(removeCode({ 
+      removeScript: argv.env === 'production' || argv.chrome 
+    }))
     .pipe(gulp.dest(DIST));
 });
 
@@ -87,14 +94,14 @@ gulp.task('copy:chrome', function() {
     .pipe(gulp.dest(DIST));
 });
 
-////////////////// CLEAN ////////////////////
+////////////////// CLEAN /////////////////////
 
 gulp.task('clean', function() {
   return gulp.src(DIST, { read: false })
     .pipe(clean());
 });
 
-////////////////// DEV TASKS ////////////////
+////////////////// DEV TASKS /////////////////
 
 gulp.task('watch:server', function() {
   return nodemon({
@@ -113,11 +120,15 @@ gulp.task('watch:server', function() {
 });
 
 gulp.task('watch:js', function() {
-  gulp.watch(['./client/js/**/*.{js,html}'], ['bundle']);
+  gulp.watch(['./client/js/**/*.js'], ['bundle']);
 });
 
 gulp.task('watch:sass', function() {
   gulp.watch(['./client/scss/**/*.scss'], ['sass']);
+});
+
+gulp.task('watch:partials', function() {
+  gulp.watch(['./client/js/app/partials/*.html'], ['templates']);
 });
 
 gulp.task('open-browser', function() {
@@ -131,7 +142,7 @@ gulp.task('open-browser', function() {
   }));
 });
 
-//////////// BUILD AND DEFAULT /////////////
+///////////// BUILD AND DEFAULT //////////////
 
 gulp.task('build', function(callback) {
   const tasks = [
@@ -147,7 +158,7 @@ gulp.task('build', function(callback) {
 });
 
 gulp.task('default', function() {
-  runSequence('build', ['watch:js', 'watch:sass', 'open-browser'], 'watch:server');
+  runSequence('build', ['watch:js', 'watch:sass', 'watch:partials', 'open-browser'], 'watch:server');
 });
 
 
