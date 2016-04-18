@@ -72,7 +72,8 @@ gulp.task('copy:index', function() {
     .pipe(removeCode({ 
       removeScript: argv.env === 'production' || argv.chrome 
     }))
-    .pipe(gulp.dest(DIST));
+    .pipe(gulp.dest(DIST))
+    .pipe(browserSync.stream());
 });
 
 gulp.task('copy:assets', function() {
@@ -140,6 +141,10 @@ gulp.task('watch:partials', function() {
   gulp.watch(['./client/js/app/partials/*.html'], ['templates']);
 });
 
+gulp.task('watch:index', function() {
+  gulp.watch(['./client/index.html'], ['copy:index']);
+});
+
 gulp.task('open-browser', function() {
   browserSync.init({ 
     ui: { port: appConfig.ports.browserSyncUI } 
@@ -172,7 +177,7 @@ gulp.task('build', function(callback) {
 });
 
 gulp.task('default', function() {
-  runSequence('build', ['watch:js', 'watch:sass', 'watch:partials', 'open-browser'], 'watch:server');
+  runSequence('build', ['watch:js', 'watch:sass', 'watch:partials', 'watch:index', 'open-browser'], 'watch:server');
 });
 
 

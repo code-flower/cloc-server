@@ -113,6 +113,11 @@ angular.module('CodeFlower')
     });
   }
 
+  function removeLoader() {
+    var mask = document.getElementsByClassName('loading-mask')[0];
+    mask.parentNode.removeChild(mask);
+  } 
+
   //// EVENT LISTENERS ////
 
   $scope.$on('doClone', function(e, gitUrl) {
@@ -181,6 +186,8 @@ angular.module('CodeFlower')
   dataService.init()
   .then(dataService.enumerate)
   .then(function(repoNames) {
+    removeLoader();
+
     state.repoNames = repoNames;
     if (repoNames[0])
       setRepo(repoNames[0]);

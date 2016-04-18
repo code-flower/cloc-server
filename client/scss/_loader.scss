@@ -1,0 +1,56 @@
+
+
+.loading-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background-color: white;
+  overflow: hidden;
+  
+  /* https://codepen.io/ikoshowa/pen/MaqodQ?editors=1100 */
+  .loader {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    top: 0; 
+    bottom: 0;
+    left: 0; 
+    right: 0;
+    margin: auto;
+    background-color: #03a9f4;
+    border-radius: 50%;
+    &:after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      border: 0px solid white;
+      transform: translate(-50%, -50%);
+      animation: loading 1000ms ease-out forwards infinite;
+    }
+  }
+  @keyframes loading {
+    0% {
+      border: 0px solid white;
+    }
+    
+    20% {
+      border: 8px solid white;
+      width: 0%;
+      height: 0%;
+    }
+    
+    100% {
+      border: 8px solid white;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+
+
