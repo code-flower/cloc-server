@@ -1,5 +1,19 @@
 .app-container.periwinkle {
-  @include backgroundColor(#fff);
+  //@include backgroundColor(#fff);
+  
+  .background {
+    background-image: url(/images/graph.jpg);
+    opacity: 0.5;
+  }
+
+  .flower-languages,
+  .flower-control {
+    background-color: transparentize(#fff, 0.5);
+  }
+
+  .flower-languages table tr.highlight {
+    background-color: rgba(175, 175, 175, 0.5);
+  }
 
   /* the circle around the files */
   circle.node {
@@ -26,9 +40,5 @@
     fill: none;
     stroke: #9ecae1;
     stroke-width: 1.5px;
-  }
-
-  .flower-languages table tr.highlight {
-    background-color: rgba(175, 175, 175, 0.5);
   }
 }

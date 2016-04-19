@@ -20,9 +20,17 @@ select {
 }
 
 .app-container {
+  .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1; 
+  }
   .open-prefs {
     position: fixed;
-    left: 20px;
-    bottom: 20px;
+    left: 15px;
+    bottom: 15px;
   }
 }
