@@ -1,4 +1,6 @@
 
+@import "mixins";
+
 @import "base";
 @import "credentialsModal";
 @import "flowerControl";
@@ -11,7 +13,6 @@
 @import "userPrefs";
 @import "visualization";
 
-@import "colorMixins";
 @import "colorSchemes/rainbow";
 @import "colorSchemes/periwinkle";
 @import "colorSchemes/bumblebee";

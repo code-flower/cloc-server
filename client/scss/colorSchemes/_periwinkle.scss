@@ -2,7 +2,7 @@
   //@include backgroundColor(#fff);
   
   .background {
-    background-image: url(/images/graph.jpg);
+    @include graphBackground;
     opacity: 0.5;
   }
 

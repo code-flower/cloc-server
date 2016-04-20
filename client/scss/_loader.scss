@@ -14,8 +14,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url(/images/graph.jpg);
     opacity: 0.5;
+    @include graphBackground;
   }
   
   // https://codepen.io/halvves/pen/RaVxJR
