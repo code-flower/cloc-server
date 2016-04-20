@@ -10,6 +10,17 @@
       margin-left: 5px;
     }
   }
+  .contact-me {
+    textarea {
+      display: block;
+      width: calc(100% - 20px);
+      height: 250px;
+      resize: none;
+    }
+    .btn {
+      margin-right: 10px;
+    }
+  }
   .factory-reset {
     display: table;
     width: 100%;

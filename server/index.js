@@ -22,6 +22,9 @@ HTTP.createServer(function (request, response) {
     case appConfig.endpoints.samples:
       HTTP.serveSamples(response);
       break;
+    case appConfig.endpoints.email:
+      HTTP.sendEmail(response, urlInfo.query.message);
+      break;
     default:
       HTTP.serveStaticFile(response, urlInfo.pathname);
       break;

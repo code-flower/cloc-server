@@ -1,7 +1,6 @@
 <div class="user-prefs">
-  <div class="prefs">
-    Hmm...what prefs do you want?
-<!--     <div class="pref label-with-select">
+<!--   <div class="prefs">
+    <div class="pref label-with-select">
       <label>Color Scheme</label>
       <select 
         ng-model="selectedScheme" 
@@ -13,7 +12,14 @@
     <div class="buttons">
       <button class="btn btn-default" ng-click="closeModal()">Cancel</button>
       <button class="btn btn-primary" ng-click="savePrefs()">Apply</button>
-    </div> -->
+    </div>
+  </div> -->
+
+  <div class="contact-me">
+    <p>Comments, questions, bug reports, hiring? Contact me at <a href="mailto:jake.mensch@gmail.com">jake.mensch@gmail.com</a>, or just write something here.</p>
+    <textarea ng-model="emailText" resizeable="false"></textarea>
+    <button ng-disabled="emailDisabled" ng-click="sendEmail(emailText)" class="btn btn-primary">Submit</button>
+    <span "email-status">{{emailStatus}}</span>
   </div>
   
   <hr>

@@ -5,3 +5,4 @@ repos/
 sftp-config.json
 notes/
 cloc
+gmail-credentials.js

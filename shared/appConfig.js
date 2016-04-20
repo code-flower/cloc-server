@@ -24,7 +24,8 @@ module.exports = {
   //// HTTP ////
   endpoints: {
     harvest: '/harvest',
-    samples: '/samples'
+    samples: '/samples',
+    email:   '/email'
   },
 
   //// WS ////
