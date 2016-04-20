@@ -181,13 +181,17 @@ angular.module('CodeFlower')
     }
   });
 
+  $scope.$on('flowerLoaded', function() {
+    state.initialLoad = false;
+  });
+
   //// STATE INITIALIZATION ////
 
   dataService.init()
   .then(dataService.enumerate)
   .then(function(repoNames) {
     removeLoader();
-
+    
     state.repoNames = repoNames;
     if (repoNames[0])
       setRepo(repoNames[0]);

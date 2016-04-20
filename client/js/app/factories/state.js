@@ -32,7 +32,9 @@ angular.module('CodeFlower')
 
     terminalOpen: false,
 
-    colorScheme: Object.keys(appConfig.colorSchemes)[0]
+    colorScheme: Object.keys(appConfig.colorSchemes)[0],
+
+    initialLoad: true
   };
 
 });
