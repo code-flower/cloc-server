@@ -4,11 +4,11 @@
 module.exports = {
 
   hostName: process.env.NODE_ENV === 'production' ? 
-            'machinemensch.dynu.com' : 
+            'codeflower.la' : 
             'localhost',
 
   ports: {
-    HTTP: 8000,
+    HTTP: process.env.NODE_ENV === 'production' ? 80 : 8000,
     WS: 8001,
     browserSyncUI: 8090
   },

@@ -47,3 +47,12 @@ HOW TO INSTALL THE RIGHT VERSION OF CLOC
 
 5. cloc --version
   - this should show the version of the latest release
+
+
+RUNNING THE APP ON A SERVER
+1. install cloc globally (see above)
+2. clone the repo
+3. npm install
+4. gulp build --env=production
+5. npm start
+

@@ -29,7 +29,9 @@ const DIST = './client/dist';
 gulp.task('bundle', function() {
   return browserify('./client/js/require.js')
     .transform(babelify, { presets: ['es2015'] })
-    .transform(envify({ NODE_ENV: argv.env || 'development' }))
+    .transform(envify({ 
+      NODE_ENV: process.env.NODE_ENV || (argv.env || 'development')
+    }))
     .on('error', console.log)
     .bundle()
     .pipe(source('bundle.js'))
