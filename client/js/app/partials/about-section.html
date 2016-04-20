@@ -1,25 +1,24 @@
 <div class="about-content">
 
-  <p>The codeflower visualizes the structure of a code repository.</p>
+  <p>It's a git repository, represented as a <a href="https://github.com/mbostock/d3/wiki/Force-Layout" target="_blank">d3 force-directed graph</a>.</p>
 
-  <p>The inner nodes in the viz correspond to the directories in the repo, and the outer nodes correspond to the files. The radius of the outer nodes is proportional to the number of lines of code in the files, as determined by the <a href="https://github.com/AlDanial/cloc" target="_blank">cloc</a> program, and their color is determined by the language in the files.</p> 
+  <p>The inner nodes correspond to the folders in the repo, and you should find the root of the repo somewhere near the center of the graph.  The outer nodes correspond to the files in the repo. The radius of the outer nodes is proportional to the number of lines of code in the files, as determined by the <a href="https://github.com/AlDanial/cloc" target="_blank">cloc</a> program, and their color is determined by the language in the files.</p> 
 
-  <p>Hovering on the vizualization allows you to see the directory and file names, as well as the number of lines of code in each file or directory. Hovering on the table will highlight the files in the selected language. And you can use the 'current folder' dropdown to focus on subfolders within the repo.</p>
+  <p>Hovering on the vizualization allows you to see the folder and file names, as well as the number of lines of code in each folder or file. Hovering on the table will highlight the files in the language you're hovering on. And you can use the "current folder" dropdown to focus on subfolders within the repo.</p>
 
   <h4>How the app works</h4>
 
-  <p>When you enter a git clone url, the repo is cloned on an <a href="https://aws.amazon.com/ec2/" target="_blank">EC2</a> instance running a <a href="https://nodejs.org/en/" target="_blank">Node</a> server. The repo is then analyzed using the <a href="https://github.com/AlDanial/cloc" target="_blank">cloc</a> program, the output of which is converted to JSON. Throughout this process the events on the server are broadcast to the client over <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API" target="_blank">Websockets</a>.
+  <p>When you enter a git clone url, the repo is cloned on an <a href="https://aws.amazon.com/ec2/" target="_blank">EC2</a> instance running a <a href="https://nodejs.org/en/" target="_blank">Node</a> server. The repo is then analyzed using the <a href="https://github.com/AlDanial/cloc" target="_blank">cloc program</a>, the output of which is converted to a JSON object that determines the structure of the vizualization. Throughout this process the events on the server are broadcast to the client over a <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API" target="_blank">Websockets</a> connection and displayed in the faux terminal.</p>
 
-  <p>Once the JSON is ready, the client requests it over HTTP, and the JSON is stored in client-side document store called <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API" target="_blank">IndexedDB</a> (which you can see in the Resources tab of your devtools). This enables the app to persist significant amounts of personalized data without the need for user accounts, or any server-side or cloud-based storage.
+  <p>Once the JSON is ready, the client requests it over HTTP, and the data is stored in client-side document store called <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API" target="_blank">IndexedDB</a> (which you can see in the Resources tab of Chrome's devtools). This method enables the app to persist significant amounts of personalized data without the need for user accounts, or any server-side or cloud-based storage.</p>
 
-  <p>The frontend is written in <a href="https://angularjs.org/" target="_blank">Angular</a>, but with a <a href="http://redux.js.org/" target="_blank">Redux</a>-inspired architecture that emphasizes unidirectional data flow and careful control over application state.
+  <p>The front end is written in <a href="https://angularjs.org/" target="_blank">Angular</a>, but with a <a href="http://redux.js.org/" target="_blank">Redux</a>-inspired architecture that emphasizes unidirectional data flow and careful control over application state.</p>
 
-  <p>The code is <a href="https://github.com/jmensch1/git-viz">here.</a>  And a rough sketch of the architecture is <a href="/images/architecture.jpg" target="_blank">here</a>. 
+  <p>The code is <a href="https://github.com/jmensch1/CodeFlower" target="_blank">here</a>. And a rough sketch of the architecture is <a href="/images/architecture.jpg" target="_blank">here</a>.</p> 
 
   <h4>Credits</h4>
 
-  <p>This entire app was inspired by the work of Francois Zaninotto, who figured out that the output of the cloc program could be used to visualize a repository, and wrote the original <a href="https://github.com/fzaninotto/CodeFlower" target="_blank">CodeFlower</a> vizualization in d3.
+  <p>Tons of credit to Francois Zaninotto, who figured out that the output of the cloc program could be used to generate a force-directed graph, and wrote the original <a href="https://github.com/fzaninotto/CodeFlower" target="_blank">CodeFlower</a> vizualization in d3.</p>
 
-  <p>The loading indicator is from <a href="https://codepen.io/halvves/pen/RaVxJR" target="_blank">a pen by halvves</a>.
-
+  <p>The loading indicator is from <a href="https://codepen.io/halvves/pen/RaVxJR" target="_blank">a pen by halvves</a>.</p>
 </div>
