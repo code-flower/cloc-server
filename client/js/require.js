@@ -7,23 +7,24 @@ require('./app/app');
 
 // directives
 require('./app/directives/appContainer');
+require('./app/directives/contactMe');
 require('./app/directives/flowerControl');
 require('./app/directives/flowerLanguages');
 require('./app/directives/flowerTerminal');
 require('./app/directives/flowerViz');
 require('./app/directives/ignoredFiles');
-require('./app/directives/userPrefs');
+// require('./app/directives/userPrefs');
 
 // factories
+require('./app/factories/createCSSSelector');
 require('./app/factories/CodeFlower');
 require('./app/factories/dataService');
 require('./app/factories/dbAccess');
 require('./app/factories/flowerUtils');
 require('./app/factories/HTTP');
 require('./app/factories/state');
-require('./app/factories/userPrefsService');
+// require('./app/factories/userPrefsService');
 require('./app/factories/WS');
-require('./app/factories/createCSSSelector');
 
 // controllers
 require('./app/controllers/credentialsModal');

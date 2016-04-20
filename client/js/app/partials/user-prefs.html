@@ -1,31 +1,17 @@
 <div class="user-prefs">
-<!--   <div class="prefs">
-    <div class="pref label-with-select">
+  <div class="prefs">
+<!--     <div class="pref label-with-select">
       <label>Color Scheme</label>
       <select 
         ng-model="selectedScheme" 
         ng-options="scheme for scheme in colorSchemes" 
         class="form-control">
       </select>
-    </div>
+    </div> -->
 
     <div class="buttons">
       <button class="btn btn-default" ng-click="closeModal()">Cancel</button>
       <button class="btn btn-primary" ng-click="savePrefs()">Apply</button>
     </div>
-  </div> -->
-
-  <div class="contact-me">
-    <p>Comments, questions, bug reports, hiring? Contact me at <a href="mailto:jake.mensch@gmail.com">jake.mensch@gmail.com</a>, or just write something here.</p>
-    <textarea ng-model="emailText" resizeable="false"></textarea>
-    <button ng-disabled="emailDisabled" ng-click="sendEmail(emailText)" class="btn btn-primary">Submit</button>
-    <span "email-status">{{emailStatus}}</span>
-  </div>
-  
-  <hr>
-
-  <div class="factory-reset">
-    <button class="btn btn-danger" ng-click="deleteDB()">Factory Reset</button><br>
-    <span class="warning">This will delete all your data and restore the app to its original state.</span>
   </div>
 </div>

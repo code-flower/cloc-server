@@ -6,6 +6,12 @@
       ng-class="{active: activeTab === 'about'}">
       About
     </div>
+<!--     <div 
+      class="modal-tab" 
+      ng-click="setTab('prefs')"
+      ng-class="{active: activeTab === 'prefs'}">
+      Prefs
+    </div> -->
     <div 
       class="modal-tab" 
       ng-click="setTab('ignored')"
@@ -14,8 +20,8 @@
     </div>
     <div 
       class="modal-tab" 
-      ng-click="setTab('prefs')"
-      ng-class="{active: activeTab === 'prefs'}">
+      ng-click="setTab('contact')"
+      ng-class="{active: activeTab === 'contact'}">
       Other
     </div>
   </div>
@@ -23,6 +29,7 @@
   <div class="close-button" ng-click="closeModal()">X</div>
 
   <div class="about-tab" ng-show="activeTab === 'about'" ng-include="aboutTabPartial"></div>
-  <user-prefs ng-show="activeTab === 'prefs'" close-modal="closeModal"></user-prefs>
+<!--   <user-prefs ng-show="activeTab === 'prefs'" close-modal="closeModal"></user-prefs> -->
   <ignored-files ng-show="activeTab === 'ignored'"></ignored-files>
+  <contact-me ng-show="activeTab === 'contact'"></contact-me>
 </div>
