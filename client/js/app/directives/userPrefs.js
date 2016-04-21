@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('userPrefs', function($http, appConfig, state, userPrefsService) {
+.directive('userPrefs', function($http, appConfig, state, colorSchemes, userPrefsService) {
 
   return {
     restrict: 'E',
@@ -18,7 +18,7 @@ angular.module('CodeFlower')
 
     //// SCOPE VARS ////
 
-    scope.colorSchemes = Object.keys(appConfig.colorSchemes);
+    scope.colorSchemes = Object.keys(colorSchemes);
     scope.selectedScheme = state.colorScheme;
 
     //// SCOPE FUNCTIONS ////

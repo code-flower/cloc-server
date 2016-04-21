@@ -2,12 +2,12 @@
 'use strict';
 
 angular.module('CodeFlower')
-.factory('flowerUtils', function(appConfig) {
+.factory('flowerUtils', function(colorSchemes) {
 
   //// PRIVATE ////
 
   function getLanguageColor(languages, index, colorScheme) {
-    return appConfig.colorSchemes[colorScheme].nodeColor(languages, index);
+    return colorSchemes[colorScheme].nodeColor(languages, index);
   }
 
   //// THE SERVICE ////

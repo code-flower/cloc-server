@@ -1,5 +1,5 @@
 // this object is available both on the server (by requiring this file)
-// and in the client (by being injected into the angular app in app.js)
+// and on the client (by being injected into the angular app in app.js)
 
 module.exports = {
 
@@ -54,8 +54,6 @@ module.exports = {
   folderToRepo: function(folderName) {
     return folderName.replace('#', '/');
   },
-
-  colorSchemes: require('./colorSchemes'),
 
   deleteAfterClone: true
 

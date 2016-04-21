@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerControl', function(appConfig, state) {
+.directive('flowerControl', function(appConfig, state, colorSchemes) {
 
   return {
     restrict: 'E',
@@ -21,7 +21,7 @@ angular.module('CodeFlower')
     scope.selectedRepo = '';
     scope.selectedFolder = '';
     scope.selectedColorScheme = '';
-    scope.colorSchemes = Object.keys(appConfig.colorSchemes);
+    scope.colorSchemes = Object.keys(colorSchemes);
 
     //// EVENT EMITTERS ////
 

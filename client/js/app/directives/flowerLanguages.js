@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.directive('flowerLanguages', function(appConfig, state, createCSSSelector) {
+.directive('flowerLanguages', function(appConfig, state, colorSchemes, createCSSSelector) {
 
   return {
     restrict: 'E',
@@ -44,7 +44,7 @@ angular.module('CodeFlower')
     };
 
     scope.mouseEnter = function(e, lang) {
-      var colorConfig = appConfig.colorSchemes[state.colorScheme];
+      var colorConfig = colorSchemes[state.colorScheme];
       lang.highlighted = true;
 
       createCSSSelector('.' + lang.class, colorConfig.highlightNode(lang));
@@ -55,7 +55,7 @@ angular.module('CodeFlower')
     };
 
     scope.mouseLeave = function(e, lang) {
-      var colorConfig = appConfig.colorSchemes[state.colorScheme];
+      var colorConfig = colorSchemes[state.colorScheme];
       lang.highlighted = false;
 
       createCSSSelector('.' + lang.class, colorConfig.unhighlightNode(lang));

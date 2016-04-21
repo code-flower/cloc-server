@@ -18,6 +18,7 @@ require('./app/directives/ignoredFiles');
 // factories
 require('./app/factories/createCSSSelector');
 require('./app/factories/CodeFlower');
+require('./app/factories/colorSchemes');
 require('./app/factories/dataService');
 require('./app/factories/dbAccess');
 require('./app/factories/flowerUtils');
