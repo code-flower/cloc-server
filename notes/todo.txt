@@ -11,21 +11,14 @@ CLIENT
   - add number of files to the list of folder paths in parens
     - for large repos, choose the first folderpath with less files than a threshold, notify user that you're doing so
   - maybe add a max-height to the languages table and have it scroll
-  - move colorSchemes.js into the client folder, out of appConfig?
-  - separate modal files from other files in scss, js/partials, js/directives?
 
 SERVER
   - try to break the server with weird urls and such
   - aborting should kill the process immediately rather than waiting until the end and then deleting
 
 BUILD/DEPLOY
-  - use node server forever?
   - deploy to aws w/codedeploy, S3, Jenkins, Elastic Beanstalk
   - minify javascript and css
-
-  - take public notes and diagram out of gitignore
-    - make a private-notes folder for dns stuff
-  - add an open source license
 
 CHROME EXTENSION
   - pros

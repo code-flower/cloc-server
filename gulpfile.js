@@ -140,7 +140,7 @@ gulp.task('watch:sass', function() {
 });
 
 gulp.task('watch:partials', function() {
-  gulp.watch(['./client/js/app/partials/*.html'], ['templates']);
+  gulp.watch(['./client/js/app/partials/**/*.html'], ['templates']);
 });
 
 gulp.task('watch:index', function() {
