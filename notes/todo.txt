@@ -1,0 +1,72 @@
+
+CLIENT
+  - what to do about prefs section?
+    - maybe add some sliders and such to tweak the gravity, springiness of the viz?
+  - make a better architectural diagram
+  - improve readme
+  - it may not be necessary any more to add the color to the node elements, just use the classes
+    - that way it wouldn't even to redraw when you switch colorSchemes
+  - changing the color scheme should not automatically change the current folder to root
+  - at the top of flower-languages, add name of repo as a link to the repo
+  - add number of files to the list of folder paths in parens
+    - for large repos, choose the first folderpath with less files than a threshold, notify user that you're doing so
+  - maybe add a max-height to the languages table and have it scroll
+  - move colorSchemes.js into the client folder, out of appConfig?
+  - separate modal files from other files in scss, js/partials, js/directives?
+
+SERVER
+  - try to break the server with weird urls and such
+  - aborting should kill the process immediately rather than waiting until the end and then deleting
+
+BUILD/DEPLOY
+  - use node server forever?
+  - deploy to aws w/codedeploy, S3, Jenkins, Elastic Beanstalk
+  - minify javascript and css
+
+  - take public notes and diagram out of gitignore
+    - make a private-notes folder for dns stuff
+  - add an open source license
+
+CHROME EXTENSION
+  - pros
+    - button in browser makes access easy
+    - the static files are saved in the user's harddrive
+      - so no strain on the server from serving those files
+      - and the app will work offline
+    - don't have to worry about cross-browser issues
+    - no real need to minify stuff for performance reasons
+  - cons
+    - harder to automate the deployment of new versions
+      - but check out https://developer.chrome.com/webstore/using_webstore_api
+    - user has to install the app on the chrome store
+
+VISUALIZATION
+  - change 'root' to '/'
+  - check out http://graus.nu/d3/ for zoom function
+
+GIT FUNCTIONALITY
+  - look at visualizing git history
+  - encryption of credentials?
+
+DEPLOYMENT
+  - need an install script that:
+    - installs git, cloc and forever on a linux-like server
+      - npm install -g cloc works
+    - clones the repo
+    - runs node forever
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

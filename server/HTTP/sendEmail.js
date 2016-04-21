@@ -1,6 +1,6 @@
 //////////// IMPORTS ////////////
 
-var user = require('../../gmail-credentials');
+var user = require('../../private/gmail-credentials');
 var send = require('gmail-send');
 
 //////////// EXPORTS ////////////

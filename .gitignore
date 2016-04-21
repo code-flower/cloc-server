@@ -1,8 +1,7 @@
 node_modules/
-client/dist/
-chrome-dist.zip
+dist/
 repos/
+private/
+
 sftp-config.json
-notes/
-cloc
-gmail-credentials.js
+chrome-dist.zip
