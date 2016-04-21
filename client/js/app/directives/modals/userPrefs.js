@@ -7,7 +7,7 @@ angular.module('CodeFlower')
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: appConfig.paths.partials + 'user-prefs.html',
+    templateUrl: appConfig.paths.partials + 'modals/user-prefs.html',
     scope: {
       closeModal: '='
     },

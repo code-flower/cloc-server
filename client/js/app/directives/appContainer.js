@@ -15,10 +15,10 @@ angular.module('CodeFlower')
   function link (scope, el, attrs) {
     scope.state = state;
 
-    scope.openPrefs = function() {
+    scope.openModal = function() {
       $uibModal.open({
         controller: 'mainModal',
-        templateUrl: appConfig.paths.partials + 'main-modal.html',
+        templateUrl: appConfig.paths.partials + 'modals/main-modal.html',
         animation: false
       });
     };

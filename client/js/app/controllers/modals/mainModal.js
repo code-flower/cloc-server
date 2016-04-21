@@ -7,7 +7,7 @@ angular.module('CodeFlower')
   //// SCOPE VARS ////
 
   $scope.activeTab = 'about';
-  $scope.aboutTabPartial = appConfig.paths.partials + 'about-section.html';
+  $scope.aboutTabPartial = appConfig.paths.partials + 'modals/about-section.html';
 
   //// SCOPE FUNCTIONS ////
 

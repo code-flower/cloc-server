@@ -7,7 +7,7 @@ angular.module('CodeFlower')
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: appConfig.paths.partials + 'ignored-files.html',
+    templateUrl: appConfig.paths.partials + 'modals/ignored-files.html',
     scope: {},
     link: link
   };

@@ -1,18 +1,20 @@
 
 @import "mixins";
-
 @import "base";
-@import "contactMe";
-@import "credentialsModal";
+
+@import "appContainer";
 @import "flowerControl";
 @import "flowerLanguages";
 @import "flowerTerminal";
-@import "ignoredFiles";
 @import "loader";
-@import "mainModal";
-@import "modals";
-@import "userPrefs";
 @import "visualization";
+
+@import "modals/modals";
+@import "modals/credentialsModal";
+@import "modals/mainModal";
+@import "modals/contactMe";
+@import "modals/ignoredFiles";
+@import "modals/userPrefs";
 
 @import "colorSchemes/rainbow";
 @import "colorSchemes/periwinkle";

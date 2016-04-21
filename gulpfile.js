@@ -54,7 +54,7 @@ gulp.task('sass', function() {
 //////////////// TEMPLATES /////////////////
  
 gulp.task('templates', function() {
-  return gulp.src('./client/js/app/partials/*.html')
+  return gulp.src('./client/js/app/partials/**/*.html')
     .pipe(ngTemplates({
       filename: 'templates.js',
       module: 'CodeFlower',

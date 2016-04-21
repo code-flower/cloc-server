@@ -89,7 +89,7 @@ angular.module('CodeFlower')
     $uibModal.open({
 
       controller: 'credentialsModal',
-      templateUrl: appConfig.paths.partials + 'credentials-modal.html',
+      templateUrl: appConfig.paths.partials + 'modals/credentials-modal.html',
       animation: false,
       resolve: {
         params: params

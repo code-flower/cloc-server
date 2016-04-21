@@ -7,7 +7,7 @@ angular.module('CodeFlower')
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: appConfig.paths.partials + 'contact-me.html',
+    templateUrl: appConfig.paths.partials + 'modals/contact-me.html',
     scope: {
       closeModal: '='
     },
