@@ -8,6 +8,7 @@ const nodemon = require('gulp-nodemon');
 const browserSync = require('browser-sync').create();
 const open = require('gulp-open');
 const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
 const argv = require('yargs').argv;
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
@@ -17,6 +18,9 @@ const removeCode = require('gulp-remove-code');
 const clean = require('gulp-clean');
 const runSequence = require('run-sequence');
 const zip = require('gulp-zip');
+const uglify = require('gulp-uglify');
+const gutil = require('gulp-util');
+const ngAnnotate = require('gulp-ng-annotate');
 
 const appConfig = require('./shared/appConfig');
 
@@ -34,6 +38,9 @@ gulp.task('bundle', function() {
     .on('error', console.log)
     .bundle()
     .pipe(source('bundle.js'))
+    .pipe(buffer())
+    .pipe(ngAnnotate())
+    .pipe(ENV === 'production' ? uglify() : gutil.noop())
     .pipe(gulp.dest(`${DIST}/js/`))
     .pipe(browserSync.stream());
 });
@@ -92,6 +99,7 @@ gulp.task('copy:d3', function() {
     './client/js/vendor/d3.layout.js'
   ])
     .pipe(concat('d3.bundle.js'))
+    .pipe(ENV === 'production' ? uglify() : gutil.noop())
     .pipe(gulp.dest(`${DIST}/js/`));
 });
 

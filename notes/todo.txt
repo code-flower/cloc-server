@@ -18,7 +18,6 @@ SERVER
 
 BUILD/DEPLOY
   - deploy to aws w/codedeploy, S3, Jenkins, Elastic Beanstalk
-  - minify javascript and css
 
 CHROME EXTENSION
   - pros
