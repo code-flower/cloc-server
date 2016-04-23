@@ -23,15 +23,14 @@ const appConfig = require('./shared/appConfig');
 ////////////// CONSTANTS //////////////////
 
 const DIST = './client/dist';
+const ENV = process.env.NODE_ENV || argv.env || 'development';
 
 /////////////// BUNDLER ///////////////////
 
 gulp.task('bundle', function() {
   return browserify('./client/js/require.js')
     .transform(babelify, { presets: ['es2015'] })
-    .transform(envify({ 
-      NODE_ENV: process.env.NODE_ENV || (argv.env || 'development')
-    }))
+    .transform(envify({ NODE_ENV: ENV }))
     .on('error', console.log)
     .bundle()
     .pipe(source('bundle.js'))
@@ -43,7 +42,10 @@ gulp.task('bundle', function() {
 
 gulp.task('sass', function() {
   return gulp.src('./client/scss/index.scss')
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass({
+      outputStyle: ENV === 'production' ? 'compressed' : 'nested'
+    })
+    .on('error', sass.logError))
     .pipe(autoprefixer({
       browsers: ['last 2 versions']
     }))
@@ -72,7 +74,7 @@ gulp.task('templates', function() {
 gulp.task('copy:index', function() {
   return gulp.src('./client/index.html')
     .pipe(removeCode({ 
-      removeScript: argv.env === 'production' || argv.chrome 
+      removeScript: ENV === 'production' || argv.chrome 
     }))
     .pipe(gulp.dest(DIST))
     .pipe(browserSync.stream());
