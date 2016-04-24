@@ -1,10 +1,10 @@
 <div class="app-container {{state.colorScheme}}">
   <div class="background"></div>
 
-  <flower-viz ng-show="state.repoNames.length" />
-  <flower-languages ng-show="state.repoNames.length" />
-  <flower-control />
-  <flower-terminal />
+  <flower-viz ng-show="state.repoNames.length"></flower-viz>
+  <flower-languages ng-show="state.repoNames.length"></flower-languages>
+  <flower-control></flower-control>
+  <flower-terminal></flower-terminal>
 
   <button 
     class="open-modal btn btn-primary" 

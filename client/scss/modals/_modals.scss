@@ -18,6 +18,10 @@
     .modal-dialog {
       margin: 0 auto;
 
+      &.modal-sm {
+        max-width: 500px;
+      }
+
       .modal-content {
         padding: 15px;
         position: relative;
@@ -56,9 +60,13 @@
           }
         }
 
+        p {
+          text-align: left;
+        }
+
         .modal-buttons {
           text-align: center;
-          margin-top: 20px;
+          margin-top: 15px;
           .btn {
             margin: 0 5px;
           }

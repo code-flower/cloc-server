@@ -2,9 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.controller('maxNodesModal', function($scope, appConfig, params) {
-
-  console.log("inside maxNodes Modal:", $scope, params);
+.controller('maxNodesModal', function($scope, params) {
 
   //// SCOPE VARIABLES ////
 
