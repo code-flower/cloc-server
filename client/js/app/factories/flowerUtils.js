@@ -19,18 +19,31 @@ angular.module('CodeFlower')
     getFolderPaths: function(repo) {
       var folderPaths = [];
 
-      // generate path strings
+      // generate path strings and totalNode counts
       (function recurse(folder, folderPath) {
         if (folder.children) {
           folderPath += folder.name + '/';
-          folderPaths.push(folderPath);
-          for (var i = 0; i < folder.children.length; i++)
-            recurse(folder.children[i], folderPath);
+
+          var total = folder.children.reduce(function(prev, cur) {
+            return prev + recurse(cur, folderPath);
+          }, 1);
+
+          folderPaths.unshift({
+            pathName: folderPath,
+            totalNodes: total
+          });
+
+          return total;
+        } else {
+          return 1;
         }
+        
       })(repo, '');
 
-      // remove the trailing slashes
-      folderPaths = folderPaths.map(function(str) { return str.slice(0, -1); });
+      // take off trailing slashes
+      folderPaths.forEach(function(path) {
+        path.pathName = path.pathName.slice(0, -1);
+      });
 
       return folderPaths;
     },

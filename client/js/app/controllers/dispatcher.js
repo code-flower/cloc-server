@@ -13,7 +13,8 @@ angular.module('CodeFlower')
   }
 
   function setFolder(folderPath) {
-    var folder = flowerUtils.getFolder(state.currentRepo.data, folderPath);
+    console.log("setting folder:", folderPath);
+    var folder = flowerUtils.getFolder(state.currentRepo.data, folderPath.pathName);
     state.currentFolder = {
       path: folderPath,
       data: folder
@@ -32,7 +33,18 @@ angular.module('CodeFlower')
       data: repoData
     };
     state.folderPaths = flowerUtils.getFolderPaths(repoData);
-    setFolder(state.folderPaths[0]);
+
+    // CHECK HERE WHETHER TO USE THE FIRST ONE OR NOT
+    var curPath = 0;
+    while (curPath < state.folderPaths.length && state.folderPaths[curPath].totalNodes > 500)
+      curPath++;
+
+    if (curPath !== 0) {
+      console.log("opening modal");
+      setFolder(state.folderPaths[curPath]);
+    } else {
+      setFolder(state.folderPaths[curPath]);
+    }
   }
 
   function setRepo(repoName) {
