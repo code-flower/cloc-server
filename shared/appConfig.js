@@ -55,6 +55,8 @@ module.exports = {
     return folderName.replace('#', '/');
   },
 
-  deleteAfterClone: true
+  deleteAfterClone: true,
+
+  maxNodes: 500
 
 };

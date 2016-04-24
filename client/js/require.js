@@ -9,6 +9,7 @@ require('./app/app');
 require('./app/controllers/dispatcher');
 require('./app/controllers/modals/credentialsModal');
 require('./app/controllers/modals/mainModal');
+require('./app/controllers/modals/maxNodesModal');
 
 // directives
 require('./app/directives/appContainer');

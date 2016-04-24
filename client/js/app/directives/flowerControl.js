@@ -22,8 +22,7 @@ angular.module('CodeFlower')
     scope.selectedFolder = {};
     scope.selectedColorScheme = '';
     scope.colorSchemes = Object.keys(colorSchemes);
-
-    scope.MAX_NODES = 500;  // max nodes allowed in viz before warning will be given
+    scope.maxNodes = appConfig.maxNodes;
 
     //// EVENT EMITTERS ////
 

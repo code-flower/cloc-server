@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('CodeFlower')
-.controller('dispatcher', function($scope, $timeout, $uibModal, 
+.controller('dispatcher', function($scope, $timeout, $uibModal, $q,
                                    appConfig, state, dataService, flowerUtils) {
 
   //// PRIVATE FUNCTIONS ////
@@ -13,7 +13,6 @@ angular.module('CodeFlower')
   }
 
   function setFolder(folderPath) {
-    console.log("setting folder:", folderPath);
     var folder = flowerUtils.getFolder(state.currentRepo.data, folderPath.pathName);
     state.currentFolder = {
       path: folderPath,
@@ -27,6 +26,41 @@ angular.module('CodeFlower')
     flowerUtils.setLanguageColors(state.languages, state.colorScheme);
   }
 
+  function getCurrentPathIndex() {
+    var deferred = $q.defer();
+
+    var numNodes = state.folderPaths[0].totalNodes;
+    if (numNodes > appConfig.maxNodes) {
+      $uibModal.open({
+        controller: 'maxNodesModal',
+        templateUrl: appConfig.paths.partials + 'modals/max-nodes-modal.html',
+        animation: false,
+        keyboard: false,
+        resolve: {
+          params: {
+            repoName: state.currentRepo.name,
+            numNodes: numNodes
+          }
+        }
+      }).result.then(function(data) {
+        var curPath = 0;
+        if (!data.renderAll) {
+          while (curPath < state.folderPaths.length && 
+                 state.folderPaths[curPath].totalNodes > appConfig.maxNodes)
+            curPath++;
+        }
+
+        $timeout(function() {
+          deferred.resolve(curPath)
+        }, 500);
+      });
+    } else {
+      deferred.resolve(0);
+    }
+
+    return deferred.promise;
+  }
+
   function buildUI(repoName, repoData) {
     state.currentRepo = {
       name: repoName,
@@ -34,17 +68,10 @@ angular.module('CodeFlower')
     };
     state.folderPaths = flowerUtils.getFolderPaths(repoData);
 
-    // CHECK HERE WHETHER TO USE THE FIRST ONE OR NOT
-    var curPath = 0;
-    while (curPath < state.folderPaths.length && state.folderPaths[curPath].totalNodes > 500)
-      curPath++;
-
-    if (curPath !== 0) {
-      console.log("opening modal");
-      setFolder(state.folderPaths[curPath]);
-    } else {
-      setFolder(state.folderPaths[curPath]);
-    }
+    getCurrentPathIndex()
+    .then(function(curPathIdx) {
+      setFolder(state.folderPaths[curPathIdx]);
+    });
   }
 
   function setRepo(repoName) {

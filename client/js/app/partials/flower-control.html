@@ -56,7 +56,7 @@
           <option 
             ng-repeat="path in state.folderPaths" 
             value="{{path.pathName}}">
-            {{path.pathName}} {{path.totalNodes > MAX_NODES ? '(' + path.totalNodes + ' nodes)' : ''}}
+            {{path.pathName}} {{path.totalNodes > maxNodes ? '(' + path.totalNodes + ' nodes)' : ''}}
           </option>
         </select>
       </td>

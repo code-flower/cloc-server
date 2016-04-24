@@ -1,0 +1,7 @@
+<div class="max-nodes-modal">
+  <p style="text-align: left;"><b>{{repoName}}</b> contains a total of {{numNodes}} folders and files. Rendering the entire repo could crash your browser. What would you like to do?
+  <div class="modal-buttons">
+    <button class="btn btn-danger" ng-click="closeModal(true)">Go for it!</button>
+    <button class="btn btn-primary" ng-click="closeModal(false)">Render a subfolder</button>
+  </div>
+</div>
