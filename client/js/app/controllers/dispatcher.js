@@ -2,10 +2,90 @@
 'use strict';
 
 angular.module('CodeFlower')
-.controller('dispatcher', function($scope, $timeout, $uibModal, 
+.controller('dispatcher', function($scope, $timeout, $uibModal, $q,
                                    appConfig, state, dataService, flowerUtils) {
 
-  //// PRIVATE FUNCTIONS ////
+  //// MODAL FUNCTIONS ////
+
+  // see if the first path has more than the appConfig.maxNodes.
+  // If so, prompt user to continue or render a subfolder.
+  // Return the index of the folder in state.folderPaths that
+  // should be rendered.
+  function getCurrentPathIndex() {
+    var deferred = $q.defer();
+
+    var numNodes = state.folderPaths[0].totalNodes;
+    if (numNodes > appConfig.maxNodes) {
+      $uibModal.open({
+        controller: 'maxNodesModal',
+        templateUrl: appConfig.paths.partials + 'modals/max-nodes-modal.html',
+        animation: false,
+        keyboard: false,
+        size: 'sm',
+        resolve: {
+          params: {
+            repoName: state.currentRepo.name,
+            numNodes: numNodes
+          }
+        }
+      }).result.then(function(data) {
+        var curPathIdx = 0;
+
+        // if we're rendering a subfolder, find the one
+        // with the greatest number of nodes that's less
+        // than or equal to appConfig.maxNodes
+        if (!data.renderAll) {
+          var curMaxNodes = -1, nodes;
+          for (var i = 1; i < state.folderPaths.length; i++) {
+            nodes = state.folderPaths[i].totalNodes;
+            if (nodes <= appConfig.maxNodes && nodes > curMaxNodes) {
+              curMaxNodes = nodes;
+              curPathIdx = i;
+            }
+          }
+        }
+
+        $timeout(function() {
+          deferred.resolve(curPathIdx)
+        }, 500);
+      });
+    } else {
+      deferred.resolve(0);
+    }
+
+    return deferred.promise;
+  }
+
+  function getCredentials(params) {
+    $uibModal.open({
+
+      controller: 'credentialsModal',
+      templateUrl: appConfig.paths.partials + 'modals/credentials-modal.html',
+      animation: false,
+      size: 'sm',
+      resolve: {
+        params: params
+      }
+
+    }).result.then(function(data) {
+
+      dataService.clone({
+        url: data.url || state.gitUrl,
+        private: true,
+        username: data.username,
+        password: data.password
+      });
+
+    }).catch(function(reason) {
+
+      state.gitUrl = '';
+      state.cloning = false;
+      state.terminalOpen = false;
+
+    });
+  }
+
+  //// OTHER PRIVATE FUNCTIONS ////
 
   function setSort(sortParams) {
     state.sortParams = sortParams;
@@ -13,7 +93,7 @@ angular.module('CodeFlower')
   }
 
   function setFolder(folderPath) {
-    var folder = flowerUtils.getFolder(state.currentRepo.data, folderPath);
+    var folder = flowerUtils.getFolder(state.currentRepo.data, folderPath.pathName);
     state.currentFolder = {
       path: folderPath,
       data: folder
@@ -32,7 +112,11 @@ angular.module('CodeFlower')
       data: repoData
     };
     state.folderPaths = flowerUtils.getFolderPaths(repoData);
-    setFolder(state.folderPaths[0]);
+
+    getCurrentPathIndex()
+    .then(function(curPathIdx) {
+      setFolder(state.folderPaths[curPathIdx]);
+    });
   }
 
   function setRepo(repoName) {
@@ -82,34 +166,6 @@ angular.module('CodeFlower')
     .then(function() {
       if (state.repoNames.length)
         setRepo(state.repoNames[index] || state.repoNames[0]);
-    });
-  }
-
-  function getCredentials(params) {
-    $uibModal.open({
-
-      controller: 'credentialsModal',
-      templateUrl: appConfig.paths.partials + 'modals/credentials-modal.html',
-      animation: false,
-      resolve: {
-        params: params
-      }
-
-    }).result.then(function(data) {
-
-      dataService.clone({
-        url: data.url || state.gitUrl,
-        private: true,
-        username: data.username,
-        password: data.password
-      });
-
-    }).catch(function(reason) {
-
-      state.gitUrl = '';
-      state.cloning = false;
-      state.terminalOpen = false;
-
     });
   }
 

@@ -55,8 +55,9 @@
           class="dropdown two-col">
           <option 
             ng-repeat="path in state.folderPaths" 
-            value="{{path}}" 
-            ng-bind="path" />
+            value="{{path.pathName}}">
+            {{path.pathName}} {{path.totalNodes > maxNodes ? '(' + path.totalNodes + ' nodes)' : ''}}
+          </option>
         </select>
       </td>
     </tr>

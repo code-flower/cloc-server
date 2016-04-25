@@ -19,9 +19,10 @@ angular.module('CodeFlower')
     scope.state = state;
     scope.gitUrl = '';
     scope.selectedRepo = '';
-    scope.selectedFolder = '';
+    scope.selectedFolder = {};
     scope.selectedColorScheme = '';
     scope.colorSchemes = Object.keys(colorSchemes);
+    scope.maxNodes = appConfig.maxNodes;
 
     //// EVENT EMITTERS ////
 
@@ -42,7 +43,12 @@ angular.module('CodeFlower')
     };
 
     scope.switchFolder = function(folderPath) {
-      scope.$emit('switchFolder', folderPath);
+      for (var i = 0; i < state.folderPaths.length; i++) {
+        if (state.folderPaths[i].pathName === folderPath) {
+          scope.$emit('switchFolder', state.folderPaths[i]);
+          break;
+        }
+      }
     };
 
     scope.switchColorScheme = function(colorScheme) {
@@ -60,12 +66,12 @@ angular.module('CodeFlower')
     });
 
     scope.$watch('state.currentFolder.path', function(newVal, oldVal) {
-      scope.selectedFolder = newVal;
+      scope.selectedFolder = newVal.pathName;
     });
 
     scope.$watch('state.colorScheme', function(newVal, oldVal) {
       scope.selectedColorScheme = newVal;
-    })
+    });
   }
 
 });
