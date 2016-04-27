@@ -57,6 +57,6 @@ module.exports = {
 
   deleteAfterClone: true,
 
-  maxNodes: 500
+  maxNodes: 1000
 
 };
