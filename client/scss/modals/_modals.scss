@@ -60,7 +60,7 @@
           }
         }
 
-        p {
+        p:not(.center) {
           text-align: left;
         }
 

@@ -13,7 +13,8 @@
         <button 
           ng-show="!state.cloning"
           class="btn btn-primary clone-button" 
-          ng-click="doClone(gitUrl)">
+          ng-click="doClone(gitUrl)"
+          ng-disabled="!gitUrl">
           git clone
         </button>
         <button 
