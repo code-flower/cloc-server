@@ -2,15 +2,15 @@
 CLIENT
   - what to do about prefs section?
     - maybe add some sliders and such to tweak the gravity, springiness of the viz?
+    - add pref for the threshold at which a max-nodes warning should be displayed (if at all)
   - make a better architectural diagram
   - improve readme
   - it may not be necessary any more to add the color to the node elements, just use the classes
-    - that way it wouldn't even to redraw when you switch colorSchemes
+    - that way it wouldn't even have to redraw when you switch colorSchemes
   - changing the color scheme should not automatically change the current folder to root
   - at the top of flower-languages, add name of repo as a link to the repo
-  - add number of files to the list of folder paths in parens
-    - for large repos, choose the first folderpath with less files than a threshold, notify user that you're doing so
   - maybe add a max-height to the languages table and have it scroll
+  - need loading indicator for cleaning up large repos
 
 SERVER
   - try to break the server with weird urls and such

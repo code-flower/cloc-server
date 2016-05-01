@@ -4,6 +4,8 @@
   left: 15px;
   z-index: 1;
   border-radius: 6px;
+  max-height: calc(100% - 80px);
+  overflow: auto;
 
   table {
     margin-bottom: 0;
