@@ -27,7 +27,7 @@ const appConfig = require('./shared/appConfig');
 ////////////// CONSTANTS //////////////////
 
 const DIST = './client/dist';
-const ENV = process.env.NODE_ENV || argv.env || 'development';
+const ENV = argv.env || process.env.NODE_ENV || 'development';
 
 /////////////// BUNDLER ///////////////////
 
@@ -135,9 +135,7 @@ gulp.task('watch:server', function() {
       'gulpfile.js'
     ]
   }).on('start', function() {
-    setTimeout(function() {
-      gulp.src('').pipe(browserSync.stream());
-    }, 500);
+    setTimeout(browserSync.reload, 500);
   });
 });
 

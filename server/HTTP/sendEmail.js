@@ -9,9 +9,9 @@ module.exports = function sendEmail(response, message) {
   send({
 
     user:    user.email,
-    pass:    user.password, 
+    pass:    user.password,
     to:      user.email,
-    subject: 'message for codeflower.la',
+    subject: 'message from codeflower.la',
     text:    message
 
   })({}, function(err, res) {
@@ -24,7 +24,6 @@ module.exports = function sendEmail(response, message) {
       });
       response.end(JSON.stringify(err));
     } else {
-      console.log("SENT EMAIL:", message);
       response.writeHead(200, {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
