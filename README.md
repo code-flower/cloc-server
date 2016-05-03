@@ -1,4 +1,9 @@
 
+#### See the app
+
+[codeflower.la](http://codeflower.la)
+
+
 #### Running the Dev Environment
 
 `gulp`
@@ -8,16 +13,24 @@
 
 `gulp build [--env=production] [--chrome]`
 
+The production flag will cause assets to be minified. The chrome flag will add to the build the files necessary to run the app as a chrome extension.
 
-#### Running the App on a Server
 
-1. add a gmail-credentials.js file to the root
-2. install cloc globally (see below)
-3. install node forever globally
-4. clone the repo
+#### Deploying to production
+
+1. install the right version cloc globally (see below)
+2. install node forever globally
+3. clone the repo
+4. create a file at private/gmail-credentials.js that contains this:
+```
+module.exports = {
+  email:    '[gmail address]',
+  password: '[gmail password]'
+};
+```
 5. `npm install`
-6. `gulp build --env=production`
-7. `npm start` (or `npm forever` to run with node forever)
+6. `gulp run deploy`
+  - this will build a production version of the app and start node forever
 
 
 #### Installing the right version of cloc
@@ -27,7 +40,7 @@
   - this should show the version of the STABLE release
     - https://github.com/AlDanial/cloc/releases/tag/v1.66
 3. `which cloc`
-  - shows you the location of the program (/usr/local/bin/cloc)
+  - shows you the location of the program (probably /usr/local/bin/cloc)
 4. `subl [location of cloc]`
   - open cloc in the editor, then replace the code with the LATEST release
     - https://raw.githubusercontent.com/AlDanial/cloc/master/cloc
