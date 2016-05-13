@@ -1,28 +1,29 @@
 // this object is available both on the server (by requiring this file)
 // and on the client (by being injected into the angular app in app.js)
 
+var path = require('path');
+var PROD = process.env.NODE_ENV === 'production';
+
 module.exports = {
 
   protocol: {
-    HTTP: process.env.NODE_ENV === 'production' ? 'https' : 'http',
-    WS:   process.env.NODE_ENV === 'production' ? 'wss'   : 'ws'
+    HTTP: PROD ? 'https' : 'http',
+    WS:   PROD ? 'wss'   : 'ws'
   },
 
-  hostName: process.env.NODE_ENV === 'production' ? 
-            'codeflower.la' : 
-            'localhost',
+  hostName: PROD ? 'codeflower.la' : 'localhost',
 
   ports: {
-    HTTP: process.env.NODE_ENV === 'production' ? 443 : 8000,
-    WS:   process.env.NODE_ENV === 'production' ? 443 : 8000,
+    HTTP: PROD ? 443 : 8000,
+    WS:   PROD ? 443 : 8000,
     browserSyncUI: 8090
   },
 
   paths: {
-    client:   `${__dirname}/../client/`,
-    server:   `${__dirname}/../server/`,
-    repos:    `${__dirname}/../server/system/repos/`,
-    samples:  `${__dirname}/../server/system/samples/`,
+    client:   path.join(__dirname, '../client/'),
+    server:   path.join(__dirname, '../server/'),
+    repos:    path.join(__dirname, '../server/system/repos/'),
+    samples:  path.join(__dirname, '../server/system/samples/'),
     partials: 'app/partials/'
   },
 
