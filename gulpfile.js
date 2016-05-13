@@ -21,6 +21,7 @@ const zip = require('gulp-zip');
 const uglify = require('gulp-uglify');
 const gutil = require('gulp-util');
 const ngAnnotate = require('gulp-ng-annotate');
+const bulkify = require('bulkify');
 
 const appConfig = require('./shared/appConfig');
 
@@ -33,6 +34,7 @@ const ENV = argv.env || process.env.NODE_ENV || 'development';
 
 gulp.task('bundle', function() {
   return browserify('./client/js/require.js')
+    .transform(bulkify)
     .transform(babelify, { presets: ['es2015'] })
     .transform(envify({ NODE_ENV: ENV }))
     .on('error', console.log)

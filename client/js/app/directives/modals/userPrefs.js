@@ -1,38 +1,40 @@
-/* global angular */
-'use strict';
+// INACTIVE
 
-angular.module('CodeFlower')
-.directive('userPrefs', function($http, appConfig, state, colorSchemes, userPrefsService) {
+// /* global angular */
+// 'use strict';
 
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: appConfig.paths.partials + 'modals/user-prefs.html',
-    scope: {
-      closeModal: '='
-    },
-    link: link
-  };
+// angular.module('CodeFlower')
+// .directive('userPrefs', function($http, appConfig, state, colorSchemes, userPrefsService) {
 
-  function link(scope, el, attrs) {
+//   return {
+//     restrict: 'E',
+//     replace: true,
+//     templateUrl: appConfig.paths.partials + 'modals/user-prefs.html',
+//     scope: {
+//       closeModal: '='
+//     },
+//     link: link
+//   };
 
-    //// SCOPE VARS ////
+//   function link(scope, el, attrs) {
 
-    scope.colorSchemes = Object.keys(colorSchemes);
-    scope.selectedScheme = state.colorScheme;
+//     //// SCOPE VARS ////
 
-    //// SCOPE FUNCTIONS ////
+//     scope.colorSchemes = Object.keys(colorSchemes);
+//     scope.selectedScheme = state.colorScheme;
 
-    // currently unused since colorScheme is now in the flowerControl
-    scope.savePrefs = function() {
-      userPrefsService.set('colorScheme', scope.selectedScheme);
-      scope.closeModal();
-      scope.$emit('prefsChanged', {
-        prefs: {
-          colorScheme: scope.selectedScheme
-        }
-      });
-    };
-  }
+//     //// SCOPE FUNCTIONS ////
 
-});
+//     // currently unused since colorScheme is now in the flowerControl
+//     scope.savePrefs = function() {
+//       userPrefsService.set('colorScheme', scope.selectedScheme);
+//       scope.closeModal();
+//       scope.$emit('prefsChanged', {
+//         prefs: {
+//           colorScheme: scope.selectedScheme
+//         }
+//       });
+//     };
+//   }
+
+// });
