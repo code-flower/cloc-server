@@ -11,7 +11,7 @@ var system = require('./system/');
 // this server handles static file requests and
 // harvesting the json after repos are cloned
 
-HTTP.createServer(function (request, response) {
+var httpServer = HTTP.createServer(function (request, response) {
 
   var urlInfo = HTTP.parseUrl(request.url);
 
@@ -32,7 +32,7 @@ HTTP.createServer(function (request, response) {
 
 }).listen(appConfig.ports.HTTP);
 
-console.log(`HTTP server running at http://${appConfig.hostName}:${appConfig.ports.HTTP}`);
+console.log(`HTTP server running at ${appConfig.protocol.HTTP}://${appConfig.hostName}:${appConfig.ports.HTTP}`);
 
 
 
@@ -40,11 +40,12 @@ console.log(`HTTP server running at http://${appConfig.hostName}:${appConfig.por
 // this server handles clone requests and broadcasts
 // the server events to the client
 
-WS.createServer(function(conn) {
+var wsServer = new WS.createServer({server: httpServer});
 
+wsServer.on('connection', function(conn) {
   var socket;
 
-  conn.on('text', function (rawData) {
+  conn.on('message', function (rawData) {
     var data = JSON.parse(rawData);
 
     switch(data.type) {
@@ -56,10 +57,8 @@ WS.createServer(function(conn) {
         socket.close();
         break;
     }
-
   });
+});
 
-}).listen(appConfig.ports.WS);
-
-console.log(`Websockets server running at ws://${appConfig.hostName}:${appConfig.ports.WS}`);
+console.log(`Websockets server running at ${appConfig.protocol.WS}://${appConfig.hostName}:${appConfig.ports.WS}`);
 

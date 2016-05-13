@@ -28,8 +28,12 @@ module.exports = {
   password: '[gmail password]'
 };
 ```
-5. `npm install`
-6. `gulp run deploy`
+5. get and install an https certificate in the ```server/cert``` directory
+  1. install the letsencrypt client (https://letsencrypt.org/getting-started/)
+  2. run ```./letsencrypt-auto certonly``` and use the ```standalone``` option. This will create 4 files somewhere on the machine.
+  3. copy those files into the ```server/cert``` directory
+6. `npm install`
+7. `gulp run deploy`
   - this will build a production version of the app and start node forever
 
 

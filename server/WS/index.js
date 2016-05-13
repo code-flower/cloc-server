@@ -1,5 +1,5 @@
 
 module.exports = {
-  createServer: require('nodejs-websocket').createServer,
+  createServer: require('ws').Server,
   WebSocket: require('./WebSocket')
 };

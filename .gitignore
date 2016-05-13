@@ -2,6 +2,7 @@ node_modules/
 dist/
 repos/
 private/
+server/HTTP/cert/
 
 sftp-config.json
 chrome-dist.zip

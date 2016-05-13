@@ -4,7 +4,7 @@
 angular.module('CodeFlower')
 .factory('HTTP', function ($http, appConfig) {
 
-  var origin = `http://${appConfig.hostName}:${appConfig.ports.HTTP}`;
+  var origin = `${appConfig.protocol.HTTP}://${appConfig.hostName}:${appConfig.ports.HTTP}`;
 
   return {
 

@@ -3,13 +3,18 @@
 
 module.exports = {
 
+  protocol: {
+    HTTP: process.env.NODE_ENV === 'production' ? 'https' : 'http',
+    WS:   process.env.NODE_ENV === 'production' ? 'wss'   : 'ws'
+  },
+
   hostName: process.env.NODE_ENV === 'production' ? 
             'codeflower.la' : 
             'localhost',
 
   ports: {
-    HTTP: process.env.NODE_ENV === 'production' ? 80 : 8000,
-    WS: 8001,
+    HTTP: process.env.NODE_ENV === 'production' ? 443 : 8000,
+    WS:   process.env.NODE_ENV === 'production' ? 443 : 8000,
     browserSyncUI: 8090
   },
 

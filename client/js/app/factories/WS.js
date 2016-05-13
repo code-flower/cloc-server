@@ -12,7 +12,7 @@ angular.module('CodeFlower')
 
     cloneRepo: function(data, subscribers) {
       
-      var socket = new WebSocket(`ws://${appConfig.hostName}:${appConfig.ports.WS}`);
+      var socket = new WebSocket(`${appConfig.protocol.WS}://${appConfig.hostName}:${appConfig.ports.WS}`);
 
       socket.onopen = function(e) {
         console.log("WS connection opened:", data);

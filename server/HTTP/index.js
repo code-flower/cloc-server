@@ -1,6 +1,6 @@
 
 module.exports = {
-  createServer: require('http').createServer,
+  createServer: require('./createServer'),
   parseUrl: (url) => require('url').parse(url, true),
 
   serveFlower: require('./serveFlower'),
