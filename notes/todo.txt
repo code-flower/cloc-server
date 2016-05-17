@@ -3,13 +3,10 @@ CLIENT
   - what to do about prefs section?
     - maybe add some sliders and such to tweak the gravity, springiness of the viz?
     - add pref for the threshold at which a max-nodes warning should be displayed (if at all)
-  - make a better architectural diagram
-  - improve readme
   - it may not be necessary any more to add the color to the node elements, just use the classes
     - that way it wouldn't even have to redraw when you switch colorSchemes
   - changing the color scheme should not automatically change the current folder to root
   - at the top of flower-languages, add name of repo as a link to the repo
-  - maybe add a max-height to the languages table and have it scroll
   - need loading indicator for cleaning up large repos
 
 SERVER
@@ -17,7 +14,7 @@ SERVER
   - aborting should kill the process immediately rather than waiting until the end and then deleting
 
 BUILD/DEPLOY
-  - deploy to aws w/codedeploy, S3, Jenkins, Elastic Beanstalk
+  - deploy to aws w/codedeploy, S3, Elastic Beanstalk
 
 CHROME EXTENSION
   - pros
@@ -38,14 +35,6 @@ VISUALIZATION
 
 GIT FUNCTIONALITY
   - look at visualizing git history
-  - encryption of credentials?
-
-DEPLOYMENT
-  - need an install script that:
-    - installs git, cloc and forever on a linux-like server
-      - npm install -g cloc works
-    - clones the repo
-    - runs node forever
 
 
 
