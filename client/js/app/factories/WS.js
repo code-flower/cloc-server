@@ -15,7 +15,6 @@ angular.module('CodeFlower')
       var socket = new WebSocket(`${appConfig.protocol.WS}://${appConfig.hostName}:${appConfig.ports.WS}`);
 
       socket.onopen = function(e) {
-        console.log("WS connection opened:", data);
         socket.send(JSON.stringify({
           type: appConfig.messageTypes.clone,
           repo: data
@@ -43,7 +42,6 @@ angular.module('CodeFlower')
             });    
             break;
           case types.error:
-            console.log("ERROR");
             socket.close();
             $rootScope.$broadcast('cloneError');
             break;
@@ -69,7 +67,7 @@ angular.module('CodeFlower')
       };
 
       socket.onclose = function(e) {
-        console.log("WS connection closed");
+        // console.log("WS connection closed");
       };
 
       socket.onerror = function(err) {

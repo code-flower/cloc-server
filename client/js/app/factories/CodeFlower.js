@@ -30,9 +30,6 @@ angular.module('CodeFlower')
   };
 
   CodeFlower.prototype.update = function(json) {
-    // console.log('old json:', angular.copy(json));
-    // console.log('new json:', json);
-
     if (json) this.json = json;
 
     this.json.fixed = true;
