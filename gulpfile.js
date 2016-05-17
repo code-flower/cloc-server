@@ -22,13 +22,11 @@ const uglify = require('gulp-uglify');
 const gutil = require('gulp-util');
 const ngAnnotate = require('gulp-ng-annotate');
 const bulkify = require('bulkify');
-const fs = require('fs');
 
 const appConfig = require('./shared/appConfig');
 
 ////////////// CONSTANTS //////////////////
 
-const TMP = './client/tmp'
 const DIST = './client/dist';
 const ENV = argv.env || process.env.NODE_ENV || 'development';
 
@@ -45,7 +43,7 @@ gulp.task('bundle', function() {
     .pipe(buffer())
     .pipe(ngAnnotate())
     .pipe(ENV === 'production' ? uglify() : gutil.noop())
-    .pipe(gulp.dest(`${TMP}/js/`))
+    .pipe(gulp.dest(`${DIST}/js/`))
     .pipe(browserSync.stream());
 });
 
@@ -60,7 +58,7 @@ gulp.task('sass', function() {
     .pipe(autoprefixer({
       browsers: ['last 2 versions']
     }))
-    .pipe(gulp.dest(`${TMP}/css/`))
+    .pipe(gulp.dest(`${DIST}/css/`))
     .pipe(browserSync.stream());
 });
 
@@ -76,7 +74,7 @@ gulp.task('templates', function() {
       },
       standalone: false
     }))
-    .pipe(gulp.dest(`${TMP}/js/`))
+    .pipe(gulp.dest(`${DIST}/js/`))
     .pipe(browserSync.stream());
 });
 
@@ -87,13 +85,13 @@ gulp.task('copy:index', function() {
     .pipe(removeCode({ 
       removeScript: ENV === 'production' || argv.chrome 
     }))
-    .pipe(gulp.dest(TMP))
+    .pipe(gulp.dest(DIST))
     .pipe(browserSync.stream());
 });
 
 gulp.task('copy:assets', function() {
   return gulp.src('./client/assets/**')
-    .pipe(gulp.dest(TMP));  
+    .pipe(gulp.dest(DIST));  
 });
 
 gulp.task('copy:d3', function() {
@@ -104,25 +102,19 @@ gulp.task('copy:d3', function() {
   ])
     .pipe(concat('d3.bundle.js'))
     .pipe(ENV === 'production' ? uglify() : gutil.noop())
-    .pipe(gulp.dest(`${TMP}/js/`));
+    .pipe(gulp.dest(`${DIST}/js/`));
 });
 
 gulp.task('copy:chrome', function() {
   return gulp.src('./client/chrome/**')
-    .pipe(gulp.dest(TMP));
+    .pipe(gulp.dest(DIST));
 });
 
 ////////////////// CLEAN /////////////////////
 
-gulp.task('clean:dist', function() {
+gulp.task('clean', function() {
   return gulp.src(DIST, { read: false })
     .pipe(clean());
-});
-
-gulp.task('tmp-to-dist', function(callback) {
-  runSequence('clean:dist', function() {
-    fs.rename(TMP, DIST, callback);
-  });
 });
 
 /////////////////// ZIP //////////////////////
@@ -190,9 +182,9 @@ gulp.task('build', function(callback) {
 
   if (argv.chrome) {
     tasks.push('copy:chrome');
-    runSequence(tasks, 'tmp-to-dist', 'zip-chrome', callback);
+    runSequence('clean', tasks, 'zip-chrome', callback);
   } else {
-    runSequence(tasks, 'tmp-to-dist', callback);
+    runSequence('clean', tasks, callback);
   }
 });
 
