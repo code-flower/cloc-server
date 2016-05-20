@@ -41,7 +41,7 @@ angular.module('CodeFlower')
       // adapt layout size to the total number of elements
       var padding = 200;
       var total = countElements(json);
-      var h = Math.max(parseInt(Math.sqrt(total) * 30, 10) + padding, window.innerHeight);
+      var h = Math.max(parseInt(Math.sqrt(total) * 100, 10) + padding, window.innerHeight);
       var w = h;
       
       // vertically center the flower
