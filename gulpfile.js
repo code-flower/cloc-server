@@ -1,4 +1,4 @@
-////////////// MODULES ////////////////////
+///////////////// MODULES ////////////////////
 
 const gulp = require('gulp');
 const browserify = require('browserify');
@@ -22,15 +22,29 @@ const uglify = require('gulp-uglify');
 const gutil = require('gulp-util');
 const ngAnnotate = require('gulp-ng-annotate');
 const bulkify = require('bulkify');
+const fs = require('fs');
 
 const appConfig = require('./shared/appConfig');
 
-////////////// CONSTANTS //////////////////
+///////////////// CONSTANTS //////////////////
 
+// the directory where the front-end files are served
 const DIST = './client/dist';
+
+// a temporary directory used for production builds
+const TMP = './client/tmp';
+
+// dev or prod
 const ENV = argv.env || process.env.NODE_ENV || 'development';
 
-/////////////// BUNDLER ///////////////////
+/////////////// GLOBAL VARS //////////////////
+
+// this is set in the 'build' task below.
+// it determines the target directory for
+// all of the build tasks
+var buildDir;
+
+///////////////// BUNDLER ////////////////////
 
 gulp.task('bundle', function() {
   return browserify('./client/js/require.js')
@@ -43,11 +57,11 @@ gulp.task('bundle', function() {
     .pipe(buffer())
     .pipe(ngAnnotate())
     .pipe(ENV === 'production' ? uglify() : gutil.noop())
-    .pipe(gulp.dest(`${DIST}/js/`))
+    .pipe(gulp.dest(`${buildDir}/js/`))
     .pipe(browserSync.stream());
 });
 
-//////////////// SASS //////////////////////
+////////////////// SASS //////////////////////
 
 gulp.task('sass', function() {
   return gulp.src('./client/scss/index.scss')
@@ -58,11 +72,11 @@ gulp.task('sass', function() {
     .pipe(autoprefixer({
       browsers: ['last 2 versions']
     }))
-    .pipe(gulp.dest(`${DIST}/css/`))
+    .pipe(gulp.dest(`${buildDir}/css/`))
     .pipe(browserSync.stream());
 });
 
-//////////////// TEMPLATES /////////////////
+////////////////// TEMPLATES /////////////////
  
 gulp.task('templates', function() {
   return gulp.src('./client/js/app/partials/**/*.html')
@@ -74,24 +88,24 @@ gulp.task('templates', function() {
       },
       standalone: false
     }))
-    .pipe(gulp.dest(`${DIST}/js/`))
+    .pipe(gulp.dest(`${buildDir}/js/`))
     .pipe(browserSync.stream());
 });
 
-/////////////// COPY TASKS //////////////////
+///////////////// COPY TASKS //////////////////
 
 gulp.task('copy:index', function() {
   return gulp.src('./client/index.html')
     .pipe(removeCode({ 
-      removeScript: ENV === 'production' || argv.chrome 
+      removeScript: ENV === 'production'
     }))
-    .pipe(gulp.dest(DIST))
+    .pipe(gulp.dest(buildDir))
     .pipe(browserSync.stream());
 });
 
 gulp.task('copy:assets', function() {
   return gulp.src('./client/assets/**')
-    .pipe(gulp.dest(DIST));  
+    .pipe(gulp.dest(buildDir));  
 });
 
 gulp.task('copy:d3', function() {
@@ -102,30 +116,21 @@ gulp.task('copy:d3', function() {
   ])
     .pipe(concat('d3.bundle.js'))
     .pipe(ENV === 'production' ? uglify() : gutil.noop())
-    .pipe(gulp.dest(`${DIST}/js/`));
+    .pipe(gulp.dest(`${buildDir}/js/`));
 });
 
-gulp.task('copy:chrome', function() {
-  return gulp.src('./client/chrome/**')
-    .pipe(gulp.dest(DIST));
-});
+/////////////////// CLEAN /////////////////////
 
-////////////////// CLEAN /////////////////////
-
-gulp.task('clean', function() {
+gulp.task('clean:dist', function() {
   return gulp.src(DIST, { read: false })
     .pipe(clean());
 });
 
-/////////////////// ZIP //////////////////////
-
-gulp.task('zip-chrome', function() {
-  return gulp.src(`${DIST}/**`)
-    .pipe(zip('chrome-dist.zip'))
-    .pipe(gulp.dest('./client/'));
+gulp.task('tmp-to-dist', function(callback) {
+  fs.rename(TMP, DIST, callback);
 });
 
-////////////////// DEV TASKS /////////////////
+////////////////// DEV TASKS //////////////////
 
 gulp.task('watch:server', function() {
   return nodemon({
@@ -171,6 +176,8 @@ gulp.task('open-browser', function() {
 ///////////// BUILD AND DEFAULT //////////////
 
 gulp.task('build', function(callback) {
+  console.log("BUILD ENVIRONMENT:", ENV);
+
   const tasks = [
     'bundle',
     'sass',
@@ -180,11 +187,17 @@ gulp.task('build', function(callback) {
     'copy:d3'
   ];
 
-  if (argv.chrome) {
-    tasks.push('copy:chrome');
-    runSequence('clean', tasks, 'zip-chrome', callback);
+  // For development, we build directly into the dist folder, and the watchers
+  // send their files to dist. But for production, we build into the tmp folder
+  // and then switch tmp to dist at the end, avoiding server downtime during the
+  // build process. 
+
+  if (ENV === 'production') {
+    buildDir = TMP;
+    runSequence(tasks, 'clean:dist', 'tmp-to-dist', callback);
   } else {
-    runSequence('clean', tasks, callback);
+    buildDir = DIST;
+    runSequence('clean:dist', tasks, callback);
   }
 });
 
