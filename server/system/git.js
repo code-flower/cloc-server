@@ -46,7 +46,9 @@ function cloneRepo(repo, socket) {
   var cd = `cd ${appConfig.paths.repos}${dirName}/; `; 
   var clone = `git clone ${gitCloneUrl(repo)} ${dirName} --progress`;
 
-  socket.text('\n>> ' + clone.replace(' --progress', ''));
+  // replace username and password, if any, with asterisks, before sending to client
+  var socketText = clone.replace(/https:\/\/.*?@github/, 'https://******:******@github');
+  socket.text('\n>> ' + socketText);
 
   var process = exec(cd + clone, deferred.resolve);
 
