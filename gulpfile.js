@@ -187,10 +187,10 @@ gulp.task('build', function(callback) {
     'copy:d3'
   ];
 
-  // For development, we build directly into the dist folder, and the watchers
-  // send their files to dist. But for production, we build into the tmp folder
-  // and then switch tmp to dist at the end, avoiding server downtime during the
-  // build process. 
+  // For development, build directly into the dist folder, and the watchers
+  // send their files to dist. But for production, build into the tmp folder
+  // and then switch tmp to dist at the end, avoiding server downtime during 
+  // the build process. 
 
   if (ENV === 'production') {
     buildDir = TMP;

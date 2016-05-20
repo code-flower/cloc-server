@@ -11,9 +11,9 @@
 
 #### How to Build
 
-`gulp build [--env=production] [--chrome]`
+`gulp build [--env=production]`
 
-The production flag will cause assets to be minified. The chrome flag will add to the build the files necessary to run the app as a chrome extension.
+The production flag will cause assets to be minified.
 
 
 #### Deploying to production
@@ -51,12 +51,4 @@ module.exports = {
 5. `cloc --version`
   - this should show the version of the latest release
 
-
-#### Run the Chrome extension locally, but with a live server
-
-1. install cloc globally on the server
-2. clone the repo on the server
-3. `npm install` on the server
-4. `npm start` on the server
-5. `gulp build --env=production --chrome` locally, then refresh browser window containing the extension
 
