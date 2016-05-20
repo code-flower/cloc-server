@@ -9,7 +9,7 @@
   }
   .ignored-text {
     height: calc(100% - 50px);
-    overflow: scroll;
+    overflow: auto;
     word-wrap: break-word;
   }
 }

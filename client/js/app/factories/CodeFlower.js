@@ -25,8 +25,9 @@ angular.module('CodeFlower')
       .size([h, w]);
 
     // center the scrollbars
-    document.body.scrollTop = (h - window.innerHeight) / 2.0;
-    document.body.scrollLeft = (w - window.innerWidth) / 2.0;
+    var scrollLeft = (w - window.innerWidth) / 2.0;
+    var scrollTop = (h - window.innerHeight) / 2.0;
+    window.scrollTo(scrollLeft, scrollTop);
   };
 
   CodeFlower.prototype.update = function(json) {
