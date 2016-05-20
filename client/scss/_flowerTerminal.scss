@@ -12,6 +12,23 @@
   border-top-left-radius: 10px;
   transition: all 0.5s ease-in-out;
 
+  &.safari {
+    right: 10px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.0);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255,105,180, 1.0);
+    border-radius: 4px;
+  }
+
   .terminal-head {
     cursor: pointer;
     height: 21px;
@@ -28,7 +45,8 @@
     bottom: 8px;
     left: 8px;
     right: 8px;
-    overflow-y: scroll;
+    padding-right: 6px;
+    overflow-y: auto;
     word-break: break-word;
   }
 

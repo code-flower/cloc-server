@@ -37,9 +37,15 @@ angular.module('CodeFlower')
       }, 4000);
     }
 
+    function isSafari() {
+      var ua = navigator.userAgent.toLowerCase();
+      return ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1;
+    }
+
     //// SCOPE VARIABLES ////
 
     scope.terminalOpen = false;
+    scope.isSafari = isSafari();
 
     //// WATCHERS ////
 
