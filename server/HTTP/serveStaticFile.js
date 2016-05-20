@@ -8,9 +8,10 @@ var appConfig = require('../../shared/appConfig.js');
 function getContentType(pathname) {
   var extension = pathname.match(/\.[^.]*$/)[0];
   switch(extension) {
-    case '.css': return 'text/css';
-    case '.js':  return 'text/javascript';
-    default:     return 'text/html';
+    case '.css':  return 'text/css';
+    case '.js':   return 'text/javascript';
+    case '.json': return 'application/json';
+    default:      return 'text/html';
   }
 }
 

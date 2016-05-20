@@ -2,9 +2,9 @@
 
 var fs = require('fs');
 var Q = require('q');
-var appConfig = require('../../shared/appConfig.js');
-var getFlower = require('../system/').getFlower;
-var serveJson = require('./serveJson');
+var appConfig = require('../../shared/appConfig');
+var getFlower = require('./getFlower');
+var mkpath = require('mkpath');
 
 //////////// PRIVATE ////////////
 
@@ -29,8 +29,12 @@ function sampleToObject(sample) {
 
 //////////// EXPORTS ////////////
 
-module.exports = function serveSamples(response) {
+// called during the gulp build
+// this converts all of the sample repos in
+// the samples directory to a single json file
+// and save it at filepath
 
+module.exports = function saveSamples(filepath) {
   return getSampleNames()
     .then(function(samples) {
       return Q.all(samples.map(function(sample) {
@@ -38,8 +42,10 @@ module.exports = function serveSamples(response) {
       }));
     })
     .then(function(samples) {
-      serveJson(response, samples);
+      mkpath.sync(filepath.replace(/\/[^/]*?$/, ''));
+      fs.writeFile(filepath, JSON.stringify(samples), function(err) {
+        if (err)
+          console.log("ERROR WRITING SAMPLES FILE:", err);
+      });
     });
-
 };
-

@@ -30,8 +30,8 @@ module.exports = {
   //// HTTP ////
   endpoints: {
     harvest: '/harvest',
-    samples: '/samples',
-    email:   '/email'
+    email:   '/email',
+    samples: '/data/samples.json'
   },
 
   //// WS ////

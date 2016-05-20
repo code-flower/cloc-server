@@ -24,6 +24,7 @@ const ngAnnotate = require('gulp-ng-annotate');
 const bulkify = require('bulkify');
 const fs = require('fs');
 
+const saveSamples = require('./server/system').saveSamples;
 const appConfig = require('./shared/appConfig');
 
 ///////////////// CONSTANTS //////////////////
@@ -92,7 +93,13 @@ gulp.task('templates', function() {
     .pipe(browserSync.stream());
 });
 
-///////////////// COPY TASKS //////////////////
+/////////// CONSTRUCT SAMPLES FILE ///////////
+
+gulp.task('samples', function() {
+  saveSamples(buildDir + appConfig.endpoints.samples);
+});
+
+///////////////// COPY TASKS /////////////////
 
 gulp.task('copy:index', function() {
   return gulp.src('./client/index.html')
@@ -182,6 +189,7 @@ gulp.task('build', function(callback) {
     'bundle',
     'sass',
     'templates',
+    'samples',
     'copy:assets',
     'copy:index',
     'copy:d3'

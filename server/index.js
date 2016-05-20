@@ -19,9 +19,6 @@ var httpServer = HTTP.createServer(function(request, response) {
     case appConfig.endpoints.harvest:
       HTTP.serveFlower(response, urlInfo.query.repo);
       break;
-    case appConfig.endpoints.samples:
-      HTTP.serveSamples(response);
-      break;
     case appConfig.endpoints.email:
       HTTP.sendEmail(response, urlInfo.query.message);
       break;
