@@ -1,6 +1,7 @@
 
 module.exports = {
   cloneFlower: require('./cloneFlower'),
-  getFlower: require('./getFlower'),
-  saveSamples: require('./saveSamples')
+  getFlower:   require('./getFlower'),
+  saveSamples: require('./saveSamples'),
+  logger:      require('./logger')
 };

@@ -1,6 +1,7 @@
 //////////// IMPORTS ////////////
 
 var fs = require('fs');
+var logger = require('../system').logger;
 var appConfig = require('../../shared/appConfig.js');
 
 //////////// PRIVATE ////////////
@@ -17,11 +18,15 @@ function getContentType(pathname) {
 
 //////////// EXPORTS ////////////
 
-module.exports = function serveStaticFile(response, relPath) {
+module.exports = function serveStaticFile(request, response, relPath) {
 
   // get the full file path
   if (relPath == '/')
     relPath = '/index.html';
+
+  // log requests for index file
+  if (relPath === '/index.html')
+    logger(request.connection.remoteAddress + ',index.html');
 
   var absPath = appConfig.paths.client + 'dist' + relPath;
 

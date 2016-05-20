@@ -24,6 +24,7 @@ module.exports = {
     server:   path.join(__dirname, '../server/'),
     repos:    path.join(__dirname, '../server/system/repos/'),
     samples:  path.join(__dirname, '../server/system/samples/'),
+    logs:     path.join(__dirname, '../server/system/logs/'),
     partials: 'app/partials/'
   },
 

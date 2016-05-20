@@ -23,7 +23,7 @@ var httpServer = HTTP.createServer(function(request, response) {
       HTTP.sendEmail(response, urlInfo.query.message);
       break;
     default:
-      HTTP.serveStaticFile(response, urlInfo.pathname);
+      HTTP.serveStaticFile(request, response, urlInfo.pathname);
       break;
   }
 
