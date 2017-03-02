@@ -27,6 +27,7 @@
     "moment": "^2.13.0",
     "q": "^1.4.1",
     "rimraf": "^2.5.2",
+    "universal-analytics": "^0.4.9",
     "ws": "^1.1.0"
   },
   "devDependencies": {

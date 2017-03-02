@@ -6,17 +6,22 @@ var cloc = require('./cloc.js');
 var parseGitUrl = require('git-url-parse');
 var deleteRepo = require('./delete');
 var logger = require('./logger');
+var ga = require('./ga');
 
 //////////// PRIVATE //////////////
 
 function analyzeRepo(repo, socket) {
 
   // log the request
-  var logStr = '';
-  if (socket.conn._socket && socket.conn._socket.remoteAddress)
-    logStr += socket.conn._socket.remoteAddress + ',';
-  logStr += repo.fullName;
-  logger(logStr); 
+  // var logStr = '';
+  // if (socket.conn._socket && socket.conn._socket.remoteAddress)
+  //   logStr += socket.conn._socket.remoteAddress + ',';
+  // logStr += repo.fullName;
+  // logger(logStr);
+
+  // track the request
+  if (process.env.NODE_ENV === 'production')
+    ga.trackClone(repo.fullName);
 
   // clone repo, create and convert cloc file
   git.cloneRepo(repo, socket)

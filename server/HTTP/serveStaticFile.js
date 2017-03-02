@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var logger = require('../system').logger;
+var ga = require('../system').ga;
 var appConfig = require('../../shared/appConfig.js');
 
 //////////// PRIVATE ////////////
@@ -25,8 +26,10 @@ module.exports = function serveStaticFile(request, response, relPath) {
     relPath = '/index.html';
 
   // log requests for index file
-  if (relPath === '/index.html')
-    logger(request.connection.remoteAddress + ',index.html');
+  if (relPath === '/index.html' && process.env.NODE_ENV === 'production') {
+    // logger(request.connection.remoteAddress + ',index.html');
+    ga.trackPage('/');
+  }
 
   var absPath = appConfig.paths.client + 'dist' + relPath;
 

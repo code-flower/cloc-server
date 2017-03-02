@@ -19,7 +19,7 @@ WebSocket.prototype._send = function(data) {
 // PUBLIC METHODS //
 WebSocket.prototype.text = function(text) {
   var self = this;
-  var lines = text.split('\n');
+  var lines = text.toString('utf-8').split('\n');
   lines.forEach(function(line) {
     self._send({
       type: appConfig.messageTypes.text,

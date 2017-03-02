@@ -57,6 +57,8 @@ function cloneRepo(repo, socket) {
 
   process.stderr.on('data', function(data) { 
     socket.text(data); 
+
+    data = data.toString('utf-8');
     if (data.match(/Invalid username or password/) ||
         data.match(/unable to access/) ||
         data.match(/Unauthorized/)) 

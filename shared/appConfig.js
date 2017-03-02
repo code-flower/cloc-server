@@ -64,6 +64,8 @@ module.exports = {
 
   deleteAfterClone: true,
 
-  maxNodes: 1000
+  maxNodes: 1000,
+
+  gaTrackingId: 'UA-78051006-1'
 
 };
