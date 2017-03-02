@@ -1,7 +1,7 @@
 ////////////////////// IMPORTS /////////////////////////
 
 var http      = require('http');
-var https     = require('spdy');
+var https     = require('https');
 var fs        = require('fs');
 var appConfig = require('../../shared/appConfig.js');
 
