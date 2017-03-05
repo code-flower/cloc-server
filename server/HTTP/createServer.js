@@ -21,11 +21,11 @@ if (appConfig.protocol.HTTP === 'https') {
     }).listen(80);
 
     // create the https server 
-    var certdir = __dirname + '/cert/';
+    var cD = appConfig.certDir;
     return https.createServer({
-      key:  fs.readFileSync(certdir + 'privkey.pem', 'utf8'),
-      cert: fs.readFileSync(certdir + 'cert.pem',    'utf8'),
-      ca:   fs.readFileSync(certdir + 'chain.pem',   'utf8')
+      key:  fs.readFileSync(cD + 'privkey.pem', 'utf8'),
+      cert: fs.readFileSync(cD + 'cert.pem',    'utf8'),
+      ca:   fs.readFileSync(cD + 'chain.pem',   'utf8')
     }, server);
     
   };

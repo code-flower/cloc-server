@@ -38,15 +38,28 @@ The production flag will cause assets to be minified.
   };
   ```
 
-6. get and install an https certificate in the ```server/HTTP/cert``` directory
-  1. install the letsencrypt client (https://letsencrypt.org/getting-started/)
-  2. run ```./letsencrypt-auto certonly``` and use the ```standalone``` option. This will create 4 files somewhere on the machine.
-  3. copy those files into the ```server/HTTP/cert``` directory
+6. install an SSL certificate and set up automatic renewal
+  1. install the letsencrypt client (https://letsencrypt.org/getting-started/). This will install the `certbot-auto` program used to generate the certificate. 
+
+  2. generate the SSL certificate
+
+    ```
+    ./certbot-auto certonly --standalone -d codeflower.la
+    ```
+    
+    This will create four files somewhere on the machine. The path to those files should be the same as the path in `appConfig.certDir`.
+
+  3. set up autorenewal using cron
+
+  Use `crontab -e` to open the crontab file. Then add this line to run the renewal twice a day at a randomly selected minute of 47, per letsencrypt's request. This will only replace the certificate when it's actually close to expiring. It stops the webserver before the replacement, and restarts it afterwards. See https://certbot.eff.org/docs/using.html#renewal. 
+
+  ```
+  47 6,15 * * * [PATH TO certbot-auto]/certbot-auto renew --pre-hook "forever stopall" --post-hook "npm run forever --prefix [PATH TO CodeFlower]"
+  ```
 
 7. `npm install`
 
 8. `npm run deploy`
   - this will build a production version of the app and start node forever
-
 
 

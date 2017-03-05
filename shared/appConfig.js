@@ -3,6 +3,7 @@
 
 var path = require('path');
 var PROD = process.env.NODE_ENV === 'production';
+var DOMAIN = 'codeflower.la';
 
 module.exports = {
 
@@ -11,7 +12,7 @@ module.exports = {
     WS:   PROD ? 'wss'   : 'ws'
   },
 
-  hostName: PROD ? 'codeflower.la' : 'localhost',
+  hostName: PROD ? DOMAIN : 'localhost',
 
   ports: {
     HTTP: PROD ? 443 : 8000,
@@ -27,6 +28,8 @@ module.exports = {
     logs:     path.join(__dirname, '../server/system/logs/'),
     partials: 'app/partials/'
   },
+
+  certDir: '/etc/letsencrypt/live/' + DOMAIN + '/',
 
   //// HTTP ////
   endpoints: {
