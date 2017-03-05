@@ -26,10 +26,8 @@ module.exports = function serveStaticFile(request, response, relPath) {
     relPath = '/index.html';
 
   // log requests for index file
-  if (relPath === '/index.html' && process.env.NODE_ENV === 'production') {
-    // logger(request.connection.remoteAddress + ',index.html');
-    ga.trackPage('/');
-  }
+  // if (relPath === '/index.html' && process.env.NODE_ENV === 'production')
+  //   logger(request.connection.remoteAddress + ',index.html');
 
   var absPath = appConfig.paths.client + 'dist' + relPath;
 
