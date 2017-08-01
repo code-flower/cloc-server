@@ -1,28 +1,30 @@
 
 var path = require('path');
 
-var SECURE = false;
+var REMOTE = false;
 
 module.exports = {
 
   protocols: {
-    HTTP: SECURE ? 'https' : 'http',
-    WS:   SECURE ? 'wss'   : 'ws'
+    HTTP: 'https',
+    WS:   'wss'
   },
 
   ports: {
-    HTTP: SECURE ? 443 : 8000,
-    WS:   SECURE ? 443 : 8000
+    HTTP: REMOTE ? 443 : 8000,
+    WS:   REMOTE ? 443 : 8000
   },
 
   paths: {
     static:   path.join(__dirname, './static'),
     repos:    path.join(__dirname, './src/system/repos/'),
     samples:  path.join(__dirname, './src/system/samples/'),
-    logs:     path.join(__dirname, './src/system/logs/')
+    logs:     path.join(__dirname, './src/system/logs/'),
+    SSL: {
+      key:    path.join(__dirname, '../devSSL/cert/server.key'),
+      cert:   path.join(__dirname, '../devSSL/cert/server.crt')
+    } 
   },
-
-  certDir: '/etc/letsencrypt/live/codeflower.la/',
 
   //// HTTP ////
   endpoints: {

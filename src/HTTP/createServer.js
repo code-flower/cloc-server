@@ -12,22 +12,10 @@ var createServer;
 if (config.protocols.HTTP === 'https') {
 
   createServer = function(server) {
-
-    // redirect all http requests to https
-    http.createServer(function(req, res) {
-      res.setHeader('Location', 'https://' + req.headers.host + req.url);
-      res.statusCode = 302;
-      res.end();
-    }).listen(80);
-
-    // create the https server 
-    var cD = config.certDir;
     return https.createServer({
-      key:  fs.readFileSync(cD + 'privkey.pem', 'utf8'),
-      cert: fs.readFileSync(cD + 'cert.pem',    'utf8'),
-      ca:   fs.readFileSync(cD + 'chain.pem',   'utf8')
+      key:  fs.readFileSync(config.paths.SSL.key,  'utf8'),
+      cert: fs.readFileSync(config.paths.SSL.cert, 'utf8')
     }, server);
-    
   };
 
 } else {
