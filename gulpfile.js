@@ -3,7 +3,7 @@
 const gulp = require('gulp');
 const nodemon = require('gulp-nodemon');
 
-const saveSamples = require('./server/system').saveSamples;
+const saveSamples = require('./src/system').saveSamples;
 const appConfig = require('./shared/appConfig');
 
 /////////// CONSTRUCT SAMPLES FILE ///////////
@@ -16,10 +16,9 @@ gulp.task('samples', function() {
 
 gulp.task('default', function() {
   return nodemon({
-    script: 'server/index.js',
+    script: 'src/server.js',
     ext: 'js',
     ignore: [
-      'client/**',
       'repos/**',
       'gulpfile.js'
     ]

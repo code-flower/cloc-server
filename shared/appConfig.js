@@ -22,10 +22,10 @@ module.exports = {
 
   paths: {
     client:   path.join(__dirname, '../client/'),
-    server:   path.join(__dirname, '../server/'),
-    repos:    path.join(__dirname, '../server/system/repos/'),
-    samples:  path.join(__dirname, '../server/system/samples/'),
-    logs:     path.join(__dirname, '../server/system/logs/'),
+    server:   path.join(__dirname, '../src/'),
+    repos:    path.join(__dirname, '../src/system/repos/'),
+    samples:  path.join(__dirname, '../src/system/samples/'),
+    logs:     path.join(__dirname, '../src/system/logs/'),
     partials: 'app/partials/'
   },
 
