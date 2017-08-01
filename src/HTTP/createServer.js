@@ -3,13 +3,13 @@
 var http      = require('http');
 var https     = require('https');
 var fs        = require('fs');
-var appConfig = require('../../shared/appConfig.js');
+var config = require('../../config');
 
 /////////////// CONSTRUCT CREATESERVER /////////////////
 
 var createServer;
 
-if (appConfig.protocol.HTTP === 'https') {
+if (config.protocols.HTTP === 'https') {
 
   createServer = function(server) {
 
@@ -21,7 +21,7 @@ if (appConfig.protocol.HTTP === 'https') {
     }).listen(80);
 
     // create the https server 
-    var cD = appConfig.certDir;
+    var cD = config.certDir;
     return https.createServer({
       key:  fs.readFileSync(cD + 'privkey.pem', 'utf8'),
       cert: fs.readFileSync(cD + 'cert.pem',    'utf8'),

@@ -1,6 +1,6 @@
 //////////// IMPORTS ////////////
 
-var appConfig = require('../../shared/appConfig.js');
+var config = require('../../config');
 
 //////////// PRIVATE ////////////
 
@@ -22,7 +22,7 @@ WebSocket.prototype.text = function(text) {
   var lines = text.toString('utf-8').split('\n');
   lines.forEach(function(line) {
     self._send({
-      type: appConfig.messageTypes.text,
+      type: config.messageTypes.text,
       text: line
     }); 
   });
@@ -31,7 +31,7 @@ WebSocket.prototype.text = function(text) {
 WebSocket.prototype.invalidUrl = function(repo) {
   this.text('Not a valid git clone url.\n');
   this._send({
-    type: appConfig.messageTypes.error
+    type: config.messageTypes.error
   });
   this.close();
 };
@@ -39,14 +39,14 @@ WebSocket.prototype.invalidUrl = function(repo) {
 WebSocket.prototype.needHTTPS = function(repo) {
   this.text('Please use an https url.\n');
   this._send({
-    type: appConfig.messageTypes.error
+    type: config.messageTypes.error
   });
   this.close();
 };
 
 WebSocket.prototype.credentials = function(repo, needHTTPS) {
   this._send({
-    type: appConfig.messageTypes.credentials,
+    type: config.messageTypes.credentials,
     needHTTPS: needHTTPS
   });
   this.close();
@@ -54,7 +54,7 @@ WebSocket.prototype.credentials = function(repo, needHTTPS) {
 
 WebSocket.prototype.complete = function(repo) {
   this._send({
-    type: appConfig.messageTypes.complete,
+    type: config.messageTypes.complete,
     repoName: repo.fullName
   });
   this.close();
@@ -62,7 +62,7 @@ WebSocket.prototype.complete = function(repo) {
 
 WebSocket.prototype.unauthorized = function(repo) {
   this._send({
-    type: appConfig.messageTypes.unauthorized
+    type: config.messageTypes.unauthorized
   });
   this.close();
 };

@@ -1,6 +1,6 @@
 //////////////////// IMPORTS //////////////////////
 
-var appConfig = require('../shared/appConfig.js');
+var config = require('../config');
 var HTTP = require('./HTTP/');
 var WS = require('./WS/');
 var system = require('./system/');
@@ -16,10 +16,10 @@ var httpServer = HTTP.createServer(function(request, response) {
   var urlInfo = HTTP.parseUrl(request.url);
 
   switch(urlInfo.pathname) {
-    case appConfig.endpoints.harvest:
+    case config.endpoints.harvest:
       HTTP.serveFlower(response, urlInfo.query.repo);
       break;
-    case appConfig.endpoints.email:
+    case config.endpoints.email:
       HTTP.sendEmail(response, urlInfo.query.message);
       break;
     default:
@@ -44,11 +44,11 @@ wsServer.on('connection', function(conn) {
     var data = JSON.parse(rawData);
 
     switch(data.type) {
-      case appConfig.messageTypes.clone:
+      case config.messageTypes.clone:
         socket = new WS.WebSocket(conn);
         system.cloneFlower(data.repo, socket);
         break;
-      case appConfig.messageTypes.abort:
+      case config.messageTypes.abort:
         socket.close();
         break;
     }
@@ -59,9 +59,9 @@ wsServer.on('connection', function(conn) {
 
 ///////////////// START LISTENING ///////////////////
 
-httpServer.listen(appConfig.ports.HTTP, function() {
-  console.log(`HTTP server running at ${appConfig.protocol.HTTP}://${appConfig.hostName}:${appConfig.ports.HTTP}`);
-  console.log(`Websockets server running at ${appConfig.protocol.WS}://${appConfig.hostName}:${appConfig.ports.WS}`);
+httpServer.listen(config.ports.HTTP, function() {
+  console.log(`HTTP server running at port ${config.ports.HTTP} using protocol '${config.protocols.HTTP}'`);
+  console.log(`Websockets server running at port ${config.ports.WS} using protocol '${config.protocols.WS}'`);
 });
 
 

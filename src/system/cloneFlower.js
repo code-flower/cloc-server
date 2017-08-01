@@ -1,6 +1,6 @@
 //////////// IMPORTS ////////////
 
-var appConfig = require('../../shared/appConfig.js');
+var config = require('../../config');
 var git = require('./git.js');
 var cloc = require('./cloc.js');
 var parseGitUrl = require('git-url-parse');
@@ -35,7 +35,7 @@ function analyzeRepo(repo, socket) {
       deleteRepo(repo.fullName);  // this runs if the process has been aborted
   })
   .catch(function(error) {
-    if (error === appConfig.messageTypes.unauthorized) 
+    if (error === config.messageTypes.unauthorized) 
       socket.unauthorized(repo);
   });
 }

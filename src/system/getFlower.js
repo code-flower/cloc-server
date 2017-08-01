@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var Q = require('q');
-var appConfig = require('../../shared/appConfig.js');
+var config = require('../../config');
 var deleteRepo = require('./delete');
 
 //////////// PRIVATE ////////////
@@ -19,7 +19,7 @@ function cleanIgnoredText(ignoredText, dirName) {
 }
 
 function getFlower(reposDir, repoName, deleteAfter) {
-  var dirName = appConfig.repoToFolder(repoName);
+  var dirName = config.repoToFolder(repoName);
   var repoDir = `${reposDir}${dirName}/`;
 
   return Q.all([

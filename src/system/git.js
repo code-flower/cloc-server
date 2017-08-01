@@ -4,7 +4,7 @@ var exec = require('child_process').exec;
 var mkpath = require('mkpath');
 var execShellCommand = require('./shell.js');
 var Q = require('q');
-var appConfig = require('../../shared/appConfig.js');
+var config = require('../../config');
 var deleteRepo = require('./delete.js');
 
 //////////// PRIVATE ////////////
@@ -39,11 +39,11 @@ function checkPrivateRepo(repo, socket) {
 function cloneRepo(repo, socket) {
   var deferred = Q.defer();
 
-  var dirName = appConfig.repoToFolder(repo.fullName);
+  var dirName = config.repoToFolder(repo.fullName);
 
-  mkpath.sync(appConfig.paths.repos + dirName);
+  mkpath.sync(config.paths.repos + dirName);
 
-  var cd = `cd ${appConfig.paths.repos}${dirName}/; `; 
+  var cd = `cd ${config.paths.repos}${dirName}/; `; 
   var clone = `git clone ${gitCloneUrl(repo)} ${dirName} --progress`;
 
   // replace username and password, if any, with asterisks, before sending to client
@@ -62,7 +62,7 @@ function cloneRepo(repo, socket) {
     if (data.match(/Invalid username or password/) ||
         data.match(/unable to access/) ||
         data.match(/Unauthorized/)) 
-      deferred.reject(appConfig.messageTypes.unauthorized);
+      deferred.reject(config.messageTypes.unauthorized);
   });
 
   return deferred.promise;

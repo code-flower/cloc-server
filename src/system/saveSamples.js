@@ -2,14 +2,14 @@
 
 var fs = require('fs');
 var Q = require('q');
-var appConfig = require('../../shared/appConfig');
+var config = require('../../config');
 var getFlower = require('./getFlower');
 var mkpath = require('mkpath');
 
 //////////// PRIVATE ////////////
 
 function getSampleNames() {
-  return Q.nfapply(fs.readdir, [appConfig.paths.samples])
+  return Q.nfapply(fs.readdir, [config.paths.samples])
     .then(function(files) {
       return files.filter(function(f) {
         return f !== '.DS_Store';
@@ -18,10 +18,10 @@ function getSampleNames() {
 }
 
 function sampleToObject(sample) {
-  return getFlower(appConfig.paths.samples, sample, false)
+  return getFlower(config.paths.samples, sample, false)
     .then(function(json) {
       return {
-        name: appConfig.folderToRepo(sample),
+        name: config.folderToRepo(sample),
         data: json
       };
     });

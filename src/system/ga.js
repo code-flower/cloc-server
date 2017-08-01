@@ -3,11 +3,11 @@
 //////////// IMPORTS ////////////
 
 var ua = require('universal-analytics');
-var appConfig = require('../../shared/appConfig.js');
+var config = require('../../config');
 
 //////////// GLOBALS ////////////
 
-var visitor = ua(appConfig.gaTrackingId);
+var visitor = ua(config.gaTrackingId);
 
 //////////// PUBLIC /////////////
 

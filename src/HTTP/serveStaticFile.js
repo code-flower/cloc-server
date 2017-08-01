@@ -3,7 +3,7 @@
 var fs = require('fs');
 var logger = require('../system').logger;
 var ga = require('../system').ga;
-var appConfig = require('../../shared/appConfig.js');
+var config = require('../../config');
 
 //////////// PRIVATE ////////////
 
@@ -21,15 +21,7 @@ function getContentType(pathname) {
 
 module.exports = function serveStaticFile(request, response, relPath) {
 
-  // get the full file path
-  if (relPath == '/')
-    relPath = '/index.html';
-
-  // log requests for index file
-  // if (relPath === '/index.html' && process.env.NODE_ENV === 'production')
-  //   logger(request.connection.remoteAddress + ',index.html');
-
-  var absPath = appConfig.paths.client + 'dist' + relPath;
+  var absPath = config.paths.static + relPath;
 
   // return 404 if the file doesn't exist
   try {

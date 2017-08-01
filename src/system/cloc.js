@@ -4,7 +4,7 @@ var fs = require('fs');
 var mkpath = require('mkpath');
 var execShellCommand = require('./shell.js');
 var Q = require('q');
-var appConfig = require('../../shared/appConfig.js');
+var config = require('../../config');
 
 //////////// PRIVATE ////////////
 
@@ -73,9 +73,9 @@ function clocToJson(clocData) {
 
 // run the cloc command on the given repo
 function createClocFile(repo, socket) {
-  var dirName = appConfig.repoToFolder(repo.fullName);
+  var dirName = config.repoToFolder(repo.fullName);
 
-  var cd = 'cd ' + appConfig.paths.repos + dirName + '; ';
+  var cd = 'cd ' + config.paths.repos + dirName + '; ';
   var cloc = 'cloc ' + dirName +
              ' --csv --by-file ' + 
              '--ignored=ignored.txt ' +  
@@ -92,10 +92,10 @@ function convertClocFile(repo, socket) {
 
   socket.text('\nConverting cloc file to json...');
 
-  var dirName = appConfig.repoToFolder(repo.fullName);
+  var dirName = config.repoToFolder(repo.fullName);
 
   // read the cloc file
-  var inFile = appConfig.paths.repos + dirName + '/data.cloc';
+  var inFile = config.paths.repos + dirName + '/data.cloc';
   fs.readFile(inFile, 'utf8', function(err, clocData) {
     if (err) {
       console.log(err);
@@ -105,7 +105,7 @@ function convertClocFile(repo, socket) {
       var json = clocToJson(clocData);
 
       // make a new folder for the user
-      var outFilePath = appConfig.paths.repos + dirName + '/';
+      var outFilePath = config.paths.repos + dirName + '/';
       mkpath.sync(outFilePath);
 
       // write out the json
