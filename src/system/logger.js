@@ -3,7 +3,6 @@
 var fs = require('fs');
 var moment = require('moment');
 var mkpath = require('mkpath');
-
 var config = require('../../config');
 
 ////////////// PRIVATE ///////////////

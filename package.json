@@ -2,23 +2,18 @@
   "name": "codeflower",
   "version": "1.0.0",
   "description": "CodeFlower",
-  "main": "server/index.js",
-  "scripts": {
-    "start": "NODE_ENV=production node server/index.js",
-    "build": "NODE_ENV=production gulp build",
-    "forever": "NODE_ENV=production forever start server/index.js",
-    "deploy": "npm run build; npm run forever"
-  },
+  "main": "src/server.js",
+  "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jmensch1/CodeFlower.git"
+    "url": "https://github.com/code-flower/server"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jmensch1/CodeFlower/issues"
+    "url": "https://github.com/code-flower/server/issues"
   },
-  "homepage": "https://github.com/jmensch1/CodeFlower#readme",
+  "homepage": "",
   "dependencies": {
     "git-url-parse": "^5.0.1",
     "gmail-send": "^1.2.6",

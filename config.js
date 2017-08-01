@@ -16,7 +16,7 @@ module.exports = {
   },
 
   paths: {
-    static:   path.join(__dirname, './static'),
+    static:   path.join(__dirname, './src/static'),
     repos:    path.join(__dirname, './src/system/repos/'),
     samples:  path.join(__dirname, './src/system/samples/'),
     logs:     path.join(__dirname, './src/system/logs/'),

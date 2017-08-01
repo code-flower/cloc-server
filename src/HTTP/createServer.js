@@ -1,8 +1,8 @@
 ////////////////////// IMPORTS /////////////////////////
 
-var http      = require('http');
-var https     = require('https');
-var fs        = require('fs');
+var http = require('http');
+var https = require('https');
+var fs = require('fs');
 var config = require('../../config');
 
 /////////////// CONSTRUCT CREATESERVER /////////////////

@@ -4,7 +4,6 @@ const gulp = require('gulp');
 const nodemon = require('gulp-nodemon');
 
 const saveSamples = require('./src/system').saveSamples;
-const appConfig = require('./config');
 
 /////////// CONSTRUCT SAMPLES FILE ///////////
 
