@@ -86,6 +86,25 @@ function createClocFile(repo, socket) {
   return execShellCommand(cd + cloc, socket);
 }
 
+function createJsonFile(dirName, json, deferred, socket) {
+  // make a new folder for the user
+  var outFilePath = config.paths.repos + dirName + '/';
+  mkpath.sync(outFilePath);
+
+  // write out the json
+  var outFile =  outFilePath + 'data.json';
+  fs.writeFile(outFile, JSON.stringify(json), 'utf8', function(err) {
+    if (err) {
+      console.log(err);
+      deferred.reject(err);
+    }
+    else {
+      socket.text('Wrote ' + outFile);
+      deferred.resolve();
+    }
+  });
+}
+
 // converts a cloc file to json
 function convertClocFile(repo, socket) {
   var deferred = Q.defer();
@@ -94,32 +113,27 @@ function convertClocFile(repo, socket) {
 
   var dirName = config.repoToFolder(repo.fullName);
 
-  // read the cloc file
+  // attempt to read the cloc file
   var inFile = config.paths.repos + dirName + '/data.cloc';
   fs.readFile(inFile, 'utf8', function(err, clocData) {
     if (err) {
-      console.log(err);
-      deferred.reject(err);
+      if (err.code == 'ENOENT') {
+        // if cloc did not create a file (e.g., because there are no
+        // code files in the repo), create a dummy json file
+        console.log('No cloc file created.');
+        var json = {
+          name: "root", 
+          children: []
+        };
+        createJsonFile(dirName, json, deferred, socket);
+      } else {
+        console.log("ERROR:", err);
+        deferred.reject(err);
+      }
     } else {  
       // convert the cloc file to json
       var json = clocToJson(clocData);
-
-      // make a new folder for the user
-      var outFilePath = config.paths.repos + dirName + '/';
-      mkpath.sync(outFilePath);
-
-      // write out the json
-      var outFile =  outFilePath + 'data.json';
-      fs.writeFile(outFile, JSON.stringify(json), 'utf8', function(err) {
-        if (err) {
-          console.log(err);
-          deferred.reject(err);
-        }
-        else {
-          socket.text('Wrote ' + outFile);
-          deferred.resolve();
-        }
-      });
+      createJsonFile(dirName, json, deferred, socket);
     }
   });
 
