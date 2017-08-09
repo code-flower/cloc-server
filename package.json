@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "CodeFlower",
   "main": "src/server.js",
-  "scripts": {},
+  "scripts": {
+    "test": "node test/load.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/code-flower/server"

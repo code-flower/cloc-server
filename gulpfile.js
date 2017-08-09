@@ -18,6 +18,7 @@ gulp.task('default', function() {
     script: 'src/server.js',
     ext: 'js',
     ignore: [
+      'test/**',
       'repos/**',
       'gulpfile.js'
     ]
