@@ -1,4 +1,110 @@
 
+## The API
+
+### Websockets
+
+All websockets payloads consist of a JSON object with a 'type' property, and other optional data. 
+
+#### Types sent to the server
+
+1. clone
+
+Initiates a clone. The data identifies the repo to be cloned. The request can take one of two forms:
+
+{
+  type: "clone",
+  data: {
+    owner:  [repo owner],
+    name:   [repo name],
+    branch: [the branch to be cloned -- optional, defaults to the default branch]
+  }
+}
+
+OR
+
+{
+  type: "clone",
+  data: {
+    gitUrl: [the git clone url],
+    branch: [optional]
+  }
+}
+
+The second form is for potential non-github repositories where it may be easier to pass the url.
+
+2. abort
+
+Instructs the server to stop cloning/clocing the repo immediately. No data is passed.
+
+{
+  type: "abort",
+  data: {}
+}
+
+#### Types sent to the client
+
+1. text
+
+{
+  type: "text",
+  data: {
+    text: [text string]
+  }
+}
+
+2. error
+
+{
+  type: "error",
+  data: {
+    errorMessage: [text of error message]
+  }
+}
+
+3. credentials
+
+{
+  type: "credentials",
+  data: {
+    attempts: [number of attempts]
+  }
+}
+
+4. unauthorized
+
+{
+  type: "unauthorized",
+  data: {}
+}
+
+5. complete
+
+{
+  type: "complete",
+  data: {
+    owner: [repo owner],
+    name: [repo name],
+    branch: [repo branch],
+    lastUpdated: [time of last change to repo],
+    cloc: {
+      json: [json object],
+      ignored: [list of ignored files]
+    }
+  }
+}
+
+OR 
+
+{
+  type: "complete",
+  data: {
+    url: [url of a json file of the format in data above]
+  }
+}
+
+### HTTP
+
+
 #### See the app
 
 [codeflower.la](http://codeflower.la)
