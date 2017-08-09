@@ -36,21 +36,34 @@ var httpServer = HTTP.createServer(function(request, response) {
 // the server events to the client
 
 var wsServer = new WS.createServer({server: httpServer});
+var connId = 0;
 
 wsServer.on('connection', function(conn) {
+  // increment the connId so that each connection is unique
+  conn.uid = connId;
+  connId = (connId + 1) % (2 << 12);
+
   var socket;
+  conn.on('message', function(msg) {
+    msg = JSON.parse(msg);
 
-  conn.on('message', function (rawData) {
-    var data = JSON.parse(rawData);
+    switch(msg.type) {
 
-    switch(data.type) {
+      // CLONE
       case config.messageTypes.clone:
         socket = new WS.WebSocket(conn);
-        system.cloneFlower(data.repo, socket);
+
+        msg.repo.uid = process.pid + '_' + conn.uid,
+        msg.repo.socket = socket;
+
+        system.cloneFlower(msg.repo);
         break;
+
+      // ABORT
       case config.messageTypes.abort:
         socket.close();
         break;
+
     }
   });
 });
@@ -63,5 +76,7 @@ httpServer.listen(config.ports.HTTP, function() {
   console.log(`HTTP server running at port ${config.ports.HTTP} using protocol '${config.protocols.HTTP}'`);
   console.log(`Websockets server running at port ${config.ports.WS} using protocol '${config.protocols.WS}'`);
 });
+
+
 
 

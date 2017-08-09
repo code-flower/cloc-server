@@ -73,7 +73,7 @@ function clocToJson(clocData) {
 
 // run the cloc command on the given repo
 function createClocFile(repo, socket) {
-  var dirName = config.repoToFolder(repo.fullName);
+  var dirName = repo.folderName;
 
   var cd = 'cd ' + config.paths.repos + dirName + '; ';
   var cloc = 'cloc ' + dirName +
@@ -111,7 +111,7 @@ function convertClocFile(repo, socket) {
 
   socket.text('\nConverting cloc file to json...');
 
-  var dirName = config.repoToFolder(repo.fullName);
+  var dirName = repo.folderName;
 
   // attempt to read the cloc file
   var inFile = config.paths.repos + dirName + '/data.cloc';

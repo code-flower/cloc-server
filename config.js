@@ -45,12 +45,12 @@ module.exports = {
     complete: 'complete'
   },
 
-  repoToFolder: function(repoName) {
-    return repoName.replace('/', '#');
+  repoToFolder: function(repoName, folderId) {
+    return repoName.replace('/', '#') + '#' + folderId;
   },
 
   folderToRepo: function(folderName) {
-    return folderName.replace('#', '/');
+    return folderName.replace('#', '/').replace(/#.*?$/, '');
   },
 
   deleteAfterClone: true,

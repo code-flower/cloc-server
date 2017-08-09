@@ -18,9 +18,63 @@ const HOSTNAME      = 'localhost',
       HARVEST_URL   = '/harvest';
 
 // the repos to clone
+// const TEST_REPOS = [
+//   'https://github.com/addgatsby/gatsby-api',
+//   'https://github.com/code-flower/client-web.git',
+//   'https://github.com/code-flower/server.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Tencent/VasSonic.git',
+//   'https://github.com/haskellcamargo/gemidao-do-zap.git',
+//   'https://github.com/OmkarPathak/pygorithm.git',
+//   'https://github.com/sghall/resonance.git',
+//   'https://github.com/jmensch1/sutter-quiz'
+// ];
+
+// const TEST_REPOS = [
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git',
+//   'https://github.com/Unitech/pm2.git'
+// ];
+
 const TEST_REPOS = [
-  'https://github.com/code-flower/client-web.git',
-  'https://github.com/code-flower/server.git'
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/addgatsby/gatsby-api',
+  'https://github.com/Unitech/pm2.git',
+  'https://github.com/Unitech/pm2.git',
+  'https://github.com/Unitech/pm2.git',
+  'https://github.com/Unitech/pm2.git',
+  'https://github.com/Unitech/pm2.git',
+  'https://github.com/Unitech/pm2.git',
+  'https://github.com/Unitech/pm2.git',
+  'https://github.com/Unitech/pm2.git',
+  'https://github.com/Unitech/pm2.git'
 ];
 
 /////////////////// FUNCTIONS /////////////////////

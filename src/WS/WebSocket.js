@@ -11,7 +11,7 @@ function WebSocket(wsConn) {
 
 // PRIVATE METHODS //
 WebSocket.prototype._send = function(data) {
-  console.log("Sending:", data.hasOwnProperty('text') ? data.text : data);
+  //console.log("Sending:", data.hasOwnProperty('text') ? data.text : data);
   if (this.conn)
     this.conn.send(JSON.stringify(data));
 };
@@ -55,7 +55,7 @@ WebSocket.prototype.credentials = function(repo, needHTTPS) {
 WebSocket.prototype.complete = function(repo) {
   this._send({
     type: config.messageTypes.complete,
-    repoName: repo.fullName
+    repoName: repo.folderName
   });
   this.close();
 };

@@ -47,6 +47,7 @@ function cloneFlower(repo, socket) {
       usingHTTPS = urlInfo.protocol === 'https';
 
   repo.fullName = urlInfo.full_name;
+  repo.folderName = config.repoToFolder(repo.fullName, repo.folderId);
 
   if (!repo.fullName) 
     socket.invalidUrl(repo);

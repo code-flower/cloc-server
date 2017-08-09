@@ -11,16 +11,15 @@ function getFile(fileName) {
   return Q.nfapply(fs.readFile, [fileName, 'utf8']);
 }
 
-function cleanIgnoredText(ignoredText, dirName) {
-  var regex = new RegExp(dirName + '/', 'g');
+function cleanIgnoredText(ignoredText, folderName) {
+  var regex = new RegExp(folderName + '/', 'g');
   return ignoredText.split('\n').slice(1).map(function(line) {
     return line.replace(regex, '');
   }).join('\n');
 }
 
-function getFlower(reposDir, repoName, deleteAfter) {
-  var dirName = config.repoToFolder(repoName);
-  var repoDir = `${reposDir}${dirName}/`;
+function getFlower(reposDir, folderName, deleteAfter) {
+  var repoDir = `${reposDir}${folderName}/`;
 
   return Q.all([
     getFile(repoDir + 'data.json'),
@@ -29,11 +28,11 @@ function getFlower(reposDir, repoName, deleteAfter) {
   .then(function(data) {
 
     if (deleteAfter)
-      deleteRepo(repoName);
+      deleteRepo(folderName);
 
     return {
       repoData: JSON.parse(data[0]),
-      ignored:  cleanIgnoredText(data[1], dirName)
+      ignored:  cleanIgnoredText(data[1], folderName)
     };
   });
 }

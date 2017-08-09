@@ -6,12 +6,11 @@ var config = require('../../config');
 
 //////////// EXPORTS ////////////
 
-module.exports = function deleteRepo(repoName) {
+module.exports = function deleteRepo(folderName) {
   var deferred = Q.defer(); 
-  var dirName = config.repoToFolder(repoName);
 
-  console.log("deleting folder:", dirName);
-  rimraf(config.paths.repos + dirName, deferred.resolve);
+  console.log("deleting folder:", folderName);
+  rimraf(config.paths.repos + folderName, deferred.resolve);
 
   return deferred.promise;
 };

@@ -46,9 +46,11 @@ function checkPrivateRepo(repo, socket) {
 
 // runs git clone and returns a promise
 function cloneRepo(repo, socket) {
+  console.log("CLONING:", repo.folderName);
+
   var deferred = Q.defer();
 
-  var dirName = config.repoToFolder(repo.fullName);
+  var dirName = repo.folderName;
 
   mkpath.sync(config.paths.repos + dirName);
 
