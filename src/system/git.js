@@ -24,12 +24,21 @@ function gitCloneUrl(repo) {
 function checkPrivateRepo(repo, socket) {
   var deferred = Q.defer();
 
-  var curl = `curl https://api.github.com/repos/${repo.fullName}`;
-  socket.text('>> ' + curl);
+  var lsRemote = `git ls-remote -h "https://github.com/${repo.fullName}"`;
+  socket.text('>> ' + lsRemote);
 
-  exec(curl, function(error, stdout, stdin) {
-    var isPrivate = !!JSON.parse(stdout).message;
-    deferred.resolve(isPrivate);
+  var proc = exec(lsRemote, () => deferred.resolve(false));
+
+  // listen for command output
+  proc.stdout.on('data', function(data) { socket.text(data); });
+
+  proc.stderr.on('data', function(data) { 
+    socket.text(data); 
+
+    data = data.toString('utf-8');
+    if (data.match(/Repository not found/) ||
+        data.match(/fatal:/)) 
+      deferred.resolve(true);
   });
 
   return deferred.promise;
@@ -50,12 +59,12 @@ function cloneRepo(repo, socket) {
   var socketText = clone.replace(/https:\/\/.*?@/, 'https://******:******@');
   socket.text('\n>> ' + socketText);
 
-  var process = exec(cd + clone, deferred.resolve);
+  var proc = exec(cd + clone, deferred.resolve);
 
   // listen for command output
-  process.stdout.on('data', function(data) { socket.text(data); });
+  proc.stdout.on('data', function(data) { socket.text(data); });
 
-  process.stderr.on('data', function(data) { 
+  proc.stderr.on('data', function(data) { 
     socket.text(data); 
 
     data = data.toString('utf-8');
