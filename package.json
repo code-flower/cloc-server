@@ -4,7 +4,7 @@
   "description": "CodeFlower",
   "main": "src/server.js",
   "scripts": {
-    "test": "node test/load.js"
+    "test": "node test/single.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "",
   "dependencies": {
+    "bluebird": "^3.5.0",
     "git-url-parse": "^5.0.1",
     "gmail-send": "^1.2.6",
     "mkpath": "^0.1.0",
