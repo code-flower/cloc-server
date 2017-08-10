@@ -54,7 +54,14 @@ function testRepo(repo) {
    
   ws.on('message', function(msg) {
     msg = JSON.parse(msg);
-    console.log("MESSAGE: ", msg);
+    switch(msg.type) {
+      case 'text':
+        console.log(msg.text);
+        break;
+      default:
+        console.log("MESSAGE: ", msg);
+        break;
+    }
   });
 
   ws.on('close', function() {
@@ -64,4 +71,4 @@ function testRepo(repo) {
 
 ////////////////////// RUN TEST ///////////////////////
 
-testRepo(TEST_REPOS[4]);
+testRepo(TEST_REPOS[1]);

@@ -1,13 +1,15 @@
 //////////////// IMPORTS ///////////////////
 
 const prepRepo = require('./prepRepo'),
-      checkRepoStatus = require('./checkRepoStatus');
+      checkRepoStatus = require('./checkRepoStatus'),
+      cloneRepo = require('./cloneRepo');
 
 //////////////// PRIVATE ///////////////////
 
 function generateFlower(repo) {
   prepRepo(repo)
   .then(checkRepoStatus)
+  .then(cloneRepo)
   .then((repo) => {
     console.log("SUCCESS: " + repo.fullName);
   })
@@ -21,9 +23,9 @@ function generateFlower(repo) {
 //   prepRepo(repo)
 //   .then(checkRepoStatus)
 //   .then(cloneRepo)
-//   .then(createClocFile)
-//   .then(convertClocFile)
-//   .then(sendRepoData)
+//   .then(repoToCloc)
+//   .then(clocToJson)
+//   .then(returnRepoData)
 //   .then(deleteRepo)
 //   .catch(err => {
 //     switch(err.type) {

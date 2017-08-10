@@ -16,8 +16,8 @@ function checkRepoStatus(repo) {
     // using '******' as a fallback is a trick that lets us 
     // distinguish between invalid credentials and non-existent repos, 
     // without triggering a username/password prompt
-    let user = repo.username ? repo.username.replace(/@/g, '%40') : '******',
-        pass = repo.password ? repo.password.replace(/@/g, '%40') : '******',
+    let user = repo.username || '******',
+        pass = repo.password || '******',
         lsRemote = `git ls-remote -h "https://${user}:${pass}@github.com/${repo.fullName}"`;
 
     // echo the command (but not credentials)
