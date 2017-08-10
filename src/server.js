@@ -56,7 +56,7 @@ wsServer.on('connection', function(conn) {
         msg.repo.uid = process.pid + '_' + conn.uid,
         msg.repo.socket = socket;
 
-        system.cloneFlower(msg.repo);
+        system.generateFlower(msg.repo);
         break;
 
       // ABORT
@@ -71,6 +71,8 @@ wsServer.on('connection', function(conn) {
 
 
 ///////////////// START LISTENING ///////////////////
+
+// START BY USING MKPATH.SYNC TO CREATE NECESSARY FOLDERS
 
 httpServer.listen(config.ports.HTTP, function() {
   console.log(`HTTP server running at port ${config.ports.HTTP} using protocol '${config.protocols.HTTP}'`);

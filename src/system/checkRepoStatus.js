@@ -5,14 +5,6 @@ var exec = require('child_process').exec;
 
 //////////// PRIVATE //////////////
 
-// initialize the repo object
-function prepRepo(repo) {
-  return new Promise((resolve, reject) => {
-    repo.fullName = `${repo.owner}/${repo.name}`; 
-    resolve(repo);
-  });
-}
-
 // uses the git ls-remote command to determine: 
 // (1) whether the repo requires credentials,
 // (2) whether the repo exists, and
@@ -60,34 +52,6 @@ function checkRepoStatus(repo) {
   });
 }
 
-function cloneFlower(repo) {
-  prepRepo(repo)
-  .then(checkRepoStatus)
-  .then((repo) => {
-    console.log("SUCCESS: " + repo.fullName);
-  })
-  .catch((err) => {
-    console.log("ERROR:", err);
-  });
-}
+//////////// EXPORTS //////////////
 
-//// IDEALLY ////
-// function cloneFlower(repo) {
-//   prepRepo(repo)
-//   .then(checkRepoStatus)
-//   .then(cloneRepo)
-//   .then(createClocFile)
-//   .then(convertClocFile)
-//   .then(sendRepoData)
-//   .then(deleteRepo)
-//   .catch(err => {
-//     switch(err.type) {
-
-//     }
-//   })
-// }
-
-//////////// EXPORTS ////////////
-
-module.exports = cloneFlower;
-
+module.exports = checkRepoStatus;
