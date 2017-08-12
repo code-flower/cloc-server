@@ -49,7 +49,13 @@ module.exports = {
     needCredentials:    'needCredentials',
     credentialsInvalid: 'credentialsInvalid',
     repoNotFound:       'repoNotFound',
-    branchNotFound:     'branchNotFound'
+    branchNotFound:     'branchNotFound',
+    clocError:          'clocError'
+  },
+
+  cloc: {
+    dataFile: 'data.cloc',
+    ignoredFile: 'ignored.txt'
   },
 
   repoToFolder: function(repoName, folderId) {
