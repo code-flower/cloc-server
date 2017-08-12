@@ -2,7 +2,7 @@
 
 var exec = require('child_process').exec;
 var mkpath = require('mkpath');
-var config = require('../../config');
+var config = require('@config');
 
 //////////// PRIVATE ////////////
 

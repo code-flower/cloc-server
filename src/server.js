@@ -1,6 +1,8 @@
+require('module-alias/register');
+
 //////////////////// IMPORTS //////////////////////
 
-var config = require('../config');
+var config = require('@config');
 var HTTP = require('./HTTP/');
 var WS = require('./WS/');
 var system = require('./system/');

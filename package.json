@@ -21,6 +21,7 @@
     "git-url-parse": "^5.0.1",
     "gmail-send": "^1.2.6",
     "mkpath": "^0.1.0",
+    "module-alias": "^2.0.1",
     "moment": "^2.13.0",
     "q": "^1.4.1",
     "rimraf": "^2.5.2",
@@ -30,5 +31,8 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.4"
+  },
+  "_moduleAliases": {
+    "@config": "./config"
   }
 }
