@@ -1,6 +1,4 @@
-// for load-testing the server by simulating multiple simultaneous
-// clone requests. The repos to be cloned are listed in the TEST_REPOS
-// constant below. 
+// for testing individual clone requests during development
 
 //////////////////// IMPORTS //////////////////////
 

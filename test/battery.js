@@ -1,6 +1,4 @@
-// for load-testing the server by simulating multiple simultaneous
-// clone requests. The repos to be cloned are listed in the TEST_REPOS
-// constant below. 
+// this is for testing all of the various params/responses for clone requests.
 
 //////////////////// IMPORTS //////////////////////
 
@@ -27,7 +25,7 @@ const TESTS = [{
     branch: 'masters'
   },
   test: {
-    desc: 'Public repo, non-existent branch provided.',
+    desc: 'Public repo, non-existent branch provided, no creds.',
     expect: msg => msg.type === MSG_TYPES.error &&
                   msg.data.errorType === ERR_TYPES.branchNotFound
   }
@@ -38,7 +36,7 @@ const TESTS = [{
     branch: 'new-ui'
   },
   test: {
-    desc: 'Public repo, branch .',
+    desc: 'Public repo, branch valid, no creds.',
     expect: msg => msg.type === MSG_TYPES.success &&
                    msg.data.fullName === 'code-flower/client-web'
   }
@@ -49,7 +47,7 @@ const TESTS = [{
     branch: ''
   },
   test: {
-    desc: 'Private repo, no credentials.',
+    desc: 'Private repo, no branch specified, no creds.',
     expect: msg => msg.type === MSG_TYPES.error &&
                    msg.data.errorType === ERR_TYPES.needCredentials
   }
@@ -62,7 +60,7 @@ const TESTS = [{
     password: 'hell'
   },
   test: {
-    desc: 'Public repo, no branch specified, made-up credentials provided.',
+    desc: 'Public repo, no branch specified, dummy creds provided.',
     expect: msg => msg.type === MSG_TYPES.success &&
                    msg.data.branch === ''
   }
