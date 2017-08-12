@@ -17,7 +17,7 @@ module.exports = {
 
   paths: {
     static:   path.join(__dirname, './src/static'),
-    repos:    path.join(__dirname, './src/system/repos/'),
+    repos:    path.join(__dirname, './src/tmp/repos/'),
     samples:  path.join(__dirname, './src/system/samples/'),
     logs:     path.join(__dirname, './src/system/logs/'),
     SSL: {
@@ -43,6 +43,13 @@ module.exports = {
     credentials: 'credentials',
     unauthorized: 'unauthorized',
     complete: 'complete'
+  },
+
+  errorTypes: {
+    needCredentials:    'needCredentials',
+    credentialsInvalid: 'credentialsInvalid',
+    repoNotFound:       'repoNotFound',
+    branchNotFound:     'branchNotFound'
   },
 
   repoToFolder: function(repoName, folderId) {

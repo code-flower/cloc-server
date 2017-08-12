@@ -1,7 +1,7 @@
 //////////// IMPORTS ////////////
 
-const Promise = require('bluebird');
-var exec = require('child_process').exec;
+const Promise = require('bluebird'),
+      exec = require('child_process').exec;
 
 //////////// PRIVATE //////////////
 
@@ -9,8 +9,9 @@ var exec = require('child_process').exec;
 // (1) whether the repo requires credentials,
 // (2) whether the repo exists, and
 // (3) whether the branch exists
-function checkRepoStatus(repo) {
+function checkRepoClonability(repo) {
   return new Promise((resolve, reject) => {
+    console.log("2. Checking Repo Clonability");
 
     // construct the git ls-remote command.
     // using '******' as a fallback is a trick that lets us 
@@ -54,4 +55,4 @@ function checkRepoStatus(repo) {
 
 //////////// EXPORTS //////////////
 
-module.exports = checkRepoStatus;
+module.exports = checkRepoClonability;

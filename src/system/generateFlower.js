@@ -1,38 +1,33 @@
 //////////////// IMPORTS ///////////////////
 
-const prepRepo = require('./prepRepo'),
-      checkRepoStatus = require('./checkRepoStatus'),
-      cloneRepo = require('./cloneRepo');
+const prepRepoForPipeline      = require('./bin/prepRepoForPipeline'),
+      checkRepoClonability     = require('./bin/checkRepoClonability'),
+      cloneRepoInFilesystem    = require('./bin/cloneRepoInFilesystem'),
+      convertRepoToClocFile    = require('./bin/convertRepoToClocFile'),
+      convertClocFileToJson    = require('./bin/convertClocFileToJson'),
+      sendJsonToClient         = require('./bin/sendJsonToClient'),
+      deleteRepoFromFilesystem = require('./bin/deleteRepoFromFilesystem');
 
 //////////////// PRIVATE ///////////////////
 
 function generateFlower(repo) {
-  prepRepo(repo)
-  .then(checkRepoStatus)
-  .then(cloneRepo)
+  prepRepoForPipeline(repo)
+  .then(checkRepoClonability)
+  .then(cloneRepoInFilesystem)
+  .then(convertRepoToClocFile)
+  .then(convertClocFileToJson)
+  .then(sendJsonToClient)
   .then((repo) => {
     console.log("SUCCESS: " + repo.fullName);
   })
   .catch((err) => {
-    console.log("ERROR:", err);
-  });
+    console.log("CATCH: ", err);
+  })
+  .error((err) => {
+    console.log("ERROR: ", err);
+  })
+  .finally(() => deleteRepoFromFilesystem(repo));
 }
-
-//// IDEALLY ////
-// function cloneFlower(repo) {
-//   prepRepo(repo)
-//   .then(checkRepoStatus)
-//   .then(cloneRepo)
-//   .then(repoToCloc)
-//   .then(clocToJson)
-//   .then(returnRepoData)
-//   .then(deleteRepo)
-//   .catch(err => {
-//     switch(err.type) {
-
-//     }
-//   })
-// }
 
 /////////////////// EXPORTS ///////////////////
 

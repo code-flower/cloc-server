@@ -1,8 +1,9 @@
 //////////// IMPORTS ////////////
 
-var exec = require('child_process').exec;
-var mkpath = require('mkpath');
-var config = require('@config');
+const exec = require('child_process').exec,
+      mkpath = require('mkpath'),
+      Promise = require('bluebird'),
+      config = require('@config');
 
 //////////// PRIVATE ////////////
 
@@ -15,9 +16,9 @@ function gitCloneUrl(repo) {
 }
 
 // runs git clone and returns a promise
-function cloneRepo(repo) {
+function cloneRepoInFilesystem(repo) {
   return new Promise((resolve, reject) => {
-    console.log("CLONING:", repo.fullName);
+    console.log("3. Cloning Repo In Filesystem");
 
     mkpath(config.paths.repos + repo.folderName, function(err) {
       if (err) {
@@ -44,5 +45,5 @@ function cloneRepo(repo) {
 
 //////////// EXPORTS ////////////
 
-module.exports = cloneRepo;
+module.exports = cloneRepoInFilesystem;
 

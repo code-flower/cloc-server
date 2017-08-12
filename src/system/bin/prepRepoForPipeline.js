@@ -1,13 +1,15 @@
 //////////// IMPORTS ////////////
 
-const Promise = require('bluebird');
-const config = require('../../config');
+const Promise = require('bluebird'),
+      config = require('@config');
 
 //////////// PRIVATE ////////////
 
 // initialize the repo object
-function prepRepo(repo) {
+function prepRepoForPipeline(repo) {
   return new Promise((resolve, reject) => {
+    console.log("1. Prepping Repo For Pipeline");
+
     repo.fullName = `${repo.owner}/${repo.name}`; 
     repo.folderName = config.repoToFolder(repo.fullName, repo.uid);
     if (repo.username)
@@ -24,4 +26,4 @@ function prepRepo(repo) {
 
 //////////// EXPORTS /////////////
 
-module.exports = prepRepo;
+module.exports = prepRepoForPipeline;
