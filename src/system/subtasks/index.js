@@ -6,5 +6,6 @@ module.exports = {
   convertRepoToClocFile:    require('./convertRepoToClocFile'),
   convertClocFileToJson:    require('./convertClocFileToJson'),
   sendJsonToClient:         require('./sendJsonToClient'),
-  deleteRepoFromFilesystem: require('./deleteRepoFromFilesystem')
+  deleteRepoFromFilesystem: require('./deleteRepoFromFilesystem'),
+  closeConnectionToClient:  require('./closeConnectionToClient')
 };

@@ -7,7 +7,8 @@ const {
   convertRepoToClocFile,
   convertClocFileToJson,
   sendJsonToClient,
-  deleteRepoFromFilesystem
+  deleteRepoFromFilesystem,
+  closeConnectionToClient
 } = require('./subtasks/');
 
 //////////////// PRIVATE ///////////////////
@@ -28,7 +29,8 @@ function generateFlower(repo) {
   .error((err) => {
     console.log("ERROR: ", err);
   })
-  .finally(() => deleteRepoFromFilesystem(repo));
+  .finally(() => deleteRepoFromFilesystem(repo))
+  .finally(() => closeConnectionToClient(repo));
 }
 
 /////////////////// EXPORTS ///////////////////

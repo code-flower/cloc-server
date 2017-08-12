@@ -72,8 +72,6 @@ WebSocket.prototype.isOpen = function() {
 };
 
 WebSocket.prototype.close = function() {
-  // the close function doesn't seem to work
-  console.log("CLOSING CONNECTION");
   this.conn.close();
   this.conn = null;
 };
