@@ -4,6 +4,7 @@
   "description": "CodeFlower",
   "main": "src/server.js",
   "scripts": {
+    "dev": "nodemon src/server --ignore tmp/ --ignore test/",
     "test": "node test/single.js"
   },
   "repository": {
@@ -28,10 +29,7 @@
     "universal-analytics": "^0.4.9",
     "ws": "^1.1.0"
   },
-  "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-nodemon": "^2.0.4"
-  },
+  "devDependencies": {},
   "_moduleAliases": {
     "@config": "./config"
   }
