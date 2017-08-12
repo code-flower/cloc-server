@@ -20,7 +20,7 @@ function cloneRepoInFilesystem(repo) {
   return new Promise((resolve, reject) => {
     console.log("3. Cloning Repo In Filesystem");
 
-    mkpath(config.paths.repos + repo.folderName, function(err) {
+    mkpath(config.paths.repos + repo.folderName, err => {
       if (err) {
         reject(err);
         return false;
@@ -38,6 +38,7 @@ function cloneRepoInFilesystem(repo) {
       var proc = exec(cd + clone, () => resolve(repo));
 
       // pipe output to socket
+      // NOTE: git uses the stderr channel even for non-error states
       proc.stderr.on('data', data => { repo.socket.text(data); });
     });
   });

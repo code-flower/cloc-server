@@ -1,7 +1,8 @@
 //////////// IMPORTS ////////////
 
 const Promise = require('bluebird'),
-      { exec } = require('child_process');
+      { exec } = require('child_process'),
+      config = require('@config');
 
 //////////// PRIVATE //////////////
 
@@ -28,12 +29,12 @@ function checkRepoClonability(repo) {
     let proc = exec(lsRemote);
 
     // stdout fires if the repo exists and the credentials are correct (if required)
-    proc.stdout.on('data', function(data) { 
+    proc.stdout.on('data', data => { 
       repo.socket.text(data); 
 
       data = data.toString('utf-8');
       if (repo.branch && data.indexOf('refs/heads/' + repo.branch + '\n') === -1)
-        reject({type: 'not-a-branch'});
+        reject(config.errorTypes.branchNotFound);
       else
         resolve(repo);
     });
@@ -41,14 +42,17 @@ function checkRepoClonability(repo) {
     // stderr fires if the credentials are wrong or the repo doesn't exist
     // Repository not found => credentials are correct AND repository does not exist
     // Invalid username or password => credentials are not correct AND repository may or may not exist
-    proc.stderr.on('data', function(data) { 
+    proc.stderr.on('data', data => { 
       repo.socket.text(data); 
 
       data = data.toString('utf-8');
       if (data.match(/Invalid username or password/))
-        reject({type: 'credentials'});
+        if (repo.username && repo.password)
+          reject(config.errorTypes.credentialsInvalid);
+        else 
+          reject(config.errorTypes.needCredentials);
       else if (data.match(/Repository not found/))
-        reject({type: 'not-a-repo'});
+        reject(config.errorTypes.repoNotFound);
     });
   });
 }
