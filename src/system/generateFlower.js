@@ -1,12 +1,14 @@
 //////////////// IMPORTS ///////////////////
 
-const prepRepoForPipeline      = require('./bin/prepRepoForPipeline'),
-      checkRepoClonability     = require('./bin/checkRepoClonability'),
-      cloneRepoInFilesystem    = require('./bin/cloneRepoInFilesystem'),
-      convertRepoToClocFile    = require('./bin/convertRepoToClocFile'),
-      convertClocFileToJson    = require('./bin/convertClocFileToJson'),
-      sendJsonToClient         = require('./bin/sendJsonToClient'),
-      deleteRepoFromFilesystem = require('./bin/deleteRepoFromFilesystem');
+const {
+  prepRepoForPipeline,
+  checkRepoClonability,
+  cloneRepoInFilesystem,
+  convertRepoToClocFile,
+  convertClocFileToJson,
+  sendJsonToClient,
+  deleteRepoFromFilesystem
+} = require('./subtasks/');
 
 //////////////// PRIVATE ///////////////////
 

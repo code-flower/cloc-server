@@ -1,6 +1,6 @@
 //////////// IMPORTS ////////////
 
-const exec = require('child_process').exec,
+const { exec } = require('child_process'),
       mkpath = require('mkpath'),
       Promise = require('bluebird'),
       config = require('@config');

@@ -1,7 +1,7 @@
 //////////// IMPORTS ////////////
 
 const Promise = require('bluebird'),
-      exec = require('child_process').exec;
+      { exec } = require('child_process');
 
 //////////// PRIVATE //////////////
 
