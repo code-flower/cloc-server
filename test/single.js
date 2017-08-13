@@ -56,6 +56,10 @@ function testRepo(repo) {
       case 'text':
         console.log(msg.text);
         break;
+      case 'success':
+        console.log("SUCCESS:");
+        console.log(msg.data);
+        break;
       default:
         console.log("MESSAGE: ", msg);
         break;
@@ -63,7 +67,7 @@ function testRepo(repo) {
   });
 
   ws.on('close', function() {
-    console.log("CLOSED");
+    console.log("CONNECTION CLOSED");
   });
 }
 

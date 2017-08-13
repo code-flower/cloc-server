@@ -60,6 +60,21 @@ WebSocket.prototype.complete = function(repo) {
   this.close();
 };
 
+WebSocket.prototype.success = function(repo) {
+  let { owner, name, branch, fullName, cloc } = repo;
+
+  this._send({
+    type: config.messageTypes.success,
+    data: {
+      owner,
+      name,
+      branch,
+      fullName,
+      cloc
+    }
+  });
+}
+
 WebSocket.prototype.unauthorized = function(repo) {
   this._send({
     type: config.messageTypes.unauthorized

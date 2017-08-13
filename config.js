@@ -42,7 +42,8 @@ module.exports = {
     error: 'error',
     credentials: 'credentials',
     unauthorized: 'unauthorized',
-    complete: 'complete'
+    complete: 'complete',
+    success: 'success'
   },
 
   errorTypes: {
@@ -66,7 +67,7 @@ module.exports = {
     return folderName.replace('#', '/').replace(/#.*?$/, '');
   },
 
-  deleteAfterClone: true,
+  deleteAfterClone: false,
 
   gaTrackingId: 'UA-78051006-1'
 

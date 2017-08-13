@@ -1,0 +1,8 @@
+{
+  "type": "clone",
+  "repo": { 
+    "owner": "code-flower", 
+    "name": "client-web", 
+    "branch": "new-ui" 
+  }
+}
