@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon src/server --ignore tmp/ --ignore test/",
-    "test": "node test/single.js"
+    "test": "node test/single.js",
+    "deploy": "pm2 start src/server.js --name='codeflower' && pm2 monit"
   },
   "repository": {
     "type": "git",

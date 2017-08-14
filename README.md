@@ -1,150 +1,27 @@
 
-## The API
+## Installation
 
-### Websockets
+1. Install git
 
-All websockets payloads consist of a JSON object with a 'type' property, and other optional data. 
+2. Clone this repo and cd into it
 
-#### Types sent to the server
+3. Install nvm
+  1. see https://github.com/creationix/nvm#calling-nvm-use-automatically-in-a-directory-with-a-nvmrc-file
+  for the curl command to install
+  2. check installation: `command -v nvm`
 
-1. clone
+4. Use nvm to install node/npm 
+  `nvm install`. This will install the correct version (the one in the .nvmrc file). 
 
-Initiates a clone. The data identifies the repo to be cloned. The request can take one of two forms:
+5. Use npm to globally install cloc, pm2, and nodemon
+  `npm install -g cloc`
+  `npm install -g pm2`
+  `npm install -g nodemon`
 
-{
-  type: "clone",
-  data: {
-    owner:  [repo owner],
-    name:   [repo name],
-    branch: [the branch to be cloned -- optional, defaults to the default branch]
-  }
-}
+6. Install local packages
+  `npm install`
 
-OR
-
-{
-  type: "clone",
-  data: {
-    gitUrl: [the git clone url],
-    branch: [optional]
-  }
-}
-
-The second form is for potential non-github repositories where it may be easier to pass the url.
-
-2. abort
-
-Instructs the server to stop cloning/clocing the repo immediately. No data is passed.
-
-{
-  type: "abort",
-  data: {}
-}
-
-#### Types sent to the client
-
-1. text
-
-{
-  type: "text",
-  data: {
-    text: [text string]
-  }
-}
-
-2. error
-
-{
-  type: "error",
-  data: {
-    errorMessage: [text of error message]
-  }
-}
-
-3. credentials
-
-{
-  type: "credentials",
-  data: {
-    attempts: [number of attempts]
-  }
-}
-
-4. unauthorized
-
-{
-  type: "unauthorized",
-  data: {}
-}
-
-5. complete
-
-{
-  type: "complete",
-  data: {
-    owner: [repo owner],
-    name: [repo name],
-    branch: [repo branch],
-    lastUpdated: [time of last change to repo],
-    cloc: {
-      json: [json object],
-      ignored: [list of ignored files]
-    }
-  }
-}
-
-OR 
-
-{
-  type: "complete",
-  data: {
-    url: [url of a json file of the format in data above]
-  }
-}
-
-### HTTP
-
-
-#### See the app
-
-[codeflower.la](http://codeflower.la)
-
-
-#### Running the Dev Environment
-
-`gulp`
-
-
-#### How to Build
-
-`gulp build [--env=production]`
-
-The production flag will cause assets to be minified.
-
-
-#### Deploying to production
-
-1. install the node version manager
-  -- see https://github.com/creationix/nvm for the command
-
-2. use `nvm` to install node version 6.9.1 
-  
-  ```nvm install 6.9.1.```
-
-3. use `npm` to globally install `gulp`, `cloc`, and `forever`
-
-4. clone the repo
-
-5. create a file at private/gmail-credentials.js that contains this:
-
-  ```
-  module.exports = {
-    email:    '[gmail address]',
-    password: '[gmail password]'
-  };
-  ```
-
-6. install an SSL certificate and set up automatic renewal
+7. Install SSL cert
   1. install the letsencrypt client (https://letsencrypt.org/getting-started/). This will install the `certbot-auto` program used to generate the certificate. 
 
   2. generate the SSL certificate
@@ -163,9 +40,76 @@ The production flag will cause assets to be minified.
   47 6,15 * * * [PATH TO certbot-auto]/certbot-auto renew --pre-hook "forever stopall" --post-hook "npm run forever --prefix [PATH TO CodeFlower]"
   ```
 
-7. `npm install`
+## Development
 
-8. `npm run deploy`
-  - this will build a production version of the app and start node forever
+To run the app with a nodemon server: `npm run dev`
+
+To run tests against the server: `npm test` (Note: the server must be running first.)
+
+## Deployment
+
+`pm2 start src/server.js --name='codeflower'`
+`pm2 monit` to monitor the server
+`pm2 show codeflower` to see info about the server
+
+## The API
+
+### Websockets
+
+All websockets payloads consist of a JSON object with a 'type' property, and other optional data. 
+
+#### Types sent to the server
+
+1. clone
+
+Initiates a clone. The data identifies the repo to be cloned. The request can take one of two forms:
+
+{
+  type: "clone",
+  repo: {
+    owner:    [repo owner],
+    name:     [repo name],
+    branch:   [the branch to be cloned -- optional, defaults to the default branch],
+    username: [required for private repos],
+    password: [required for private repos]
+  }
+}
+
+#### Types sent to the client
+
+1. update
+
+{
+  type: "update",
+  text: [string of update text]
+}
+
+2. error
+
+{
+  type: "error",
+  error: {
+    errorType: [one of config.errorTypes]
+    ...other data
+  }
+}
+
+3. success
+
+{
+  type: "success",
+  repo: {
+    owner:  [repo owner],
+    name:   [repo name],
+    branch: [if branch was provided in request],
+    cloc: {
+      json:    [json object],
+      ignored: [list of ignored files]
+    }
+  }
+}
+
+### HTTP
+
 
 
