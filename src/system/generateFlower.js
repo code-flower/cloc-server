@@ -13,18 +13,18 @@ const {
 
 //////////////// PRIVATE ///////////////////
 
-function generateFlower(repo) {
-  prepRepoForPipeline(repo)
+function generateFlower(ctrl) {
+  prepRepoForPipeline(ctrl)
   .then(checkRepoClonability)
   .then(cloneRepoInFilesystem)
   .then(convertRepoToClocFile)
   .then(convertClocFileToJson)
   .then(sendJsonToClient)
 
-  .catch(err => repo.conn.error(err))
+  .catch(err => ctrl.conn.error(err))
 
-  .finally(() => deleteRepoFromFilesystem(repo))
-  .finally(() => closeConnectionToClient(repo));
+  .finally(() => deleteRepoFromFilesystem(ctrl))
+  .finally(() => closeConnectionToClient(ctrl));
 }
 
 /////////////////// EXPORTS ///////////////////

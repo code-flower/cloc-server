@@ -5,12 +5,12 @@ const Promise = require('bluebird'),
 
 //////////// PRIVATE ////////////
 
-function sendJsonToClient(repo) {
+function sendJsonToClient(ctrl) {
   return new Promise((resolve, reject) => {
     console.log("6. Sending Json To Client");
 
-    repo.conn.success(repo);
-    resolve(repo);
+    ctrl.conn.success(ctrl.repo);
+    resolve(ctrl);
   });
 }
 

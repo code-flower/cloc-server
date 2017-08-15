@@ -21,6 +21,17 @@ const MSG_TYPES = config.messageTypes,
 const TESTS = [{
   params: {
     owner: 'code-flower',
+    name: '',
+    branch: 'master'
+  },
+  test: {
+    desc: 'Repo name not provided.',
+    expect: msg => msg.type === MSG_TYPES.error &&
+                   msg.data.errorType === ERR_TYPES.needOwnerAndName
+  }
+},{
+  params: {
+    owner: 'code-flower',
     name: 'client-web',
     branch: 'masters'
   },
@@ -38,7 +49,7 @@ const TESTS = [{
   test: {
     desc: 'Public repo, branch valid, no creds.',
     expect: msg => msg.type === MSG_TYPES.success &&
-                   msg.data.repo.fullName === 'code-flower/client-web'
+                   msg.data.fullName === 'code-flower/client-web'
   }
 },{
   params: {
@@ -62,7 +73,7 @@ const TESTS = [{
   test: {
     desc: 'Public repo, no branch specified, dummy creds provided.',
     expect: msg => msg.type === MSG_TYPES.success &&
-                   msg.data.repo.branch === ''
+                   msg.data.branch === ''
   }
 },{
   params: {
@@ -88,8 +99,8 @@ const TESTS = [{
   test: {
     desc: 'Private repo, valid branch specified, valid credentials provided.',
     expect: msg => msg.type === MSG_TYPES.success &&
-                   msg.data.repo.fullName === 'jmensch1/sutter-quiz' &&
-                   msg.data.repo.branch === 'releases/1.0'
+                   msg.data.fullName === 'jmensch1/sutter-quiz' &&
+                   msg.data.branch === 'releases/1.0'
   }
 }];
 

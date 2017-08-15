@@ -43,6 +43,7 @@ module.exports = {
   },
 
   errorTypes: {
+    needOwnerAndName:   'needOwnerAndName',
     needCredentials:    'needCredentials',
     credentialsInvalid: 'credentialsInvalid',
     repoNotFound:       'repoNotFound',
@@ -64,7 +65,7 @@ module.exports = {
     return folderName.replace('#', '/').replace(/#.*?$/, '');
   },
 
-  deleteAfterClone: false,
+  deleteAfterClone: true,
 
   gaTrackingId: 'UA-78051006-1'
 

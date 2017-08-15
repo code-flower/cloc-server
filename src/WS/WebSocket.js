@@ -22,27 +22,15 @@ WebSocket.prototype.update = function(text) {
   lines.forEach(line => {
     this._send({
       type: config.messageTypes.update,
-      data: {
-        text: line
-      }
+      data: { text: line }
     }); 
   });
 };
 
 WebSocket.prototype.success = function(repo) {
-  let { owner, name, branch, fullName, cloc, uid } = repo;
   this._send({
     type: config.messageTypes.success,
-    data: {
-      repo: {
-        owner,
-        name,
-        branch,
-        fullName, 
-        uid  
-      },
-      cloc
-    }
+    data: repo
   });
 };
 

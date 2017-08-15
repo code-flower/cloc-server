@@ -4,10 +4,10 @@ const Promise = require('bluebird');
 
 //////////// PRIVATE ////////////
 
-function closeConnectionToClient(repo) {
+function closeConnectionToClient(ctrl) {
   return new Promise((resolve, reject) => {
     console.log("8. Closing Connection To Client");
-    repo.conn.close();
+    ctrl.conn.close();
     resolve();
   });
 }

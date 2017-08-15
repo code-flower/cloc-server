@@ -6,14 +6,14 @@ const Promise = require('bluebird'),
 
 //////////// PRIVATE ////////////
 
-function deleteRepoFromFilesystem(repo) {
+function deleteRepoFromFilesystem(ctrl) {
   return new Promise((resolve, reject) => {
     console.log("7. Deleting Repo From Filesystem");
 
     if (!config.deleteAfterClone)
-      resolve(repo);
+      resolve(ctrl);
     else
-      rimraf(config.paths.repos + repo.folderName, () => resolve(repo));
+      rimraf(config.paths.repos + ctrl.folderName, () => resolve(ctrl));
   });
 }
 

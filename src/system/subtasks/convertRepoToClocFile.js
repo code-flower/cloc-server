@@ -8,18 +8,18 @@ const { exec } = require('child_process'),
 
 //////////// PRIVATE ////////////
 
-function convertRepoToClocFile(repo) {
+function convertRepoToClocFile(ctrl) {
   return new Promise((resolve, reject) => {
     console.log("4. Converting Repo To Cloc File");
 
     let clocError = false,
-        cd = 'cd ' + config.paths.repos + repo.folderName + '; ',
-        cloc = 'cloc ' + repo.name +
+        cd = 'cd ' + config.paths.repos + ctrl.folderName + '; ',
+        cloc = 'cloc ' + ctrl.repo.name +
                ' --csv --by-file ' + 
                `--ignored=${config.cloc.ignoredFile} ` +  
                `--report-file=${config.cloc.dataFile}`;
 
-    repo.conn.update('\n>> ' + cd + cloc);
+    ctrl.conn.update('\n>> ' + cd + cloc);
 
     let proc = exec(cd + cloc, () => {
       // NOTE: Unitech/pm2 throws an error about recursion
@@ -27,19 +27,17 @@ function convertRepoToClocFile(repo) {
       // Think about how to handle that (and other non-fatal errors).
 
       // if (clocError) 
-      //   reject({
-      //     errorType: config.errorTypes.clocError
-      //   });
+      //   reject({ errorType: config.errorTypes.clocError });
       // else
-      //   resolve(repo);
+      //   resolve(ctrl);
 
-      resolve(repo);
+      resolve(ctrl);
     });
 
-    proc.stdout.on('data', data => data => { repo.conn.update(data); });
+    proc.stdout.on('data', data => data => { ctrl.conn.update(data); });
 
     proc.stderr.on('data', data => {
-      repo.conn.update(data);
+      ctrl.conn.update(data);
       clocError = true;
     });
   });

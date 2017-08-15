@@ -13,9 +13,13 @@ const HOSTNAME      = 'localhost',
       WS_PROTOCOL   = 'wss';
 
 const TEST_REPOS = [{
-  owner: 'code-flower',
+  owner: '',
   name:  'client-web',
   branch: 'masters'
+},{
+  owner: 'code-flower',
+  name:  'client-web',
+  branch: 'master'
 },{
   owner: 'code-flower',
   name:  'client-web',

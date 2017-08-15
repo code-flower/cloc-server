@@ -45,10 +45,11 @@ wsServer.on('connection', conn => {
     msg = JSON.parse(msg);
     switch(msg.type) {
       case config.messageTypes.clone:
-        msg.data.uid = uid();
-        console.log("UID:", msg.data.uid);
-        msg.data.conn = new WS.WebSocket(conn);
-        system.generateFlower(msg.data);
+        system.generateFlower({
+          params: msg.data,
+          uid: uid(),
+          conn: new WS.WebSocket(conn)
+        });
         break;
     }
   });
