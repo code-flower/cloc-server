@@ -21,11 +21,9 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "git-url-parse": "^5.0.1",
-    "gmail-send": "^1.2.6",
     "mkpath": "^0.1.0",
     "module-alias": "^2.0.1",
     "moment": "^2.13.0",
-    "q": "^1.4.1",
     "rimraf": "^2.5.2",
     "universal-analytics": "^0.4.9",
     "ws": "^1.1.0"
