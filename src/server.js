@@ -48,7 +48,7 @@ wsServer.on('connection', conn => {
         system.generateFlower({
           params: msg.data,
           uid: uid(),
-          conn: new WS.WebSocket(conn)
+          conn: WS.Responder(conn)
         });
         break;
     }
