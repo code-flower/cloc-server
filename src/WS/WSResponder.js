@@ -16,7 +16,7 @@ function WSResponder(wsConn) {
       let lines = text.toString('utf-8').split('\n');
       lines.forEach(line => {
         sendData({
-          type: config.messageTypes.update,
+          type: config.responseTypes.update,
           data: { text: line }
         }); 
       });
@@ -24,14 +24,14 @@ function WSResponder(wsConn) {
 
     success: function(repo) {
       sendData({
-        type: config.messageTypes.success,
+        type: config.responseTypes.success,
         data: repo
       });
     },
 
     error: function(err) {
       sendData({
-        type: config.messageTypes.error,
+        type: config.responseTypes.error,
         data: err
       });
     },

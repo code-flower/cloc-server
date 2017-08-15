@@ -16,7 +16,7 @@ var httpServer = HTTP.createServer(function(request, response) {
   HTTP.parseRequest(request)
   .then(reqInfo => {
     switch(reqInfo.endpoint) {
-      case config.messageTypes.clone:
+      case config.endpoints.cloc:
         system.generateFlower({
           params: reqInfo.params,
           uid:    uid(),
@@ -39,7 +39,7 @@ wsServer.on('connection', conn => {
   conn.on('message', msg => {
     msg = JSON.parse(msg);
     switch(msg.type) {
-      case config.messageTypes.clone:
+      case config.endpoints.cloc:
         system.generateFlower({
           params: msg.data,
           uid:    uid(),

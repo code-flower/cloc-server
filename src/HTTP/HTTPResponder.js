@@ -14,14 +14,14 @@ function HTTPResponder(response) {
 
     success: function(repo) {
       serveJson(response, {
-        type: config.messageTypes.success,
+        type: config.responseTypes.success,
         data: repo
       });
     },
 
     error: function(err) {
       serveJson(response, {
-        type: config.messageTypes.error,
+        type: config.responseTypes.error,
         data: err
       });
     },

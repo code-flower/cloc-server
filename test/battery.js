@@ -2,24 +2,18 @@
 
 //////////////////// IMPORTS //////////////////////
 
-const WebSocket = require('ws');
-const https = require('https');
 const config = require('../config');
 const gitCreds = require('../private/git-creds');
+const { httpReq, wsReq } = require('./clocRequests');
 
-/////////////////// CONSTANTS /////////////////////
+//////////////////// CONSTANTS ////////////////////
 
-// server config
-const HOSTNAME      = 'localhost',
-      PORT          = 8000,
-      WS_PROTOCOL   = 'wss';
-
-const MSG_TYPES = config.messageTypes,
-      ERR_TYPES = config.errorTypes;
+const RES_TYPES = config.responseTypes;
+const ERR_TYPES = config.errorTypes;
 
 ///////////////// TEST REQUESTS ///////////////////
 
-const TESTS = [{
+const TEST_REQUESTS = [{
   params: {
     owner: 'code-flower',
     name: '',
@@ -27,7 +21,7 @@ const TESTS = [{
   },
   test: {
     desc: 'Repo name not provided.',
-    expect: msg => msg.type === MSG_TYPES.error &&
+    expect: msg => msg.type === RES_TYPES.error &&
                    msg.data.errorType === ERR_TYPES.needOwnerAndName
   }
 },{
@@ -38,7 +32,7 @@ const TESTS = [{
   },
   test: {
     desc: 'Public repo, non-existent branch provided, no creds.',
-    expect: msg => msg.type === MSG_TYPES.error &&
+    expect: msg => msg.type === RES_TYPES.error &&
                    msg.data.errorType === ERR_TYPES.branchNotFound
   }
 },{
@@ -49,7 +43,7 @@ const TESTS = [{
   },
   test: {
     desc: 'Public repo, branch valid, no creds.',
-    expect: msg => msg.type === MSG_TYPES.success &&
+    expect: msg => msg.type === RES_TYPES.success &&
                    msg.data.fullName === 'code-flower/client-web'
   }
 },{
@@ -60,7 +54,7 @@ const TESTS = [{
   },
   test: {
     desc: 'Private repo, no branch specified, no creds.',
-    expect: msg => msg.type === MSG_TYPES.error &&
+    expect: msg => msg.type === RES_TYPES.error &&
                    msg.data.errorType === ERR_TYPES.needCredentials
   }
 },{
@@ -73,7 +67,7 @@ const TESTS = [{
   },
   test: {
     desc: 'Public repo, no branch specified, dummy creds provided.',
-    expect: msg => msg.type === MSG_TYPES.success &&
+    expect: msg => msg.type === RES_TYPES.success &&
                    msg.data.branch === ''
   }
 },{
@@ -86,7 +80,7 @@ const TESTS = [{
   },
   test: {
     desc: 'Private repo, valid branch specified, invalid credentials provided.',
-    expect: msg => msg.type === MSG_TYPES.error &&
+    expect: msg => msg.type === RES_TYPES.error &&
                    msg.data.errorType === ERR_TYPES.credentialsInvalid
   }
 },{
@@ -99,7 +93,7 @@ const TESTS = [{
   },
   test: {
     desc: 'Private repo, valid branch specified, valid credentials provided.',
-    expect: msg => msg.type === MSG_TYPES.success &&
+    expect: msg => msg.type === RES_TYPES.success &&
                    msg.data.fullName === 'jmensch1/sutter-quiz' &&
                    msg.data.branch === 'releases/1.0'
   }
@@ -107,16 +101,16 @@ const TESTS = [{
 
 /////////////////// FUNCTIONS /////////////////////
 
-function evalResponse(repo, res) {
-  res = JSON.parse(res);
+function evalResponse(test, res) {
   switch(res.type) {
-    case config.messageTypes.update:
+    case RES_TYPES.update:
       //console.log(res.data.text);
       break;
-    default:
-      let passed = repo.test.expect(res);
-      let output = (repo.test.expect(res) ? 'PASSED: ' : '\nFAILED: ') + 
-                   repo.test.desc;
+    case RES_TYPES.success:
+    case RES_TYPES.error:
+      let passed = test.expect(res);
+      let output = (test.expect(res) ? 'PASSED: ' : '\nFAILED: ') + 
+                   test.desc;
       console.log(output);
       if (!passed)
         console.log("output:", res, '\n');
@@ -124,45 +118,20 @@ function evalResponse(repo, res) {
   }
 }
 
-function runWSTest(repo) {
-  const ws = new WebSocket(`${WS_PROTOCOL}://${HOSTNAME}:${PORT}`, {
-    rejectUnauthorized: false
-  });
-   
-  ws.on('open', function() {
-    ws.send(JSON.stringify({
-      type: 'clone',
-      data: repo.params
-    }));
-  });
-   
-  ws.on('message', msg => evalResponse(repo, msg));
-
-  ws.on('close', function() {
-    //console.log("CLOSED");
-  });
-}
-
-function runHTTPTest(repo) {
-  let opts = {
-    url: HOSTNAME,
-    path: '/clone',
-    method: 'POST',
-    port: PORT,
-    rejectUnauthorized: false
-  };
-
-  let req = https.request(opts, res => {
-    let body = '';
-    res.on('data', data => body += data);
-    res.on('end', () => evalResponse(repo, body));
-  });
-
-  req.write(JSON.stringify(repo.params));
-  req.end();
-}
-
 ////////////////////// RUN TEST ///////////////////////
 
-TESTS.forEach(runWSTest);
-//TESTS.forEach(runHTTPTest);
+console.log("WS Tests");
+TEST_REQUESTS.forEach(req => {
+  wsReq(req.params, res => {
+    evalResponse(req.test, res);
+  })
+});
+
+// console.log("HTTP Tests");
+// TEST_REQUESTS.forEach(req => {
+//   httpReq(req.params, res => {
+//     evalResponse(req.test, res);
+//   })
+// });
+
+

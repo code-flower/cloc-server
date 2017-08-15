@@ -10,35 +10,29 @@ module.exports = {
     WS:   'wss'
   },
 
+  hostname: REMOTE ? 'api.codeflower.la' : 'localhost',
+
   ports: {
     HTTP: REMOTE ? 443 : 8000,
     WS:   REMOTE ? 443 : 8000
   },
 
   paths: {
-    static:   path.join(__dirname, './src/static'),
     repos:    path.join(__dirname, './src/tmp/repos/'),
-    samples:  path.join(__dirname, './src/system/samples/'),
-    logs:     path.join(__dirname, './src/system/logs/'),
+    logs:     path.join(__dirname, './src/logs/'),
     SSL: {
       key:    path.join(__dirname, '../devSSL/cert/server.key'),
       cert:   path.join(__dirname, '../devSSL/cert/server.crt')
     } 
   },
 
-  //// HTTP ////
   endpoints: {
-    harvest: '/harvest',
-    email:   '/email'
+    cloc: 'cloc'
   },
 
-  //// WS ////
-  messageTypes: {
-    // client --> server
-    clone: 'clone',
-    // server --> client
-    update: 'update',
-    error: 'error',
+  responseTypes: {
+    update:  'update',
+    error:   'error',
     success: 'success'
   },
 
