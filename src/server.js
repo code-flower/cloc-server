@@ -2,17 +2,17 @@ require('module-alias/register');
 
 //////////////////// IMPORTS //////////////////////
 
-var config = require('@config');
-var HTTP = require('./HTTP/');
-var WS = require('./WS/');
-var system = require('./system/');
-const uid = require('./util/uidGenerator')(process.pid);
+const config  = require('@config'),
+      HTTP    = require('./HTTP/'),
+      WS      = require('./WS/'),
+      system  = require('./system/'),
+      uid     = require('./util/uidGenerator')(process.pid);
 
 
 
 ////////////// CREATE THE HTTP SERVER /////////////
 
-var httpServer = HTTP.createServer(function(request, response) {
+const httpServer = HTTP.createServer(function(request, response) {
   HTTP.parseRequest(request)
   .then(reqInfo => {
     switch(reqInfo.endpoint) {
@@ -30,10 +30,8 @@ var httpServer = HTTP.createServer(function(request, response) {
 
 
 /////////// CREATE THE WEBSOCKETS SERVER ///////////
-// this server handles clone requests and broadcasts
-// the server events to the client
 
-var wsServer = new WS.createServer({server: httpServer});
+const wsServer = new WS.createServer({server: httpServer});
 
 wsServer.on('connection', conn => {
   conn.on('message', msg => {
@@ -53,8 +51,6 @@ wsServer.on('connection', conn => {
 
 
 ///////////////// START LISTENING ///////////////////
-
-// START BY USING MKPATH.SYNC TO CREATE NECESSARY FOLDERS
 
 httpServer.listen(config.ports.HTTP, function() {
   console.log(`HTTP server running at port ${config.ports.HTTP} using protocol '${config.protocols.HTTP}'`);
