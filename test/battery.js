@@ -26,12 +26,23 @@ const TEST_REQUESTS = [{
   }
 },{
   params: {
+    owner:  'code-flower',
+    name:   'client-web',
+    branch: ''
+  },
+  test: {
+    desc: 'Public repo, no branch specified, no creds.',
+    expect: res => res.type === RES_TYPES.success &&
+                   res.data.fullName === 'code-flower/client-web'
+  }
+},{
+  params: {
     owner: 'code-flower',
     name: 'client-web',
     branch: 'masters'
   },
   test: {
-    desc: 'Public repo, non-existent branch provided, no creds.',
+    desc: 'Public repo, non-existent branch specified, no creds.',
     expect: res => res.type === RES_TYPES.error &&
                    res.data.errorType === ERR_TYPES.branchNotFound
   }
@@ -42,7 +53,7 @@ const TEST_REQUESTS = [{
     branch: 'new-ui'
   },
   test: {
-    desc: 'Public repo, branch valid, no creds.',
+    desc: 'Public repo, valid branch specified, no creds.',
     expect: res => res.type === RES_TYPES.success &&
                    res.data.fullName === 'code-flower/client-web'
   }

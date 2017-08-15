@@ -15,7 +15,7 @@ const TEST_REPOS = [{
 },{
   owner: 'code-flower',
   name:  'client-web',
-  branch: 'master'
+  branch: ''
 },{
   owner: 'code-flower',
   name:  'client-web',
@@ -50,7 +50,7 @@ function handleResponse(res) {
       console.log(res.data.text);
       break;
     case config.responseTypes.success:
-      console.log("SUCCESS: " + res.data.fullName);
+      console.log("SUCCESS: " + res.data.sha);
       break;
     case config.responseTypes.error:
       console.log("error: ", res.data);
@@ -58,6 +58,6 @@ function handleResponse(res) {
   }
 }
 
-wsReq(TEST_REPOS[6], handleResponse);
+wsReq(TEST_REPOS[4], handleResponse);
 //httpReq(TEST_REPOS[1], handleResponse);
 
