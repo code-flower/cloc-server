@@ -4,13 +4,15 @@
 
 const WebSocket = require('ws');
 const config = require('../config');
+const https = require('https');
 
 //////////////////// CONFIG ///////////////////////
 
 // server config
 const HOSTNAME      = 'localhost',
       PORT          = 8000,
-      WS_PROTOCOL   = 'wss';
+      WS_PROTOCOL   = 'wss',
+      HTTP_PROTOCOL = 'https';
 
 const TEST_REPOS = [{
   owner: '',
@@ -75,6 +77,31 @@ function testRepo(repo) {
   });
 }
 
+function httpTestRepo(repo) {
+  let opts = {
+    url: HOSTNAME,
+    path: '/clone',
+    method: 'POST',
+    port: PORT,
+    rejectUnauthorized: false
+  };
+
+  let req = https.request(opts, res => {
+    let body = '';
+    res.on('data', data => body += data);
+    res.on('end', () => {
+      body = JSON.parse(body);
+      console.log(body);
+    });
+  });
+
+  req.write(JSON.stringify(repo));
+  req.end();
+}
+
+
 ////////////////////// RUN TEST ///////////////////////
 
-testRepo(TEST_REPOS[1]);
+// testRepo(TEST_REPOS[1]);
+
+httpTestRepo(TEST_REPOS[1]);

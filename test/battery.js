@@ -3,6 +3,7 @@
 //////////////////// IMPORTS //////////////////////
 
 const WebSocket = require('ws');
+const https = require('https');
 const config = require('../config');
 const gitCreds = require('../private/git-creds');
 
@@ -106,41 +107,62 @@ const TESTS = [{
 
 /////////////////// FUNCTIONS /////////////////////
 
-function runTest(repo) {
+function evalResponse(repo, res) {
+  res = JSON.parse(res);
+  switch(res.type) {
+    case config.messageTypes.update:
+      //console.log(res.data.text);
+      break;
+    default:
+      let passed = repo.test.expect(res);
+      let output = (repo.test.expect(res) ? 'PASSED: ' : '\nFAILED: ') + 
+                   repo.test.desc;
+      console.log(output);
+      if (!passed)
+        console.log("output:", res, '\n');
+      break;
+  }
+}
+
+function runWSTest(repo) {
   const ws = new WebSocket(`${WS_PROTOCOL}://${HOSTNAME}:${PORT}`, {
     rejectUnauthorized: false
   });
    
   ws.on('open', function() {
-    //console.log("TESTING: ", repo.name);
     ws.send(JSON.stringify({
       type: 'clone',
       data: repo.params
     }));
   });
    
-  ws.on('message', function(msg) {
-    msg = JSON.parse(msg);
-    switch(msg.type) {
-      case config.messageTypes.update:
-        //console.log(msg.data.text);
-        break;
-      default:
-        let passed = repo.test.expect(msg);
-        let output = (repo.test.expect(msg) ? 'PASSED: ' : '\nFAILED: ') + 
-                     repo.test.desc;
-        console.log(output);
-        if (!passed)
-          console.log("output:", msg, '\n');
-        break;
-    }
-  });
+  ws.on('message', msg => evalResponse(repo, msg));
 
   ws.on('close', function() {
     //console.log("CLOSED");
   });
 }
 
+function runHTTPTest(repo) {
+  let opts = {
+    url: HOSTNAME,
+    path: '/clone',
+    method: 'POST',
+    port: PORT,
+    rejectUnauthorized: false
+  };
+
+  let req = https.request(opts, res => {
+    let body = '';
+    res.on('data', data => body += data);
+    res.on('end', () => evalResponse(repo, body));
+  });
+
+  req.write(JSON.stringify(repo.params));
+  req.end();
+}
+
 ////////////////////// RUN TEST ///////////////////////
 
-TESTS.forEach(runTest);
+TESTS.forEach(runWSTest);
+//TESTS.forEach(runHTTPTest);

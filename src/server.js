@@ -11,25 +11,20 @@ const uid = require('./util/uidGenerator')(process.pid);
 
 
 ////////////// CREATE THE HTTP SERVER /////////////
-// this server handles static file requests, sample repos,
-// and harvesting the json after repos are cloned
 
 var httpServer = HTTP.createServer(function(request, response) {
-
-  var urlInfo = HTTP.parseUrl(request.url);
-
-  switch(urlInfo.pathname) {
-    case config.endpoints.harvest:
-      HTTP.serveFlower(response, urlInfo.query.repo);
-      break;
-    case config.endpoints.email:
-      HTTP.sendEmail(response, urlInfo.query.message);
-      break;
-    default:
-      HTTP.serveStaticFile(request, response, urlInfo.pathname);
-      break;
-  }
-
+  HTTP.parseRequest(request)
+  .then(reqInfo => {
+    switch(reqInfo.endpoint) {
+      case config.messageTypes.clone:
+        system.generateFlower({
+          params: reqInfo.params,
+          uid:    uid(),
+          conn:   HTTP.Responder(response)
+        });
+        break;
+    }
+  });
 });
 
 
@@ -47,8 +42,8 @@ wsServer.on('connection', conn => {
       case config.messageTypes.clone:
         system.generateFlower({
           params: msg.data,
-          uid: uid(),
-          conn: WS.Responder(conn)
+          uid:    uid(),
+          conn:   WS.Responder(conn)
         });
         break;
     }

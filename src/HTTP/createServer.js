@@ -3,7 +3,7 @@
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
-var config = require('../../config');
+var config = require('@config');
 
 /////////////// CONSTRUCT CREATESERVER /////////////////
 
