@@ -4,6 +4,7 @@
 
 const { httpReq, wsReq } = require('./clocRequests');
 const config = require('../config');
+const gitCreds = require('../private/git-creds');
 
 ////////////////// TEST REPOS /////////////////////
 
@@ -33,6 +34,12 @@ const TEST_REPOS = [{
   branch: 'releases/1.0',
   username: '',
   password: ''
+},{
+  owner: 'jmensch1',
+  name:  'sutter-quiz',
+  branch: 'releases/1.0',
+  username: gitCreds.username,
+  password: gitCreds.password
 }];
 
 ////////////////////// MAIN ////////////////////////
@@ -51,6 +58,6 @@ function handleResponse(res) {
   }
 }
 
-wsReq(TEST_REPOS[0], handleResponse);
+wsReq(TEST_REPOS[6], handleResponse);
 //httpReq(TEST_REPOS[1], handleResponse);
 

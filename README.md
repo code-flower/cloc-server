@@ -60,12 +60,12 @@ All websockets payloads consist of a JSON object with a 'type' property, and oth
 
 #### Types sent to the server
 
-1. clone
+1. cloc
 
 Initiates a clone. The data identifies the repo to be cloned. The request can take one of two forms:
 
 {
-  type: "clone",
+  type: "cloc",
   data: {
     owner:    [repo owner],
     name:     [repo name],
@@ -105,18 +105,16 @@ Initiates a clone. The data identifies the repo to be cloned. The request can ta
       owner:    [repo owner],
       name:     [repo name],
       branch:   [if branch was provided],
+      fullName: [owner/name]
       commit:   [sha of latest commit]        // maybe
       gitUrl:   [url of repo on github]       // maybe
       cloneUrl: [https clone url]             // maybe
     },
     cloc: {
-      json:    [json object],
+      tree:    [json object],
       ignored: [list of ignored files]
     }
   }
 }
-
-### HTTP
-
 
 

@@ -1,44 +1,177 @@
-//////////// IMPORTS ////////////
+////////////////// IMPORTS /////////////////////
 
-const Promise = require('bluebird'),
+const fs = require('fs'),
+      Promise = require('bluebird'),
       config = require('@config');
 
-//////////// PRIVATE ////////////
+///////// GET TREE FROM CLOC OUTPUT //////////
 
-function dummyData() {
-  let data = { arr: [] };
-  for (let i = 0; i < 50; i++)
-    data.arr.push({
-      "number": i,
-      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vestibulum quis urna vel feugiat. Phasellus euismod eu nisl quis rutrum. Duis fringilla rhoncus augue vitae laoreet. Curabitur volutpat nisl sit amet gravida pretium. Mauris tempor, ante quis consectetur porttitor, turpis arcu pulvinar elit, ac efficitur nisl ipsum at ante. Etiam porta ultrices enim, id aliquam est dignissim at. Vivamus dapibus ullamcorper mauris sed dignissim. Donec ornare sit amet purus in gravida. Mauris faucibus, ipsum sit amet consectetur facilisis, nibh turpis tincidunt augue, sit amet consectetur felis lacus non risus. Sed venenatis, lectus in semper vehicula, dui nisl sagittis tortor, et commodo sem lacus iaculis eros. Nam dapibus placerat ante, quis mattis lorem scelerisque et. Aliquam ac eros posuere, placerat nisl ac, tincidunt magna. Pellentesque at lacus vitae velit fringilla imperdiet et eget turpis. Morbi nec euismod diam. Mauris eu augue sit amet tortor cursus tristique nec a enim. Phasellus blandit consectetur enim at placerat."
-    });
-  return data;
+/**
+ * Convert a simple json object into another specifying children as an array
+ * Works recursively
+ *
+ * example input:
+ * { a: { b: { c: { size: 12 }, d: { size: 34 } }, e: { size: 56 } } }
+ * example output
+ * { name: a, children: [
+ *   { name: b, children: [
+ *     { name: c, size: 12 },
+ *     { name: d, size: 34 }
+ *   ] },
+ *   { name: e, size: 56 }
+ * ] } }
+ */
+
+function getChildren(json) {
+  var children = [];
+  if (json.language) return children;
+  for (var key in json) {
+    var child = { name: key };
+    if (json[key].size) {
+      // value node
+      child.size = json[key].size;
+      child.language = json[key].language;
+    } else {
+      // children node
+      var childChildren = getChildren(json[key]);
+      if (childChildren) child.children = childChildren;
+    }
+    children.push(child);
+    delete json[key];
+  }
+  return children;
 }
 
-function convertClocFileToJson(ctrl) {
+// convert the text in a cloc file to JSON
+function clocToJson(clocData) {
+  var lines = clocData.split("\n");
+  lines.shift(); // drop the header line
+
+  var json = {};
+  lines.forEach(function(line) {
+    var cols = line.split(',');
+    var filename = cols[1];
+    if (!filename) return;
+    var elements = filename.split(/[\/\\]/);
+    var current = json;
+    elements.forEach(function(element) {
+      if (!current[element]) {
+        current[element] = {};
+      }
+      current = current[element];
+    });
+    current.language = cols[0];
+    current.size = parseInt(cols[4], 10);
+  });
+
+  json = getChildren(json)[0];
+  json.name = 'root';
+
+  return json;
+}
+
+function getTree(ctrl) {
   return new Promise((resolve, reject) => {
-    console.log("5. Converting Cloc File To Json");
-
-    ctrl.repo.cloc = {
-      flower: dummyData(),
-      ignored: 'ignored files'
-    };
-
-    resolve(ctrl);
+    // attempt to read the cloc file
+    let inFile = `${config.paths.repos}${ctrl.folderName}/${config.cloc.dataFile}`;
+    fs.readFile(inFile, 'utf8', function(err, clocData) {
+      if (err) {
+        if (err.code == 'ENOENT') {
+          // if cloc did not create a file (e.g., because there are no
+          // code files in the repo), create dummy json
+          console.log('No cloc file created.');
+          resolve({
+            name: "root", 
+            children: []          
+          });
+        } else {
+          console.log("ERROR:", err);
+          reject({ 
+            errorType: config.errorTypes.clocError,
+            errorData: err
+          });
+        }
+      } else {  
+          // convert the cloc file to json
+        resolve(clocToJson(clocData));     
+      }
+    });
   });
 }
+
+///////// GET IGNORED FILES FROM CLOC OUTPUT //////////
+
+function cleanIgnoredText(ignoredText, folderName) {
+  var regex = new RegExp(folderName + '/', 'g');
+  return ignoredText.split('\n').slice(1).map(function(line) {
+    return line.replace(regex, '');
+  }).join('\n');
+}
+
+function getIgnored(ctrl) {
+  return new Promise((resolve, reject) => {
+    let inFile = `${config.paths.repos}${ctrl.folderName}/${config.cloc.ignoredFile}`;
+    fs.readFile(inFile, 'utf8', function(err, ignoredText) {
+      if (err)
+        reject({ 
+          errorType: config.errorTypes.clocError,
+          errorData: err
+        });
+      else 
+        resolve(cleanIgnoredText(ignoredText, ctrl.repo.name));     
+    });
+  });
+}
+
+///////////// UNITE FLOWER AND IGNORED FILES /////////
+
+// converts a cloc file to json
+function convertClocFileToJson(ctrl) {
+  console.log("5. Converting Cloc File To Json");
+  ctrl.conn.update('\nConverting cloc file to json...');
+
+  return Promise.all([
+    getTree(ctrl),
+    getIgnored(ctrl)
+  ]).spread((tree, ignored) => {
+    ctrl.repo.cloc = {
+      tree,
+      ignored
+    };
+    return ctrl;
+  });
+} 
 
 //////////// EXPORTS //////////////
 
 module.exports = convertClocFileToJson;
 
-// let repo = { 
-//   owner: 'code-flower',
-//   name: 'client-web',
-//   branch: 'new-ui',
-//   uid: '14420_0',
-//   fullName: 'code-flower/client-web',
-//   folderName: 'code-flower#client-web#16011_0' 
+// let ctrl = { 
+//   repo: {
+//     owner: 'code-flower',
+//     name: 'client-web',
+//     branch: 'master',
+//     fullName: 'code-flower/client-web',
+//   },
+//   folderName: 'code-flower#client-web#28390_0',
+//   conn: {
+//     update: function(data) {
+//       console.log("updating:", data);
+//     }
+//   }
 // };
 
-//convertClocFileToJson(repo);
+// convertClocFileToJson(ctrl)
+// .then(data => {
+//   console.log("THEN:", data);
+// })
+// .catch(data => {
+//   console.log("CATCH:", data);
+// });
+
+
+
+
+
+
+

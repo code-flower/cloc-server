@@ -21,8 +21,8 @@ const TEST_REQUESTS = [{
   },
   test: {
     desc: 'Repo name not provided.',
-    expect: msg => msg.type === RES_TYPES.error &&
-                   msg.data.errorType === ERR_TYPES.needOwnerAndName
+    expect: res => res.type === RES_TYPES.error &&
+                   res.data.errorType === ERR_TYPES.needOwnerAndName
   }
 },{
   params: {
@@ -32,8 +32,8 @@ const TEST_REQUESTS = [{
   },
   test: {
     desc: 'Public repo, non-existent branch provided, no creds.',
-    expect: msg => msg.type === RES_TYPES.error &&
-                   msg.data.errorType === ERR_TYPES.branchNotFound
+    expect: res => res.type === RES_TYPES.error &&
+                   res.data.errorType === ERR_TYPES.branchNotFound
   }
 },{
   params: {
@@ -43,8 +43,8 @@ const TEST_REQUESTS = [{
   },
   test: {
     desc: 'Public repo, branch valid, no creds.',
-    expect: msg => msg.type === RES_TYPES.success &&
-                   msg.data.fullName === 'code-flower/client-web'
+    expect: res => res.type === RES_TYPES.success &&
+                   res.data.fullName === 'code-flower/client-web'
   }
 },{
   params: {
@@ -54,8 +54,8 @@ const TEST_REQUESTS = [{
   },
   test: {
     desc: 'Private repo, no branch specified, no creds.',
-    expect: msg => msg.type === RES_TYPES.error &&
-                   msg.data.errorType === ERR_TYPES.needCredentials
+    expect: res => res.type === RES_TYPES.error &&
+                   res.data.errorType === ERR_TYPES.needCredentials
   }
 },{
   params: {
@@ -67,8 +67,8 @@ const TEST_REQUESTS = [{
   },
   test: {
     desc: 'Public repo, no branch specified, dummy creds provided.',
-    expect: msg => msg.type === RES_TYPES.success &&
-                   msg.data.branch === ''
+    expect: res => res.type === RES_TYPES.success &&
+                   res.data.branch === ''
   }
 },{
   params: {
@@ -80,8 +80,8 @@ const TEST_REQUESTS = [{
   },
   test: {
     desc: 'Private repo, valid branch specified, invalid credentials provided.',
-    expect: msg => msg.type === RES_TYPES.error &&
-                   msg.data.errorType === ERR_TYPES.credentialsInvalid
+    expect: res => res.type === RES_TYPES.error &&
+                   res.data.errorType === ERR_TYPES.credentialsInvalid
   }
 },{
   params: {
@@ -93,9 +93,9 @@ const TEST_REQUESTS = [{
   },
   test: {
     desc: 'Private repo, valid branch specified, valid credentials provided.',
-    expect: msg => msg.type === RES_TYPES.success &&
-                   msg.data.fullName === 'jmensch1/sutter-quiz' &&
-                   msg.data.branch === 'releases/1.0'
+    expect: res => res.type === RES_TYPES.success &&
+                   res.data.fullName === 'jmensch1/sutter-quiz' &&
+                   res.data.branch === 'releases/1.0'
   }
 }];
 
@@ -124,14 +124,14 @@ console.log("WS Tests");
 TEST_REQUESTS.forEach(req => {
   wsReq(req.params, res => {
     evalResponse(req.test, res);
-  })
+  });
 });
 
 // console.log("HTTP Tests");
 // TEST_REQUESTS.forEach(req => {
 //   httpReq(req.params, res => {
 //     evalResponse(req.test, res);
-//   })
+//   });
 // });
 
 

@@ -1,6 +1,6 @@
 {
-  "type": "clone",
-  "repo": { 
+  "type": "cloc",
+  "data": { 
     "owner": "code-flower", 
     "name": "client-web", 
     "branch": "new-ui" 
