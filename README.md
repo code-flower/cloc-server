@@ -66,7 +66,7 @@ Initiates a clone. The data identifies the repo to be cloned. The request can ta
 
 {
   type: "clone",
-  repo: {
+  data: {
     owner:    [repo owner],
     name:     [repo name],
     branch:   [the branch to be cloned -- optional, defaults to the default branch],
@@ -81,16 +81,18 @@ Initiates a clone. The data identifies the repo to be cloned. The request can ta
 
 {
   type: "update",
-  text: [string of update text]
+  data: {
+    text: [string of update text]
+  }
 }
 
 2. error
 
 {
   type: "error",
-  error: {
+  data: {
     errorType: [one of config.errorTypes]
-    ...other data
+    errorData: {}
   }
 }
 
@@ -98,10 +100,15 @@ Initiates a clone. The data identifies the repo to be cloned. The request can ta
 
 {
   type: "success",
-  repo: {
-    owner:  [repo owner],
-    name:   [repo name],
-    branch: [if branch was provided in request],
+  data: {
+    repo: {
+      owner:    [repo owner],
+      name:     [repo name],
+      branch:   [if branch was provided],
+      commit:   [sha of latest commit]        // maybe
+      gitUrl:   [url of repo on github]       // maybe
+      cloneUrl: [https clone url]             // maybe
+    },
     cloc: {
       json:    [json object],
       ignored: [list of ignored files]

@@ -3,6 +3,7 @@
 //////////////////// IMPORTS //////////////////////
 
 const WebSocket = require('ws');
+const config = require('../config');
 
 //////////////////// CONFIG ///////////////////////
 
@@ -46,22 +47,21 @@ function testRepo(repo) {
     console.log("TESTING: ", repo);
     ws.send(JSON.stringify({
       type: 'clone',
-      repo
+      data: repo
     }));
   });
    
   ws.on('message', function(msg) {
     msg = JSON.parse(msg);
     switch(msg.type) {
-      case 'text':
-        console.log(msg.text);
+      case config.messageTypes.update:
+        console.log(msg.data.text);
         break;
-      case 'success':
-        console.log("SUCCESS:");
-        console.log(msg.data);
+      case config.messageTypes.success:
+        console.log("SUCCESS:", msg.data);
         break;
-      default:
-        console.log("MESSAGE: ", msg);
+      case config.messageTypes.error:
+        console.log("ERROR:", msg.data);
         break;
     }
   });

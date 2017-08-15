@@ -22,7 +22,10 @@ function cloneRepoInFilesystem(repo) {
 
     mkpath(config.paths.repos + repo.folderName, err => {
       if (err) {
-        reject(err);
+        reject({
+          errorType: config.errorTypes.mkpathError,
+          errorData: err
+        });
         return false;
       }
 
@@ -31,15 +34,15 @@ function cloneRepoInFilesystem(repo) {
                   (repo.branch ? ` --branch ${repo.branch}` : '');
 
       // replace username and password, if any, with asterisks, before sending to client
-      var socketText = clone.replace(/https:\/\/.*?@/, 'https://******:******@');
-      repo.socket.text('\n>> ' + socketText);
+      var outText = clone.replace(/https:\/\/.*?@/, 'https://******:******@');
+      repo.conn.update('\n>> ' + outText);
 
       // start clone
       var proc = exec(cd + clone, () => resolve(repo));
 
       // pipe output to socket
       // NOTE: git uses the stderr channel even for non-error states
-      proc.stderr.on('data', data => { repo.socket.text(data); });
+      proc.stderr.on('data', data => { repo.conn.update(data); });
     });
   });
 }

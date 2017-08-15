@@ -19,19 +19,27 @@ function convertRepoToClocFile(repo) {
                `--ignored=${config.cloc.ignoredFile} ` +  
                `--report-file=${config.cloc.dataFile}`;
 
-    repo.socket.text('\n>> ' + cd + cloc);
+    repo.conn.update('\n>> ' + cd + cloc);
 
     let proc = exec(cd + cloc, () => {
-      if (clocError) 
-        reject(config.errorTypes.clocError);
-      else
-        resolve(repo);
+      // NOTE: Unitech/pm2 throws an error about recursion
+      // but it still produces the cloc file so no need to reject.
+      // Think about how to handle that (and other non-fatal errors).
+
+      // if (clocError) 
+      //   reject({
+      //     errorType: config.errorTypes.clocError
+      //   });
+      // else
+      //   resolve(repo);
+
+      resolve(repo);
     });
 
-    proc.stdout.on('data', data => data => { repo.socket.text(data); });
+    proc.stdout.on('data', data => data => { repo.conn.update(data); });
 
     proc.stderr.on('data', data => {
-      repo.socket.text(data);
+      repo.conn.update(data);
       clocError = true;
     });
   });

@@ -20,15 +20,9 @@ function generateFlower(repo) {
   .then(convertRepoToClocFile)
   .then(convertClocFileToJson)
   .then(sendJsonToClient)
-  .then((repo) => {
-    console.log("SUCCESS: " + repo.fullName);
-  })
-  .catch((err) => {
-    console.log("CATCH: ", err);
-  })
-  .error((err) => {
-    console.log("ERROR: ", err);
-  })
+
+  .catch(err => repo.conn.error(err))
+
   .finally(() => deleteRepoFromFilesystem(repo))
   .finally(() => closeConnectionToClient(repo));
 }

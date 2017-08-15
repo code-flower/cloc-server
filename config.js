@@ -34,15 +34,11 @@ module.exports = {
 
   //// WS ////
   messageTypes: {
-    // from client to server
+    // client --> server
     clone: 'clone',
-    abort: 'abort',
-    // from server to client
-    text: 'text',
+    // server --> client
+    update: 'update',
     error: 'error',
-    credentials: 'credentials',
-    unauthorized: 'unauthorized',
-    complete: 'complete',
     success: 'success'
   },
 
@@ -51,7 +47,8 @@ module.exports = {
     credentialsInvalid: 'credentialsInvalid',
     repoNotFound:       'repoNotFound',
     branchNotFound:     'branchNotFound',
-    clocError:          'clocError'
+    clocError:          'clocError',
+    mkpathError:        'mkpathError'
   },
 
   cloc: {

@@ -16,10 +16,7 @@ function prepRepoForPipeline(repo) {
       repo.username = repo.username.replace(/@/g, '%40');
     if (repo.password)
       repo.password = repo.password.replace(/@/g, '%40');
-
-    // handle case where repo contains a 'url' or 'cloneUrl' prop
-    // instead of owner/name
-
+    
     resolve(repo);
   });
 }

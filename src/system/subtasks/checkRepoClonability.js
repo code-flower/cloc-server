@@ -23,18 +23,20 @@ function checkRepoClonability(repo) {
         lsRemote = `git ls-remote -h "https://${user}:${pass}@github.com/${repo.fullName}"`;
 
     // echo the command (but not credentials)
-    repo.socket.text('>> ' + lsRemote.replace(/\/.*?@/, '/******:******@'));
+    repo.conn.update('>> ' + lsRemote.replace(/\/.*?@/, '/******:******@'));
 
     // execute the command
     let proc = exec(lsRemote);
 
     // stdout fires if the repo exists and the credentials are correct (if required)
     proc.stdout.on('data', data => { 
-      repo.socket.text(data); 
+      repo.conn.update(data); 
 
       data = data.toString('utf-8');
       if (repo.branch && data.indexOf('refs/heads/' + repo.branch + '\n') === -1)
-        reject(config.errorTypes.branchNotFound);
+        reject({
+          errorType: config.errorTypes.branchNotFound
+        });
       else
         resolve(repo);
     });
@@ -43,16 +45,22 @@ function checkRepoClonability(repo) {
     // Repository not found => credentials are correct AND repository does not exist
     // Invalid username or password => credentials are not correct AND repository may or may not exist
     proc.stderr.on('data', data => { 
-      repo.socket.text(data); 
+      repo.conn.update(data); 
 
       data = data.toString('utf-8');
       if (data.match(/Invalid username or password/))
         if (repo.username && repo.password)
-          reject(config.errorTypes.credentialsInvalid);
+          reject({
+            errorType: config.errorTypes.credentialsInvalid
+          });
         else 
-          reject(config.errorTypes.needCredentials);
+          reject({
+            errorType: config.errorTypes.needCredentials
+          });
       else if (data.match(/Repository not found/))
-        reject(config.errorTypes.repoNotFound);
+        reject({
+          errorType: config.errorTypes.repoNotFound
+        });
     });
   });
 }

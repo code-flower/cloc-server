@@ -1,6 +1,6 @@
 //////////// IMPORTS ////////////
 
-var config = require('../../config');
+var config = require('@config');
 
 //////////// PRIVATE ////////////
 
@@ -16,74 +16,41 @@ WebSocket.prototype._send = function(data) {
     this.conn.send(JSON.stringify(data));
 };
 
-// PUBLIC METHODS //
-WebSocket.prototype.text = function(text) {
-  var self = this;
-  var lines = text.toString('utf-8').split('\n');
-  lines.forEach(function(line) {
-    self._send({
-      type: config.messageTypes.text,
-      text: line
+// PUBLIC METHODS
+WebSocket.prototype.update = function(text) {
+  let lines = text.toString('utf-8').split('\n');
+  lines.forEach(line => {
+    this._send({
+      type: config.messageTypes.update,
+      data: {
+        text: line
+      }
     }); 
   });
 };
 
-WebSocket.prototype.invalidUrl = function(repo) {
-  this.text('Not a valid git clone url.\n');
-  this._send({
-    type: config.messageTypes.error
-  });
-  this.close();
-};
-
-WebSocket.prototype.needHTTPS = function(repo) {
-  this.text('Please use an https url.\n');
-  this._send({
-    type: config.messageTypes.error
-  });
-  this.close();
-};
-
-WebSocket.prototype.credentials = function(repo, needHTTPS) {
-  this._send({
-    type: config.messageTypes.credentials,
-    needHTTPS: needHTTPS
-  });
-  this.close();
-};
-
-WebSocket.prototype.complete = function(repo) {
-  this._send({
-    type: config.messageTypes.complete,
-    repoName: repo.folderName
-  });
-  this.close();
-};
-
 WebSocket.prototype.success = function(repo) {
-  let { owner, name, branch, fullName, cloc } = repo;
-
+  let { owner, name, branch, fullName, cloc, uid } = repo;
   this._send({
     type: config.messageTypes.success,
     data: {
-      owner,
-      name,
-      branch,
-      fullName,
+      repo: {
+        owner,
+        name,
+        branch,
+        fullName, 
+        uid  
+      },
       cloc
     }
   });
-}
-
-WebSocket.prototype.unauthorized = function(repo) {
-  this._send({
-    type: config.messageTypes.unauthorized
-  });
-  this.close();
 };
 
-WebSocket.prototype.isOpen = function() {
-  return !!this.conn;
+WebSocket.prototype.error = function(err) {
+  this._send({
+    type: config.messageTypes.error,
+    data: err
+  });
 };
 
 WebSocket.prototype.close = function() {

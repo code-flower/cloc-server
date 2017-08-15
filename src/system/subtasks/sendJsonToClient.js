@@ -9,7 +9,7 @@ function sendJsonToClient(repo) {
   return new Promise((resolve, reject) => {
     console.log("6. Sending Json To Client");
 
-    repo.socket.success(repo);
+    repo.conn.success(repo);
     resolve(repo);
   });
 }

@@ -27,7 +27,7 @@ const TESTS = [{
   test: {
     desc: 'Public repo, non-existent branch provided, no creds.',
     expect: msg => msg.type === MSG_TYPES.error &&
-                  msg.data.errorType === ERR_TYPES.branchNotFound
+                   msg.data.errorType === ERR_TYPES.branchNotFound
   }
 },{
   params: {
@@ -38,7 +38,7 @@ const TESTS = [{
   test: {
     desc: 'Public repo, branch valid, no creds.',
     expect: msg => msg.type === MSG_TYPES.success &&
-                   msg.data.fullName === 'code-flower/client-web'
+                   msg.data.repo.fullName === 'code-flower/client-web'
   }
 },{
   params: {
@@ -62,7 +62,7 @@ const TESTS = [{
   test: {
     desc: 'Public repo, no branch specified, dummy creds provided.',
     expect: msg => msg.type === MSG_TYPES.success &&
-                   msg.data.branch === ''
+                   msg.data.repo.branch === ''
   }
 },{
   params: {
@@ -75,7 +75,7 @@ const TESTS = [{
   test: {
     desc: 'Private repo, valid branch specified, invalid credentials provided.',
     expect: msg => msg.type === MSG_TYPES.error &&
-                   msg.data.errorType === ERR_TYPES.invalidCredentials
+                   msg.data.errorType === ERR_TYPES.credentialsInvalid
   }
 },{
   params: {
@@ -88,8 +88,8 @@ const TESTS = [{
   test: {
     desc: 'Private repo, valid branch specified, valid credentials provided.',
     expect: msg => msg.type === MSG_TYPES.success &&
-                   msg.data.fullName === 'jmensch1/sutter-quiz' &&
-                   msg.data.branch === 'releases/1.0'
+                   msg.data.repo.fullName === 'jmensch1/sutter-quiz' &&
+                   msg.data.repo.branch === 'releases/1.0'
   }
 }];
 
@@ -104,26 +104,29 @@ function runTest(repo) {
     //console.log("TESTING: ", repo.name);
     ws.send(JSON.stringify({
       type: 'clone',
-      repo: repo.params
+      data: repo.params
     }));
   });
    
   ws.on('message', function(msg) {
     msg = JSON.parse(msg);
     switch(msg.type) {
-      case 'text':
-        //console.log(msg.text);
+      case config.messageTypes.update:
+        //console.log(msg.data.text);
         break;
       default:
-        let output = (repo.test.expect(msg) ? 'PASSED: ' : 'FAILED: ') + 
+        let passed = repo.test.expect(msg);
+        let output = (repo.test.expect(msg) ? 'PASSED: ' : '\nFAILED: ') + 
                      repo.test.desc;
-        console.log(output)
+        console.log(output);
+        if (!passed)
+          console.log("output:", msg, '\n');
         break;
     }
   });
 
   ws.on('close', function() {
-    console.log("CLOSED");
+    //console.log("CLOSED");
   });
 }
 
