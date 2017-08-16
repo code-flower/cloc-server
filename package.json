@@ -24,6 +24,7 @@
     "mkpath": "^0.1.0",
     "module-alias": "^2.0.1",
     "moment": "^2.13.0",
+    "pmx": "^1.2.0",
     "rimraf": "^2.5.2",
     "universal-analytics": "^0.4.9",
     "ws": "^1.1.0"

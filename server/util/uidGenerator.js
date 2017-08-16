@@ -9,15 +9,29 @@
   Afterwards, just call the uid function with no args each time you need a unique id.
 */
 
+/////////////// IMPORTS ////////////////
+
+const Probe = require('pmx').probe();
+
+/////////////// PRIVATE ////////////////
+
 function uidGenerator(processId) {
-  let curId = -1;
+
+  let curId = 0;
+
+  Probe.metric({
+    name: 'uidCounter',
+    value: () => curId
+  });
 
   let uid = function() {
-    curId = (curId + 1) % (1 << 12);
+    curId = (curId + 1) % (1 << 16);
     return processId + '_' + curId;
   };
 
   return uid;
 }
+
+//////////////// PUBLIC ////////////////
 
 module.exports = uidGenerator;
