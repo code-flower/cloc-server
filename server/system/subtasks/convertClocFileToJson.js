@@ -2,7 +2,8 @@
 
 const fs = require('fs'),
       Promise = require('bluebird'),
-      config = require('@config');
+      config = require('@config'),
+      Log = require('@log');
 
 ///////// GET TREE FROM CLOC OUTPUT //////////
 
@@ -127,7 +128,7 @@ function getIgnored(ctrl) {
 
 // converts a cloc file to json
 function convertClocFileToJson(ctrl) {
-  console.log("5. Converting Cloc File To Json");
+  Log(2, '5. Converting Cloc File To Json');
   ctrl.conn.update('\nConverting cloc file to json...');
 
   return Promise.all([

@@ -5,6 +5,8 @@ var REMOTE = false;
 
 module.exports = {
 
+  logLevel: 1,
+
   protocols: {
     HTTP: 'https',
     WS:   'wss'
@@ -18,11 +20,11 @@ module.exports = {
   },
 
   paths: {
-    repos:    path.join(__dirname, './server/tmp/repos/'),
-    logs:     path.join(__dirname, './server/logs/'),
+    repos:  path.join(__dirname, './server/tmp/repos/'),
+    logs:   path.join(__dirname, './server/logs/'),
     SSL: {
-      key:    path.join(__dirname, '../devSSL/cert/server.key'),
-      cert:   path.join(__dirname, '../devSSL/cert/server.crt')
+      key:  path.join(__dirname, '../devSSL/cert/server.key'),
+      cert: path.join(__dirname, '../devSSL/cert/server.crt')
     } 
   },
 

@@ -2,13 +2,14 @@
 
 const Promise = require('bluebird'),
       rimraf = require('rimraf'),
-      config = require('@config');
+      config = require('@config'),
+      Log = require('@log');
 
 //////////// PRIVATE ////////////
 
 function deleteRepoFromFilesystem(ctrl) {
   return new Promise((resolve, reject) => {
-    console.log("7. Deleting Repo From Filesystem");
+    Log(2, '7. Deleting Repo From Filesystem');
 
     if (!config.deleteAfterClone)
       resolve(ctrl);

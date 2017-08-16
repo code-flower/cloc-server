@@ -1,14 +1,15 @@
 //////////// IMPORTS ////////////
 
 const Promise = require('bluebird'),
-      config = require('@config');
+      config = require('@config'),
+      Log = require('@log');
 
 //////////// PRIVATE ////////////
 
 // initialize the repo object
 function prepRepoForPipeline(ctrl) {
   return new Promise((resolve, reject) => {
-    console.log("1. Prepping Repo For Pipeline");
+    Log(2, '1. Prepping Repo For Pipeline');
 
     let { owner, name, branch, username, password } = ctrl.params;
 
@@ -23,6 +24,8 @@ function prepRepoForPipeline(ctrl) {
       branch: branch || '',
       fullName: `${owner}/${name}`
     };
+
+    Log(1, 'NEW REPO: ' + ctrl.repo.fullName + (branch ? '::' + branch : ''));
 
     //// 2. credentals ////
 

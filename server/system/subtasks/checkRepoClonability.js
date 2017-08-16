@@ -2,7 +2,8 @@
 
 const Promise = require('bluebird'),
       { exec } = require('child_process'),
-      config = require('@config');
+      config = require('@config'),
+      Log = require('@log');
 
 //////////// PRIVATE //////////////
 
@@ -38,7 +39,7 @@ function getLatestSha(lsRemoteOutput, branch) {
 // (3) whether the branch exists
 function checkRepoClonability(ctrl) {
   return new Promise((resolve, reject) => {
-    console.log("2. Checking Repo Clonability");
+    Log(2, '2. Checking Repo Clonability');
 
     let eTypes = config.errorTypes;
 

@@ -30,6 +30,7 @@
   },
   "devDependencies": {},
   "_moduleAliases": {
-    "@config": "./config"
+    "@config": "./config",
+    "@log": "./server/util/logger"
   }
 }
