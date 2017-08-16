@@ -5,7 +5,7 @@ var REMOTE = false;
 
 module.exports = {
 
-  logLevel: 1,
+  logLevel: 2,
 
   protocols: {
     HTTP: 'https',

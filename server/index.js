@@ -1,4 +1,14 @@
+////////// INITIALIZE 3RD-PARTY TOOLS ////////////
+
 require('module-alias/register');
+
+require('pmx').init({
+  network: true,
+  ports: true
+});
+
+
+
 
 //////////////////// IMPORTS //////////////////////
 
@@ -7,6 +17,7 @@ const config      = require('@config'),
       WS          = require('./WS/'),
       getClocData = require('./cloc/'),
       uid         = require('./util/uidGenerator')(process.pid);
+
 
 
 
