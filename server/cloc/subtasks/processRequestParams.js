@@ -7,7 +7,7 @@ const Promise = require('bluebird'),
 //////////// PRIVATE ////////////
 
 // initialize the repo object
-function prepRepoForPipeline(ctrl) {
+function processRequestParams(ctrl) {
   return new Promise((resolve, reject) => {
     Log(2, '1. Prepping Repo For Pipeline');
 
@@ -44,5 +44,5 @@ function prepRepoForPipeline(ctrl) {
 
 //////////// EXPORTS /////////////
 
-module.exports = prepRepoForPipeline;
+module.exports = processRequestParams;
 

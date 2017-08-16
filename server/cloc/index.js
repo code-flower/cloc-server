@@ -1,7 +1,7 @@
 //////////////// IMPORTS ///////////////////
 
 const {
-  prepRepoForPipeline,
+  processRequestParams,
   checkRepoClonability,
   cloneRepoInFilesystem,
   convertRepoToClocFile,
@@ -14,7 +14,7 @@ const {
 //////////////// PRIVATE ///////////////////
 
 function getClocData(ctrl) {
-  prepRepoForPipeline(ctrl)
+  processRequestParams(ctrl)
   .then(checkRepoClonability)
   .then(cloneRepoInFilesystem)
   .then(convertRepoToClocFile)

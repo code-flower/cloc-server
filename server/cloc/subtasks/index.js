@@ -1,6 +1,6 @@
 
 module.exports = {
-  prepRepoForPipeline:      require('./prepRepoForPipeline'),
+  processRequestParams:     require('./processRequestParams'),
   checkRepoClonability:     require('./checkRepoClonability'),
   cloneRepoInFilesystem:    require('./cloneRepoInFilesystem'),
   convertRepoToClocFile:    require('./convertRepoToClocFile'),
