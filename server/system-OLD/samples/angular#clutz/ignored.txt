@@ -1,5 +1,0 @@
-angular#clutz: --exclude-dir=1
-angular#clutz/.gitignore: language unknown (#3)
-angular#clutz/LICENSE: language unknown (#3)
-angular#clutz/README.md: language unknown (#3)
-angular#clutz/src/test/java/com/google/javascript/clutz/closure.depgraph: language unknown (#3)

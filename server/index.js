@@ -2,11 +2,11 @@ require('module-alias/register');
 
 //////////////////// IMPORTS //////////////////////
 
-const config  = require('@config'),
-      HTTP    = require('./HTTP/'),
-      WS      = require('./WS/'),
-      system  = require('./system/'),
-      uid     = require('./util/uidGenerator')(process.pid);
+const config      = require('@config'),
+      HTTP        = require('./HTTP/'),
+      WS          = require('./WS/'),
+      getClocData = require('./cloc/'),
+      uid         = require('./util/uidGenerator')(process.pid);
 
 
 
@@ -17,7 +17,7 @@ const httpServer = HTTP.createServer(function(request, response) {
   .then(reqInfo => {
     switch(reqInfo.endpoint) {
       case config.endpoints.cloc:
-        system.generateFlower({
+        getClocData({
           params: reqInfo.params,
           uid:    uid(),
           conn:   HTTP.Responder(response)
@@ -38,7 +38,7 @@ wsServer.on('connection', conn => {
     msg = JSON.parse(msg);
     switch(msg.type) {
       case config.endpoints.cloc:
-        system.generateFlower({
+        getClocData({
           params: msg.data,
           uid:    uid(),
           conn:   WS.Responder(conn)

@@ -13,7 +13,7 @@ const {
 
 //////////////// PRIVATE ///////////////////
 
-function generateFlower(ctrl) {
+function getClocData(ctrl) {
   prepRepoForPipeline(ctrl)
   .then(checkRepoClonability)
   .then(cloneRepoInFilesystem)
@@ -29,5 +29,5 @@ function generateFlower(ctrl) {
 
 /////////////////// EXPORTS ///////////////////
 
-module.exports = generateFlower;
+module.exports = getClocData;
 

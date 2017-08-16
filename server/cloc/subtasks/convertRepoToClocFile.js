@@ -35,7 +35,7 @@ function convertRepoToClocFile(ctrl) {
       resolve(ctrl);
     });
 
-    proc.stdout.on('data', data => data => { ctrl.conn.update(data); });
+    proc.stdout.on('data', data => { ctrl.conn.update(data); });
 
     proc.stderr.on('data', data => {
       ctrl.conn.update(data);
