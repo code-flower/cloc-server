@@ -18,8 +18,8 @@ module.exports = {
   },
 
   paths: {
-    repos:    path.join(__dirname, './src/tmp/repos/'),
-    logs:     path.join(__dirname, './src/logs/'),
+    repos:    path.join(__dirname, './server/tmp/repos/'),
+    logs:     path.join(__dirname, './server/logs/'),
     SSL: {
       key:    path.join(__dirname, '../devSSL/cert/server.key'),
       cert:   path.join(__dirname, '../devSSL/cert/server.crt')
