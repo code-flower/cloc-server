@@ -9,7 +9,7 @@ const Promise = require('bluebird'),
 // initialize the repo object
 function processRequestParams(ctrl) {
   return new Promise((resolve, reject) => {
-    Log(2, '1. Prepping Repo For Pipeline');
+    Log(2, '1. Processing Request Params');
 
     let { owner, name, branch, username, password } = ctrl.params;
 
@@ -19,13 +19,14 @@ function processRequestParams(ctrl) {
       reject({ errorType: config.errorTypes.needOwnerAndName });
 
     ctrl.repo = {
-      owner,
-      name,
-      branch: branch || '',
-      fullName: `${owner}/${name}`
+      owner:    owner,
+      name:     name,
+      branch:   branch || '',
+      fullName: owner + '/' + name,
+      fNameBr:  owner + '/' + name + (branch ? '::' + branch : '')
     };
 
-    Log(1, 'NEW REPO: ' + ctrl.repo.fullName + (branch ? '::' + branch : ''));
+    Log(1, 'NEW REPO: ' + ctrl.repo.fNameBr);
 
     //// 2. credentals ////
 

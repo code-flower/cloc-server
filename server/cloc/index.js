@@ -7,6 +7,7 @@ const {
   convertRepoToClocFile,
   convertClocFileToJson,
   sendJsonToClient,
+  handleErrors,
   deleteRepoFromFilesystem,
   closeConnectionToClient
 } = require('./subtasks/');
@@ -20,9 +21,7 @@ function getClocData(ctrl) {
   .then(convertRepoToClocFile)
   .then(convertClocFileToJson)
   .then(sendJsonToClient)
-
-  .catch(err => ctrl.conn.error(err))
-
+  .catch(err => handleErrors(err, ctrl))
   .finally(() => deleteRepoFromFilesystem(ctrl))
   .finally(() => closeConnectionToClient(ctrl));
 }
