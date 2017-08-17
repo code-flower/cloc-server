@@ -53,7 +53,7 @@ function handleResponse(res) {
       //console.log(res.data.text);
       break;
     case config.responseTypes.success:
-      console.log("SUCCESS: " + res.data.fullName + '::' + res.data.branch);
+      console.log("SUCCESS: " + res.data.fNameBr);
       break;
     case config.responseTypes.error:
       console.log("ERROR: ", res.data);

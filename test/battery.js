@@ -27,6 +27,42 @@ const TEST_REQUESTS = [{
 },{
   params: {
     owner:  'code-flower',
+    name:   'test-repo-1',
+    branch: ''
+  },
+  test: {
+    desc: 'Public repo with default branch of not-master, no branch specified, no creds.',
+    expect: res => res.type === RES_TYPES.success &&
+                   res.data.branch === 'not-master' &&
+                   res.data.lastCommit === 'ba2a2fd68c243bb5cfe4907d3adbce8e0d4b29fa'
+  }
+},{
+  params: {
+    owner:  'code-flower',
+    name:   'test-repo-1',
+    branch: 'not-master'
+  },
+  test: {
+    desc: 'Public repo with default branch of not-master, not-master branch specified, no creds.',
+    expect: res => res.type === RES_TYPES.success &&
+                   res.data.branch === 'not-master' &&
+                   res.data.lastCommit === 'ba2a2fd68c243bb5cfe4907d3adbce8e0d4b29fa'
+  }
+},{
+  params: {
+    owner:  'code-flower',
+    name:   'test-repo-1',
+    branch: 'master'
+  },
+  test: {
+    desc: 'Public repo with default branch of not-master, master branch specified, no creds.',
+    expect: res => res.type === RES_TYPES.success &&
+                   res.data.branch === 'master' &&
+                   res.data.lastCommit === '39b7825656927aa5233b13c877e20157ab8c6d2d'
+  }
+},{
+  params: {
+    owner:  'code-flower',
     name:   'client-web',
     branch: ''
   },
@@ -79,7 +115,7 @@ const TEST_REQUESTS = [{
   test: {
     desc: 'Public repo, no branch specified, dummy creds provided.',
     expect: res => res.type === RES_TYPES.success &&
-                   res.data.branch === ''
+                   res.data.branch === 'master'
   }
 },{
   params: {

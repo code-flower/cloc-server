@@ -12,25 +12,30 @@ function getBranchNameIfNeeded(ctrl) {
   return new Promise((resolve, reject) => {
     Log(2, '4. Getting Branch Name');
 
-    // if the client provided a branch name, move on
-    if (ctrl.repo.branch) {
-      resolve(ctrl);
+    // add the branch name to ctrl if it's not there
+    new Promise((res, rej) => {
+      if (ctrl.repo.branch)
+        res();
+      else {
+        let dir = config.paths.repos + 
+                  ctrl.folderName + '/' + 
+                  ctrl.repo.name + '/' + 
+                  '.git/refs/heads/';
+        fs.readdir(dir, (err, files) => {
+          if (files)
+            ctrl.repo.branch = files[0];
+          res();
+        }); 
+      }
+    }).then(() => {
+      // now that we have the branch name, add some useful info to ctrl
+      let { repo } = ctrl;
+      repo.lastCommit = repo.branches[repo.branch];
+      repo.fNameBr    = `${repo.fullName}::${repo.branch}`;
+      repo.githubUrl  = `https://github.com/${repo.owner}/${repo.name}/tree/${repo.branch}`;
 
-    // otherwise, read the names of the files in the
-    // .git/refs/heads/ directory for the given repo.
-    // Since we used the --single-branch flag to clone,
-    // there is only one name -- the name of the default branch.
-    } else {   
-      let dir = config.paths.repos + 
-                ctrl.folderName + '/' + 
-                ctrl.repo.name + '/' + 
-                '.git/refs/heads/';
-      fs.readdir(dir, (err, files) => {
-        if (files)
-          ctrl.repo.branch = files[0];
-        resolve(ctrl);
-      }); 
-    }
+      resolve(ctrl);
+    });
   });
 }
 

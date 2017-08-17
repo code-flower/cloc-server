@@ -21,8 +21,7 @@ function processRequestParams(ctrl) {
       owner:    owner,
       name:     name,
       branch:   branch || '',
-      fullName: owner + '/' + name,
-      fNameBr:  owner + '/' + name + (branch ? '::' + branch : '')
+      fullName: owner + '/' + name
     };
 
     //// 2. credentals ////

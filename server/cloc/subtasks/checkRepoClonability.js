@@ -7,30 +7,17 @@ const Promise = require('bluebird'),
 
 //////////// PRIVATE //////////////
 
-// scans lsRemote output and returns the sha of either the latest commit in the given branch,
-// or the latest commit in the default branch if no branch is given.
-// returns blank if a branch is given and does not exist
-function getLatestSha(lsRemoteOutput, branch) {
-  let lines = lsRemoteOutput.split('\n')
+// scans lsRemote output and returns an object of branches 
+// where the keys are the branch names and the values are the shas
+function getBranches(lsRemoteOutput) {
+  let branches = {};
+  lsRemoteOutput.split('\n')
     .slice(0, -1)
     .map(line => line.split('\t'))
-    .filter(line => (
-      line[1] === 'HEAD' || 
-      line[1].indexOf('refs/heads/') !== -1
-    ))
-    .map(line => ({
-      sha: line[0],
-      branch: line[1] && line[1].replace('refs/heads/', '')
-    }));
-
-  for (var i = 0; i < lines.length; i++)
-    // use sha of given branch, or 
-    // default branch if no branch specified
-    if (lines[i].branch === branch || 
-        (!branch && lines[i].branch === 'HEAD')) 
-      return lines[i].sha;
-
-  return '';
+    .forEach(line => {
+      branches[line[1].replace('refs/heads/', '')] = line[0];
+    });
+  return branches;
 }
 
 // uses the git ls-remote command to determine: 
@@ -50,7 +37,7 @@ function checkRepoClonability(ctrl) {
     let user =  ctrl.creds.username || '******',
         pass =  ctrl.creds.password || '******',
         fName = ctrl.repo.fullName,
-        lsRemote = `git ls-remote "https://${user}:${pass}@github.com/${fName}"`;
+        lsRemote = `git ls-remote -h "https://${user}:${pass}@github.com/${fName}"`;
 
     // echo the command (but not credentials)
     ctrl.conn.update('>> ' + lsRemote.replace(/\/.*?@/, '//******:******@'));
@@ -67,11 +54,12 @@ function checkRepoClonability(ctrl) {
     });
 
     proc.stdout.on('end', () => {
-      let sha = getLatestSha(stdoutText, ctrl.repo.branch);
-      if (sha) {
-        ctrl.repo.sha = sha;
+      ctrl.repo.branches = getBranches(stdoutText);
+
+      let { branch } = ctrl.repo;
+      if (!branch || Object.keys(ctrl.repo.branches).indexOf(branch) !== -1) 
         resolve(ctrl);
-      } else
+      else
         reject({ errorType: eTypes.branchNotFound });
     });
 

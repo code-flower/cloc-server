@@ -50,7 +50,7 @@ function handleResponse(res) {
       console.log(res.data.text);
       break;
     case config.responseTypes.success:
-      console.log("SUCCESS: " + res.data.branch);
+      console.log("SUCCESS: ", res.data);
       break;
     case config.responseTypes.error:
       console.log("error: ", res.data);
