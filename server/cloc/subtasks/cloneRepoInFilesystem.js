@@ -22,7 +22,8 @@ function cloneRepoInFilesystem(ctrl) {
     Log(2, '3. Cloning Repo In Filesystem');
 
     mkpath(config.paths.repos + ctrl.folderName, err => {
-      if (err) {
+      // it's okay if the error is that the tmp or repos folder already exists
+      if (err && err.code !== 'EEXIST') {
         reject({
           errorType: config.errorTypes.mkpathError,
           errorData: err
