@@ -7,7 +7,7 @@ var config = require('@config');
 function WSResponder(wsConn) {
 
   let sendData = function(data) {
-    if (wsConn)
+    if (wsConn && wsConn.readyState === 1) 
       wsConn.send(JSON.stringify(data));
   };
 
