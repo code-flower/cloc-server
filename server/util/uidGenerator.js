@@ -13,19 +13,36 @@
 
 const Probe = require('pmx').probe();
 
+/////////////// METRICS ////////////////
+
+const uidCounter = Probe.metric({
+  name: 'uidCounter'
+});
+uidCounter.set('');
+
+const lastRequestTime = Probe.metric({
+  name: 'lastRequestTime'
+});
+lastRequestTime.set('');
+
 /////////////// PRIVATE ////////////////
 
+function getCurrentTime() {
+  let date = new Date(),
+      d = date.toDateString(),
+      t = date.toLocaleTimeString();
+  return `${d} ${t}`;
+}
+
 function uidGenerator(processId) {
-
   let curId = 0;
-
-  Probe.metric({
-    name: 'uidCounter',
-    value: () => curId
-  });
 
   let uid = function() {
     curId = (curId + 1) % (1 << 16);
+
+    uidCounter.set(curId);
+    lastRequestTime.set(getCurrentTime());
+
     return processId + '_' + curId;
   };
 
@@ -35,3 +52,4 @@ function uidGenerator(processId) {
 //////////////// PUBLIC ////////////////
 
 module.exports = uidGenerator;
+

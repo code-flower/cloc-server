@@ -7,6 +7,13 @@ const { exec } = require('child_process'),
       Log = require('@log'),
       Probe = require('pmx').probe();
 
+//////////// METRICS ////////////
+
+const cloneDownloadSpeed = Probe.metric({
+  name: 'cloneDownloadSpeed'
+});
+cloneDownloadSpeed.set('');
+
 //////////// PRIVATE ////////////
 
 // turns a repo object into a git clone url
@@ -21,10 +28,7 @@ function gitCloneUrl(repo, creds) {
 function updateDownloadSpeed(cloneOutput) {
   let match = cloneOutput.match(/Receiving\sobjects:\s100%.*?\|\s(.*?),\sdone/);
   if (match)
-    Probe.metric({
-      name: 'cloneDownloadSpeed',
-      value: () => match[1]
-    });
+    cloneDownloadSpeed.set(match[1]);
 }
 
 // runs git clone and returns a promise
