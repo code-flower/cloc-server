@@ -7,7 +7,7 @@ const Promise = require('bluebird'),
 
 function closeConnectionToClient(ctrl) {
   return new Promise((resolve, reject) => {
-    Log(2, '9. Closing Connection To Client');
+    Log(2, '10. Closing Connection To Client');
     ctrl.conn.close();
     resolve();
   });

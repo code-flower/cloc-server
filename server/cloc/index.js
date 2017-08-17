@@ -4,6 +4,7 @@ const {
   processRequestParams,
   checkRepoClonability,
   cloneRepoInFilesystem,
+  getBranchNameIfNeeded,
   convertRepoToClocFile,
   convertClocFileToJson,
   sendJsonToClient,
@@ -18,6 +19,7 @@ function getClocData(ctrl) {
   processRequestParams(ctrl)
   .then(checkRepoClonability)
   .then(cloneRepoInFilesystem)
+  .then(getBranchNameIfNeeded)
   .then(convertRepoToClocFile)
   .then(convertClocFileToJson)
   .then(sendJsonToClient)

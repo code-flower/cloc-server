@@ -8,7 +8,7 @@ const Promise = require('bluebird'),
 
 function sendJsonToClient(ctrl) {
   return new Promise((resolve, reject) => {
-    Log(2, '6. Sending Json To Client');
+    Log(2, '7. Sending Json To Client');
     Log(1, 'SUCCESS:', ctrl.folderName);
 
     ctrl.conn.success(ctrl.repo);

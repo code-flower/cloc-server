@@ -128,7 +128,7 @@ function getIgnored(ctrl) {
 
 // converts a cloc file to json
 function convertClocFileToJson(ctrl) {
-  Log(2, '5. Converting Cloc File To Json');
+  Log(2, '6. Converting Cloc File To Json');
   ctrl.conn.update('\nConverting cloc file to json...');
 
   return Promise.all([

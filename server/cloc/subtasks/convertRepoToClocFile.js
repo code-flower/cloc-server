@@ -11,7 +11,7 @@ const { exec } = require('child_process'),
 
 function convertRepoToClocFile(ctrl) {
   return new Promise((resolve, reject) => {
-    Log(2, '4. Converting Repo To Cloc File');
+    Log(2, '5. Converting Repo To Cloc File');
 
     let clocError = false,
         cd = 'cd ' + config.paths.repos + ctrl.folderName + '; ',

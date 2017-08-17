@@ -9,7 +9,7 @@ const Promise = require('bluebird'),
 
 function deleteRepoFromFilesystem(ctrl) {
   return new Promise((resolve, reject) => {
-    Log(2, '8. Deleting Repo From Filesystem');
+    Log(2, '9. Deleting Repo From Filesystem');
 
     if (!config.deleteAfterClone)
       resolve(ctrl);
