@@ -4,7 +4,8 @@ const { exec } = require('child_process'),
       mkpath = require('mkpath'),
       Promise = require('bluebird'),
       config = require('@config'),
-      Log = require('@log');
+      Log = require('@log'),
+      Probe = require('pmx').probe();
 
 //////////// PRIVATE ////////////
 
@@ -14,6 +15,16 @@ function gitCloneUrl(repo, creds) {
   if (creds.username && creds.password)
     url = url.replace('://', `://${creds.username}:${creds.password}@`);
   return url;
+}
+
+// updates the pmx probe for download speed
+function updateDownloadSpeed(cloneOutput) {
+  let match = cloneOutput.match(/Receiving\sobjects:\s100%.*?\|\s(.*?),\sdone/);
+  if (match)
+    Probe.metric({
+      name: 'cloneDownloadSpeed',
+      value: () => match[1]
+    });
 }
 
 // runs git clone and returns a promise
@@ -37,15 +48,22 @@ function cloneRepoInFilesystem(ctrl) {
                   (ctrl.repo.branch ? ` --branch ${ctrl.repo.branch}` : '');
 
       // replace username and password, if any, with asterisks, before sending to client
-      var outText = clone.replace(/https:\/\/.*?@/, 'https://******:******@');
+      let outText = clone.replace(/https:\/\/.*?@/, 'https://******:******@');
       ctrl.conn.update('\n>> ' + outText);
 
       // start clone
-      var proc = exec(cd + clone, () => resolve(ctrl));
+      let proc = exec(cd + clone, () => resolve(ctrl));
 
       // pipe output to socket
       // NOTE: git uses the stderr channel even for non-error states
-      proc.stderr.on('data', data => { ctrl.conn.update(data); });
+      let cloneOutput = '';
+      proc.stderr.on('data', data => { 
+        ctrl.conn.update(data); 
+        cloneOutput += data;
+      });
+
+      // update the download speed for the pmx monitor
+      proc.stderr.on('end', () => updateDownloadSpeed(cloneOutput));
     });
   });
 }
