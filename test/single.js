@@ -40,6 +40,10 @@ const TEST_REPOS = [{
   branch: 'releases/1.0',
   username: gitCreds.username,
   password: gitCreds.password
+},{
+  owner: 'tensorflow',
+  name: 'tensorflow',
+  branch: ''
 }];
 
 ////////////////////// MAIN ////////////////////////
@@ -50,14 +54,16 @@ function handleResponse(res) {
       console.log(res.data.text);
       break;
     case config.responseTypes.success:
-      console.log("SUCCESS: ", res.data);
+      console.log("\nSUCCESS: ");
+      console.log(res.data);
       break;
     case config.responseTypes.error:
-      console.log("error: ", res.data);
+      console.log("\nERROR: ");
+      console.log(res.data);
       break;
   }
 }
 
-wsReq(TEST_REPOS[1], handleResponse);
+wsReq(TEST_REPOS[3], handleResponse);
 //httpReq(TEST_REPOS[1], handleResponse);
 

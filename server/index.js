@@ -23,15 +23,15 @@ const config      = require('@config'),
 
 ////////////// CREATE THE HTTP SERVER /////////////
 
-const httpServer = HTTP.createServer(function(request, response) {
-  HTTP.parseRequest(request)
+const httpServer = HTTP.createServer((req, res) => {
+  HTTP.parseRequest(req)
   .then(reqInfo => {
     switch(reqInfo.endpoint) {
       case config.endpoints.cloc:
         getClocData({
           params: reqInfo.params,
           uid:    uid(),
-          conn:   HTTP.Responder(response)
+          conn:   HTTP.Responder(res)
         });
         break;
     }

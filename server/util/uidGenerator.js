@@ -11,7 +11,8 @@
 
 /////////////// IMPORTS ////////////////
 
-const Probe = require('pmx').probe();
+const Probe = require('pmx').probe(),
+      getCurrentTime = require('./getCurrentTime');
 
 /////////////// METRICS ////////////////
 
@@ -26,13 +27,6 @@ const lastRequestTime = Probe.metric({
 lastRequestTime.set('');
 
 /////////////// PRIVATE ////////////////
-
-function getCurrentTime() {
-  let date = new Date(),
-      d = date.toDateString(),
-      t = date.toLocaleTimeString();
-  return `${d} ${t}`;
-}
 
 function uidGenerator(processId) {
   let curId = 0;
