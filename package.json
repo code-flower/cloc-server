@@ -20,6 +20,7 @@
   "homepage": "",
   "dependencies": {
     "bluebird": "^3.5.0",
+    "email-alerts": "^2.2.3",
     "git-url-parse": "^5.0.1",
     "mkpath": "^0.1.0",
     "module-alias": "^2.0.1",
@@ -32,6 +33,7 @@
   "devDependencies": {},
   "_moduleAliases": {
     "@config": "./config",
-    "@log": "./server/util/logger"
+    "@log": "./server/util/logger",
+    "@creds": "./creds"
   }
 }
