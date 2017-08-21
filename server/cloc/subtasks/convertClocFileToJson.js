@@ -76,26 +76,18 @@ function getTree(ctrl) {
     // attempt to read the cloc file
     let inFile = `${config.paths.repos}${ctrl.folderName}/${config.cloc.dataFile}`;
     fs.readFile(inFile, 'utf8', function(err, clocData) {
-      if (err) {
-        if (err.code == 'ENOENT') {
+      if (err)
+        if (err.code == 'ENOENT')
           // if cloc did not create a file (e.g., because there are no
           // code files in the repo), create dummy json
-          console.log('No cloc file created.');
           resolve({
             name: "root", 
             children: []          
           });
-        } else {
-          console.log("ERROR:", err);
-          reject({ 
-            errorType: config.errorTypes.clocError,
-            errorData: err
-          });
-        }
-      } else {  
-          // convert the cloc file to json
+        else
+          reject(err);
+      else
         resolve(clocToJson(clocData));     
-      }
     });
   });
 }
@@ -114,10 +106,7 @@ function getIgnored(ctrl) {
     let inFile = `${config.paths.repos}${ctrl.folderName}/${config.cloc.ignoredFile}`;
     fs.readFile(inFile, 'utf8', function(err, ignoredText) {
       if (err)
-        reject({ 
-          errorType: config.errorTypes.clocError,
-          errorData: err
-        });
+        reject(err);
       else 
         resolve(cleanIgnoredText(ignoredText, ctrl.repo.name));     
     });

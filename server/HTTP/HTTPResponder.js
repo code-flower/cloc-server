@@ -23,7 +23,7 @@ function HTTPResponder(response) {
       serveJson(response, {
         type: config.responseTypes.error,
         data: err
-      });
+      }, err.statusCode);
     },
 
     close: function() {

@@ -3,13 +3,13 @@
 //////////////////// IMPORTS //////////////////////
 
 const config = require('../config');
-const gitCreds = require('../private/git-creds');
+const gitCreds = require('../creds/git');
 const { httpReq, wsReq } = require('./clocRequests');
 
 //////////////////// CONSTANTS ////////////////////
 
 const RES_TYPES = config.responseTypes;
-const ERR_TYPES = config.errorTypes;
+const ERRORS = config.errors;
 
 ///////////////// TEST REQUESTS ///////////////////
 
@@ -22,7 +22,7 @@ const TEST_REQUESTS = [{
   test: {
     desc: 'Repo name not provided.',
     expect: res => res.type === RES_TYPES.error &&
-                   res.data.errorType === ERR_TYPES.needOwnerAndName
+                   res.data.name === ERRORS.NeedOwnerAndName.name
   }
 },{
   params: {
@@ -80,7 +80,7 @@ const TEST_REQUESTS = [{
   test: {
     desc: 'Public repo, non-existent branch specified, no creds.',
     expect: res => res.type === RES_TYPES.error &&
-                   res.data.errorType === ERR_TYPES.branchNotFound
+                   res.data.name === ERRORS.BranchNotFound.name
   }
 },{
   params: {
@@ -102,7 +102,7 @@ const TEST_REQUESTS = [{
   test: {
     desc: 'Private repo, no branch specified, no creds.',
     expect: res => res.type === RES_TYPES.error &&
-                   res.data.errorType === ERR_TYPES.needCredentials
+                   res.data.name === ERRORS.NeedCredentials.name
   }
 },{
   params: {
@@ -128,7 +128,7 @@ const TEST_REQUESTS = [{
   test: {
     desc: 'Private repo, valid branch specified, invalid credentials provided.',
     expect: res => res.type === RES_TYPES.error &&
-                   res.data.errorType === ERR_TYPES.credentialsInvalid
+                   res.data.name === ERRORS.CredentialsInvalid.name
   }
 },{
   params: {

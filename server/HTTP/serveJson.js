@@ -1,6 +1,6 @@
 
-module.exports = function serveJson(response, json) {
-  response.writeHead(200, {
+module.exports = function serveJson(response, json, statusCode) {
+  response.writeHead(statusCode || 200, {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*'
   });

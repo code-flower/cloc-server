@@ -15,7 +15,7 @@ function processRequestParams(ctrl) {
 
     //// 1. repo object ////
     if (!owner || !name)
-      reject({ errorType: config.errorTypes.needOwnerAndName });
+      reject(config.errors.NeedOwnerAndName);
 
     ctrl.repo = {
       owner:    owner,

@@ -13,8 +13,7 @@ function convertRepoToClocFile(ctrl) {
   return new Promise((resolve, reject) => {
     Log(2, '5. Converting Repo To Cloc File');
 
-    let clocError = false,
-        cd = 'cd ' + config.paths.repos + ctrl.folderName + '; ',
+    let cd = 'cd ' + config.paths.repos + ctrl.folderName + '; ',
         cloc = 'cloc ' + ctrl.repo.name +
                ' --csv --by-file ' + 
                `--ignored=${config.cloc.ignoredFile} ` +  
@@ -22,25 +21,9 @@ function convertRepoToClocFile(ctrl) {
 
     ctrl.conn.update('\n>> ' + cd + cloc);
 
-    let proc = exec(cd + cloc, () => {
-      // NOTE: Unitech/pm2 throws an error about recursion
-      // but it still produces the cloc file so no need to reject.
-      // Think about how to handle that (and other non-fatal errors).
-
-      // if (clocError) 
-      //   reject({ errorType: config.errorTypes.clocError });
-      // else
-      //   resolve(ctrl);
-
-      resolve(ctrl);
-    });
-
-    proc.stdout.on('data', data => { ctrl.conn.update(data); });
-
-    proc.stderr.on('data', data => {
-      ctrl.conn.update(data);
-      clocError = true;
-    });
+    let proc = exec(cd + cloc, () => resolve(ctrl));
+    proc.stdout.on('data', data => ctrl.conn.update(data));
+    proc.stderr.on('data', data => ctrl.conn.update(data));
   });
 }
 

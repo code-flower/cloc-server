@@ -4,7 +4,7 @@
 
 const { httpReq, wsReq } = require('./clocRequests');
 const config = require('../config');
-const gitCreds = require('../private/git-creds');
+const gitCreds = require('../creds/git');
 
 ////////////////// TEST REPOS /////////////////////
 
@@ -64,6 +64,6 @@ function handleResponse(res) {
   }
 }
 
-wsReq(TEST_REPOS[3], handleResponse);
+wsReq(TEST_REPOS[2], handleResponse);
 //httpReq(TEST_REPOS[1], handleResponse);
 

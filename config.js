@@ -38,14 +38,32 @@ module.exports = {
     success: 'success'
   },
 
-  errorTypes: {
-    needOwnerAndName:   'needOwnerAndName',
-    needCredentials:    'needCredentials',
-    credentialsInvalid: 'credentialsInvalid',
-    repoNotFound:       'repoNotFound',
-    branchNotFound:     'branchNotFound',
-    clocError:          'clocError',
-    mkpathError:        'mkpathError'
+  errors: {
+    NeedOwnerAndName: {
+      name: 'NeedOwnerAndName',
+      message: 'The owner and name of a repo are required parameters.',
+      statusCode: 400
+    },
+    NeedCredentials: {
+      name: 'NeedCredentials',
+      message: 'A github username and password are required to access this repo.',
+      statusCode: 401
+    },
+    CredentialsInvalid: {
+      name: 'CredentialsInvalid',
+      message: 'The given github username/password combination is invalid.',
+      statusCode: 401
+    },
+    RepoNotFound: {
+      name: 'RepoNotFound',
+      message: 'The given repo could not be found.',
+      statusCode: 404
+    },
+    BranchNotFound: {
+      name: 'BranchNotFound',
+      message: 'The given branch could not be found',
+      statusCode: 404
+    }
   },
 
   cloc: {

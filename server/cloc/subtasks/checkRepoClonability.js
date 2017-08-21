@@ -28,8 +28,6 @@ function checkRepoClonability(ctrl) {
   return new Promise((resolve, reject) => {
     Log(2, '2. Checking Repo Clonability');
 
-    let eTypes = config.errorTypes;
-
     // construct the git ls-remote command.
     // using '******' as a fallback is a trick that lets us 
     // distinguish between invalid credentials and non-existent repos, 
@@ -60,7 +58,7 @@ function checkRepoClonability(ctrl) {
       if (!branch || Object.keys(ctrl.repo.branches).indexOf(branch) !== -1) 
         resolve(ctrl);
       else
-        reject({ errorType: eTypes.branchNotFound });
+        reject(config.errors.BranchNotFound);
     });
 
     // stderr fires if the credentials are wrong or the repo doesn't exist
@@ -74,11 +72,11 @@ function checkRepoClonability(ctrl) {
     proc.stderr.on('end', () => {
       if (stderrText.match(/Invalid username or password/))
         if (ctrl.creds.username && ctrl.creds.password)
-          reject({ errorType: eTypes.credentialsInvalid });
+          reject(config.errors.CredentialsInvalid);
         else 
-          reject({ errorType: eTypes.needCredentials });
+          reject(config.errors.NeedCredentials);
       else if (stderrText.match(/Repository not found/))
-        reject({ errorType: eTypes.repoNotFound });
+        reject(config.errors.RepoNotFound);
     });
   });
 }
