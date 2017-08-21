@@ -1,25 +1,36 @@
 
 //////////// IMPORTS ////////////
 
-const creds = require('@creds/sendgrid');
+const creds = require('@creds/sendgrid'),
+      sg = require('sendgrid')(creds.apiKey);
 
-const emailAlerts = require('email-alerts')({
-  fromEmail: creds.email,
-  toEmail:   creds.email,
-  apiKey:    creds.apiKey
-});
-
-//////////// PRIVATE ////////////
+//////////// PRIVATE ////////////      
 
 function sendAlert(subject, message) {
-  emailAlerts.alert(subject, message, function(error) {
-    if (error)
-      console.log("ALERT ERROR:", error);
-    else
-      console.log("SENT ALERT:", {
-        subject: subject,
-        message: message
-      });
+
+  let request = sg.emptyRequest({
+    method: 'POST',
+    path: '/v3/mail/send',
+    body: {
+      personalizations: [{
+        to: [{
+          email: creds.email
+        }],
+        subject: subject
+      }],
+      from: {
+        email: creds.email
+      },
+      content: [{
+        type: 'text/html',
+        value: message
+      }]
+    }
+  });
+   
+  sg.API(request, (error, response) => {
+    if (error) 
+      console.log("SENDGRID ERROR:", error);
   });
 }
 

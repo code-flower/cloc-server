@@ -77,7 +77,7 @@ function getTree(ctrl) {
     let inFile = `${config.paths.repos}${ctrl.folderName}/${config.cloc.dataFile}`;
     fs.readFile(inFile, 'utf8', function(err, clocData) {
       if (err)
-        if (err.code == 'ENOENT')
+        if (err.code === 'ENOENT')
           // if cloc did not create a file (e.g., because there are no
           // code files in the repo), create dummy json
           resolve({
@@ -85,7 +85,7 @@ function getTree(ctrl) {
             children: []          
           });
         else
-          reject(err);
+          reject(new Error(err));
       else
         resolve(clocToJson(clocData));     
     });
@@ -106,7 +106,7 @@ function getIgnored(ctrl) {
     let inFile = `${config.paths.repos}${ctrl.folderName}/${config.cloc.ignoredFile}`;
     fs.readFile(inFile, 'utf8', function(err, ignoredText) {
       if (err)
-        reject(err);
+        reject(new Error(err));
       else 
         resolve(cleanIgnoredText(ignoredText, ctrl.repo.name));     
     });

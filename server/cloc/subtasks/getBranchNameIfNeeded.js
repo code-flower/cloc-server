@@ -22,12 +22,16 @@ function getBranchNameIfNeeded(ctrl) {
                   ctrl.repo.name + '/' + 
                   '.git/refs/heads/';
         fs.readdir(dir, (err, files) => {
-          if (files)
+          if (err)
+            rej(new Error(err))
+          else {
             ctrl.repo.branch = files[0];
-          res();
+            res();
+          }
         }); 
       }
-    }).then(() => {
+    })
+    .then(() => {
       // now that we have the branch name, add some useful info to ctrl
       let { repo } = ctrl;
       repo.lastCommit = repo.branches[repo.branch];
@@ -35,7 +39,8 @@ function getBranchNameIfNeeded(ctrl) {
       repo.githubUrl  = `https://github.com/${repo.owner}/${repo.name}/tree/${repo.branch}`;
 
       resolve(ctrl);
-    });
+    })
+    .catch(err => reject(err));
   });
 }
 
