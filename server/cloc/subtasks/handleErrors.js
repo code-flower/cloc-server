@@ -11,7 +11,6 @@ function handleErrors(error, ctrl) {
   return new Promise((resolve, reject) => {
 
     Log(2, '8. Handling Errors');
-    Log(1, 'ERROR:', ctrl.folderName, error.name);
 
     // is the error listed in the config?
     let isRecognizedError = (
@@ -22,21 +21,13 @@ function handleErrors(error, ctrl) {
 
     if (isRecognizedError) {
 
+      Log(1, 'ERROR:', ctrl.repo.fNameBr, error.name);
       error.params = ctrl.params;
       ctrl.conn.error(error);
 
     } else {
 
-      let errorEmail = (
-        '<!DOCTYPE html><html><body>' + 
-          '<h3>Stack Trace</h3>' + 
-          '<p>' + error.stack.replace(/\n/g, '<br/>') + '</p>' + 
-          '<h3>Request Params</h3>' + 
-          '<p>' + JSON.stringify(ctrl.params) + '</p>' +
-        '</body></html>'
-      );
-
-      sendAlert('codeflower: cloc-server error', errorEmail);
+      Log('error', error);
 
       ctrl.conn.error({
         name: 'GenericServerError',
@@ -44,6 +35,18 @@ function handleErrors(error, ctrl) {
         stack: error.stack,
         params: ctrl.params
       });
+
+      if (config.emailUnhandledErrors) {
+        let errorEmail = (
+          '<!DOCTYPE html><html><body>' + 
+            '<h3>Stack Trace</h3>' + 
+            '<p>' + error.stack.replace(/\n/g, '<br/>') + '</p>' + 
+            '<h3>Request Params</h3>' + 
+            '<p>' + JSON.stringify(ctrl.params) + '</p>' +
+          '</body></html>'
+        );
+        sendAlert('codeflower: cloc-server error', errorEmail);
+      }
 
     }
 

@@ -3,7 +3,9 @@
 
 ////////////////// IMPORTS ////////////////////
 
-const config = require('../config'),
+require('module-alias/register');
+
+const config = require('@config'),
       Promise = require('bluebird'),
       https = require('https'),
       { httpReq, wsReq } = require('./clocRequests');

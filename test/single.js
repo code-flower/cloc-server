@@ -2,9 +2,11 @@
 
 //////////////////// IMPORTS //////////////////////
 
-const { httpReq, wsReq } = require('./clocRequests');
-const config = require('../config');
-const gitCreds = require('../creds/git');
+require('module-alias/register');
+
+const config = require('@config'),
+      gitCreds = require('@creds/git'),
+      { httpReq, wsReq } = require('./clocRequests');
 
 ////////////////// TEST REPOS /////////////////////
 
@@ -64,6 +66,6 @@ function handleResponse(res) {
   }
 }
 
-wsReq(TEST_REPOS[2], handleResponse);
+wsReq(TEST_REPOS[1], handleResponse);
 //httpReq(TEST_REPOS[1], handleResponse);
 

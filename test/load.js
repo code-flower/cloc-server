@@ -2,9 +2,11 @@
 
 //////////////////// IMPORTS //////////////////////
 
-const { httpReq, wsReq } = require('./clocRequests');
-const config = require('../config');
-const gitCreds = require('../private/git-creds');
+require('module-alias/register');
+
+const config = require('@config'),
+      gitCreds = require('@creds/git'),
+      { httpReq, wsReq } = require('./clocRequests');
 
 ////////////////// TEST REPOS /////////////////////
 

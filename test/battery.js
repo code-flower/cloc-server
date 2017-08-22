@@ -2,9 +2,11 @@
 
 //////////////////// IMPORTS //////////////////////
 
-const config = require('../config');
-const gitCreds = require('../creds/git');
-const { httpReq, wsReq } = require('./clocRequests');
+require('module-alias/register');
+
+const config = require('@config'),
+      gitCreds = require('@creds/git'),
+      { httpReq, wsReq } = require('./clocRequests');
 
 //////////////////// CONSTANTS ////////////////////
 

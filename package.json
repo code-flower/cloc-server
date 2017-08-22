@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server --ignore tmp/ --ignore test/",
     "test": "node test/single.js",
-    "deploy": "pm2 start server --name='codeflower' && pm2 monit"
+    "deploy": "pm2 start config/pm2.config.js"
   },
   "repository": {
     "type": "git",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {},
   "_moduleAliases": {
-    "@config": "./config",
+    "@config": "./config/app.config",
     "@log": "./server/util/logger",
     "@creds": "./creds"
   }

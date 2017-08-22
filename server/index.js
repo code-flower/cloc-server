@@ -13,6 +13,7 @@ require('pmx').init({
 //////////////////// IMPORTS //////////////////////
 
 const config      = require('@config'),
+      Log         = require('@log'),
       HTTP        = require('./HTTP/'),
       WS          = require('./WS/'),
       getClocData = require('./cloc/'),
@@ -63,9 +64,8 @@ wsServer.on('connection', conn => {
 
 ///////////////// START LISTENING ///////////////////
 
-httpServer.listen(config.ports.HTTP, function() {
-  console.log(`HTTP server running at port ${config.ports.HTTP} using protocol '${config.protocols.HTTP}'`);
-  console.log(`Websockets server running at port ${config.ports.WS} using protocol '${config.protocols.WS}'`);
+httpServer.listen(config.ports.HTTP, () => {
+  Log(1, `Server started on port ${config.ports.HTTP}.`);
 });
 
 
