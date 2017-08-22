@@ -6,7 +6,8 @@ require('module-alias/register');
 
 const config = require('@config'),
       gitCreds = require('@creds/git'),
-      { httpReq, wsReq } = require('./clocRequests');
+      { httpReq, wsReq } = require('./clocRequests'),
+      argv = require('minimist')(process.argv);
 
 //////////////////// CONSTANTS ////////////////////
 
@@ -167,20 +168,14 @@ function evalResponse(test, res) {
   }
 }
 
-////////////////////// RUN TEST ///////////////////////
+//////////////////// RUN TEST ///////////////////////
 
-console.log("WS Tests");
+let reqFunc = argv.http ? httpReq : wsReq;
+
 TEST_REQUESTS.forEach(req => {
-  wsReq(req.params, res => {
+  reqFunc(req.params, res => {
     evalResponse(req.test, res);
   });
 });
-
-// console.log("HTTP Tests");
-// TEST_REQUESTS.forEach(req => {
-//   httpReq(req.params, res => {
-//     evalResponse(req.test, res);
-//   });
-// });
 
 

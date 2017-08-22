@@ -5,7 +5,6 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon server --ignore tmp/ --ignore test/",
-    "test": "node test/single.js",
     "deploy": "pm2 start config/pm2.config.js"
   },
   "repository": {
@@ -21,6 +20,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "git-url-parse": "^5.0.1",
+    "minimist": "^1.2.0",
     "mkpath": "^0.1.0",
     "module-alias": "^2.0.1",
     "moment": "^2.13.0",

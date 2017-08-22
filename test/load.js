@@ -6,7 +6,8 @@ require('module-alias/register');
 
 const config = require('@config'),
       gitCreds = require('@creds/git'),
-      { httpReq, wsReq } = require('./clocRequests');
+      { httpReq, wsReq } = require('./clocRequests'),
+      argv = require('minimist')(process.argv);
 
 ////////////////// TEST REPOS /////////////////////
 
@@ -30,7 +31,7 @@ const TEST_REPOS = [{
   password: gitCreds.password
 }];
 
-////////////////////// MAIN ////////////////////////
+/////////////////// FUNCTIONS ///////////////////////
 
 function handleResponse(res) {
   switch(res.type) {
@@ -46,7 +47,12 @@ function handleResponse(res) {
   }
 }
 
-for (var i = 0; i < 10; i++)
-  wsReq(TEST_REPOS[2], handleResponse);
+///////////////////// MAIN //////////////////////////
 
-//httpReq(TEST_REPOS[1], handleResponse);
+let iterations = argv.iter || 10,
+    testNum = argv.n || 0,
+    reqFunc = argv.http ? httpReq : wsReq;
+
+for (var i = 0; i < iterations; i++)
+  reqFunc(TEST_REPOS[testNum], handleResponse);
+

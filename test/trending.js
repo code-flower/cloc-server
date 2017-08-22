@@ -8,15 +8,13 @@ require('module-alias/register');
 const config = require('@config'),
       Promise = require('bluebird'),
       https = require('https'),
-      { httpReq, wsReq } = require('./clocRequests');
+      { httpReq, wsReq } = require('./clocRequests'),
+      argv = require('minimist')(process.argv);
 
 ////////////////// CONFIG /////////////////////
 
 // this can end with 'daily', 'weekly', or 'monthly'
 const TRENDING_URL = 'https://github.com/trending?since=daily';
-
-// number of repos you want to send to the server
-const NUM_REPOS = 10;
 
 ///////////////// FUNCTIONS ///////////////////
 
@@ -36,14 +34,14 @@ function getReposFromHTML(html) {
   });
 }
 
-function getTrendingRepos() {
+function getTrendingRepos(numRepos) {
   return new Promise((resolve, reject) => {
     https.get(TRENDING_URL, res => {
       let html = '';
       res.on('data', (chunk) => { html += chunk; });
       res.on('end', () => {
         let repos = getReposFromHTML(html);
-        resolve(repos.slice(0, NUM_REPOS));
+        resolve(repos.slice(0, numRepos));
       });
     });
   });
@@ -65,12 +63,13 @@ function handleResponse(res) {
 
 /////////////////// MAIN //////////////////////
 
-getTrendingRepos().then(repos => {
+let reqFunc = argv.http ? httpReq : wsReq,
+    numRepos = argv.n || 10;
+
+getTrendingRepos(numRepos).then(repos => {
   console.log("TOP REPOS:");
   console.log(repos);
-  repos.forEach(repo => wsReq(repo, handleResponse));
+  repos.forEach(repo => reqFunc(repo, handleResponse));
 });
-
-
 
 

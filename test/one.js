@@ -6,18 +6,19 @@ require('module-alias/register');
 
 const config = require('@config'),
       gitCreds = require('@creds/git'),
-      { httpReq, wsReq } = require('./clocRequests');
+      { httpReq, wsReq } = require('./clocRequests')
+      argv = require('minimist')(process.argv);
 
 ////////////////// TEST REPOS /////////////////////
 
 const TEST_REPOS = [{
-  owner: '',
-  name:  'client-web',
-  branch: 'masters'
-},{
   owner: 'code-flower',
   name:  'client-web',
   branch: ''
+},{
+  owner: '',
+  name:  'client-web',
+  branch: 'masters'
 },{
   owner: 'code-flower',
   name:  'client-web',
@@ -48,7 +49,7 @@ const TEST_REPOS = [{
   branch: ''
 }];
 
-////////////////////// MAIN ////////////////////////
+/////////////////// FUNCTIONS /////////////////////
 
 function handleResponse(res) {
   switch(res.type) {
@@ -66,6 +67,12 @@ function handleResponse(res) {
   }
 }
 
-wsReq(TEST_REPOS[1], handleResponse);
-//httpReq(TEST_REPOS[1], handleResponse);
+///////////////////// MAIN ////////////////////////
+
+let reqFunc = argv.http ? httpReq : wsReq,
+    testNum = argv.n || 0;
+
+reqFunc(TEST_REPOS[testNum], handleResponse);
+
+
 
