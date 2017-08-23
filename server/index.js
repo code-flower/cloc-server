@@ -12,49 +12,60 @@ require('pmx').init({
 
 //////////////////// IMPORTS //////////////////////
 
-const config        = require('@config'),
-      Log           = require('@log'),
-      HTTP          = require('./HTTP/'),
-      WS            = require('./WS/'),
-      serveClocData = require('./cloc/'),
-      uid           = require('./util/uidGenerator')(process.pid);
+const config      = require('@config'),
+      Log         = require('@log'),
+      HTTP        = require('./HTTP/'),
+      WS          = require('./WS/'),
+      uid         = require('./util/uidGenerator')(process.pid);
+
+const {
+  serveClocData,
+  servePing, 
+  serveError
+}                 = require('./responses');
 
 
 
 
 //////////////////// FUNCTIONS ////////////////////
 
-// A PROTOCOL-AGNOSTIC CLOC SERVER //
+// A PROTOCOL-AGNOSTIC SERVER //
 function genericServer(protocol, req, res) {
   let responder = protocol.Responder(res);
-
-  let serveError = (err) => {
-    Log(1, 'ERROR: ' + err.name);
-    responder.error(err);
-    responder.close();
-  };
 
   protocol.parseRequest(req)
     .then(reqInfo => {
       switch(reqInfo.endpoint) {
         case config.endpoints.cloc:
           serveClocData({
+            conn:   responder,
             params: reqInfo.params,
-            uid:    uid(),
-            conn:   responder
+            uid:    uid()
+          });
+          break;
+        case config.endpoints.ping:
+          servePing({
+            conn: responder
           });
           break;
         default:
-          serveError(config.errors.EndpointNotRecognized);
+          serveError({
+            conn: responder, 
+            err:  config.errors.EndpointNotRecognized
+          });
           break;
       }
     })
-    .catch(err => serveError(config.errors.ParseError));
+    .catch(err => serveError({
+      conn: responder, 
+      err:  config.errors.ParseError
+    }));
 }
 
 // BIND THE GENERIC SERVER TO A PROTOCOL //
 function createBoundServer(protocol, baseServer) {
-  return protocol.createServer(genericServer.bind(null, protocol), baseServer);
+  let server = genericServer.bind(null, protocol);
+  return protocol.createServer(server, baseServer);
 }
 
 

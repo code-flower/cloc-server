@@ -3,7 +3,7 @@
 
 const config = require('@config'),
       Log = require('@log'),
-      sendAlert = require('../../util/sendAlert');
+      sendAlert = require('@util/sendAlert');
 
 //////////// PRIVATE ////////////
 

@@ -34,6 +34,7 @@
   "_moduleAliases": {
     "@config": "./config/app.config",
     "@log": "./server/util/logger",
-    "@creds": "./creds"
+    "@creds": "./creds",
+    "@util": "./server/util"
   }
 }
