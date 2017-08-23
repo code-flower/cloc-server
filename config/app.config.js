@@ -1,7 +1,7 @@
 
 var path = require('path');
 
-var REMOTE = false;
+var REMOTE = process.env.NODE_ENV === 'production';
 
 module.exports = {
 
@@ -22,13 +22,13 @@ module.exports = {
 
   paths: {
     repos:  path.join(__dirname, '../tmp/repos/'),
-    // SSL: {
-    //   key:  path.join(__dirname, '../../devSSL/cert/server.key'),
-    //   cert: path.join(__dirname, '../../devSSL/cert/server.crt')
-    // },
-    SSL: {
+
+    SSL: REMOTE ? {
       key:  '/etc/letsencrypt/live/api.codeflower.la/privkey.pem',
       cert: '/etc/letsencrypt/live/api.codeflower.la/cert.pem'
+    } : {
+      key:  path.join(__dirname, '../../devSSL/cert/server.key'),
+      cert: path.join(__dirname, '../../devSSL/cert/server.crt')
     }
   },
 
