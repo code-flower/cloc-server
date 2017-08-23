@@ -1,9 +1,16 @@
 //////////// IMPORTS ////////////
 
-const config = require('@config'),
-      serveJson = require('./serveJson');
+const config = require('@config');
 
 //////////// PRIVATE ////////////
+
+function serveJson(response, json, statusCode) {
+  response.writeHead(statusCode, {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  });
+  response.end(JSON.stringify(json));
+}
 
 function HTTPResponder(response) {
 
@@ -16,7 +23,7 @@ function HTTPResponder(response) {
       serveJson(response, {
         type: config.responseTypes.success,
         data: repo
-      });
+      }, 200);
     },
 
     error: function(err) {

@@ -1,5 +1,6 @@
 
 module.exports = {
-  createServer: require('ws').Server,
-  Responder: require('./WSResponder')
+  createServer: require('./createServer'),
+  parseRequest: require('./parseRequest'),
+  Responder:    require('./Responder')
 };

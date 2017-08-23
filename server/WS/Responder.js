@@ -37,8 +37,10 @@ function WSResponder(wsConn) {
     },
 
     close: function() {
-      wsConn.close();
-      wsConn = null;
+      if (wsConn && wsConn.readyState === 1) {
+        wsConn.close();
+        wsConn = null;
+      }
     }
   };
 }

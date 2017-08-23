@@ -1,13 +1,13 @@
 ////////////////////// IMPORTS /////////////////////////
 
-var http = require('http');
-var https = require('https');
-var fs = require('fs');
-var config = require('@config');
+const http = require('http'),
+      https = require('https'),
+      fs = require('fs'),
+      config = require('@config');
 
 /////////////// CONSTRUCT CREATESERVER /////////////////
 
-var createServer;
+let createServer;
 
 if (config.protocols.HTTP === 'https') {
 

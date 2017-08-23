@@ -39,6 +39,16 @@ module.exports = {
   },
 
   errors: {
+    ParseError: {
+      name: 'ParseError',
+      message: 'Your request could not be parsed. Please check the format of the request.',
+      statusCode: 400
+    },
+    EndpointNotRecognized: {
+      name: 'EndpointNotRecognized',
+      message: 'Please check your endpoint.',
+      statusCode: 404
+    },
     NeedOwnerAndName: {
       name: 'NeedOwnerAndName',
       message: 'The owner and name of a repo are required parameters.',

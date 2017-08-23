@@ -25,7 +25,11 @@ function parseRequest(request) {
         let body = '';
         request.on('data', data => body += data);
         request.on('end', () => {
-          reqInfo.params = JSON.parse(body);
+          try {
+            reqInfo.params = JSON.parse(body);
+          } catch(e) {
+            reject(e);
+          }
           resolve(reqInfo);
         });
         break;
@@ -39,3 +43,4 @@ function parseRequest(request) {
 //////////// PUBLIC /////////////
 
 module.exports = parseRequest;
+

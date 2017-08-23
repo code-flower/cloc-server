@@ -15,7 +15,7 @@ const {
 
 //////////////// PRIVATE ///////////////////
 
-function getClocData(ctrl) {
+function serveClocData(ctrl) {
   processRequestParams(ctrl)
   .then(checkRepoClonability)
   .then(cloneRepoInFilesystem)
@@ -30,5 +30,5 @@ function getClocData(ctrl) {
 
 /////////////////// EXPORTS ///////////////////
 
-module.exports = getClocData;
+module.exports = serveClocData;
 

@@ -25,8 +25,8 @@ function wsReq(repo, callback) {
    
   ws.on('open', function() {
     ws.send(JSON.stringify({
-      type: CLOC_ENDPOINT,
-      data: repo
+      endpoint: CLOC_ENDPOINT,
+      params: repo
     }));
   });
    
