@@ -22,10 +22,14 @@ module.exports = {
 
   paths: {
     repos:  path.join(__dirname, '../tmp/repos/'),
+    // SSL: {
+    //   key:  path.join(__dirname, '../../devSSL/cert/server.key'),
+    //   cert: path.join(__dirname, '../../devSSL/cert/server.crt')
+    // },
     SSL: {
-      key:  path.join(__dirname, '../../devSSL/cert/server.key'),
-      cert: path.join(__dirname, '../../devSSL/cert/server.crt')
-    } 
+      key:  '/etc/letsencrypt/live/api.codeflower.la/privkey.pem',
+      cert: '/etc/letsencrypt/live/api.codeflower.la/cert.pem'
+    }
   },
 
   endpoints: {
