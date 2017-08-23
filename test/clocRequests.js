@@ -2,14 +2,15 @@
 
 //////////////////// IMPORTS //////////////////////
 
-const WebSocket = require('ws');
-const https = require('https');
-const config = require('@config');
+const WebSocket = require('ws'),
+      https = require('https'),
+      config = require('@config'),
+      argv = require('minimist')(process.argv);
 
 /////////////////// CONSTANTS /////////////////////
 
 // server config
-const HOSTNAME      = config.hostname,
+const HOSTNAME      = argv.remote ? 'api.codeflower.la' : 'localhost',
       HTTP_PROTOCOL = config.protocols.HTTP,
       HTTP_PORT     = config.ports.HTTP,
       WS_PROTOCOL   = config.protocols.WS,
