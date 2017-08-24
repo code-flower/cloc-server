@@ -2,6 +2,7 @@
 var path = require('path');
 
 var REMOTE = process.env.NODE_ENV === 'production';
+REMOTE = false;
 
 module.exports = {
 

@@ -12,7 +12,7 @@ function serveJson(response, json, statusCode) {
   response.end(JSON.stringify(json));
 }
 
-function HTTPResponder(response) {
+function HTTPResponder(response, onClose) {
 
   return {
     update: function(text) {
@@ -34,6 +34,7 @@ function HTTPResponder(response) {
     },
 
     close: function() {
+      onClose();
       return false;
     }
   };

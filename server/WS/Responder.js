@@ -4,7 +4,7 @@ var config = require('@config');
 
 //////////// PRIVATE ////////////
 
-function WSResponder(wsConn) {
+function WSResponder(wsConn, onClose) {
 
   let sendData = function(data) {
     if (wsConn && wsConn.readyState === 1) 
@@ -40,6 +40,7 @@ function WSResponder(wsConn) {
       if (wsConn && wsConn.readyState === 1) {
         wsConn.close();
         wsConn = null;
+        onClose();
       }
     }
   };
