@@ -21,9 +21,10 @@ function getBranches(lsRemoteOutput) {
 }
 
 // uses the git ls-remote command to determine: 
-// (1) whether the repo requires credentials,
-// (2) whether the repo exists, and
-// (3) whether the branch exists
+// (1) whether the repo exists
+// (2) whether the branch exists
+// (3) whether the repo requires credentials
+// (4) whether the credentials, if given, are valid
 function checkRepoClonability(ctrl) {
   return new Promise((resolve, reject) => {
     Log(2, '2. Checking Repo Clonability');
@@ -41,43 +42,33 @@ function checkRepoClonability(ctrl) {
     ctrl.resp.update('>> ' + lsRemote.replace(/\/.*?@/, '//******:******@'));
 
     // execute the command
-    let proc = exec(lsRemote),
-        stdoutText = '',
-        stderrText = '';
+    let proc = exec(lsRemote, (err, stdout, stderr) => { 
 
-    // stdout fires if the repo exists and the credentials are correct (if required)
-    proc.stdout.on('data', data => { 
-      ctrl.resp.update(data); 
-      stdoutText += data;
+      // err happens if the credentials are wrong or the repo doesn't exist
+      // Repository not found => credentials are correct AND repository does not exist
+      // Invalid username or password => credentials are not correct AND repository may or may not exist
+      if (err) {
+        if (stderr.match(/Invalid username or password/))
+          if (ctrl.creds.username && ctrl.creds.password)
+            reject(config.errors.CredentialsInvalid);
+          else 
+            reject(config.errors.NeedCredentials);
+        else if (stderr.match(/Repository not found/))
+          reject(config.errors.RepoNotFound);
+
+      // no error if the repo exists and the credentials are correct (if required)
+      } else {
+        ctrl.repo.branches = getBranches(stdout);
+        let { branch } = ctrl.repo;
+        if (!branch || Object.keys(ctrl.repo.branches).indexOf(branch) !== -1) 
+          resolve(ctrl);
+        else
+          reject(config.errors.BranchNotFound);
+      }
     });
-
-    proc.stdout.on('end', () => {
-      ctrl.repo.branches = getBranches(stdoutText);
-
-      let { branch } = ctrl.repo;
-      if (!branch || Object.keys(ctrl.repo.branches).indexOf(branch) !== -1) 
-        resolve(ctrl);
-      else
-        reject(config.errors.BranchNotFound);
-    });
-
-    // stderr fires if the credentials are wrong or the repo doesn't exist
-    // Repository not found => credentials are correct AND repository does not exist
-    // Invalid username or password => credentials are not correct AND repository may or may not exist
-    proc.stderr.on('data', data => { 
-      ctrl.resp.update(data); 
-      stderrText += data;
-    });
-
-    proc.stderr.on('end', () => {
-      if (stderrText.match(/Invalid username or password/))
-        if (ctrl.creds.username && ctrl.creds.password)
-          reject(config.errors.CredentialsInvalid);
-        else 
-          reject(config.errors.NeedCredentials);
-      else if (stderrText.match(/Repository not found/))
-        reject(config.errors.RepoNotFound);
-    });
+    
+    proc.stdout.on('data', ctrl.resp.update); 
+    proc.stderr.on('data', ctrl.resp.update);
   });
 }
 
