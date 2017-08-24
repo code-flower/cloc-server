@@ -50,7 +50,7 @@ function cloneRepoInFilesystem(ctrl) {
 
       // replace username and password, if any, with asterisks, before sending to client
       let outText = clone.replace(/https:\/\/.*?@/, 'https://******:******@');
-      ctrl.conn.update('\n>> ' + outText);
+      ctrl.resp.update('\n>> ' + outText);
 
       // start clone
       let proc = exec(cd + clone, () => resolve(ctrl));
@@ -59,7 +59,7 @@ function cloneRepoInFilesystem(ctrl) {
       // NOTE: git uses the stderr channel even for non-error states
       let cloneOutput = '';
       proc.stderr.on('data', data => { 
-        ctrl.conn.update(data); 
+        ctrl.resp.update(data); 
         cloneOutput += data;
       });
 

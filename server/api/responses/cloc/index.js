@@ -9,8 +9,7 @@ const {
   convertClocFileToJson,
   sendJsonToClient,
   handleErrors,
-  deleteRepoFromFilesystem,
-  closeConnectionToClient
+  deleteRepoFromFilesystem
 } = require('./subtasks/');
 
 //////////////// PRIVATE ///////////////////
@@ -24,8 +23,7 @@ function serveClocData(ctrl) {
   .then(convertClocFileToJson)
   .then(sendJsonToClient)
   .catch(err => handleErrors(err, ctrl))
-  .finally(() => deleteRepoFromFilesystem(ctrl))
-  .finally(() => closeConnectionToClient(ctrl));
+  .finally(() => deleteRepoFromFilesystem(ctrl));
 }
 
 /////////////////// EXPORTS ///////////////////

@@ -38,7 +38,7 @@ function checkRepoClonability(ctrl) {
         lsRemote = `git ls-remote -h "https://${user}:${pass}@github.com/${fName}"`;
 
     // echo the command (but not credentials)
-    ctrl.conn.update('>> ' + lsRemote.replace(/\/.*?@/, '//******:******@'));
+    ctrl.resp.update('>> ' + lsRemote.replace(/\/.*?@/, '//******:******@'));
 
     // execute the command
     let proc = exec(lsRemote),
@@ -47,7 +47,7 @@ function checkRepoClonability(ctrl) {
 
     // stdout fires if the repo exists and the credentials are correct (if required)
     proc.stdout.on('data', data => { 
-      ctrl.conn.update(data); 
+      ctrl.resp.update(data); 
       stdoutText += data;
     });
 
@@ -65,7 +65,7 @@ function checkRepoClonability(ctrl) {
     // Repository not found => credentials are correct AND repository does not exist
     // Invalid username or password => credentials are not correct AND repository may or may not exist
     proc.stderr.on('data', data => { 
-      ctrl.conn.update(data); 
+      ctrl.resp.update(data); 
       stderrText += data;
     });
 

@@ -11,6 +11,14 @@ function WSResponder(wsConn, onClose) {
       wsConn.send(JSON.stringify(data));
   };
 
+  let closeConn = function() {
+    if (wsConn && wsConn.readyState === 1) {
+      wsConn.close();
+      wsConn = null;
+      onClose();
+    }
+  };
+
   return {
     update: function(text) {
       let lines = text.toString('utf-8').split('\n');
@@ -22,11 +30,12 @@ function WSResponder(wsConn, onClose) {
       });
     },
 
-    success: function(repo) {
+    success: function(data) {
       sendData({
         type: config.responseTypes.success,
-        data: repo
+        data: data
       });
+      closeConn();
     },
 
     error: function(err) {
@@ -34,14 +43,7 @@ function WSResponder(wsConn, onClose) {
         type: config.responseTypes.error,
         data: err
       });
-    },
-
-    close: function() {
-      if (wsConn && wsConn.readyState === 1) {
-        wsConn.close();
-        wsConn = null;
-        onClose();
-      }
+      closeConn();
     }
   };
 }

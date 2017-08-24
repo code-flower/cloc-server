@@ -4,12 +4,12 @@ const config = require('@config');
 
 //////////// PRIVATE ////////////
 
-function serveJson(response, json, statusCode) {
+function serveJson(response, statusCode, json, cb) {
   response.writeHead(statusCode, {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*'
   });
-  response.end(JSON.stringify(json));
+  response.end(JSON.stringify(json), cb);
 }
 
 function HTTPResponder(response, onClose) {
@@ -19,23 +19,18 @@ function HTTPResponder(response, onClose) {
       return false;
     },
 
-    success: function(repo) {
-      serveJson(response, {
+    success: function(data) {
+      serveJson(response, 200, {
         type: config.responseTypes.success,
-        data: repo
-      }, 200);
+        data: data
+      }, onClose);
     },
 
     error: function(err) {
-      serveJson(response, {
+      serveJson(response, err.statusCode, {
         type: config.responseTypes.error,
         data: err
-      }, err.statusCode);
-    },
-
-    close: function() {
-      onClose();
-      return false;
+      }, onClose);
     }
   };
 }

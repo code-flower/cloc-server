@@ -23,13 +23,13 @@ function handleErrors(error, ctrl) {
 
       Log(1, 'ERROR:', ctrl.repo.fNameBr, error.name);
       error.params = ctrl.params;
-      ctrl.conn.error(error);
+      ctrl.resp.error(error, ctrl.repo.fNameBr);
 
     } else {
 
       Log('error', error);
 
-      ctrl.conn.error({
+      ctrl.resp.error({
         name: 'GenericServerError',
         statusCode: 500,
         stack: error.stack,

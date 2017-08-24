@@ -12,12 +12,12 @@ require('pmx').init({
 
 //////////////////// IMPORTS //////////////////////
 
-const config      = require('@config'),
-      Log         = require('@log'),
-      HTTP        = require('./HTTP/'),
-      WS          = require('./WS/'),
-      connPool    = require('./util/connectionPool')(process.pid),
-      handleConn  = require('./handleConnection');
+const config        = require('@config'),
+      Log           = require('@log'),
+      HTTP          = require('./HTTP/'),
+      WS            = require('./WS/'),
+      connPool      = require('./util/connectionPool')(process.pid),
+      serveResponse = require('./api/serveResponse');
 
 
 
@@ -28,7 +28,7 @@ function server(protocol, request, response) {
   let connId  = connPool.addConn(),
       onClose = connPool.removeConn.bind(null, connId);
 
-  handleConn({
+  serveResponse({
     connId:     connId,
     request:    request,
     parse:      protocol.parseRequest,

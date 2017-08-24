@@ -11,39 +11,37 @@ const {
 
 /////////////////////// PRIVATE ////////////////////////
 
-function handleConnection(conn) {
-  let { connId, request, parse, responder } = conn;
-
+function serveResponse({ connId, request, parse, responder }) {
   parse(request)
     .then(reqInfo => {
       switch(reqInfo.endpoint) {
         case config.endpoints.cloc:
           serveClocData({
-            conn:   responder,
+            resp:   responder,
             params: reqInfo.params,
             uid:    connId
           });
           break;
         case config.endpoints.ping:
           servePing({
-            conn: responder
+            resp: responder
           });
           break;
         default:
           serveError({
-            conn: responder, 
+            resp: responder, 
             err:  config.errors.EndpointNotRecognized
           });
           break;
       }
     })
     .catch(err => serveError({
-      conn: responder, 
+      resp: responder, 
       err:  config.errors.ParseError
     }));
 }
 
 /////////////////////// EXPORTS ////////////////////////
 
-module.exports = handleConnection;
+module.exports = serveResponse;
 

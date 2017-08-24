@@ -19,11 +19,11 @@ function convertRepoToClocFile(ctrl) {
                `--ignored=${config.cloc.ignoredFile} ` +  
                `--report-file=${config.cloc.dataFile}`;
 
-    ctrl.conn.update('\n>> ' + cd + cloc);
+    ctrl.resp.update('\n>> ' + cd + cloc);
 
     let proc = exec(cd + cloc, () => resolve(ctrl));
-    proc.stdout.on('data', data => ctrl.conn.update(data));
-    proc.stderr.on('data', data => ctrl.conn.update(data));
+    proc.stdout.on('data', data => ctrl.resp.update(data));
+    proc.stderr.on('data', data => ctrl.resp.update(data));
   });
 }
 
