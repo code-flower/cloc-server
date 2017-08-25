@@ -8,13 +8,13 @@ sudo apt-get install git
 git clone https://github.com/code-flower/cloc-server.git
 cd cloc-server
 
-# install 
+# install nvm
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 source ~/.bashrc
-command -v nvm      # displays nvm
+command -v nvm      # should display nvm
 
 # install node
-nvm install         # installs version in nvmrc file
+nvm install         # installs the version in the .nvmrc file
 
 # install global npm packages
 npm install -g cloc
@@ -24,12 +24,20 @@ npm install -g nodemon
 # install local npm packages
 npm install
 
-# upload creds using sftp
-
-# upload dev cert using sftp
-
 # install letsencrypt cert
 sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:certbot/certbot
 sudo apt-get update
-sudo apt-get install certbot 
+sudo apt-get install certbot
+certbot certonly --standalone -d api.codeflower.la
+
+# upload creds to /root/codeflower-creds using scp
+
+# add these environment vars to the end of the .bashrc file
+export codeflower_cert_dir="/etc/letsencrypt/live/api.codeflower.la/"
+export codeflower_creds_dir="/root/codeflower-creds/"
+
+# save an image of the server
+
+
+

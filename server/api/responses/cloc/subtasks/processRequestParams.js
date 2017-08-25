@@ -38,7 +38,7 @@ function processRequestParams(ctrl) {
     delete ctrl.params.username;
 
     //// 3. generate unique folderName ////
-    ctrl.folderName = config.repoToFolder(ctrl.repo.fullName, ctrl.uid);
+    ctrl.folderName = ctrl.repo.fullName.replace('/', '#') + '#' + ctrl.uid;
 
     resolve(ctrl);
   });

@@ -1,15 +1,21 @@
 
+//////////////////// IMPORTS ///////////////////////
+
 const path = require('path');
 
-const PROD   = process.env.NODE_ENV === 'production';
+//////// ENVIRONMENT-DEPENDENT CONSTANTS ///////////
 
-const REMOTE = process.env.NODE_LOCATION === 'remote';
+const PROD      = process.env.NODE_ENV === 'production';
+
+const REMOTE    = process.env.NODE_LOCATION === 'remote';
+
+const CERT_DIR  = process.env.codeflower_cert_dir ||
+                  path.join(__dirname, '../../sslCert/');
 
 const CREDS_DIR = process.env.codeflower_creds_dir ||
                   path.join(__dirname, '../creds/');
 
-const CERT_DIR = process.env.codeflower_cert_dir ||
-                 path.join(__dirname, '../../sslCert/');
+///////////////////// EXPORT ///////////////////////
 
 module.exports = {
 
@@ -29,7 +35,7 @@ module.exports = {
   },
 
   paths: {
-    repos:  path.join(__dirname, '../tmp/repos/'),
+    repos: path.join(__dirname, '../tmp/repos/'),
     SSL: {
       key:  CERT_DIR + 'privkey.pem',
       cert: CERT_DIR + 'cert.pem'
@@ -93,14 +99,6 @@ module.exports = {
   cloc: {
     dataFile: 'data.cloc',
     ignoredFile: 'ignored.txt'
-  },
-
-  repoToFolder: function(repoName, folderId) {
-    return repoName.replace('/', '#') + '#' + folderId;
-  },
-
-  folderToRepo: function(folderName) {
-    return folderName.replace('#', '/').replace(/#.*?$/, '');
   },
 
   deleteAfterClone: true,
