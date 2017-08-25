@@ -4,3 +4,5 @@ repos/
 private/
 scratch/
 logs/
+
+sftp-config.json

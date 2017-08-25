@@ -12,9 +12,9 @@ const WebSocket = require('ws'),
 // server config
 const HOSTNAME      = argv.remote ? 'api.codeflower.la' : 'localhost',
       HTTP_PROTOCOL = config.protocols.HTTP,
-      HTTP_PORT     = config.ports.HTTP,
+      HTTP_PORT     = argv.remote ? 443 : 8000,
       WS_PROTOCOL   = config.protocols.WS,
-      WS_PORT       = config.ports.WS,
+      WS_PORT       = argv.remote ? 443 : 8000,
       CLOC_ENDPOINT = config.endpoints.cloc; 
 
 /////////////////// FUNCTIONS /////////////////////
@@ -38,7 +38,7 @@ function httpReq(repo, callback) {
   let opts = {
     method: 'POST',
     protocol: `${HTTP_PROTOCOL}:`,
-    url: HOSTNAME,
+    hostname: HOSTNAME,
     port: HTTP_PORT,
     path: `/${CLOC_ENDPOINT}`,
     rejectUnauthorized: false
