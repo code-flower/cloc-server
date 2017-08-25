@@ -6,7 +6,7 @@ require('module-alias/register');
 
 const config = require('@config'),
       gitCreds = require(config.creds.git),
-      { httpReq, wsReq } = require('./clocRequests'),
+      { httpReq, wsReq, showResponse } = require('./_common'),
       argv = require('minimist')(process.argv);
 
 ////////////////// TEST REPOS /////////////////////
@@ -31,22 +31,6 @@ const TEST_REPOS = [{
   password: gitCreds.password
 }];
 
-/////////////////// FUNCTIONS ///////////////////////
-
-function handleResponse(res) {
-  switch(res.type) {
-    case config.responseTypes.update:
-      //console.log(res.data.text);
-      break;
-    case config.responseTypes.success:
-      console.log("SUCCESS: " + res.data.fNameBr);
-      break;
-    case config.responseTypes.error:
-      console.log("ERROR: ", res.data.fNameBr);
-      break;
-  }
-}
-
 ///////////////////// MAIN //////////////////////////
 
 let iterations = argv.iter || 10,
@@ -54,5 +38,5 @@ let iterations = argv.iter || 10,
     reqFunc = argv.http ? httpReq : wsReq;
 
 for (var i = 0; i < iterations; i++)
-  reqFunc(TEST_REPOS[testNum], handleResponse);
+  reqFunc(TEST_REPOS[testNum], showResponse);
 

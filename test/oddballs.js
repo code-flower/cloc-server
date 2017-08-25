@@ -5,28 +5,25 @@
 
 require('module-alias/register');
 
-const WebSocket = require('ws'),
+const config = require('@config'),
+      WebSocket = require('ws'),
       https = require('https'),
-      config = require('@config'),
+      { testResponse } = require('./_common'),
       argv = require('minimist')(process.argv);
 
 /////////////////// CONSTANTS /////////////////////
 
 // server config
-const HOSTNAME      = argv.remote ? 'api.codeflower.la' : 'localhost',
-      HTTP_PROTOCOL = config.protocols.HTTP,
-      HTTP_PORT     = argv.remote ? 443 : 8000,
-      WS_PROTOCOL   = config.protocols.WS,
-      WS_PORT       = argv.remote ? 443 : 8000,
-      CLOC_ENDPOINT = config.endpoints.cloc; 
+const HOSTNAME = argv.remote ? 'api.codeflower.la' : 'localhost',
+      PORT     = argv.remote ? 443 : 8000; 
 
-const RES_TYPES = config.responseTypes;
-const ERRORS = config.errors;
+const RES_TYPES = config.responseTypes,
+      ERRORS    = config.errors;
 
 /////////////////// FUNCTIONS /////////////////////
 
 function wsReq(query, callback) {
-  const ws = new WebSocket(`${WS_PROTOCOL}://${HOSTNAME}:${WS_PORT}`, {
+  const ws = new WebSocket(`wss://${HOSTNAME}:${PORT}`, {
     rejectUnauthorized: false
   });
    
@@ -40,9 +37,9 @@ function wsReq(query, callback) {
 function httpReq(query, callback) {
   let opts = {
     method: 'POST',
-    protocol: `${HTTP_PROTOCOL}:`,
+    protocol: 'https:',
     hostname: HOSTNAME,
-    port: HTTP_PORT,
+    port: PORT,
     path: `/${query.endpoint}`,
     rejectUnauthorized: false
   };
@@ -55,23 +52,6 @@ function httpReq(query, callback) {
 
   req.write(query.params);
   req.end();
-}
-
-function evalResponse(test, res) {
-  switch(res.type) {
-    case RES_TYPES.update:
-      //console.log(res.data.text);
-      break;
-    case RES_TYPES.success:
-    case RES_TYPES.error:
-      let passed = test.expect(res);
-      let output = (test.expect(res) ? 'PASSED: ' : '\nFAILED: ') + 
-                   test.desc;
-      console.log(output);
-      if (!passed)
-        console.log("output:", res, '\n');
-      break;
-  }
 }
 
 //////////////////// TESTS //////////////////////
@@ -129,19 +109,17 @@ const HTTP_TESTS = [{
 
 if (argv.http) {
 
-  // console.log("HTTP Tests");
   HTTP_TESTS.forEach(req => {
     httpReq(req.query, res => {
-      evalResponse(req.test, res);
+      testResponse(req.test, res);
     });
   });
 
 } else {
 
-  // console.log("WS Tests");
   WS_TESTS.forEach(req => {
     wsReq(req.query, res => {
-      evalResponse(req.test, res);
+      testResponse(req.test, res);
     });
   });
 

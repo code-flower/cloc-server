@@ -6,7 +6,7 @@ require('module-alias/register');
 
 const config = require('@config'),
       gitCreds = require(config.creds.git),
-      { httpReq, wsReq } = require('./clocRequests'),
+      { httpReq, wsReq, testResponse } = require('./_common'),
       argv = require('minimist')(process.argv);
 
 //////////////////// CONSTANTS ////////////////////
@@ -149,32 +149,13 @@ const TEST_REQUESTS = [{
   }
 }];
 
-/////////////////// FUNCTIONS /////////////////////
-
-function evalResponse(test, res) {
-  switch(res.type) {
-    case RES_TYPES.update:
-      //console.log(res.data.text);
-      break;
-    case RES_TYPES.success:
-    case RES_TYPES.error:
-      let passed = test.expect(res);
-      let output = (test.expect(res) ? 'PASSED: ' : '\nFAILED: ') + 
-                   test.desc;
-      console.log(output);
-      if (!passed)
-        console.log("output:", res, '\n');
-      break;
-  }
-}
-
 //////////////////// RUN TEST ///////////////////////
 
 let reqFunc = argv.http ? httpReq : wsReq;
 
 TEST_REQUESTS.forEach(req => {
   reqFunc(req.params, res => {
-    evalResponse(req.test, res);
+    testResponse(req.test, res);
   });
 });
 

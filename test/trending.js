@@ -8,7 +8,7 @@ require('module-alias/register');
 const config = require('@config'),
       Promise = require('bluebird'),
       https = require('https'),
-      { httpReq, wsReq } = require('./clocRequests'),
+      { httpReq, wsReq, showResponse } = require('./_common'),
       argv = require('minimist')(process.argv);
 
 ////////////////// CONFIG /////////////////////
@@ -47,20 +47,6 @@ function getTrendingRepos(numRepos) {
   });
 }
 
-function handleResponse(res) {
-  switch(res.type) {
-    case config.responseTypes.update:
-      //console.log(res.data.text);
-      break;
-    case config.responseTypes.success:
-      console.log("SUCCESS: " + res.data.fNameBr);
-      break;
-    case config.responseTypes.error:
-      console.log("ERROR: ", res.data);
-      break;
-  }
-}
-
 /////////////////// MAIN //////////////////////
 
 let reqFunc = argv.http ? httpReq : wsReq,
@@ -69,7 +55,7 @@ let reqFunc = argv.http ? httpReq : wsReq,
 getTrendingRepos(numRepos).then(repos => {
   console.log("TOP REPOS:");
   console.log(repos);
-  repos.forEach(repo => reqFunc(repo, handleResponse));
+  repos.forEach(repo => reqFunc(repo, showResponse));
 });
 
 

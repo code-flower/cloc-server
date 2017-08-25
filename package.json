@@ -8,8 +8,10 @@
     "dev-remote": "NODE_LOCATION=remote nodemon server --ignore tmp/ --ignore test/",
     "prod": "NODE_ENV=production NODE_LOCATION=remote pm2 start config/pm2.config.js",
     "prod-local": "pm2 start config/pm2.config.js",
+    
     "test-local": "./test/all-local.sh",
-    "test-remote": "./test/all-remote.sh"
+    "test-remote": "./test/all-remote.sh",
+    "ping": "curl https://api.codeflower.la/ping"
   },
   "repository": {
     "type": "git",
