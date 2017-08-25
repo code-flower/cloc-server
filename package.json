@@ -5,7 +5,9 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon server --ignore tmp/ --ignore test/",
-    "deploy": "pm2 start config/pm2.config.js",
+    "dev-remote": "NODE_LOCATION=remote nodemon server --ignore tmp/ --ignore test/",
+    "prod": "NODE_ENV=production NODE_LOCATION=remote pm2 start config/pm2.config.js",
+    "prod-local": "pm2 start config/pm2.config.js",
     "test": "echo 'WS tests'; node test/oddballs; node test/battery; echo '\nHTTP tests'; node test/oddballs --http; node test/battery --http"
   },
   "repository": {
@@ -35,7 +37,6 @@
   "_moduleAliases": {
     "@config": "./config/app.config",
     "@log": "./server/util/logger",
-    "@creds": "./creds",
     "@util": "./server/util"
   }
 }

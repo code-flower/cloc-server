@@ -1,7 +1,8 @@
 
 //////////// IMPORTS ////////////
 
-const creds = require('@creds/sendgrid'),
+const config = require('@config'),
+      creds = require(config.creds.sendgrid),
       sg = require('sendgrid')(creds.apiKey);
 
 //////////// PRIVATE ////////////      

@@ -1,8 +1,15 @@
 
-var path = require('path');
+const path = require('path');
 
-var REMOTE = process.env.NODE_ENV === 'production';
-REMOTE = false;
+const PROD   = process.env.NODE_ENV === 'production';
+
+const REMOTE = process.env.NODE_LOCATION === 'remote';
+
+const CREDS_DIR = process.env.codeflower_creds_dir ||
+                  path.join(__dirname, '../creds/');
+
+const CERT_DIR = process.env.codeflower_cert_dir ||
+                 path.join(__dirname, '../../sslCert/');
 
 module.exports = {
 
@@ -23,14 +30,15 @@ module.exports = {
 
   paths: {
     repos:  path.join(__dirname, '../tmp/repos/'),
-
-    SSL: REMOTE ? {
-      key:  '/etc/letsencrypt/live/api.codeflower.la/privkey.pem',
-      cert: '/etc/letsencrypt/live/api.codeflower.la/cert.pem'
-    } : {
-      key:  path.join(__dirname, '../../devSSL/cert/server.key'),
-      cert: path.join(__dirname, '../../devSSL/cert/server.crt')
+    SSL: {
+      key:  CERT_DIR + 'privkey.pem',
+      cert: CERT_DIR + 'cert.pem'
     }
+  },
+
+  creds: {
+    sendgrid: CREDS_DIR + 'sendgrid.js',
+    git:      CREDS_DIR + 'git.js'
   },
 
   endpoints: {
