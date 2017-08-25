@@ -8,7 +8,6 @@ const Log = require('@log');
 function serveError(ctrl) {
   Log(1, 'ERROR: ' + ctrl.err.name);
   ctrl.resp.error(ctrl.err);
-  ctrl.resp.close();
 }
 
 ////////////////// EXPORTS //////////////////

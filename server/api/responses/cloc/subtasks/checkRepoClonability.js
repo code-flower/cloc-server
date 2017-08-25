@@ -11,7 +11,8 @@ const Promise = require('bluebird'),
 // where the keys are the branch names and the values are the shas
 function getBranches(lsRemoteOutput) {
   let branches = {};
-  lsRemoteOutput.split('\n')
+  lsRemoteOutput
+    .split('\n')
     .slice(0, -1)
     .map(line => line.split('\t'))
     .forEach(line => {

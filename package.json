@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon server --ignore tmp/ --ignore test/",
-    "deploy": "pm2 start config/pm2.config.js"
+    "deploy": "pm2 start config/pm2.config.js",
+    "test": "echo 'WS tests'; node test/oddballs; node test/battery; echo '\nHTTP tests'; node test/oddballs --http; node test/battery --http"
   },
   "repository": {
     "type": "git",
