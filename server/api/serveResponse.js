@@ -1,13 +1,10 @@
 
 /////////////////////// IMPORTS ////////////////////////
 
-const config = require('@config');
-
-const {
-  serveClocData,
-  servePing, 
-  serveError
-} = require('./responses');
+const config = require('@config'),
+      serveClocData = require('./responses/cloc'),
+      servePing = require('./responses/ping'),
+      serveError = require('./responses/error');
 
 /////////////////////// PRIVATE ////////////////////////
 
