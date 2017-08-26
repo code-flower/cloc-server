@@ -8,7 +8,6 @@
     "dev-remote": "NODE_LOCATION=remote nodemon server --ignore tmp/ --ignore test/",
     "prod": "NODE_ENV=production NODE_LOCATION=remote pm2 start config/pm2.config.js",
     "prod-local": "pm2 start config/pm2.config.js",
-    
     "test-local": "node test/battery; node test/battery --http",
     "test-remote": "node test/battery --remote; node test/battery --http --remote",
     "ping": "curl https://api.codeflower.la/ping"
@@ -25,15 +24,12 @@
   "homepage": "",
   "dependencies": {
     "bluebird": "^3.5.0",
-    "git-url-parse": "^5.0.1",
     "minimist": "^1.2.0",
     "mkpath": "^0.1.0",
     "module-alias": "^2.0.1",
-    "moment": "^2.13.0",
     "pmx": "^1.2.0",
     "rimraf": "^2.5.2",
     "sendgrid": "^5.2.2",
-    "universal-analytics": "^0.4.9",
     "ws": "^1.1.0"
   },
   "devDependencies": {},
