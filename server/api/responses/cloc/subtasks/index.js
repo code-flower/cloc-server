@@ -1,12 +1,12 @@
 
 module.exports = {
-  processRequestParams:     require('./processRequestParams'),
-  checkRepoClonability:     require('./checkRepoClonability'),
-  cloneRepoInFilesystem:    require('./cloneRepoInFilesystem'),
-  getBranchNameIfNeeded:    require('./getBranchNameIfNeeded'),
-  convertRepoToClocFile:    require('./convertRepoToClocFile'),
-  convertClocFileToJson:    require('./convertClocFileToJson'),
-  sendJsonToClient:         require('./sendJsonToClient'),
-  handleErrors:             require('./handleErrors'),
-  deleteRepoFromFilesystem: require('./deleteRepoFromFilesystem')
+  processRequestParams:     require('./01_processRequestParams'),
+  checkRepoClonability:     require('./02_checkRepoClonability'),
+  cloneRepoInFilesystem:    require('./03_cloneRepoInFilesystem'),
+  getBranchNameIfNeeded:    require('./04_getBranchNameIfNeeded'),
+  convertRepoToClocFile:    require('./05_convertRepoToClocFile'),
+  convertClocFileToJson:    require('./06_convertClocFileToJson'),
+  sendJsonToClient:         require('./07_sendJsonToClient'),
+  handleErrors:             require('./08_handleErrors'),
+  deleteRepoFromFilesystem: require('./09_deleteRepoFromFilesystem')
 };
