@@ -56,6 +56,7 @@ function checkRepoClonability(ctrl) {
             reject(config.errors.NeedCredentials);
         else if (stderr.match(/Repository not found/))
           reject(config.errors.RepoNotFound);
+        else reject(new Error(err));
 
       // no error if the repo exists and the credentials are correct (if required)
       } else {

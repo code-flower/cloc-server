@@ -21,7 +21,13 @@ function convertRepoToClocFile(ctrl) {
 
     ctrl.resp.update('\n>> ' + cd + cloc);
 
-    let proc = exec(cd + cloc, () => resolve(ctrl));
+    let proc = exec(cd + cloc, (err) => {
+      if (err)
+        reject(new Error(err));
+      else
+        resolve(ctrl);
+    });
+
     proc.stdout.on('data', ctrl.resp.update);
     proc.stderr.on('data', ctrl.resp.update);
   });

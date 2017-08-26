@@ -54,8 +54,12 @@ function cloneRepoInFilesystem(ctrl) {
 
       // run clone command
       let proc = exec(cd + clone, (err, stdout, stderr) => {
-        updateDownloadSpeed(stderr);
-        resolve(ctrl)
+        if (err)
+          reject(new Error(err));
+        else {
+          updateDownloadSpeed(stderr);
+          resolve(ctrl);
+        }
       });
 
       // pipe output to socket
