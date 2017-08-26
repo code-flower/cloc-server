@@ -5,7 +5,7 @@
 require('module-alias/register');
 
 const config = require('@config'),
-      gitCreds = require(config.creds.git),
+      gitCreds = require(config.paths.creds.git),
       { httpReq, wsReq, showResponse } = require('./_common')
       argv = require('minimist')(process.argv);
 

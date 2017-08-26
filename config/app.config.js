@@ -19,15 +19,10 @@ const CREDS_DIR = process.env.codeflower_creds_dir ||
 
 module.exports = {
 
-  logLevel: 1,
-  emailUnhandledErrors: false,
-
   protocols: {
     HTTP: 'https',
     WS:   'wss'
   },
-
-  hostname: REMOTE ? 'api.codeflower.la' : 'localhost',
 
   ports: {
     HTTP: REMOTE ? 443 : 8000,
@@ -39,12 +34,11 @@ module.exports = {
     SSL: {
       key:  CERT_DIR + 'privkey.pem',
       cert: CERT_DIR + 'cert.pem'
+    },
+    creds: {
+      sendgrid: CREDS_DIR + 'sendgrid.js',
+      git:      CREDS_DIR + 'git.js'
     }
-  },
-
-  creds: {
-    sendgrid: CREDS_DIR + 'sendgrid.js',
-    git:      CREDS_DIR + 'git.js'
   },
 
   endpoints: {
@@ -101,8 +95,10 @@ module.exports = {
     ignoredFile: 'ignored.txt'
   },
 
-  deleteAfterClone: true,
+  logLevel: 1,
 
-  gaTrackingId: 'UA-78051006-1'
+  emailUnhandledErrors: PROD,
+
+  deleteAfterClone: true
 
 };
