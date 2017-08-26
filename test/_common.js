@@ -18,28 +18,25 @@ const RES_TYPES = config.responseTypes,
 
 /////////////////// FUNCTIONS /////////////////////
 
-function wsReq(repo, callback) {
+function wsReq(request, callback, sendRaw=false) {
   const ws = new WebSocket(`wss://${HOSTNAME}:${PORT}`, {
     rejectUnauthorized: false
   });
+
+  let payload = sendRaw ? request : JSON.stringify(request);
    
-  ws.on('open', function() {
-    ws.send(JSON.stringify({
-      endpoint: config.endpoints.cloc,
-      params: repo
-    }));
-  });
+  ws.on('open', () => ws.send(payload));
    
   ws.on('message', msg => callback(JSON.parse(msg)));
 }
 
-function httpReq(repo, callback) {
+function httpReq(request, callback, sendRaw=false) {
   let opts = {
     method: 'POST',
     protocol: 'https:',
     hostname: HOSTNAME,
     port: PORT,
-    path: `/${config.endpoints.cloc}`,
+    path: `/${request.endpoint}`,
     rejectUnauthorized: false
   };
 
@@ -49,7 +46,11 @@ function httpReq(repo, callback) {
     res.on('end', () => callback(JSON.parse(body)));
   });
 
-  req.write(JSON.stringify(repo));
+  let payload = sendRaw ? 
+                request.params : 
+                JSON.stringify(request.params);
+
+  req.write(payload);
   req.end();
 }
 

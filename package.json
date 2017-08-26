@@ -9,8 +9,8 @@
     "prod": "NODE_ENV=production NODE_LOCATION=remote pm2 start config/pm2.config.js",
     "prod-local": "pm2 start config/pm2.config.js",
     
-    "test-local": "./test/all-local.sh",
-    "test-remote": "./test/all-remote.sh",
+    "test-local": "node test/battery; node test/battery --http",
+    "test-remote": "node test/battery --remote; node test/battery --http --remote",
     "ping": "curl https://api.codeflower.la/ping"
   },
   "repository": {

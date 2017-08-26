@@ -55,7 +55,14 @@ let reqFunc = argv.http ? httpReq : wsReq,
 getTrendingRepos(numRepos).then(repos => {
   console.log("TOP REPOS:");
   console.log(repos);
-  repos.forEach(repo => reqFunc(repo, showResponse));
+  
+  repos.forEach(repo => {
+    let request = {
+      endpoint: 'cloc',
+      params: repo
+    };
+    reqFunc(request, showResponse);
+  });
 });
 
 

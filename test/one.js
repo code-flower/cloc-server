@@ -11,42 +11,66 @@ const config = require('@config'),
 
 ////////////////// TEST REPOS /////////////////////
 
-const TEST_REPOS = [{
-  owner: 'code-flower',
-  name:  'client-web',
-  branch: ''
+const TESTS = [{
+  endpoint: 'cloc',
+  params: {
+    owner: 'code-flower',
+    name:  'client-web',
+    branch: ''
+  }
 },{
-  owner: '',
-  name:  'client-web',
-  branch: 'masters'
+  endpoint: 'cloc',
+  params: {
+    owner: '',
+    name:  'client-web',
+    branch: 'masters'
+  }
 },{
-  owner: 'code-flower',
-  name:  'client-web',
-  branch: 'new-ui'
+  endpoint: 'cloc',
+  params: {
+    owner: 'code-flower',
+    name:  'client-web',
+    branch: 'new-ui'
+  }
 },{
-  owner: 'addgatsby',
-  name:  'gatsby-api',
-  branch: ''
+  endpoint: 'cloc',
+  params: {
+    owner: 'addgatsby',
+    name:  'gatsby-api',
+    branch: ''
+  }
 },{
-  owner: 'Unitech',
-  name:  'pm2',
-  branch: ''
+  endpoint: 'cloc',
+  params: {
+    owner: 'Unitech',
+    name:  'pm2',
+    branch: ''
+  }
 },{
-  owner: 'jmensch1',
-  name:  'sutter-quiz',
-  branch: 'releases/1.0',
-  username: '',
-  password: ''
+  endpoint: 'cloc',
+  params: {
+    owner: 'jmensch1',
+    name:  'sutter-quiz',
+    branch: 'releases/1.0',
+    username: '',
+    password: ''
+  }
 },{
-  owner: 'jmensch1',
-  name:  'sutter-quiz',
-  branch: 'releases/1.0',
-  username: gitCreds.username,
-  password: gitCreds.password
+  endpoint: 'cloc',
+  params: {
+    owner: 'jmensch1',
+    name:  'sutter-quiz',
+    branch: 'releases/1.0',
+    username: gitCreds.username,
+    password: gitCreds.password
+  }
 },{
-  owner: 'tensorflow',
-  name: 'tensorflow',
-  branch: ''
+  endpoint: 'cloc',
+  params: {
+    owner: 'tensorflow',
+    name: 'tensorflow',
+    branch: ''
+  }
 }];
 
 ///////////////////// MAIN ////////////////////////
@@ -54,7 +78,7 @@ const TEST_REPOS = [{
 let reqFunc = argv.http ? httpReq : wsReq,
     testNum = argv.n || 0;
 
-reqFunc(TEST_REPOS[testNum], res => showResponse(res, true));
+reqFunc(TESTS[testNum], res => showResponse(res, true));
 
 
 
