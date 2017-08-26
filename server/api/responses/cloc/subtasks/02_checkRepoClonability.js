@@ -61,10 +61,10 @@ function checkRepoClonability(ctrl) {
       } else {
         ctrl.repo.branches = getBranches(stdout);
         let { branch } = ctrl.repo;
-        if (!branch || Object.keys(ctrl.repo.branches).indexOf(branch) !== -1) 
-          resolve(ctrl);
-        else
+        if (branch && Object.keys(ctrl.repo.branches).indexOf(branch) === -1) 
           reject(config.errors.BranchNotFound);
+        else
+          resolve(ctrl);
       }
     });
     

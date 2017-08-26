@@ -113,7 +113,7 @@ function getIgnored(ctrl) {
   });
 }
 
-///////////// UNITE FLOWER AND IGNORED FILES /////////
+///////////// UNITE TREE AND IGNORED FILES /////////
 
 // converts a cloc file to json
 function convertClocFileToJson(ctrl) {
@@ -135,33 +135,4 @@ function convertClocFileToJson(ctrl) {
 //////////// EXPORTS //////////////
 
 module.exports = convertClocFileToJson;
-
-// let ctrl = { 
-//   repo: {
-//     owner: 'code-flower',
-//     name: 'client-web',
-//     branch: 'master',
-//     fullName: 'code-flower/client-web',
-//   },
-//   folderName: 'code-flower#client-web#28390_0',
-//   conn: {
-//     update: function(data) {
-//       console.log("updating:", data);
-//     }
-//   }
-// };
-
-// convertClocFileToJson(ctrl)
-// .then(data => {
-//   console.log("THEN:", data);
-// })
-// .catch(data => {
-//   console.log("CATCH:", data);
-// });
-
-
-
-
-
-
 

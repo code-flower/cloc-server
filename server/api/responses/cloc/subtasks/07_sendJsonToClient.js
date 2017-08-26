@@ -19,3 +19,4 @@ function sendJsonToClient(ctrl) {
 //////////// EXPORTS ////////////
 
 module.exports = sendJsonToClient;
+

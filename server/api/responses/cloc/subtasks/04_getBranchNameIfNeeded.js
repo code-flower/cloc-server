@@ -47,3 +47,4 @@ function getBranchNameIfNeeded(ctrl) {
 //////////// EXPORTS ////////////
 
 module.exports = getBranchNameIfNeeded;
+

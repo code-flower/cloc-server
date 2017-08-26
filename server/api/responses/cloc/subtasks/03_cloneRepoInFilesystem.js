@@ -52,19 +52,15 @@ function cloneRepoInFilesystem(ctrl) {
       let outText = clone.replace(/https:\/\/.*?@/, 'https://******:******@');
       ctrl.resp.update('\n>> ' + outText);
 
-      // start clone
-      let proc = exec(cd + clone, () => resolve(ctrl));
-
-      // pipe output to socket
-      // NOTE: git uses the stderr channel even for non-error states
-      let cloneOutput = '';
-      proc.stderr.on('data', data => { 
-        ctrl.resp.update(data); 
-        cloneOutput += data;
+      // run clone command
+      let proc = exec(cd + clone, (err, stdout, stderr) => {
+        updateDownloadSpeed(stderr);
+        resolve(ctrl)
       });
 
-      // update the download speed for the pmx monitor
-      proc.stderr.on('end', () => updateDownloadSpeed(cloneOutput));
+      // pipe output to socket
+      // NOTE: git clone uses the stderr channel even for non-error states
+      proc.stderr.on('data', ctrl.resp.update); 
     });
   });
 }
