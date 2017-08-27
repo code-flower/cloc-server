@@ -39,9 +39,9 @@ function handleErrors(error, responder) {
       let errorEmail = (
         '<!DOCTYPE html><html><body>' + 
           '<h3>Stack Trace</h3>' + 
-          '<p>' + error.stack.replace(/\n/g, '<br/>') + '</p>' + 
+          '<p>' + (error.stack || '').replace(/\n/g, '<br/>') + '</p>' + 
           '<h3>Request Params</h3>' + 
-          '<p>' + JSON.stringify(ctrl.params) + '</p>' +
+          '<p>' + JSON.stringify(error.params || '') + '</p>' +
         '</body></html>'
       );
       sendAlert('codeflower: cloc-server error', errorEmail);

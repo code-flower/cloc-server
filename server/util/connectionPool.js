@@ -1,13 +1,6 @@
-/* 
-  Exports a function that generates a unique string each time it is called. The string incorporates the process id,
-  so it's unique across processes on machines running node in multiple cores.
-
-  Import like this, seeding the generator with the process id:
-
-  const uid = require('./[path]/uidGenerator')(process.pid);
-
-  Afterwards, just call the uid function with no args each time you need a unique id.
-*/
+// Generates a unique id for each connection to the server,
+// and tracks the active connections in an array of those ids.
+// The number of active connections is available in the pm2 monitor.
 
 /////////////// IMPORTS ////////////////
 

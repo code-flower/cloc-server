@@ -47,7 +47,7 @@ let httpServer = HTTP.createServer(server.bind(null, HTTP)),
 
 // start listening
 let port = config.ports.HTTP;
-httpServer.listen(port, () => Log(1, `Server started on port ${port}.`));
+httpServer.listen(port, () => Log(1, `Servers started on port ${port}.`));
 
 
 

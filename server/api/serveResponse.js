@@ -2,8 +2,8 @@
 /////////////////////// IMPORTS ////////////////////////
 
 const config = require('@config'),
-      serveClocData = require('./responses/cloc'),
-      servePing = require('./responses/ping'),
+      serveClocData = require('./endpoints/cloc'),
+      servePing = require('./endpoints/ping'),
       handleErrors = require('./handleErrors'),
       Promise = require('bluebird');
 

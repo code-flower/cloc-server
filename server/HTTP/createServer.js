@@ -5,24 +5,19 @@ const http = require('http'),
       fs = require('fs'),
       config = require('@config');
 
-/////////////// CONSTRUCT CREATESERVER /////////////////
+////////////////////// PRIVATE /////////////////////////
 
 let createServer;
 
-if (config.protocols.HTTP === 'https') {
-
-  createServer = function(server) {
+if (config.protocols.HTTP === 'https')
+  createServer = (server) => {
     return https.createServer({
       key:  fs.readFileSync(config.paths.SSL.key,  'utf8'),
       cert: fs.readFileSync(config.paths.SSL.cert, 'utf8')
     }, server);
   };
-
-} else {
-
+else
   createServer = http.createServer;
-
-}
 
 ////////////////////// EXPORTS /////////////////////////
 

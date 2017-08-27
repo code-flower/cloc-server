@@ -2,7 +2,7 @@
 
 const ws = require('ws');
 
-/////////////// CONSTRUCT CREATESERVER /////////////////
+////////////////////// PRIVATE /////////////////////////
 
 function createServer(server, baseHttpServer) {
   let wsServer = new ws.Server({server: baseHttpServer});

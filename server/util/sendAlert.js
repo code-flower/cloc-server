@@ -29,10 +29,7 @@ function sendAlert(subject, message) {
     }
   });
    
-  sg.API(request, (error, response) => {
-    if (error) 
-      console.log("SENDGRID ERROR:", error);
-  });
+  sg.API(request);
 }
 
 //////////// PUBLIC //////////////
