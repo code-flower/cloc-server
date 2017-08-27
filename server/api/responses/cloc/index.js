@@ -8,21 +8,21 @@ const {
   convertRepoToClocFile,
   convertClocFileToJson,
   sendJsonToClient,
-  handleErrors,
+  handleClocErrors,
   deleteRepoFromFilesystem
 } = require('./subtasks/');
 
 //////////////// PRIVATE ///////////////////
 
 function serveClocData(ctrl) {
-  processRequestParams(ctrl)
+  return processRequestParams(ctrl)
   .then(checkRepoClonability)
   .then(cloneRepoInFilesystem)
   .then(getBranchNameIfNeeded)
   .then(convertRepoToClocFile)
   .then(convertClocFileToJson)
   .then(sendJsonToClient)
-  .catch(err => handleErrors(err, ctrl))
+  .catch(err => handleClocErrors(err, ctrl))
   .finally(() => deleteRepoFromFilesystem(ctrl));
 }
 

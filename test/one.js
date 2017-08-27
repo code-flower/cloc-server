@@ -40,6 +40,15 @@ const TESTS = [{
     branch: ''
   }
 },{
+  endpoint: 'moose',
+  params: {
+    owner: 'code-flower',
+    name:  'client-web',
+    branch: ''
+  }
+},
+'raw string',
+{
   endpoint: 'cloc',
   params: {
     owner: 'Unitech',
@@ -76,9 +85,11 @@ const TESTS = [{
 ///////////////////// MAIN ////////////////////////
 
 let reqFunc = argv.http ? httpReq : wsReq,
-    testNum = argv.n || 0;
+    testNum = argv.n || 0,
+    test = TESTS[testNum],
+    isString = typeof test === 'string';
 
-reqFunc(TESTS[testNum], res => showResponse(res, true));
+reqFunc(test, res => showResponse(res, true), isString);
 
 
 

@@ -1,7 +1,8 @@
 
 //////////// IMPORTS ////////////
 
-const url = require('url'),
+const config = require('@config'),
+      url = require('url'),
       Promise = require('bluebird');
 
 //////////// PRIVATE ////////////
@@ -9,7 +10,12 @@ const url = require('url'),
 function parseRequest(request) {
   return new Promise((resolve, reject) => {
 
-    let urlInfo = url.parse(request.url, true);
+    let urlInfo;
+    try {
+      urlInfo = url.parse(request.url, true);
+    } catch(e) {
+      reject(config.errors.ParseError);
+    }
 
     let reqInfo = {
       method: request.method,
@@ -28,13 +34,13 @@ function parseRequest(request) {
           try {
             reqInfo.params = JSON.parse(body);
           } catch(e) {
-            reject(e);
+            reject(config.errors.ParseError);
           }
           resolve(reqInfo);
         });
         break;
       default: 
-        reject(null);
+        reject(config.errors.MethodNotAllowed);
         break;
     }
   });

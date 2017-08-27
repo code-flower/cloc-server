@@ -12,7 +12,7 @@ function parseRequest(request) {
     try {
       reqInfo = JSON.parse(request);
     } catch(e) {
-      reject(e);
+      reject(config.errors.ParseError);
     }
     resolve(reqInfo);
   });

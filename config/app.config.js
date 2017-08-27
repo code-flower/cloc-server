@@ -63,6 +63,11 @@ module.exports = {
       message: 'Please check your endpoint.',
       statusCode: 404
     },
+    MethodNotAllowed: {
+      name: 'MethodNotAllowed',
+      message: 'The HTTP server accepts only GET and POST requests.',
+      statusCode: 405 
+    },
     NeedOwnerAndName: {
       name: 'NeedOwnerAndName',
       message: 'The owner and name of a repo are required parameters.',

@@ -4,7 +4,8 @@
 const config = require('@config'),
       serveClocData = require('./responses/cloc'),
       servePing = require('./responses/ping'),
-      serveError = require('./responses/error');
+      handleErrors = require('./handleErrors'),
+      Promise = require('bluebird');
 
 /////////////////////// PRIVATE ////////////////////////
 
@@ -13,29 +14,23 @@ function serveResponse({ connId, request, parse, responder }) {
     .then(reqInfo => {
       switch(reqInfo.endpoint) {
         case config.endpoints.cloc:
-          serveClocData({
+          return serveClocData({
             resp:   responder,
             params: reqInfo.params,
             uid:    connId
           });
-          break;
         case config.endpoints.ping:
-          servePing({
+          return servePing({
             resp: responder
           });
-          break;
         default:
-          serveError({
-            resp: responder, 
-            err:  config.errors.EndpointNotRecognized
+          return Promise.reject({
+            ...config.errors.EndpointNotRecognized,
+            endpoint: reqInfo.endpoint
           });
-          break;
       }
     })
-    .catch(err => serveError({
-      resp: responder, 
-      err:  config.errors.ParseError
-    }));
+    .catch(err => handleErrors(err, responder));
 }
 
 /////////////////////// EXPORTS ////////////////////////
