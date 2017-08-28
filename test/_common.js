@@ -32,7 +32,7 @@ function wsReq(request, callback, sendRaw=false) {
 
 function httpReq(request, callback, sendRaw=false) {
   let opts = {
-    method: 'POST',
+    method: request.method || 'POST',
     protocol: 'https:',
     hostname: HOSTNAME,
     port: PORT,

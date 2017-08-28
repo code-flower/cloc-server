@@ -220,6 +220,21 @@ const HTTP_TESTS = [{
     expect: res => res.type === RES_TYPES.error &&
                    res.data.name === ERRORS.ParseError.name
   }
+},{
+  request: {
+    method: 'PATCH',
+    endpoint: 'cloc',
+    params: {
+      owner: 'code-flower',
+      name: 'client-web',
+      branch: ''
+    }
+  },
+  test: {
+    desc: 'PATCH method used to send request.',
+    expect: res => res.type === RES_TYPES.error &&
+                   res.data.name === ERRORS.MethodNotAllowed.name
+  }
 }];
 
 //////////////////// RUN TEST ///////////////////////
