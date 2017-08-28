@@ -47,7 +47,25 @@ let httpServer = HTTP.createServer(server.bind(null, HTTP)),
 
 // start listening
 let port = config.ports.HTTP;
-httpServer.listen(port, () => Log(1, `Servers started on port ${port}.`));
+httpServer.listen(port, () => {
+  Log(1, `Servers started on port ${port}.`);
 
+  // if pm2 is running, let it know we're ready
+  if (process.send)
+    process.send('ready');
+});
+
+// graceful reload handler
+process.on('message', function(message) {
+  console.log("Received reload request:", message);
+  if (message.topic === 'graceful-reload') {
+    setTimeout(function() {
+      process.send({
+        type: 'reloaded',
+        data: { success : true }
+     });
+    }, 3000);
+  }
+});
 
 

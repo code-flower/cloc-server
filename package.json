@@ -27,6 +27,7 @@
     "minimist": "^1.2.0",
     "mkpath": "^0.1.0",
     "module-alias": "^2.0.1",
+    "pm2": "^2.6.1",
     "pmx": "^1.2.0",
     "rimraf": "^2.5.2",
     "sendgrid": "^5.2.2",
