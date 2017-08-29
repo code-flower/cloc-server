@@ -54,8 +54,17 @@ pm2.connect((err) => {
         console.log("Successfully reloaded:", res.process.pm_id);
       else 
         console.log("Unsuccessful reload:", res.process.pm_id);
+
+      pm2.restart(list[0].pmId, (err) => {
+        if (err)
+          console.log("error restarting process:", err);
+        else
+          console.log("process restarted!");
+
+        pm2.disconnect();
+      });
+
       
-      pm2.disconnect();
     });
   });
 

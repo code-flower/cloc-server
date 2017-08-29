@@ -4,7 +4,7 @@ module.exports = {
     name:             'codeflower',
     script:           './server',
     exec_mode:        'cluster',
-    instances:        1,
+    instances:        2,
     watch:            false,
     error_file:       'logs/err.log',
     out_file:         'logs/out.log',

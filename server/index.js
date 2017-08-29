@@ -55,17 +55,15 @@ httpServer.listen(port, () => {
     process.send('ready');
 });
 
-// graceful reload handler
+//graceful reload handler
 process.on('message', function(message) {
   console.log("Received reload request:", message);
   if (message.topic === 'graceful-reload') {
-    setTimeout(function() {
+    httpServer.close(() => {
       process.send({
         type: 'reloaded',
         data: { success : true }
-     });
-    }, 3000);
+      });
+    });
   }
 });
-
-
