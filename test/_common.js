@@ -36,6 +36,8 @@ function wsReq({ request, onUpdate=()=>{}, sendRaw=false }) {
     });
 
     ws.on('close', reject);
+
+    ws.on('error', reject);
   });
 }
 
