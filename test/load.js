@@ -50,5 +50,5 @@ let iterations = argv.iter || 10,
     reqFunc = argv.http ? httpReq : wsReq;
 
 for (var i = 0; i < iterations; i++)
-  reqFunc(TESTS[testNum], showResponse);
+  reqFunc({ request: TESTS[testNum] }).then(showResponse);
 

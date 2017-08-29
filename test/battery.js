@@ -252,9 +252,6 @@ if (argv.http) {
 }
 
 allTests.forEach(test => {
-  reqFunc(test.request, res => {
-    testResponse(test.test, res);
-  }, test.sendRaw);
+  reqFunc(test).then(res => testResponse(test.test, res));
 });
-
 

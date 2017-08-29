@@ -6,7 +6,7 @@ require('module-alias/register');
 
 const config = require('@config'),
       gitCreds = require(config.paths.creds.git),
-      { httpReq, wsReq, showResponse } = require('./_common')
+      { httpReq, wsReq, showResponse, showError } = require('./_common'),
       argv = require('minimist')(process.argv);
 
 ////////////////// TEST REPOS /////////////////////
@@ -51,7 +51,7 @@ const TESTS = [{
 {
   endpoint: 'cloc',
   params: {
-    owner: 'Unitech',
+    owner: 'code-flower',
     name:  'pm2',
     branch: ''
   }
@@ -89,7 +89,9 @@ let reqFunc = argv.http ? httpReq : wsReq,
     test = TESTS[testNum],
     isString = typeof test === 'string';
 
-reqFunc(test, res => showResponse(res, true), isString);
+reqFunc({request: test, onUpdate: console.log, sendRaw: isString})
+  .then(showResponse)
+  .catch(showError);
 
 
 

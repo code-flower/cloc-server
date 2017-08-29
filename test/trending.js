@@ -61,7 +61,7 @@ getTrendingRepos(numRepos).then(repos => {
       endpoint: 'cloc',
       params: repo
     };
-    reqFunc(request, showResponse);
+    reqFunc({ request }).then(showResponse);
   });
 });
 
