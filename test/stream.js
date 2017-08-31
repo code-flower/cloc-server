@@ -35,11 +35,20 @@ const CONN_TARGET      = argv.n || 5;
 
 const REQUEST_INTERVAL = argv.i || 1000;
 
+// const TEST_REQUEST = {
+//   endpoint: 'cloc',
+//   params: {
+//     owner:  'code-flower',
+//     name:   'pm2',
+//     branch: ''
+//   }
+// };
+
 const TEST_REQUEST = {
   endpoint: 'cloc',
   params: {
-    owner:  'code-flower',
-    name:   'pm2',
+    owner: 'code-flower',
+    name:  'docs',
     branch: ''
   }
 };

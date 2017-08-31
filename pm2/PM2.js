@@ -116,8 +116,8 @@ function PM2() {
         // when we get the same type back, remove the listener and
         // resolve with the msg
         bus.on(type, msg => {
-          bus.on(type, msg => {});
-          resolve(msg);
+          if (msg.process.pm_id === pmId)
+            resolve(msg);
         });
 
         // send the data

@@ -44,7 +44,9 @@ function connectionPool(processId) {
         conns.splice(idx, 1);
         activeConns.set(conns.length);
       }
-    }
+    },
+
+    numConns: () => conns.length
   };
 }
 

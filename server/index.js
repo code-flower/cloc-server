@@ -52,14 +52,31 @@ httpServer.listen(port, () => {
   if (process.send) process.send('ready');
 });
 
-// graceful restart handler
+
 process.on('message', function(message) {
-  if (message.topic === 'prep-for-shutdown')
-    httpServer.close(() => {
-      process.send({
-        type: 'prep-for-shutdown',
-        data: { success: true }
+  switch(message.topic) {
+
+    // graceful restart handler
+    case 'prep-for-shutdown':
+      httpServer.close(() => {
+        process.send({
+          type: 'prep-for-shutdown',
+          data: { success: true }
+        });
       });
-    });
+      break;
+
+    // connection monitor
+    case 'report-active-conns':
+      process.send({
+        type: 'report-active-conns',
+        data: {
+          success: true,
+          numConns: connPool.numConns()
+        }
+      });
+      break;
+  }
+
 });
 
