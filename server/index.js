@@ -54,11 +54,11 @@ httpServer.listen(port, () => {
 
 // graceful restart handler
 process.on('message', function(message) {
-  if (message.topic === 'close-connections')
+  if (message.topic === 'prep-for-shutdown')
     httpServer.close(() => {
       process.send({
-        type: 'connections-closed',
-        data: {}
+        type: 'prep-for-shutdown',
+        data: { success: true }
       });
     });
 });
