@@ -23,6 +23,7 @@
   },
   "homepage": "",
   "dependencies": {
+    "ascii-progress": "^1.0.5",
     "bluebird": "^3.5.0",
     "minimist": "^1.2.0",
     "mkpath": "^0.1.0",
