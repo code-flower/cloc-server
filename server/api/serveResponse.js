@@ -10,7 +10,7 @@ const config = require('@config'),
 /////////////////////// PRIVATE ////////////////////////
 
 function serveResponse({ connId, request, parse, responder }) {
-  parse(request)
+  return parse(request)
     .then(reqInfo => {
       switch(reqInfo.endpoint) {
         case config.endpoints.cloc:
@@ -30,7 +30,8 @@ function serveResponse({ connId, request, parse, responder }) {
           });
       }
     })
-    .catch(err => handleErrors(err, responder));
+    .catch(err => handleErrors(err, responder))
+    .then(() => Promise.resolve(connId));
 }
 
 /////////////////////// EXPORTS ////////////////////////

@@ -25,15 +25,13 @@ const config        = require('@config'),
 /////////// A PROTOCOL-AGNOSTIC SERVER ////////////
 
 function server(protocol, request, response) {
-  let connId  = connPool.addConn(),
-      onClose = connPool.removeConn.bind(null, connId);
-
   serveResponse({
-    connId:     connId,
-    request:    request,
-    parse:      protocol.parseRequest,
-    responder:  protocol.Responder(response, onClose)
-  });
+    connId:    connPool.addConn(),
+    request:   request,
+    parse:     protocol.parseRequest,
+    responder: protocol.Responder(response)
+  })
+  .then(connPool.removeConn);
 }
 
 
