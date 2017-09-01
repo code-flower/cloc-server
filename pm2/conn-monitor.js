@@ -17,25 +17,18 @@ const POLL_INTERVAL = 1000;
 
 //////////////////// FUNCTIONS ///////////////////
 
-function getActiveConns(pmId) {
-  return new Promise((resolve, reject) => {
-    PM2.sendMessageToProcess(pmId, 'report-active-conns')
-      .then(msg => {
-        if (msg.data && msg.data.success)
-          resolve(msg.data.numConns);
-        else
-          reject('malformed data from process: ' + JSON.stringify(msg.data));
-      })
-      .catch(err => resolve(-1));
+function getActiveConnArr() {
+  return PM2.list().then(list => {
+    let activeConns = list.map(el => {
+      let axm = el.pm2_env.axm_monitor;
+      return axm && axm.activeConns ? axm.activeConns.value : 0;
+    });
+    return Promise.resolve(activeConns);
   });
 }
 
-function getActiveConnArr(pmIds) {
-  return Promise.map(pmIds, pmId => getActiveConns(pmId));
-}
-
 const ProgressBars = (() => {
-  const colors = ['red', 'cyan', 'blue', 'grey'];
+  const colors = ['brightRed', 'brightCyan', 'brightWhite', 'brightGreen'];
 
   let bars = [];
   let max;
@@ -65,9 +58,8 @@ const ProgressBars = (() => {
 PM2.connect(true)
   .then(PM2.list)
   .then(list => {
-    let pmIds = list.map(el => el.pm_id);
 
-    if (pmIds.length === 0) {
+    if (list.length === 0) {
       console.log("There are no active processes to monitor.");
       PM2.disconnect();
       return false;
@@ -75,13 +67,15 @@ PM2.connect(true)
 
     console.log("Active Connections");
     ProgressBars.init({ 
-      numBars:  pmIds.length, 
+      numBars:  list.length, 
       maxValue: 10,
-      schema:   idx => `Process ${pmIds[idx]}: [ :curValue ] :bar.color`
+      schema:   idx => `Process ${list[idx].pm_id}: [ :curValue ] :bar.color`
     });
     
     setInterval(() => {
-      getActiveConnArr(pmIds).then(ProgressBars.update);
+      getActiveConnArr().then(ProgressBars.update);
+
+      // ProgressBars.update([5, 2, 3, 6, 7, 8, 4, 1]);
     }, POLL_INTERVAL);
 
   })
