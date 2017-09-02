@@ -17,7 +17,8 @@ const config        = require('@config'),
       HTTP          = require('./HTTP/'),
       WS            = require('./WS/'),
       connPool      = require('./util/connectionPool')(process.pid),
-      serveResponse = require('./api/serveResponse');
+      serveResponse = require('./api/serveResponse'),
+      webhookServer = require('./util/webhookServer');
 
 
 
@@ -61,4 +62,11 @@ process.on('message', function(message) {
       });
     });
 });
+
+// webhook server
+let webhookPort = config.ports.webhook;
+if (config.runWebhookServer)
+  webhookServer.listen(webhookPort, () => {
+    Log(1, `Webhook server running on port ${webhookPort}.`)
+  });
 

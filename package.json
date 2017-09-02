@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/code-flower/server"
+    "url": "https://github.com/code-flower/cloc-server"
   },
   "author": "",
   "license": "ISC",
@@ -38,6 +38,7 @@
   "_moduleAliases": {
     "@config": "./config/app.config",
     "@log": "./server/util/logger",
-    "@util": "./server/util"
+    "@util": "./server/util",
+    "@root": "./"
   }
 }
