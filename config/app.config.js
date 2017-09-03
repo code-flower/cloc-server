@@ -26,8 +26,7 @@ module.exports = {
 
   ports: {
     HTTP:    REMOTE ? 443 : 8000,
-    WS:      REMOTE ? 443 : 8000,
-    webhook: 9000
+    WS:      REMOTE ? 443 : 8000
   },
 
   paths: {
@@ -104,8 +103,6 @@ module.exports = {
   logLevel: 1,
 
   emailUnhandledErrors: PROD,
-
-  runWebhookServer: true,
 
   deleteAfterClone: true
 

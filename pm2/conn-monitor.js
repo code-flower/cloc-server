@@ -1,10 +1,4 @@
 
-/* 
-  This duplicates pm2's graceful reload concept, which doesn't
-  work for this app because the SIGINT signal terminates the child
-  processes that the server depends on, e.g. git clone, cloc.
-*/
-
 ///////////////////// IMPORTS ////////////////////
 
 const PM2 = require('./PM2'),
@@ -74,8 +68,6 @@ PM2.connect(true)
     
     setInterval(() => {
       getActiveConnArr().then(ProgressBars.update);
-
-      // ProgressBars.update([5, 2, 3, 6, 7, 8, 4, 1]);
     }, POLL_INTERVAL);
 
   })

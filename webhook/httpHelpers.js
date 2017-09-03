@@ -9,7 +9,7 @@ const http = require('http'),
 
 function get(url, parseResponse=false) {
   return new Promise((resolve, reject) => {
-    let module = url.indexOf('https://') !== -1 ? https : http;
+    let module = url.startsWith('https://') ? https : http;
 
     module.get(url, res => {
       if (res.statusCode !== 200) {
@@ -27,37 +27,18 @@ function get(url, parseResponse=false) {
   });
 }
 
-function receivePOST(request, parseRequest=false, onError=null) {
+function getReqBody(request) {
   return new Promise((resolve, reject) => {
-
-    onError || (onError = new Error('Request not parseable.'));
-
-    let urlInfo;
-    try {
-      urlInfo = url.parse(request.url, true);
-    } catch(e) {
-      reject(onError);
-    }
-
-    let reqInfo = {
-      endpoint: urlInfo.pathname.substring(1)
-    };
-
     let body = '';
     request.on('data', data => body += data);
-    request.on('end', () => {
-      try {
-        reqInfo.params = parseRequest ? JSON.parse(body) : body;
-        resolve(reqInfo);
-      } catch(e) {
-        reject(onError);
-      }
-    });
+    request.on('end', () => resolve(body));
+    request.on('error', reject);
   });
 }
 
 ////////////////////// EXPORTS //////////////////////////
 
 module.exports = {
-  get
+  get,
+  getReqBody
 };
