@@ -50,10 +50,10 @@ httpServer.listen(port, () => {
   if (process.send) process.send('ready');
 });
 
-// graceful restart handler
-process.on('message', function(message) {
-  let prepCommand = 'prep-for-shutdown';
-  if (message.topic === prepCommand)
+// cautious reload handler
+process.on('message', message => {
+  let prepCommand = 'prepForShutdown';
+  if (message.type === prepCommand)
     httpServer.close(() => {
       process.send({
         type: prepCommand,

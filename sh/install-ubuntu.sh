@@ -24,6 +24,10 @@ npm install -g nodemon
 # install local npm packages
 npm install
 
+# install pm2 modules
+pm2 install code-flower/pm2-cautious-reload
+pm2 set pm2-cautious-reload:appName codeflower
+
 # install letsencrypt cert
 sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:certbot/certbot
