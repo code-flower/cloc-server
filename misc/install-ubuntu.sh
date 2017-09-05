@@ -26,7 +26,7 @@ npm install
 
 # install pm2 modules
 pm2 install code-flower/pm2-cautious-reload
-pm2 set pm2-cautious-reload:appName codeflower
+pm2 install code-flower/pm2-autohook
 
 # install letsencrypt cert
 sudo apt-get install software-properties-common

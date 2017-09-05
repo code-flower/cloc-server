@@ -5,7 +5,6 @@
 require('module-alias/register');
 
 const config = require('@config'),
-      gitCreds = require(config.paths.creds.git),
       { httpReq, wsReq, showResponse } = require('./_common'),
       argv = require('minimist')(process.argv);
 
@@ -38,8 +37,8 @@ const TESTS = [{
     owner:    'jmensch1',
     name:     'sutter-quiz',
     branch:   'releases/1.0',
-    username: gitCreds.username,
-    password: gitCreds.password
+    username: config.github.creds.username,
+    password: config.github.creds.password
   }
 }];
 

@@ -1,8 +1,7 @@
-creds/
 node_modules/
 repos/
-private/
-scratch/
 logs/
+
+secrets.js
 
 sftp-config.json

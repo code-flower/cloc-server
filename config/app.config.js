@@ -1,7 +1,8 @@
 
 //////////////////// IMPORTS ///////////////////////
 
-const path = require('path');
+const path    = require('path'),
+      secrets = require('../secrets');
 
 //////// ENVIRONMENT-DEPENDENT CONSTANTS ///////////
 
@@ -11,9 +12,6 @@ const REMOTE    = process.env.NODE_LOCATION === 'remote';
 
 const CERT_DIR  = process.env.codeflower_cert_dir ||
                   path.join(__dirname, '../../sslCert/');
-
-const CREDS_DIR = process.env.codeflower_creds_dir ||
-                  path.join(__dirname, '../creds/');
 
 ///////////////////// EXPORT ///////////////////////
 
@@ -34,10 +32,6 @@ module.exports = {
     SSL: {
       key:  CERT_DIR + 'privkey.pem',
       cert: CERT_DIR + 'cert.pem'
-    },
-    creds: {
-      sendgrid: CREDS_DIR + 'sendgrid.js',
-      git:      CREDS_DIR + 'git.js'
     }
   },
 
@@ -98,6 +92,72 @@ module.exports = {
   cloc: {
     dataFile: 'data.cloc',
     ignoredFile: 'ignored.txt'
+  },
+
+  github: {
+    creds: secrets.github.creds,
+    webhookSecret: secrets.github.webhookSecret
+  },
+
+  sendgrid: {
+    email: secrets.sendgrid.email,
+    apiKey: secrets.sendgrid.apiKey
+  },
+
+  pm2: {
+    apps: [{
+      name:             'codeflower',
+      script:           './server',
+      exec_mode:        'cluster',
+      instances:        2,
+      watch:            false,
+      error_file:       'logs/err.log',
+      out_file:         'logs/out.log',
+      merge_logs:       true,
+      log_date_format:  'YYYY-MM-DD HH:mm:ss',
+      wait_ready:       true,
+      env: {
+        autohook: {
+          repoOwner:    'code-flower',
+          repoName:     'cloc-server',
+          repoBranch:   'master',
+          hostName:     '',
+          port:         9000,
+          sslKeyPath:   CERT_DIR + 'privkey.pem',
+          sslCertPath:  CERT_DIR + 'cert.pem',
+          gitUsername:  secrets.github.creds.username,
+          gitPassword:  secrets.github.creds.password,
+          hookCommand:  'echo "running pull and reload"',
+          hookSecret:   secrets.github.webhookSecret
+        }
+      }
+    },{
+      name:             'codeflower-2',
+      script:           './server',
+      exec_mode:        'cluster',
+      instances:        2,
+      watch:            false,
+      error_file:       'logs/err.log',
+      out_file:         'logs/out.log',
+      merge_logs:       true,
+      log_date_format:  'YYYY-MM-DD HH:mm:ss',
+      wait_ready:       true,
+      env: {
+        autohook: {
+          repoOwner:    'code-flower',
+          repoName:     'cloc-server',
+          repoBranch:   'master',
+          hostName:     '',
+          port:         9001,
+          sslKeyPath:   CERT_DIR + 'privkey.pem',
+          sslCertPath:  CERT_DIR + 'cert.pem',
+          gitUsername:  secrets.github.creds.username,
+          gitPassword:  secrets.github.creds.password,
+          hookCommand:  'echo "running pull and reload"',
+          hookSecret:   secrets.github.webhookSecret
+        }
+      }
+    }]
   },
 
   logLevel: 1,
