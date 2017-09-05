@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server --ignore tmp/ --ignore test/",
     "dev-remote": "NODE_LOCATION=remote nodemon server --ignore tmp/ --ignore test/",
-    "prod": "NODE_ENV=production NODE_LOCATION=remote pm2 start config/pm2.config.js",
+    "prod": "NODE_ENV=production NODE_LOCATION=remote pm2 start config/pm2.config.js && pm2 restart pm2-autohook",
     "prod-local": "pm2 start config/pm2.config.js",
     "test-local": "node test/battery; node test/battery --http",
     "test-remote": "node test/battery --remote; node test/battery --http --remote",

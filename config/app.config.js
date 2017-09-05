@@ -109,7 +109,7 @@ module.exports = {
       name:             'codeflower',
       script:           './server',
       exec_mode:        'cluster',
-      instances:        2,
+      instances:        4,
       watch:            false,
       error_file:       'logs/err.log',
       out_file:         'logs/out.log',
@@ -127,33 +127,7 @@ module.exports = {
           sslCertPath:  CERT_DIR + 'cert.pem',
           gitUsername:  secrets.github.creds.username,
           gitPassword:  secrets.github.creds.password,
-          hookCommand:  'echo "running pull and reload"',
-          hookSecret:   secrets.github.webhookSecret
-        }
-      }
-    },{
-      name:             'codeflower-2',
-      script:           './server',
-      exec_mode:        'cluster',
-      instances:        2,
-      watch:            false,
-      error_file:       'logs/err.log',
-      out_file:         'logs/out.log',
-      merge_logs:       true,
-      log_date_format:  'YYYY-MM-DD HH:mm:ss',
-      wait_ready:       true,
-      env: {
-        autohook: {
-          repoOwner:    'code-flower',
-          repoName:     'cloc-server',
-          repoBranch:   'master',
-          hostName:     '',
-          port:         9001,
-          sslKeyPath:   CERT_DIR + 'privkey.pem',
-          sslCertPath:  CERT_DIR + 'cert.pem',
-          gitUsername:  secrets.github.creds.username,
-          gitPassword:  secrets.github.creds.password,
-          hookCommand:  'echo "running pull and reload"',
+          hookCommand:  'git pull && npm install && pm2 trigger pm2-cautious-reload reload codeflower',
           hookSecret:   secrets.github.webhookSecret
         }
       }
