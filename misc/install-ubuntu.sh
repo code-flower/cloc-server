@@ -38,15 +38,16 @@ sudo apt-get update
 sudo apt-get install certbot
 certbot certonly --standalone -d api.codeflower.la
 
-# upload creds to /root/codeflower-creds using scp
-# run this command on local from the root of this repo
-scp -r creds root@api.codeflower.la:/root/codeflower-creds
+# upload secrets file
+scp secrets.js root@api.codeflower.la:/root/cloc-server
 
 # add these environment vars to the end of the .bashrc file
 export codeflower_cert_dir="/etc/letsencrypt/live/api.codeflower.la/"
-export codeflower_creds_dir="/root/codeflower-creds/"
 
-# save an image of the server
+# generate startup script for reboots
+pm2 startup
+
+# save a snapshot of the server
 
 
 

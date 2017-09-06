@@ -10,7 +10,8 @@
     "prod-local": "pm2 start config/pm2.config.js",
     "test-local": "node test/battery; node test/battery --http",
     "test-remote": "node test/battery --remote; node test/battery --http --remote",
-    "ping": "curl https://api.codeflower.la/ping"
+    "ping": "curl https://api.codeflower.la/ping",
+    "monit": "node misc/pm2/conn-monitor"
   },
   "repository": {
     "type": "git",

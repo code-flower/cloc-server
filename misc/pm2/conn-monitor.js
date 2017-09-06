@@ -13,6 +13,7 @@ const POLL_INTERVAL = 1000;
 
 function getActiveConnArr() {
   return PM2.list().then(list => {
+    list = list.filter(el => el.name === 'codeflower');
     let activeConns = list.map(el => {
       let axm = el.pm2_env.axm_monitor;
       return axm && axm.activeConns ? axm.activeConns.value : 0;
@@ -52,6 +53,8 @@ const ProgressBars = (() => {
 PM2.connect(true)
   .then(PM2.list)
   .then(list => {
+
+    list = list.filter(el => el.name === 'codeflower');
 
     if (list.length === 0) {
       console.log("There are no active processes to monitor.");
