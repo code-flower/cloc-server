@@ -4,6 +4,9 @@
 sudo apt-get update
 sudo apt-get install git
 
+# install build tools
+sudo apt-get install build-essential
+
 # clone and enter this repo
 git clone https://github.com/code-flower/cloc-server.git
 cd cloc-server

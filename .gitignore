@@ -4,4 +4,5 @@ logs/
 
 secrets.js
 
+package-lock.json
 sftp-config.json
