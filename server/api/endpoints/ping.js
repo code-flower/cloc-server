@@ -4,6 +4,12 @@ const Log = require('@log'),
 
 module.exports = function servePing({ resp }) {
   Log(1, 'Serving ping response.');
-  resp.success('server is running');
+
+  let data = { message: 'server is running' };
+  let externalIp = process.env.external_ip_address;
+  if (externalIp)
+    data.externalIp = externalIp;
+
+  resp.success(data);
   return Promise.resolve();
 };

@@ -1,5 +1,9 @@
 #!bin/bash
 
+# add these environment vars to the end of the .bashrc file
+export codeflower_cert_dir="/etc/letsencrypt/live/api.codeflower.la/"
+export external_ip_address=$(hostname -I | cut -d ' ' -f 1)
+
 # install git
 sudo apt-get update
 sudo apt-get install git
@@ -30,19 +34,10 @@ npm install
 # install pm2 modules
 pm2 install code-flower/pm2-cautious-reload
 pm2 install code-flower/pm2-autohook
-
-# install letsencrypt cert
-sudo apt-get install software-properties-common
-sudo add-apt-repository ppa:certbot/certbot
-sudo apt-get update
-sudo apt-get install certbot
-certbot certonly --standalone -d api.codeflower.la
+pm2 install pm2-health-check
 
 # upload secrets file
 scp secrets.js root@api.codeflower.la:/root/cloc-server
-
-# add these environment vars to the end of the .bashrc file
-export codeflower_cert_dir="/etc/letsencrypt/live/api.codeflower.la/"
 
 # generate startup script for reboots
 pm2 startup
