@@ -17,7 +17,8 @@ const config        = require('@config'),
       HTTP          = require('./HTTP/'),
       WS            = require('./WS/'),
       connPool      = require('./util/connectionPool')(process.pid),
-      serveResponse = require('./api/serveResponse');
+      serveResponse = require('./api/serveResponse'),
+      setHostName   = require('./util/setHostName');
 
 
 
@@ -47,6 +48,7 @@ let httpServer = HTTP.createServer(server.bind(null, HTTP)),
 let port = config.ports.HTTP;
 httpServer.listen(port, () => {
   Log(1, `WS and HTTP servers started on port ${port}.`);
+  setHostName();
   if (process.send) process.send('ready');
 });
 
