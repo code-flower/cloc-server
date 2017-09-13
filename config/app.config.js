@@ -18,13 +18,13 @@ const CERT_DIR  = process.env.codeflower_cert_dir ||
 module.exports = {
 
   protocols: {
-    HTTP: 'https',
-    WS:   'wss'
+    HTTP: 'http',
+    WS:   'ws'
   },
 
   ports: {
-    HTTP:    REMOTE ? 443 : 8000,
-    WS:      REMOTE ? 443 : 8000
+    HTTP:    REMOTE ? 80 : 8000,
+    WS:      REMOTE ? 80 : 8000
   },
 
   paths: {
@@ -121,6 +121,7 @@ module.exports = {
           repoOwner:    'code-flower',
           repoName:     'cloc-server',
           repoBranch:   'master',
+          protocol:     'http',
           hostName:     '',
           port:         9000,
           sslKeyPath:   CERT_DIR + 'privkey.pem',
