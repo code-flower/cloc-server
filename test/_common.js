@@ -3,6 +3,7 @@
 //////////////////// IMPORTS //////////////////////
 
 const WebSocket = require('ws'),
+      http = require('http'),
       https = require('https'),
       config = require('@config'),
       argv = require('minimist')(process.argv),
@@ -11,8 +12,10 @@ const WebSocket = require('ws'),
 /////////////////// CONSTANTS /////////////////////
 
 // server config
-const HOSTNAME = argv.remote ? 'api.codeflower.la' : 'localhost',
-      PORT     = argv.remote ? 443 : 8000;
+const HOSTNAME      = argv.remote ? 'api.codeflower.la' : 'localhost',
+      PORT          = argv.remote ? 443 : 8000,
+      WS_PROTOCOL   = argv.remote ? 'wss' : 'ws',
+      HTTP_PROTOCOL = argv.remote ? 'https' : 'http';
 
 const RES_TYPES = config.responseTypes;
 
@@ -20,7 +23,7 @@ const RES_TYPES = config.responseTypes;
 
 function wsReq({ request, onUpdate=()=>{}, sendRaw=false }) {
   return new Promise((resolve, reject) => {
-    const ws = new WebSocket(`wss://${HOSTNAME}:${PORT}`, {
+    const ws = new WebSocket(`${WS_PROTOCOL}://${HOSTNAME}:${PORT}`, {
       rejectUnauthorized: false
     });
 
@@ -44,16 +47,18 @@ function wsReq({ request, onUpdate=()=>{}, sendRaw=false }) {
 function httpReq({ request, sendRaw=false }) {
   return new Promise((resolve, reject) => {
 
+    let reqModule = HTTP_PROTOCOL === 'https' ? https : http;
+
     let opts = {
       method: request.method || 'POST',
-      protocol: 'https:',
+      protocol: `${HTTP_PROTOCOL}:`,
       hostname: HOSTNAME,
       port: PORT,
       path: `/${request.endpoint}`,
       rejectUnauthorized: false
     };
 
-    let req = https.request(opts, res => {
+    let req = reqModule.request(opts, res => {
       let body = '';
       res.on('data', data => body += data);
       res.on('end', () => resolve(JSON.parse(body)));
