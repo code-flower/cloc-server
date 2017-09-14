@@ -128,7 +128,7 @@ module.exports = {
           sslCertPath:  CERT_DIR + 'cert.pem',
           gitUsername:  secrets.github.creds.username,
           gitPassword:  secrets.github.creds.password,
-          hookCommand:  'git pull && npm install && pm2 trigger pm2-cautious-reload reload codeflower',
+          hookCommand:  'git pull && npm install && pm2 trigger pm2-cautious-actions reload codeflower',
           hookSecret:   secrets.github.webhookSecret
         }
       }
