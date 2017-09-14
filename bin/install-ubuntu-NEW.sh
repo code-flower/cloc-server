@@ -1,9 +1,9 @@
 #!bin/bash
 
 # add these environment vars to the end of the .bashrc file
-export codeflower_cert_dir="/etc/letsencrypt/live/api.codeflower.la/"
-export external_ip_address=$(hostname -I | cut -d ' ' -f 1)
-source .bashrc
+# export codeflower_cert_dir="/etc/letsencrypt/live/api.codeflower.la/"
+# export external_ip_address=$(hostname -I | cut -d ' ' -f 1)
+# source .bashrc
 
 # install git
 sudo apt-get update
@@ -20,10 +20,10 @@ apt install node-gyp
 
 # clone and enter this repo
 git clone https://github.com/code-flower/cloc-server.git
-cd cloc-server
+#cd cloc-server
 
 # install local npm packages
-npm install
+#npm install
 
 # install global npm packages
 npm install -g cloc
@@ -37,19 +37,23 @@ pm2 install code-flower/pm2-health-check
 
 # upload secrets file using sftp
 
-# copy letsencrypt cert files from codeflower-admin server using syncCerts script
-
 # start server 
 # must do this before generating the startup script below
-npm run prod
+#npm run prod
 
 # save processes
-pm2 save
+#pm2 save
 
 # generate startup script for reboots
-pm2 startup
+#pm2 startup
 
 # take image of server
+
+# startup script
+cd /root/cloc-server
+git pull
+npm install
+npm run prod
 
 
 
