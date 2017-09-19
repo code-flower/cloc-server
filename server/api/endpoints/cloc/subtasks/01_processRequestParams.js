@@ -10,6 +10,9 @@ const Promise = require('bluebird'),
 function processRequestParams(ctrl) {
   return new Promise((resolve, reject) => {
 
+    if (!ctrl.params)
+      reject(config.errors.NeedOwnerAndName);
+
     let { owner, name, branch, username, password } = ctrl.params;
     let fNameBr = `${owner}/${name}` + (branch ? `::${branch}` : '');
 

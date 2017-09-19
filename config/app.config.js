@@ -18,13 +18,13 @@ const CERT_DIR  = process.env.codeflower_cert_dir ||
 module.exports = {
 
   protocols: {
-    HTTP: 'http',
-    WS:   'ws'
+    HTTP: REMOTE ? 'http' : 'https',
+    WS:   REMOTE ? 'ws' : 'wss'
   },
 
   ports: {
-    HTTP:    REMOTE ? 80 : 8000,
-    WS:      REMOTE ? 80 : 8000
+    HTTP: REMOTE ? 80 : 8000,
+    WS:   REMOTE ? 80 : 8000
   },
 
   paths: {
