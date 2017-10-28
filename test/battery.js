@@ -123,7 +123,7 @@ const TESTS = [{
     params: {
       owner:  'code-flower',
       name:   'client-web',
-      branch: 'new-ui'
+      branch: 'master'
     }
   },
   test: {
