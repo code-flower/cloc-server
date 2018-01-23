@@ -28,7 +28,7 @@ function getChildren(json) {
   if (json.language) return children;
   for (var key in json) {
     var child = { name: key };
-    if (json[key].size) {
+    if (typeof json[key].size !== 'undefined') {
       // value node
       child.size = json[key].size;
       child.language = json[key].language;
@@ -81,13 +81,13 @@ function getTree(ctrl) {
           // if cloc did not create a file (e.g., because there are no
           // code files in the repo), create dummy json
           resolve({
-            name: "root", 
-            children: []          
+            name: "root",
+            children: []
           });
         else
           reject(new Error(err));
       else
-        resolve(clocToJson(clocData));     
+        resolve(clocToJson(clocData));
     });
   });
 }
@@ -107,8 +107,8 @@ function getIgnored(ctrl) {
     fs.readFile(inFile, 'utf8', function(err, ignoredText) {
       if (err)
         reject(new Error(err));
-      else 
-        resolve(cleanIgnoredText(ignoredText, ctrl.repo.name));     
+      else
+        resolve(cleanIgnoredText(ignoredText, ctrl.repo.name));
     });
   });
 }
@@ -130,7 +130,7 @@ function convertClocFileToJson(ctrl) {
     };
     return ctrl;
   });
-} 
+}
 
 //////////// EXPORTS //////////////
 
