@@ -26,6 +26,10 @@ function handleErrors(error, responder) {
 
   } else {
 
+    // replace username and password, if any, in stack trace
+    if (error.stack)
+      error.stack = error.stack.replace(/https:\/\/.*?@/g, 'https://******:******@');
+
     Log('error', error);
 
     responder.error({
@@ -53,4 +57,3 @@ function handleErrors(error, responder) {
 //////////// EXPORTS ////////////
 
 module.exports = handleErrors;
-
